@@ -1,0 +1,48 @@
+<head id="head">
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
+  <link href="/assets/themes/twemoji.css" rel="stylesheet" id="emojis" />
+  <script src="/assets/scripts/script.js"></script>
+  <link href="/assets/themes/main.css" rel="stylesheet" id="maintheme" />
+  <audio src="/assets/sounds/switch.mp3" controls id="notification" style="display: none;"></audio>
+  <meta name="viewport" content="width=device-width,initial-scale=0.6,user-scalable=no">
+
+  <title>Jürgen</title>
+
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+  <link rel="icon" href="/assets/images/favicon.ico">
+
+  <meta name="theme-color" content="#1c1c1c">
+  <meta property=”og:type” content=”website”/>
+  <meta property="og:title" content="<%= config.aboutMe.previewTitle %>">
+  <meta property="og:url" content="<%= config.url %>">
+  <meta property="og:description" content="<%= config.aboutMe.previewDescription %>">
+  <meta property="og:image" content="/assets/images/previewIcon.png">
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta charset="utf-8">
+
+  <script>
+    $(window).on('load', function() {
+    $('#temperature').hover(function() {
+      $(this).html(`${parseInt('<%= weather.temperature %>') * 9/5 + 32} °F`);
+    }, function() {
+      $(this).html(`<%= weather.temperature %> °C`);
+    });
+
+    $('#date').html(moment(Date.now()).format('MMMM Do, YYYY • HH:mm:ss A'));
+
+    setInterval(function () {
+      $('#date').html(moment(Date.now()).format(`MMMM Do, YYYY • HH:mm:ss A`));
+    }, 1000);
+    });
+  </script>
+
+  <div class="container navbox">
+    <ul class="navbar">
+      <li><a class="button" id="icon" onclick="goBackHome()"><i></i></a></li>
+      <li><a class="button openable" id="projects-btn" onclick="toggleProjects()">projects</a></li>
+      <li><a class="theme" id="theme-btn" onclick="changeTheme()"><i></i></a></li>
+    </ul>
+  </div>
+</head>
