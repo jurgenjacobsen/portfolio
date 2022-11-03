@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: "Inter";
+    src: url("../fonts/Inter-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Montserrat Alternates";
+    src: url("../fonts/Montserrat Alternates Medium.ttf");
+}
+
+@keyframes anim-lineUp {
+    0% {
+      opacity: 0;
+      transform: translateY(80%);
+    }
+    20% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+      transform: translateY(0%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0%);
+    }
+}
+
+:root {
+    --font-mono: 'SF Mono','Fira Code','Fira Mono','Roboto Mono',monospace;
+    --font-sans: 'Inter', sans-serif;
+    --blurple: #5865F2;
+}
+
+body {
+    font-family: var(--font-sans);
+}
+
+.text-blurple {
+    color: var(--blurple);
+}
+
+.bg-blurple {
+    background: var(--blurple);
+}
+
+.font-mono {
+    font-family: var(--font-mono);
+}
+
+.font-def {
+    font-family: var(--font-sans);
+}
+
+.font-extra {
+    font-family: "Montserrat Alternates";
+}
+
+.text-show-anim {
+    animation: 2s anim-lineUp ease-out;
+}
