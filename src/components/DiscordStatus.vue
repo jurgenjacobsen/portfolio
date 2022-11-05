@@ -4,6 +4,12 @@ import Lanyard from "../utils/Lanyard";
 import type { LanyardData, Activity } from "../utils/Lanyard/types";
 
 export default defineComponent({
+    props: {
+        ShowPresence: {
+            type: Boolean,
+            default: true,
+        }
+    },
     data() {
         return {
             finished: false,
@@ -204,7 +210,8 @@ export default defineComponent({
     data-tooltip-placement="bottom"
     ></div>
 
-    <div 
+    <div
+    v-if="ShowPresence" 
     id="discord-status-tooltip" 
     role="tooltip" 
     class="

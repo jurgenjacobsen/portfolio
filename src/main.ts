@@ -7,6 +7,11 @@ import DiscordStatus from './components/DiscordStatus.vue';
 import WebsiteThemeToggler from './components/WebsiteThemeToggler.vue';
 import WebsiteNavbar from './components/WebsiteNavbar.vue';
 
+import LastFMapi from './utils/LastFM';
+import axios from 'axios';
+
+export const LastFM = new LastFMapi();
+
 const app = createApp(App);
 
 app.use(router);

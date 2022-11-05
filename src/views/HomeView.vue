@@ -1,5 +1,16 @@
-<script setup lang="ts">
+<script lang="ts">
+import { LastFM } from '@/main';
 
+export default {
+  data() {
+    return {
+      
+    }
+  },
+  async beforeMount() {
+    
+  }
+}
 </script>
 
 <template>
@@ -31,19 +42,19 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 px-2 mt-4">
 
-        <a href="#">
+        <router-link to="/donate">
           <div class="rounded-md p-4 mx-2 h-28 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors duration-300">
             <h1>Donate</h1>
             <p class="py-2 text-neutral-500">Want to support me and my projects so that I can keep on developing stuff?</p>
           </div>
-        </a>
-        <a href="#">
+        </router-link>
+
+        <router-link to="/dailysongs">
           <div class="rounded-md p-4 mx-2 h-28 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors duration-300">
             <h1>Daily Songs</h1>
             <p class="py-2 text-neutral-500">Fresh, cool and great song recomendations from me every day!</p>
           </div>
-        </a>
-
+        </router-link>
       </div>
     </div>
   </main>

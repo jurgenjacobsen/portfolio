@@ -35,8 +35,8 @@
                         category: "pages",
                     },
                     {
-                        title: "Daily Songs",
-                        href: "/songs",
+                        title: "Songs",
+                        href: "/me/songs",
                         category: "me"
                     }
                 ] as IPage[],
@@ -87,7 +87,7 @@
     <div class="container flex flex-wrap justify-between items-center mx-auto px-44">
         <span href="/" class="flex items-center">
             <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white flex items-center space-x-2 rounded-md text-neutral-500 mt-4"> 
-            <DiscordStatus></DiscordStatus> <span class="font-extra text-neutral-900 dark:text-neutral-500">Jürgen</span>
+            <DiscordStatus :ShowPresence="true"></DiscordStatus> <span class="font-extra text-neutral-900 dark:text-neutral-500">Jürgen</span>
             </span>
         </span>
 
