@@ -6,5 +6,5 @@ import { RouterView } from 'vue-router';
   
   <WebsiteNavbar></WebsiteNavbar>
 
-  <RouterView />
+  <RouterView class="container mx-auto" />
 </template>

@@ -82,10 +82,13 @@
 </script>
 
 <template>
+
+    <div class="bg-[#5865F2] w-full py-1 dark:bg-neutral-800"></div>
+
     <nav class="px-2 sm:px-4 py-2.5 select-none">
   
     <div class="container flex flex-wrap justify-between items-center mx-auto px-44">
-        <span href="/" class="flex items-center">
+        <span class="flex items-center">
             <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white flex items-center space-x-2 rounded-md text-neutral-500 mt-4"> 
             <DiscordStatus :ShowPresence="true"></DiscordStatus> <span class="font-extra text-neutral-900 dark:text-neutral-500">Jürgen</span>
             </span>
