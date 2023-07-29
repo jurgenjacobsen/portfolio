@@ -48,7 +48,6 @@ export default defineComponent({
             }
             // Visual Studio Code
             else if (filtered.name === "Visual Studio Code") {
-                //const replaced = filtered.state?.replace("📁 ", "")?.split(" | ")?.[0] || "a file";
                 return `Working on **Visual Studio Code**`;
             }
             // Netflix

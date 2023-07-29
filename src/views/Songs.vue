@@ -16,7 +16,6 @@ export default {
     try {
       this.user = await LastFM.getUserInfo();
       this.topSongs = await LastFM.getUserTopSongs().then((v) => v.track);
-      console.log(JSON.stringify(this.topSongs[0], undefined, 2))
     } catch {
       console.log("Error on mount");
     }
@@ -30,7 +29,7 @@ export default {
     <div class="mt-20 mx-44">
       <div class="head">
         <h1 class="text-4xl">Songs</h1>
-        <p class="text-neutral-500">My latest activity on Last FM.</p>
+        <p class="text-neutral-500">My latest activity on Spotify.</p>
       </div>
       <div class="details text-neutral-500 mt-20">
         <h1 class="font-xl font-semibold">DETAILS</h1>
@@ -39,7 +38,7 @@ export default {
           <div class="flex space-x-4 items-center justify-between pr-4 py-2">
             <span>Profile</span> 
             <div class="flex space-x-2 items-center">
-              <a class="flex-shrink-0" href="https://www.last.fm/user/jurgenjacobsen">
+              <a class="flex-shrink-0" href="https://open.spotify.com/user/j%C3%BCrgenjacobsen?si=71933d2d99604f6c" target="_blank">
                 @jurgenjacobsen 
               </a>
               <div 
@@ -60,7 +59,7 @@ export default {
 
               <div class="flex space-x-2 items-center">
                 <div class="truncate">
-                  {{ new Date().getFullYear() - new Date(user?.registered?.['#text'] * 1000).getFullYear() ?? 0 }} year(s)
+                  {{ new Date().getFullYear() - 2017 }} year(s)
                 </div> 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
               </div>

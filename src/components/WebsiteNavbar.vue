@@ -16,12 +16,19 @@
         category: string
     }
 
+    function wait(ms: number) {
+        return new Promise((resolve) => {
+            setTimeout(resolve, ms);
+        });
+    }
+
     export default defineComponent({
         name: 'Navbar',
         data() {
             return {
                 showMenu: false,
                 search: "",
+                SearchBarResults: [] as any[],
                 categories: [
                     { id: "pages", title: "Pages" },
                     { id: "me", title: "Me" },
@@ -45,38 +52,44 @@
         methods: {
             openMenu() {
                 return this.showMenu = !this.showMenu;
+            },
+            async UpdateSearchBarInput() {
+                await wait(100);
+
+                this.search = (document.getElementById("menu-search") as HTMLInputElement).value;
+
+                this.UpdateSearchBarResults();
+            },
+            UpdateSearchBarResults() {
+                this.SearchBarResults = this.categories.map((category) => {
+                    return {
+                        category,
+                        pages: this.pages.filter((page) => page.category === category.id && (this.search.length > 0 ? page.title.toLowerCase().includes(this.search.toLowerCase()) : true))
+                    }
+                }).filter((category) => category.pages.length > 0);
+            },
+            UpdateSearchBarResultsDefault() {
+                this.SearchBarResults = this.categories.map((category) => {
+                    return {
+                        category,
+                        pages: this.pages.filter((page) => page.category === category.id)
+                    }
+                }).filter((category) => category.pages.length > 0);
             }
         },
         mounted() {
+            this.UpdateSearchBarResultsDefault();
+
             document.onkeydown = (e) => {
                 if (e.key === "k" && (e.ctrlKey || e.metaKey)) {
-                    e.preventDefault(); // present "Save Page" from getting triggered.
+                    e.preventDefault();
                     this.openMenu();
                 };
                 if (e.key === "Escape") {
-                    e.preventDefault(); // present "Save Page" from getting triggered.
+                    e.preventDefault();
                     this.showMenu = false;
                 };
             };
-        },
-        computed: {
-            getCategoriesFiltered(): { category: ICategory; pages: IPage[] }[] {
-                const categories = this.categories
-                const items: { category: ICategory; pages: IPage[] }[] = []
-                for (const category of categories) {
-                    const categoryItems = this.pages.filter(
-                    (page) =>
-                        page.category === category.id &&
-                        (this.search
-                        ? page.title?.toLowerCase().includes(this.search?.toLowerCase())
-                        : true)
-                    )
-                    if (categoryItems.length > 0) {
-                        items.push({ category, pages: categoryItems })
-                    }
-                }
-                return items
-            },
         }
     });
 </script>
@@ -144,14 +157,14 @@
                         block p-3 pl-10 w-full text-sm text-gray-900 
                         rounded-t-lg dark:placeholder-gray-400 dark:text-white bg-neutral-700 
                         outline-none focus:outline-none border-none focus:border-none ring-0 focus:ring-0" 
-                        placeholder="Search" required>
+                        placeholder="Search  - Ctrl  + K"  @keydown="UpdateSearchBarInput()" required>
                     </div>
                 </form>
                 
             </div>
             <!-- Modal body -->
             <div class="p-6 space-y-6">
-                <div v-for="(item, index) in getCategoriesFiltered" :key="`command-palette-category-${index}`">
+                <div v-for="(item, index) in SearchBarResults" :key="`command-palette-category-${index}`">
                     <span class="text-xs px-2 font-semibold text-neutral-500">
                         {{ item.category.title }}
                     </span>

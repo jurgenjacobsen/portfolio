@@ -24,7 +24,7 @@ export default {
           Jürgen Jacobsen
         </h1>
         <h1 class="font-mono p-2 text-neutral-500">
-          Self taught <span class="text-blurple dark:text-neutral-500 underline font-bold cursor-default">full-stack</span> web developer. 
+          I'm a <span class="text-blurple dark:text-neutral-500 underline font-bold cursor-default">full-stack</span> web developer. 
           Used to frameworks such as <a class="underline" href="https://vuejs.org/">Vue.js</a> and <a class="underline" href="https://tailwindcss.com/">Tailwind.css</a>
         </h1>
       </div>
@@ -48,10 +48,10 @@ export default {
           </div>
         </a>
 
-        <a href="/dailysongs">
+        <a href="/me/songs">
           <div class="rounded-md p-4 mx-2 h-28 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors duration-300">
-            <h1>Daily Songs</h1>
-            <p class="py-2 text-neutral-500">Fresh, cool and great song recomendations from me every day!</p>
+            <h1>Music</h1>
+            <p class="py-2 text-neutral-500">A summary of my Spotify listening activity.</p>
           </div>
         </a>
       </div>
