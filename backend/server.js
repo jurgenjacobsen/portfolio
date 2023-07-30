@@ -30,8 +30,7 @@ app.get('/lastfm', async (req, res) => {
         data = existsCache.data;
 
     } else {
-
-        let url = `http://ws.audioscrobbler.com/2.0/?method=${method.trim()}&${param.trim()}&${period ? `period=${period}&` : 'period=overall'}${limit ? `&limit=${limit}` : 'limit=50'}&api_key=${process.env.LAST_FM_API_KEY}&format=json`;
+        let url = `http://ws.audioscrobbler.com/2.0/?method=${method.trim()}&${param.trim().replace(/_/g,'&')}&${period ? `period=${period}&` : 'period=overall'}${limit ? `&limit=${limit}` : 'limit=50'}&api_key=${process.env.LAST_FM_API_KEY}&format=json`;
 
         function call() {
             return new Promise(async (resolve, reject) => {
