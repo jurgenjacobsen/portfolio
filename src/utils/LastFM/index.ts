@@ -1,7 +1,7 @@
 
 export default class LastFM {
     public getUserInfoLastUpdate: Date | undefined;
-    public cachedUserInfo: any | undefined;
+    public userTopSongs: Map<string, any> = new Map<string, any>();
     public apiURL: string;
     constructor() {
         this.apiURL = 'http://ws.audioscrobbler.com/2.0/';
@@ -22,6 +22,30 @@ export default class LastFM {
 
     async getUserTopSongs() {
         let data = await this.call('user.getTopTracks', 'user=jurgenjacobsen', 'period=7day');
-        return data.toptracks;
+        data.toptracks.track.forEach((track: any) => {
+            this.userTopSongs.set(track.mbid, track);
+        });
+
+        return {
+            array: data.toptracks.track,
+            map: this.userTopSongs,
+        };
+    }
+    async getUserTopSongsCovers() {
+        this.userTopSongs.forEach(async (track: any) => {
+            if(!track.mbid) return;
+            
+            let data = await this.call('track.getInfo', `artist=${track.artist.name}_track=${track.name}`);
+
+            this.userTopSongs.set(track.mbid, {
+                ...track,
+                cover: data.track.album.image[3]['#text'],
+            });
+
+        });
+    }
+
+    getUserCache() {
+        return this.userTopSongs;
     }
 }
