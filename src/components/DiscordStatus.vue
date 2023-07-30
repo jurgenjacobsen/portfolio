@@ -200,6 +200,32 @@ export default defineComponent({
 })
 </script>
 
+<style>
+    #discord-status-tooltip {
+        display: none;
+        visibility: hidden;
+        opacity: 0;
+    }
+
+    @media (min-width: 1024px) {
+        #discord-status-tooltip-trigger:hover #discord-status-tooltip {
+            display: block !important;
+            visibility: visible !important;
+            animation: fadeIn 0.3s ease-in-out forwards;
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+</style>
+
 <template>
     <div 
     class="h-3 w-3 rounded-full flex-shrink-0" 
@@ -207,17 +233,16 @@ export default defineComponent({
     data-tippy-directive=""
     data-tooltip-target="discord-status-tooltip" 
     data-tooltip-placement="bottom"
-    ></div>
-
+    id="discord-status-tooltip-trigger"
+    >
     <div
     v-if="ShowPresence" 
-    id="discord-status-tooltip" 
-    role="tooltip" 
+    id="discord-status-tooltip"  
     class="
-    absolute overflow-hidden hidden lg:block invisible z-10 py-2 px-3
+    absolute overflow-hidden z-10 py-2 px-3
     text-sm font-medium text-gray-800 dark:text-white bg-gray-200 
-    rounded-lg shadow-sm tooltip dark:bg-neutral-800
-    opacity-0 transition-opacity duration-400
+    rounded-lg shadow-sm dark:bg-neutral-800
+    mt-6
     ">
         <div class="spotify flex" v-if="presence?.name === 'Spotify'">
             <img 
@@ -226,7 +251,7 @@ export default defineComponent({
             class="object-cover w-28 h-28 rounded-lg"
             >
             <div class="text-box w-full pl-3 pr-1.5 mt-1 grid grid-cols-1 align-center">
-                <span class="text-[#1DB954]">Listening on Spotify</span>
+                <span class="text-[#1DB954] font-semibold">Listening on Spotify</span>
                 <span> {{ truncateString(presence.details as string, 48) }}</span>
                 <span><span class="text-gray-500">by</span> {{ presence.state }}</span>
                 <span v-if="presence.assets?.large_text"><span class="text-gray-500">on</span> {{ truncateString(presence.assets?.large_text, 46) }}</span>
@@ -253,6 +278,9 @@ export default defineComponent({
         
         <div class="tooltip-arrow" data-popper-arrow></div>
     </div>
+    </div>
+
+    
 </template>
 
 <style scoped>
