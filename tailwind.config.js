@@ -7,9 +7,10 @@ module.exports = {
   ],
   darkMode: 'class',
   theme: {
-    extend: {},
-  },
-  plugins: [
-    require('flowbite/plugin')
-  ],
+    extend: {
+      animation: {
+        'spin-slow': 'spin 3s linear infinite',
+      }
+    },
+  }
 }
