@@ -69,7 +69,7 @@ export default {
           {{ age }}-year-old <span class="text-blurple dark:text-neutral-500 underline font-bold cursor-default">full-stack</span> web developer from Brazil now living in Portugal.
         </h1>
         <div class="py-2">
-          <a v-for="social in socials" :href="social.href" class="inline-block mr-4 hover:opacity-100 opacity-80 duration-300">
+          <a v-for="social in socials" :href="social.href" target="_blank" class="inline-block mr-4 hover:opacity-100 opacity-80 duration-300">
             <div v-html="social.icon"></div>
           </a>
         </div>
