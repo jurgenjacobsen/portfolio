@@ -1,7 +1,5 @@
 <script lang="ts">
 
-import { LastFM } from '@/main';
-
 export default {
   data() {
     return {
@@ -11,6 +9,13 @@ export default {
   methods: {
     goTo(href: string) {
         window.open(href, '_blank');
+    },
+    truncate(str: string, n: number) {
+      if (str.length > n) {
+        return str.slice(0, n) + "...";
+      } else {
+        return str;
+      }
     }
   },
   async beforeMount() {
@@ -32,13 +37,13 @@ export default {
 <template>
   <main>
     <div class="mt-20 mx-4 lg:mx-44 mb-8">
-      <div class="head">
-        <h1 class="text-4xl">Projects</h1>
-        <p class="text-neutral-500">Here are some of my open source projects on Github.</p>
+      <div>
+        <h1 class="font-extra font-bold text-5xl py-2">Projects</h1>
+        <p class="font-mono font-semibold text-neutral-500">Here are some of my open source projects on Github.</p>
       </div>
-      <div class="details text-neutral-500 mt-20">
+      <div class="text-neutral-500 mt-12">
         <h1 class="font-xl font-semibold">DETAILS</h1>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-2">
 
           <div class="flex space-x-4 items-center justify-between pr-2 py-2">
             <span>Github</span> 
@@ -76,37 +81,21 @@ export default {
         </div>
       </div>
 
-      <div class="text-neutral-500 mt-20">
-        <h1 class="font-xl font-semibold">MY PROJECTS</h1>
-        <div class="songs grid grid-cols-1 xl:grid-cols-2 gap-x-10 gap-y-5 mt-5">
-
-          <div v-for="project in projects" class="p-4 rounded-xl flex hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors duration-300">
-
-            <div class="item-body cursor-pointer" @click="goTo(project.html_url)">
-              <h1 class="font-bold flex">
-                <a :href="project.html_url" target="_blank" rel="noopener noreferrer">
+      <div class="mt-16 mb-6">
+        <h1 class="text-neutral-700 font-bold">MY PROJECTS</h1>
+        <div class="grid grid-cols-1 lg:grid-cols-2 mt-4 gap-2">
+          <a v-for="project in projects" :href="project.html_url" target="_blank" rel="noopener noreferrer">
+            <div class="rounded-md p-4 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800/50 hover:dark:bg-neutral-800 transition-colors duration-300">
+              <div>
+                <h1>
                   {{ project.name }}
-                </a>
-              </h1>
-
-              <p>
-                {{ project.description }}
-              </p>
-              
-              <!-- Shows all topics if its on big screen -->
-              <div class="hidden lg:block">
-                <span v-for="topic in project.topics" class=" bg-neutral-200 dark:bg-neutral-800 mr-2 px-2 rounded">
-                    {{ topic }}
-                </span>
-              </div>
-              <!-- Shows Max. 3 topics if its on small screen -->
-              <div class="block lg:hidden">
-                <span v-for="topic in project.topics.slice(0,3)" class=" bg-neutral-200 dark:bg-neutral-800 mr-2 px-2 rounded">
-                    {{ topic }}
-                </span>
+                </h1>
+                <p class="py-2 text-neutral-500">
+                  {{ truncate(project.description, 63) }}
+                </p>
               </div>
             </div>
-          </div>
+          </a>
         </div>
       </div>
     </div>

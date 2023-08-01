@@ -2,6 +2,12 @@
 
 import { LastFM } from '@/main';
 
+function wait(ms: number) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
 export default {
   data() {
     return {
@@ -9,17 +15,31 @@ export default {
       topSongs: null as any | null,
       topArtists: null as any | null,
       topAlbumns: null as any | null,
+      fails: 0,
     }
   },
   async beforeMount() {
+    const setup = async (): Promise<any> => {
+      this.user = await LastFM.getUserInfo().catch(() => console.log("Error fetching user info"));
+      this.topSongs = await LastFM.getUserTopSongs().catch(() => console.log("Error fetching user top songs"));
 
-    try {
-      this.user = await LastFM.getUserInfo();
-      this.topSongs = await LastFM.getUserTopSongs();
+      if((!this.topSongs || !this.user) && (this.fails < 3)) {
+        this.fails++;
+        await wait(10 * 1000);
+        console.log("Retrying...");
+        return setup();
+      } else if(this.fails >= 2) {
+        console.log("Failed to fetch data");
+        return;
+      }
 
       this.topSongs.array.forEach((song: any) => {
-        console.log(song.name)
         this.getSongArt(song);
+      });
+    }
+    try {
+      setup().catch((err) => {
+        console.log(err);
       });
     } catch {
       console.log("Error on mount");
@@ -45,15 +65,15 @@ export default {
 
 <template>
   <main>
-    <div class="mt-20 mx-4 lg:mx-44">
-      <div class="head">
-        <h1 class="text-4xl">Music Activity</h1>
-        <p class="text-neutral-500">My latest activity on Spotify.</p>
+    <div class="mt-20 mx-4 lg:mx-44 mb-8">
+      <div>
+        <h1 class="font-extra font-bold text-5xl py-2">Music Activity</h1>
+        <p class="font-mono font-semibold text-neutral-500">My latest activity on Spotify.</p> 
       </div>
 
-      <div class="details text-neutral-500 mt-20">
+      <div class="text-neutral-500 mt-12">
         <h1 class="font-xl font-semibold">DETAILS</h1>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-2">
           <div class="flex space-x-4 items-center justify-between pr-2 py-2">
             <span>Profile</span> 
             <div class="flex space-x-2 items-center">
@@ -107,31 +127,30 @@ export default {
         </div>
       </div>
 
-      <div class="text-neutral-500 mt-20">
-        <h1 class="font-xl font-semibold">TOP SONGS (LAST 7 DAYS)</h1>
-        <div class="songs grid grid-cols-1 md:grid-cols-2 mt-4">
-
-          <div v-for="song in topSongs?.array.sort((a:any, b:any) => b.playcount - a.playcount).slice(0,6)" class="p-4 rounded-xl flex hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors duration-300">
-
+      <div class="mt-16 mb-6">
+        <h1 class="text-neutral-700 font-bold">TOP SONGS (LAST 7 DAYS)</h1>
+        <div v-if="topSongs?.array.length > 0" class="grid grid-cols-1 lg:grid-cols-2 mt-4 gap-2">
+          <div v-for="song in topSongs?.array.sort((a:any, b:any) => b.playcount - a.playcount).slice(0,6)" class="p-4 rounded-md flex bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800/50 hover:dark:bg-neutral-800 transition-colors duration-300">
             <img :src="song.cover ?? 'https://lastfm.freetls.fastly.net/i/u/300x300/2a96cbd8b46e442fc41c2b86b821562f.png'" :alt="song.name" class="w-20 h-20 rounded-xl">
-
-            <div class="item-body px-6">
-              <h1 class="font-bold flex">
+            <div class="item-body px-4">
+              <h1 class="flex">
                 <a :href="song.url" target="_blank" rel="noopener noreferrer">
                   {{ song.name }}
                 </a>
-                <svg v-if="song?.['@attr']?.rank === '1'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" filled="" class="ml-2 h-6 w-6"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg>
+                <svg v-if="song?.['@attr']?.rank === '1'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" filled="" class="ml-2 mt-1 h-4 w-4 text-neutral-500"><path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/></svg>
               </h1>
-              <h1>
-                <a :href="song.artist?.url" target="_blank" rel="noopener noreferrer">
-                  {{ song.artist?.name }}
-                </a>
-              </h1>
-              <h1 class="text-[#5865F2]/70">
+              <a class="text-neutral-500" :href="song.artist?.url" target="_blank" rel="noopener noreferrer">
+                {{ song.artist?.name }}
+              </a>
+              <p class="text-[#5865F2]/70 font-semibold">
                 {{ song.playcount }} plays
-              </h1>
+              </p>
             </div>
           </div>
+        </div>
+
+        <div class="text-blurple dark:text-inherit grid place-items-center mt-10" v-else>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 512 512" class="h-12 w-12 animate-spin-slow"><path d="M304 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 416a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM48 304a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm464-48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM142.9 437A48 48 0 1 0 75 369.1 48 48 0 1 0 142.9 437zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1 48 48 0 1 0 369.1 437z"/></svg>
         </div>
       </div>
     </div>

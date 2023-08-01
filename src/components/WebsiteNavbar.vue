@@ -44,7 +44,7 @@
                     },
                     {
                         title: "Donate",
-                        href: "/me/donate",
+                        href: "https://github.com/sponsors/jurgenjacobsen",
                         category: "ql"
                     },
                     {
@@ -54,7 +54,7 @@
                     },
                     {
                         title: "About",
-                        href: "/me/about",
+                        href: "/me/resume",
                         category: "me"
                     }
                 ] as IPage[],
@@ -160,7 +160,7 @@
 
     <div v-if="showMenu" id="menu" class="
     menu overflow-y-auto overflow-x-hidden fixed top-0 right-0 
-    left-0 z-50 w-full md:inset-0 h-modal md:h-full bg-neutral-900/50">
+    left-0 z-50 w-full md:inset-0 h-full md:h-full bg-neutral-900/50">
 
     <div class="relative p-4 w-full max-w-4xl h-full md:h-auto mx-auto">
         <!-- Modal content -->
@@ -191,13 +191,13 @@
             <!-- Modal body -->
             <div class="p-6 space-y-6">
                 <div v-for="(item, index) in SearchBarResults" :key="`command-palette-category-${index}`">
-                    <span class="text-xs px-2 font-semibold text-neutral-500">
+                    <span class="text-xs font-semibold text-neutral-500">
                         {{ item.category.title }}
                     </span>
 
                     <div class="my-2">
                         <a v-for="(page, idx) in item.pages" :href="page.href">
-                            <div class="w-full hover:bg-neutral-200  dark:hover:bg-neutral-700 py-2 px-4 ml-2 rounded-lg">
+                            <div class="w-full hover:bg-neutral-200  dark:hover:bg-neutral-700 py-2 px-4 rounded-lg">
                                 {{ page.title }}
                             </div>
                         </a>
