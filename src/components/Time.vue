@@ -51,5 +51,5 @@ export default {
 </script>
 
 <template>
-    <span v-html="text" class="dark:opacity-50 font-mono font-semibold"></span>
+    <span v-html="text"></span>
 </template>

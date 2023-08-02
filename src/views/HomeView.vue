@@ -75,17 +75,17 @@ export default {
         </div>
         <div class="py-2 mt-4">
           <div class="space-y-2">
-            <Time></Time> 
+            <Time class="font-mono font-semibold text-neutral-400 py-2"></Time> 
             <img src="https://wakatime.com/badge/user/010adc07-6382-419f-87bc-0b3f507ee495.svg?style=flat-square" alt="Total time coded since Aug 27 2021" class="grayscale"/>
           </div>
         </div>
       </div>
 
-      <div class="mt-16 mb-6">
+      <div class="my-16">
         <h1 class="text-neutral-700 font-bold">PAGES</h1>
         <div class="grid grid-cols-1 lg:grid-cols-2 mt-4 gap-2">
           <a v-for="page in pages" :href="page.href">
-            <div class="rounded-md p-4 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800/50 hover:dark:bg-neutral-800 transition-none">
+            <div class="rounded-md p-4 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800/50 hover:dark:bg-neutral-800 transition-colors ring-1 ring-neutral-300/50 dark:ring-neutral-700/50">
               <h1>
                 {{ page.name }}
               </h1>

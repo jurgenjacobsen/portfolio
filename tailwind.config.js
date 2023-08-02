@@ -10,6 +10,9 @@ module.exports = {
     extend: {
       animation: {
         'spin-slow': 'spin 3s linear infinite',
+      },
+      colors: {
+        'blurple': '#5865F2',
       }
     },
   }

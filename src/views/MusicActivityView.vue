@@ -65,12 +65,12 @@ export default {
 
 <template>
   <main>
-    <div class="mt-20 mx-4 lg:mx-44 mb-8">
+    <div class="mt-28 mx-4 lg:mx-44 mb-8">
       <div>
         <h1 class="font-extra font-bold text-5xl py-2">Music Activity</h1>
         <p class="font-mono font-semibold text-neutral-500">My latest activity on Spotify.</p>
         
-        <div class="mt-4 rounded-md p-2 bg-neutral-100 dark:bg-neutral-800/50 ">
+        <div class="mt-4 rounded-md p-2 bg-neutral-100 dark:bg-neutral-800/50 ring-1 ring-neutral-300/50 dark:ring-neutral-700/50">
           <SpotifyCard :showAnywayProp="true" :bigSizeProp="true"/>
         </div>
       </div>
@@ -131,12 +131,13 @@ export default {
         </div>
       </div>
 
-      <div class="mt-16 mb-6">
+      <div class="my-16">
         <h1 class="text-neutral-700 font-bold">TOP SONGS (LAST 7 DAYS)</h1>
         <div v-if="topSongs?.array.length > 0" class="grid grid-cols-1 lg:grid-cols-2 mt-4 gap-2">
-          <div v-for="song in topSongs?.array.sort((a:any, b:any) => b.playcount - a.playcount).slice(0,6)" class="p-4 rounded-md flex bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800/50 hover:dark:bg-neutral-800 transition-none">
+          <div v-for="song in topSongs?.array.sort((a:any, b:any) => b.playcount - a.playcount).slice(0,6)" class="p-4 rounded-md flex bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800/50 hover:dark:bg-neutral-800 transition-colors ring-1 ring-neutral-300/50 dark:ring-neutral-700/50">
             <img :src="song.cover ?? 'https://lastfm.freetls.fastly.net/i/u/300x300/2a96cbd8b46e442fc41c2b86b821562f.png'" :alt="song.name" class="w-20 h-20 rounded-md">
-            <div class="item-body px-4">
+            <div class="px-4">
+              
               <h1 class="flex">
                 <a :href="song.url" target="_blank" rel="noopener noreferrer">
                   {{ song.name }}
@@ -146,7 +147,8 @@ export default {
               <a class="text-neutral-500" :href="song.artist?.url" target="_blank" rel="noopener noreferrer">
                 {{ song.artist?.name }}
               </a>
-              <p class="text-[#5865F2]/70 font-semibold">
+
+              <p class="rounded-md text-blurple bg-blue-600/10 ring-[0.5px] text-blurple/40 px-4 py-1 mt-2 justify-bottom text-xs w-[5rem]">
                 {{ song.playcount }} plays
               </p>
             </div>

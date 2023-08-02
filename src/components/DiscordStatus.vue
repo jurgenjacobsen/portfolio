@@ -179,7 +179,7 @@ export default defineComponent({
     class="
     absolute overflow-hidden z-10 py-2 px-3
     text-sm font-medium text-gray-800 dark:text-white bg-neutral-200
-    rounded-lg shadow-sm dark:bg-neutral-800
+    rounded-lg shadow-sm dark:bg-neutral-800 ring-1 ring-neutral-300 dark:ring-neutral-700
     mt-6
     "
     :class="{

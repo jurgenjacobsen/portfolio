@@ -7,9 +7,6 @@ export default {
     }
   },
   methods: {
-    goTo(href: string) {
-        window.open(href, '_blank');
-    },
     truncate(str: string, n: number) {
       if (str.length > n) {
         return str.slice(0, n) + "...";
@@ -36,7 +33,7 @@ export default {
 
 <template>
   <main>
-    <div class="mt-20 mx-4 lg:mx-44 mb-8">
+    <div class="mt-28 mx-4 lg:mx-44 mb-8">
       <div>
         <h1 class="font-extra font-bold text-5xl py-2">Projects</h1>
         <p class="font-mono font-semibold text-neutral-500">Here are some of my open source projects on Github.</p>
@@ -81,11 +78,11 @@ export default {
         </div>
       </div>
 
-      <div class="mt-16 mb-6">
+      <div class="my-16">
         <h1 class="text-neutral-700 font-bold">MY PROJECTS</h1>
         <div class="grid grid-cols-1 lg:grid-cols-2 mt-4 gap-2">
           <a v-for="project in projects" :href="project.html_url" target="_blank" rel="noopener noreferrer">
-            <div class="rounded-md p-4 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800/50 hover:dark:bg-neutral-800 transition-none">
+            <div class="rounded-md p-4 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800/50 hover:dark:bg-neutral-800 transition-colors outline-1 outline outline-stone-300/50 dark:outline-stone-700/50">
               <div>
                 <h1>
                   {{ project.name }}
