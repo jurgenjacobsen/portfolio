@@ -85,7 +85,7 @@ export default {
         <h1 class="text-neutral-700 font-bold">MY PROJECTS</h1>
         <div class="grid grid-cols-1 lg:grid-cols-2 mt-4 gap-2">
           <a v-for="project in projects" :href="project.html_url" target="_blank" rel="noopener noreferrer">
-            <div class="rounded-md p-4 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800/50 hover:dark:bg-neutral-800 transition-colors duration-300">
+            <div class="rounded-md p-4 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800/50 hover:dark:bg-neutral-800 transition-none">
               <div>
                 <h1>
                   {{ project.name }}

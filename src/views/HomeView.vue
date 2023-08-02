@@ -69,13 +69,14 @@ export default {
           {{ age }}-year-old <span class="text-blurple dark:text-neutral-500 underline font-bold cursor-default">full-stack</span> web developer from Brazil now living in Portugal.
         </h1>
         <div class="py-2">
-          <a v-for="social in socials" :href="social.href" target="_blank" class="inline-block mr-4 hover:opacity-100 opacity-80 duration-300">
+          <a v-for="social in socials" :href="social.href" target="_blank" class="inline-block mr-4 hover:opacity-100 opacity-80 duration-300 transition-opacity">
             <div v-html="social.icon"></div>
           </a>
         </div>
         <div class="py-2 mt-4">
-          <div>
-            <Time></Time>
+          <div class="space-y-2">
+            <Time></Time> 
+            <img src="https://wakatime.com/badge/user/010adc07-6382-419f-87bc-0b3f507ee495.svg?style=flat-square" alt="Total time coded since Aug 27 2021" class="grayscale"/>
           </div>
         </div>
       </div>
@@ -84,7 +85,7 @@ export default {
         <h1 class="text-neutral-700 font-bold">PAGES</h1>
         <div class="grid grid-cols-1 lg:grid-cols-2 mt-4 gap-2">
           <a v-for="page in pages" :href="page.href">
-            <div class="rounded-md p-4 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800/50 hover:dark:bg-neutral-800 transition-colors duration-300">
+            <div class="rounded-md p-4 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800/50 hover:dark:bg-neutral-800 transition-none">
               <h1>
                 {{ page.name }}
               </h1>
