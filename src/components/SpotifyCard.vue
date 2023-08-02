@@ -161,7 +161,7 @@
 
 				<span
 					:class="{ invisible: !presence?.assets?.large_text }"
-					class="inline-block ml-1"
+					class="inline-block md:ml-1"
 				>
 					<span class="md:hidden"
 						><span class="text-gray-500">on</span>
