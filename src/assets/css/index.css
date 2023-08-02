@@ -3,91 +3,91 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: "Inter";
-    src: url("../fonts/Inter-Regular.ttf");
+	font-family: "Inter";
+	src: url("../fonts/Inter-Regular.ttf");
 }
 
 @font-face {
-    font-family: "Montserrat Alternates";
-    src: url("../fonts/Montserrat Alternates Medium.ttf");
+	font-family: "Montserrat Alternates";
+	src: url("../fonts/Montserrat Alternates Medium.ttf");
 }
 
 @keyframes anim-lineUp {
-    0% {
-      opacity: 0;
-      transform: translateY(80%);
-    }
-    20% {
-      opacity: 0;
-    }
-    50% {
-      opacity: 1;
-      transform: translateY(0%);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0%);
-    }
+	0% {
+		opacity: 0;
+		transform: translateY(80%);
+	}
+	20% {
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+		transform: translateY(0%);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0%);
+	}
 }
 
 :root {
-    --font-mono: 'SF Mono','Fira Code','Fira Mono','Roboto Mono',monospace;
-    --font-sans: 'Inter', sans-serif;
-    --blurple: #5865F2;
+	--font-mono: "SF Mono", "Fira Code", "Fira Mono", "Roboto Mono", monospace;
+	--font-sans: "Inter", sans-serif;
+	--blurple: #5865f2;
 }
 
 body {
-    font-family: var(--font-sans);   
+	font-family: var(--font-sans);
 }
 
 * {
-    -webkit-user-drag: none;
-    user-select: none;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
+	-webkit-user-drag: none;
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
 }
 
 .text-blurple {
-    color: var(--blurple);
+	color: var(--blurple);
 }
 
 .bg-blurple {
-    background: var(--blurple);
+	background: var(--blurple);
 }
 
 .font-mono {
-    font-family: var(--font-mono);
+	font-family: var(--font-mono);
 }
 
 .font-def {
-    font-family: var(--font-sans);
+	font-family: var(--font-sans);
 }
 
 .font-extra {
-    font-family: "Montserrat Alternates";
+	font-family: "Montserrat Alternates";
 }
 
 .text-show-anim {
-    animation: 2s anim-lineUp ease-out;
+	animation: 2s anim-lineUp ease-out;
 }
 
 ::-webkit-scrollbar {
-    width: 10px;
+	width: 10px;
 }
-  
+
 /* Track */
 ::-webkit-scrollbar-track {
-    background: #262626;
+	background: #262626;
 }
-  
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: #e5e5e5;
-    border-radius: 5px;
+	background: #e5e5e5;
+	border-radius: 5px;
 }
-  
+
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: #d4d4d4;
+	background: #d4d4d4;
 }
