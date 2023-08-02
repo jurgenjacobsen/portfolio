@@ -1,3 +1,2 @@
-*.js linguist-language=Typescript
-
 tailwind.config.js linguist-language=Typescript
+index.html linguist-vendored=true
