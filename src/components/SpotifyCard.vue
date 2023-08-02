@@ -175,7 +175,9 @@
 			</div>
 
 			<div class="py-2">
-				<div class="rounded-lg bg-gray-400 dark:bg-gray-200/20 h-1">
+				<div
+					class="rounded-lg bg-gray-400 dark:bg-gray-200/20 h-1 overflow-hidden"
+				>
 					<div
 						class="rounded-lg bg-gray-500 dark:bg-white/75 h-1"
 						:style="spotify.playerStyles ?? { width: '33%' }"
