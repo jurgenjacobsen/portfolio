@@ -3,7 +3,7 @@
 		data() {
 			return {
 				projects: [] as any[],
-				starredProjects: ['dsc.db', 'portfolio']
+				starredProjects: ["dsc.db", "portfolio"],
 			};
 		},
 		methods: {
@@ -22,9 +22,11 @@
 				).json();
 				if (!this.projects) throw new Error("No projects found");
 				if (this.projects) {
-					this.projects = this.projects.filter(
-						(project: any) => project.name !== "jurgenjacobsen",
-					).sort((project) => this.starredProjects.includes(project.name) ? -1 : 1);
+					this.projects = this.projects
+						.filter((project: any) => project.name !== "jurgenjacobsen")
+						.sort((project) =>
+							this.starredProjects.includes(project.name) ? -1 : 1,
+						);
 				}
 			} catch {
 				console.log("Error on mount");
@@ -129,7 +131,14 @@
 						>
 							<div>
 								<h1>
-									{{ project.name }} <span v-if="starredProjects.includes(project.name)" class="">⭐</span>
+									{{ project.name }}
+									<span
+										v-if="starredProjects.includes(project.name)"
+										title="This project is one of my favorites"
+										class="rounded-md text-yellow-400 bg-yellow-600/10 ring-[0.5px] ring-yellow-400/40 px-4 py-1 ml-2 mt-2 justify-bottom text-xs w-[3rem]"
+									>
+										Star
+									</span>
 								</h1>
 								<p class="py-2 text-neutral-500">
 									{{ truncate(project.description, 63) }}

@@ -237,7 +237,7 @@
 							</a>
 
 							<p
-								class="rounded-md text-blurple bg-blue-600/10 ring-[0.5px] text-blurple/40 px-4 py-1 mt-2 justify-bottom text-xs w-[5rem]"
+								class="rounded-md text-blurple bg-blue-600/10 ring-[0.5px] px-4 py-1 mt-2 justify-bottom text-xs w-[5rem]"
 							>
 								{{ song.playcount }} plays
 							</p>
