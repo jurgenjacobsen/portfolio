@@ -135,7 +135,7 @@
 									<span
 										v-if="starredProjects.includes(project.name)"
 										title="This project is one of my favorites"
-										class="rounded-md text-yellow-400 bg-yellow-600/10 ring-[0.5px] ring-yellow-400/40 px-4 py-1 ml-2 mt-2 justify-bottom text-xs w-[3rem]"
+										class="rounded-md text-yellow-400 bg-yellow-600/10 ring-[0.5px] ring-yellow-400/40 text-center py-1 ml-2 px-4 mt-2 justify-bottom text-xs w-[3rem]"
 									>
 										Star
 									</span>

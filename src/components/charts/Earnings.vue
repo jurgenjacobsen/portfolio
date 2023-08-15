@@ -55,9 +55,15 @@
 				},
 				chartOptions: {
 					responsive: true,
+
 					scales: {
 						y: {
 							beginAtZero: true,
+							ticks: {
+								callback: function (value: number, index: number, ticks: any) {
+									return "€" + value;
+								},
+							},
 						},
 					},
 				},
