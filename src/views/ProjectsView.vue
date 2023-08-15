@@ -127,7 +127,7 @@
 						rel="noopener noreferrer"
 					>
 						<div
-							class="rounded-md p-4 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800/50 hover:dark:bg-neutral-800 transition-colors outline-1 outline outline-stone-300/50 dark:outline-stone-700/50"
+							class="rounded-md p-4 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800/50 hover:dark:bg-neutral-800 transition-colors ring-1 ring-neutral-300/50 dark:ring-neutral-700/50"
 						>
 							<div>
 								<h1>
