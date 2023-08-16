@@ -1,14 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @font-face {
 	font-family: "Inter";
 	src: url("../fonts/Inter-Regular.ttf");
 }
+
 @font-face {
 	font-family: "Montserrat Alternates";
 	src: url("../fonts/Montserrat Alternates Medium.ttf");
 }
+
 @keyframes anim-lineUp {
 	0% {
 		opacity: 0;
@@ -26,6 +29,7 @@
 		transform: translateY(0%);
 	}
 }
+
 :root {
 	--font-mono: "SF Mono", "Fira Code", "Fira Mono", "Roboto Mono", monospace;
 	--font-sans: "Inter", sans-serif;
@@ -98,4 +102,4 @@ body {
 
 .photo-grid .photo:hover img {
 	filter: grayscale(100%);
-} /*# sourceMappingURL=index.css.map */
+}

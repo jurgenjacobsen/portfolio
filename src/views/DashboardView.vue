@@ -4,9 +4,11 @@
 	import Weather from "@/components/Weather.vue";
 
 	const icons = {
-		sheets: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Google_Sheets_logo_%282014-2020%29.svg/800px-Google_Sheets_logo_%282014-2020%29.svg.png",
-		instagram: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Instagram-Icon.png/600px-Instagram-Icon.png",
-	}
+		sheets:
+			"https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Google_Sheets_logo_%282014-2020%29.svg/800px-Google_Sheets_logo_%282014-2020%29.svg.png",
+		instagram:
+			"https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Instagram-Icon.png/600px-Instagram-Icon.png",
+	};
 
 	export default {
 		data() {
@@ -83,9 +85,9 @@
 				<div class="grid grid-cols-6 py-4 gap-x-4">
 					<a :href="link.link" target="_blank" v-for="link in quickLinks">
 						<div
-							class=" bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800/50 hover:dark:bg-neutral-800 transition-colors h-36 rounded-md flex flex-col justify-center items-center overflow-hidden"
+							class="bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800/50 hover:dark:bg-neutral-800 transition-colors h-36 rounded-md flex flex-col justify-center items-center overflow-hidden"
 						>
-							<img :src="link.icon" class="h-12 w-12 object-contain"/>
+							<img :src="link.icon" class="h-12 w-12 object-contain" />
 							<h1 class="mt-2 text-center">
 								{{ link.name }}
 							</h1>
