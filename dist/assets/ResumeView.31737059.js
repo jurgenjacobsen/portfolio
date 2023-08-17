@@ -1,1 +1,0 @@
-import{_ as e,c as t,e as c}from"./index.996b7ec9.js";const n={},o={class:"text-neutral-500 text-5xl font-extra mt-8 text-center"};function r(s,a){return t(),c("h1",o," Not implemented yet ")}const l=e(n,[["render",r]]);export{l as default};
