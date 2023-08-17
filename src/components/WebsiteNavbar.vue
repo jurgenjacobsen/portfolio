@@ -23,10 +23,12 @@
 			return {
 				listener: null as any,
 				showMenu: false,
+				showGoBack: false,
 				search: "",
 				SearchBarResults: [] as any[],
 				categories: [
 					{ id: "pages", title: "Pages" },
+					{ id: "work", title: "Work" },
 					{ id: "me", title: "Me" },
 					{ id: "ql", title: "Quick Links" },
 				] as ICategory[],
@@ -39,7 +41,12 @@
 					{
 						title: "Projects",
 						href: "/me/projects",
-						category: "me",
+						category: "work",
+					},
+					{
+						title: "Photo Gallery",
+						href: "/me/photos",
+						category: "work",
 					},
 					{
 						title: "Donate",
@@ -121,6 +128,10 @@
 					})
 					.filter((category) => category.pages.length > 0);
 			},
+			goBackHome() {
+				this.showGoBack = false;
+				this.$router.push("/");
+			},
 		},
 		mounted() {
 			this.UpdateSearchBarResultsDefault();
@@ -135,6 +146,15 @@
 					this.showMenu = false;
 				}
 			};
+		},
+		watch: {
+			$route(to, from) {
+				if (to.path === "/") {
+					this.showGoBack = false;
+				} else {
+					this.showGoBack = true;
+				}
+			},
 		},
 	});
 </script>
@@ -162,6 +182,17 @@
 			</span>
 
 			<div class="flex space-x-2 items-center">
+				
+				<button
+					v-if="showGoBack"
+					@click="goBackHome()"
+					class="cursor-pointer flex space-x-2 transition-colors btn items-center justify-center text-gray-700 dark:text-neutral-400 rounded-full p-2 sm:w-max bg-gray-200 hover:bg-gray-200/40 dark:bg-neutral-800 dark:hover:bg-neutral-800/40"
+				>
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
+  						<polygon points="15.293 3.293 6.586 12 15.293 20.707 16.707 19.293 9.414 12 16.707 4.707 15.293 3.293"/>
+					</svg>
+				</button>
+
 				<a
 					@click="toggleMenu"
 					data-tooltip-target="menu-tooltip"

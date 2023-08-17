@@ -49,6 +49,12 @@
 						Welcome to my photo gallery. Here you can find some of my best
 						photos and works.
 					</h1>
+					<h1 class="font-mono font-semibold">
+						<span class="text-neutral-500">Follow me on </span> 
+						<a href="https://instagram.com/jurgen.jpg" target="_blank">
+							<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500">Instagram</span>
+						</a>
+					</h1>
 				</div>
 			</div>
 			<div class="mt-4 grid xl:grid-cols-4 gap-4 photo-grid">

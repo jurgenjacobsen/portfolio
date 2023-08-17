@@ -1,6 +1,11 @@
 <script lang="ts">
 	const bday = new Date(2005, 3, 9);
 
+	const startedTakingPhotos = new Date(2021, 7, 1);
+	const yearsSinceStartedTakingPhotos = new Date(
+		Date.now() - startedTakingPhotos.getTime()
+	).getUTCFullYear() - 1970;
+
 	export default {
 		data() {
 			return {
@@ -13,20 +18,26 @@
 						href: "/me/projects",
 					},
 					{
+						name: "Photos",
+						description: `My photos taken in the last ${yearsSinceStartedTakingPhotos} years.`,
+						href: "/me/photos",
+					},
+					{
 						name: "Music",
 						description: "A summary of my Spotify activity.",
 						href: "/me/songs",
-					},
-					{
-						name: "Donate",
-						description: "Feel free to support me and my projects.",
-						href: "https://github.com/sponsors/jurgenjacobsen",
 					},
 					{
 						name: "Resume",
 						description:
 							"Here's my resume with a bit more information about me.",
 						href: "/me/resume",
+					},
+					{
+						name: "Donate",
+						description: "Feel free to support me and my projects.",
+						href: "https://github.com/sponsors/jurgenjacobsen",
+						extra: true,
 					},
 				],
 				socials: [
@@ -95,7 +106,23 @@
 			<div class="my-16">
 				<h1 class="text-neutral-700 font-bold">PAGES</h1>
 				<div class="grid grid-cols-1 lg:grid-cols-2 mt-4 gap-2">
-					<a v-for="page in pages" :href="page.href">
+					<a v-for="page in pages.filter(p => !p.extra)" :href="page.href">
+						<div
+							class="rounded-md p-4 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800/50 hover:dark:bg-neutral-800 transition-colors ring-1 ring-neutral-300/50 dark:ring-neutral-700/50"
+						>
+							<h1>
+								{{ page.name }}
+							</h1>
+							<p class="py-2 text-neutral-500">
+								{{ page.description }}
+							</p>
+						</div>
+					</a>
+				</div>
+
+				<h1 class="text-neutral-700 font-bold mt-6">EXTRAS</h1>
+				<div class="grid grid-cols-1 lg:grid-cols-2 mt-4 gap-2">
+					<a v-for="page in pages.filter(p => p.extra)" :href="page.href">
 						<div
 							class="rounded-md p-4 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800/50 hover:dark:bg-neutral-800 transition-colors ring-1 ring-neutral-300/50 dark:ring-neutral-700/50"
 						>
