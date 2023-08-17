@@ -6,7 +6,7 @@
 			return {
 				// https://home.openweathermap.org/api_keys
 				// api_key: String,
-				api_key: "",
+				api_key: "450da22d8cd2d079e4fc50144d7b15ef",
 				url_base: "https://api.openweathermap.org/data/2.5/",
 				weather_icon: "http://openweathermap.org/img/wn/",
 				location: "Póvoa De Varzim",
