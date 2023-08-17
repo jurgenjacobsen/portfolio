@@ -33,7 +33,6 @@
 	export default {
 		name: "ClientBarChart",
 		components: { Line },
-		props: {},
 		data() {
 			return {
 				chartData: {

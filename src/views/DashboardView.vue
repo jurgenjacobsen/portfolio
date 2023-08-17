@@ -131,7 +131,7 @@
 			</div>
 
 			<div class="grid xl:grid-cols-2 gap-4 mt-4" v-if="photographyWindow">
-				<Earnings />
+				<Earnings/>
 				<Clients />
 			</div>
 		</div>

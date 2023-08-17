@@ -30,7 +30,6 @@
 	export default {
 		name: "EarningsBarChart",
 		components: { Bar },
-		props: {},
 		data() {
 			return {
 				chartData: {
