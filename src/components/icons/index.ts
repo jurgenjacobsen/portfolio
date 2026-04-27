@@ -8,6 +8,12 @@ import CSharpIcon from "./CSharp";
 import DotNetIcon from "./DotNet";
 import SupabaseIcon from "./Supabase";
 import MongoDBIcon from "./MongoDB";
+import GithubIcon from "./Github";
+import FacebookIcon from "./Facebook";
+import InstagramIcon from "./Instagram";
+import TwitterIcon from "./Twitter";
+import YoutubeIcon from "./Youtube";
+import LinkedinIcon from "./Linkedin";
 
 export {
     ReactIcon,
@@ -20,4 +26,10 @@ export {
     DotNetIcon,
     SupabaseIcon,
     MongoDBIcon,
+    GithubIcon,
+    FacebookIcon,
+    InstagramIcon,
+    TwitterIcon,
+    YoutubeIcon,
+    LinkedinIcon,
 };
