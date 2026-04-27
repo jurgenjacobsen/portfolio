@@ -86,7 +86,7 @@ export default function Hero() {
                             variant="outline"
                             className="flex-1 md:flex-none rounded-xl px-8 py-6 md:py-4 text-base font-bold border-2 hover:bg-muted transition-all cursor-pointer"
                             onClick={() => {
-                                navigate("/contact");
+                                navigate("/projects");
                             }}
                         >
                             <ExternalLinkIcon className="size-5 mr-2" />
