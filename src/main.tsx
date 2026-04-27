@@ -11,8 +11,11 @@ import {
     ContextMenuTrigger,
 } from "@/components/ui/context-menu";
 
+import { Analytics } from "@vercel/analytics/react";
+
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
+        <Analytics />
         <ContextMenu>
             <ContextMenuTrigger>
                 <App />
