@@ -1,19 +1,17 @@
-import { fileURLToPath, URL } from 'node:url'
-
 import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
+import path from "path";
+import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
 
-// https://vitejs.dev/config/
+// https://vite.dev/config/
 export default defineConfig({
-  publicDir: process.env.NODE_ENV === 'production'
-    ? '/portfolio/'
-    : '/',
   plugins: [
-    vue(),
+    react(),
+    tailwindcss(),
   ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
-  }
+        "@": path.resolve(__dirname, "./src"),
+    },
+  },
 })
