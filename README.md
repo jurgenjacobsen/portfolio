@@ -21,5 +21,8 @@ My personal portfolio website. It showcases my projects, skills, and experience 
 - [ ] Dark Mode
 - [ ] Multi Locale Support
 
+### Built With
+https://ui.shadcn.com/docs/components
+
 ### License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
