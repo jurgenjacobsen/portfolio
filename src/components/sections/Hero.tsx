@@ -1,11 +1,18 @@
-import {
-    ExternalLinkIcon,
-    MailIcon,
-    SparklesIcon,
-} from "lucide-react";
+import { ExternalLinkIcon, MailIcon, SparklesIcon } from "lucide-react";
 
 import { Button } from "../ui/button";
-import { ReactIcon, TypescriptIcon, NestJSIcon, VueIcon, GoIcon, PostgreSQLIcon, DotNetIcon, CSharpIcon, MongoDBIcon, SupabaseIcon } from "../icons";
+import {
+    ReactIcon,
+    TypescriptIcon,
+    NestJSIcon,
+    VueIcon,
+    GoIcon,
+    PostgreSQLIcon,
+    DotNetIcon,
+    CSharpIcon,
+    MongoDBIcon,
+    SupabaseIcon,
+} from "../icons";
 
 type TechStackItem = {
     name: string;
