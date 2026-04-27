@@ -1,12 +1,13 @@
-function App() {
+import Navbar from "@/components/sections/Navbar";
+import Hero from "@/components/sections/Hero";
 
-  return (
-    <>
-        <h1>
-            Hello world!
-        </h1>
-   	</>
-  )
+function App() {
+    return (
+        <div className="max-w-6xl mx-auto p-4 font-sans">
+            <Navbar />
+            <Hero />
+        </div>
+    );
 }
 
-export default App
+export default App;
