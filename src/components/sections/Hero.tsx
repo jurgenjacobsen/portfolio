@@ -99,7 +99,7 @@ export default function Hero() {
                         <Skeleton className="absolute inset-0 w-full h-full rounded-xl" />
                     )}
                     <img
-                        src="/profile.jpg"
+                        src="/img/profile.jpg"
                         alt="Jürgen Jacobsen"
                         loading="eager"
                         onLoad={() => setImageLoaded(true)}
