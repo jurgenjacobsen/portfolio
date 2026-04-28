@@ -1,10 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-    Contact2Icon,
-    HomeIcon,
-    InfoIcon,
-    LibraryBigIcon,
-} from "lucide-react";
+import { Contact2Icon, HomeIcon, InfoIcon, LibraryBigIcon } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
@@ -98,23 +93,23 @@ export default function Navbar() {
                     className="md:hidden flex flex-col justify-center items-center gap-1.5 w-10 h-10 rounded-lg border border-border bg-muted/30 text-primary hover:bg-muted/50 transition-all cursor-pointer relative"
                     aria-label="Toggle Menu"
                 >
-                    <span 
+                    <span
                         className={cn(
                             "w-5 h-0.5 bg-current transition-all duration-300 ease-in-out rounded-full",
-                            isMenuOpen ? "rotate-45 translate-y-2" : ""
-                        )} 
+                            isMenuOpen ? "rotate-45 translate-y-2" : "",
+                        )}
                     />
-                    <span 
+                    <span
                         className={cn(
                             "w-5 h-0.5 bg-current transition-all duration-300 ease-in-out rounded-full",
-                            isMenuOpen ? "opacity-0 -translate-x-2" : ""
-                        )} 
+                            isMenuOpen ? "opacity-0 -translate-x-2" : "",
+                        )}
                     />
-                    <span 
+                    <span
                         className={cn(
                             "w-5 h-0.5 bg-current transition-all duration-300 ease-in-out rounded-full",
-                            isMenuOpen ? "-rotate-45 -translate-y-2" : ""
-                        )} 
+                            isMenuOpen ? "-rotate-45 -translate-y-2" : "",
+                        )}
                     />
                 </button>
             </div>
@@ -132,7 +127,10 @@ export default function Navbar() {
                     <div className="text-xs font-black text-muted-foreground uppercase px-2 mb-1">
                         Navigation
                     </div>
-                    <NavbarButton to="/" className="w-full justify-start py-2 px-4 border-none hover:bg-primary/5">
+                    <NavbarButton
+                        to="/"
+                        className="w-full justify-start py-2 px-4 border-none hover:bg-primary/5"
+                    >
                         <HomeIcon className="size-4" />
                         <span className="font-bold">Home</span>
                     </NavbarButton>
@@ -159,11 +157,11 @@ export default function Navbar() {
                     </NavbarButton>
                 </div>
             </div>
-            
+
             {/* Backdrop for closing menu */}
             {isMenuOpen && (
-                <div 
-                    className="fixed inset-0 z-30 md:hidden bg-background/20" 
+                <div
+                    className="fixed inset-0 z-30 md:hidden bg-background/20"
                     onClick={() => setIsMenuOpen(false)}
                 />
             )}

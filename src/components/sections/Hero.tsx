@@ -73,8 +73,8 @@ export default function Hero() {
                         </p>
                     </div>
                     <div className="flex flex-wrap gap-3 md:gap-4 mt-6">
-                        <Button 
-                            className="flex-1 md:flex-none rounded-xl px-8 py-6 md:py-4 text-base font-bold shadow-md shadow-primary/20 hover:shadow-primary/30 hover:-translate-y-0.5 transition-all cursor-pointer" 
+                        <Button
+                            className="flex-1 md:flex-none rounded-xl px-8 py-6 md:py-4 text-base font-bold shadow-md shadow-primary/20 hover:shadow-primary/30 hover:-translate-y-0.5 transition-all cursor-pointer"
                             onClick={() => {
                                 navigate("/contact");
                             }}
