@@ -3,12 +3,13 @@ import { Button } from "../../ui/button";
 import GithubIcon from "../../icons/Github";
 import { TechIcon, type IconId } from "@/components/ui/tech-icon";
 import type { ProjectProps } from "@/pages/Projects";
+import { SectionCard } from "@/components/ui";
 
 export default function ProjectHighlight(props: { projects: ProjectProps[] }) {
     const projects: ProjectProps[] = props.projects;
 
     return (
-        <section className="bg-card rounded-xl border border-border p-5 md:p-8 mt-6 space-y-6">
+        <SectionCard className="space-y-6">
             <header className="space-y-4">
                 <div
                     className="inline-flex items-center gap-2 px-4 py-1.5 
@@ -138,6 +139,6 @@ export default function ProjectHighlight(props: { projects: ProjectProps[] }) {
                     ))}
                 </div>
             </div>
-        </section>
+        </SectionCard>
     );
 }

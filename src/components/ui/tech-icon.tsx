@@ -14,6 +14,8 @@ export type IconId =
     | "supabase"
     | "mongodb"
     | "github"
+    | "linkedin"
+    | "github"
     | keyof typeof LucideIcons;
 
 interface TechIconProps extends React.SVGProps<SVGSVGElement> {
@@ -38,6 +40,7 @@ export const TechIcon = ({ id, className, ...props }: TechIconProps) => {
         supabase: Icons.SupabaseIcon,
         mongodb: Icons.MongoDBIcon,
         github: Icons.GithubIcon,
+        linkedin: Icons.LinkedinIcon,
     };
 
     // Try to find a brand icon first

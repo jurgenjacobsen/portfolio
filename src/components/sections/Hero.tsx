@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { ExternalLinkIcon, MailIcon, SparklesIcon } from "lucide-react";
 
-import { Button } from "../ui/button";
 import { Skeleton } from "../ui/skeleton";
 import { cn } from "@/lib/utils";
 import {
@@ -16,7 +15,7 @@ import {
     MongoDBIcon,
     SupabaseIcon,
 } from "../icons";
-import { useNavigate } from "react-router-dom";
+import { SectionCard } from "../ui";
 
 type TechStackItem = {
     name: string;
@@ -25,8 +24,7 @@ type TechStackItem = {
 };
 
 export default function Hero() {
-    const navigate = useNavigate();
-    const [imageLoaded, setImageLoaded] = useState(false);
+    const [ imageLoaded, setImageLoaded ] = useState(false);
     const techstack: TechStackItem[] = [
         { name: "ReactTS", icon: ReactIcon },
         { name: "TypeScript", icon: TypescriptIcon },
@@ -41,9 +39,9 @@ export default function Hero() {
     ];
 
     return (
-        <section className="bg-card rounded-xl border border-border p-5 md:p-8 mt-6 space-y-8 shadow-md">
-            <div className="flex flex-col-reverse md:grid md:grid-cols-3 gap-8">
-                <div className="md:col-span-2">
+        <SectionCard className="space-y-6">
+            <div className="flex flex-col-reverse md:flex-row gap-8 items-center">
+                <div className="flex-1">
                     <div
                         className="
                     inline-flex items-center gap-2 px-4 py-1.5 
@@ -55,7 +53,7 @@ export default function Hero() {
                         <SparklesIcon className="size-3 md:size-4 fill-primary/15" />
                         <span>Available for Hire</span>
                     </div>
-                    <div className="space-y-4 mt-4">
+                    <div className="space-y-6 mt-4">
                         <h1 className="text-4xl md:text-7xl font-black tracking-tighter">
                             CRAFTING{" "}
                             <span className="text-primary italic font-serif">
@@ -72,41 +70,36 @@ export default function Hero() {
                             robust, scalable, and beautiful web applications.
                         </p>
                     </div>
-                    <div className="flex flex-wrap gap-3 md:gap-4 mt-6">
-                        <Button
-                            className="flex-1 md:flex-none rounded-xl px-8 py-6 md:py-4 text-base font-bold shadow-md shadow-primary/20 hover:shadow-primary/30 hover:-translate-y-0.5 transition-all cursor-pointer"
-                            onClick={() => {
-                                navigate("/contact");
-                            }}
-                        >
-                            <MailIcon className="size-5 mr-2" />
+                    <div className="flex flex-wrap gap-4 mt-6">
+                        <a href="/contact" className="
+                            group inline-flex shrink-0 items-center justify-center rounded-xl font-semibold
+                            disabled:pointer-events-none disabled:opacity-50 whitespace-nowrap transition-all select-none cursor-pointer
+                            px-8 py-2 bg-primary hover:bg-primary/75 text-card duration-300 hover:border-primary/25
+                            shadow-md">
+                            <MailIcon className="size-5 mr-2 group-hover:scale-101 transition-transform duration-300" />
                             Let's Talk
-                        </Button>
-                        <Button
-                            variant="outline"
-                            className="flex-1 md:flex-none rounded-xl px-8 py-6 md:py-4 text-base font-bold border-2 hover:bg-muted transition-all cursor-pointer"
-                            onClick={() => {
-                                navigate("/projects");
-                            }}
-                        >
-                            <ExternalLinkIcon className="size-5 mr-2" />
-                            View Work
-                        </Button>
+                        </a>
+                        <a href="/projects" className="
+                            group inline-flex shrink-0 items-center justify-center rounded-xl border border-border font-semibold
+                            disabled:pointer-events-none disabled:opacity-50 whitespace-nowrap transition-all select-none cursor-pointer
+                            px-8 py-2 bg-muted hover:bg-muted/50 duration-300 hover:border-primary/25">
+                            <ExternalLinkIcon id="linkedin" className="size-5 mr-2 group-hover:scale-101 transition-transform duration-300" />
+                            View Projects
+                        </a>
                     </div>
                 </div>
-                <div className="relative w-full mx-auto md:max-w-none aspect-square">
-                    {!imageLoaded && (
-                        <Skeleton className="absolute inset-0 w-full h-full rounded-xl" />
-                    )}
+                <div className="w-full md:w-1/3 aspect-square relative group">
+                    <div className="absolute inset-0 bg-primary/10 rounded-xl -rotate-3 group-hover:rotate-6 transition-transform duration-500" />
+                    {!imageLoaded && <Skeleton
+                        className={cn(
+                            "absolute inset-0 rounded-xl z-15"
+                        )}
+                    />}
                     <img
                         src="/img/profile.jpg"
                         alt="Jürgen Jacobsen"
-                        loading="eager"
                         onLoad={() => setImageLoaded(true)}
-                        className={cn(
-                            "border border-border rounded-xl hover:transform hover:scale-101 transition-all duration-500 hover:rotate-2 brightness-125 w-full md:w-auto h-72 md:h-auto object-cover",
-                            imageLoaded ? "opacity-100" : "opacity-0",
-                        )}
+                        className="relative z-10 w-full h-full object-cover rounded-xl border border-border shadow-xl hover:grayscale transition-all duration-500 brightness-125 group-hover:-rotate-3"
                     />
                 </div>
             </div>
@@ -135,6 +128,6 @@ export default function Hero() {
                     ))}
                 </div>
             </div>
-        </section>
+        </SectionCard>
     );
 }

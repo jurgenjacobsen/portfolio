@@ -1,6 +1,7 @@
 import ListHeader from "@/components/ui/list-header";
 import type { ProjectProps } from "@/pages/Projects";
 import ListedProject from "./ListedProject";
+import { SectionCard } from "@/components/ui";
 
 interface ProjectsListProps {
     projects: ProjectProps[];
@@ -24,7 +25,7 @@ export default function ProjectsList({
     loading,
 }: ProjectsListProps) {
     return (
-        <section className="bg-card rounded-xl border border-border p-8 mt-6 space-y-8">
+        <SectionCard className="space-y-8">
             <ListHeader
                 search={search}
                 setSearch={setSearch}
@@ -56,6 +57,6 @@ export default function ProjectsList({
                     </div>
                 )}
             </div>
-        </section>
+        </SectionCard>
     );
 }
