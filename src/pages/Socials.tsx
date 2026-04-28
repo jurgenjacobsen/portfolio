@@ -1,4 +1,5 @@
 import { GithubIcon, InstagramIcon, LinkedinIcon } from "@/components/icons";
+import { SectionCard } from "@/components/ui";
 import { MailboxIcon, UsersRound } from "lucide-react";
 
 export const socials_links = [
@@ -27,7 +28,7 @@ export const socials_links = [
 export default function Socials() {
     return (
         <>
-            <section className="bg-card rounded-xl border border-border p-5 md:p-8 mt-6 space-y-8 shadow-md">
+            <SectionCard className="space-y-8">
                 <header className="space-y-4">
                     <div
                         className="inline-flex items-center gap-2 px-4 py-1.5 
@@ -70,7 +71,7 @@ export default function Socials() {
                         </a>
                     ))}
                 </div>
-            </section>
+            </SectionCard>
         </>
     );
 }
