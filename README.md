@@ -6,7 +6,7 @@ My personal portfolio website. It showcases my projects, skills, and experience 
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/jurgenjacobsen/portfolio/main)
 ![GitHub top language](https://img.shields.io/github/languages/top/jurgenjacobsen/portfolio)
 ![GitHub repo size](https://img.shields.io/github/repo-size/jurgenjacobsen/portfolio)
-![GitHub](https://img.shields.io/github/license/jurgenjacobsen/portfolio)
+![GitHub License](https://img.shields.io/github/license/jurgenjacobsen/portfolio)
 
 ### To Do
 
