@@ -20,7 +20,7 @@ export default function ContactHero() {
                 <div className="space-y-4">
                     <h1 className="text-4xl md:text-7xl font-black tracking-tighter uppercase leading-[0.9]">
                         LET'S START A{" "}
-                        <span className="text-primary italic font-serif text-3xl">
+                        <span className="text-primary italic font-serif text-3xl md:text-7xl">
                             CONVERSATION
                         </span>
                         .
@@ -34,7 +34,7 @@ export default function ContactHero() {
 
                 <div className="flex flex-wrap gap-4 mt-6">
                     <div className="flex flex-wrap gap-4 mt-6">
-                        <a href="/contact" className="
+                        <a href="mailto:jurgenjacobsen@outlook.com" className="
                             group inline-flex shrink-0 items-center justify-center rounded-xl font-semibold
                             disabled:pointer-events-none disabled:opacity-50 whitespace-nowrap transition-all select-none cursor-pointer
                             px-8 py-2 bg-primary hover:bg-primary/75 text-card duration-300 hover:border-primary/25
@@ -42,7 +42,7 @@ export default function ContactHero() {
                             <SendIcon className="size-5 mr-2 group-hover:scale-101 transition-transform duration-300" />
                             Send an Email
                         </a>
-                        <a href="/projects" className="
+                        <a href="https://linkedin.com/in/jurgenjacobsen" target="_blank" rel="noreferrer noopener" className="
                             group inline-flex shrink-0 items-center justify-center rounded-xl border border-border font-semibold
                             disabled:pointer-events-none disabled:opacity-50 whitespace-nowrap transition-all select-none cursor-pointer
                             px-8 py-2 bg-muted hover:bg-muted/50 duration-300 hover:border-primary/25">

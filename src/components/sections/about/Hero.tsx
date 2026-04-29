@@ -1,5 +1,5 @@
 import { UserIcon, GraduationCapIcon, MapPinIcon } from "lucide-react";
-import { SectionCard, Skeleton } from "@/components/ui";
+import { SectionCard, Skeleton  } from "@/components/ui";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -8,21 +8,20 @@ export default function AboutHero() {
 
     return (
         <SectionCard className="space-y-6">
-            <div className="flex flex-col md:flex-row gap-8 items-center">
-                <div className="flex-1 space-y-6">
+            <div className="flex flex-col-reverse md:flex-row gap-8 items-center md:items-start">
+                <div className="flex-1">
                     <div
                         className="
-                        inline-flex items-center gap-2 px-4 py-1.5 
-                        border border-border rounded-full 
-                        text-primary text-[10px] md:text-xs uppercase tracking-wider font-bold
-                        bg-primary/5 
-                        animate-in fade-in slide-in-from-bottom-4 duration-700"
+                    inline-flex items-center gap-2 px-4 py-1.5 
+                    border border-border rounded-full 
+                    text-primary text-[10px] md:text-xs uppercase tracking-wider font-bold
+                    bg-primary/5 
+                    animate-in fade-in slide-in-from-bottom-4 duration-700"
                     >
                         <UserIcon className="size-3 md:size-4 fill-primary/15" />
                         <span>Profile</span>
                     </div>
-
-                    <div className="space-y-4">
+                    <div className="space-y-6 mt-4">
                         <h1 className="text-4xl md:text-7xl font-black tracking-tighter uppercase leading-[0.9]">
                             STORY BEHIND THE{" "}
                             <span className="text-primary italic font-serif">
@@ -38,7 +37,6 @@ export default function AboutHero() {
                             commitment to building software that makes an impact.
                         </p>
                     </div>
-
                     <div className="flex flex-wrap gap-6 pt-4">
                         <div className="flex items-center gap-2 text-muted-foreground">
                             <MapPinIcon className="size-4 text-primary" />

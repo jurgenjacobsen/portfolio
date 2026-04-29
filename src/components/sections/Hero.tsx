@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ExternalLinkIcon, MailIcon, SparklesIcon } from "lucide-react";
+import { ExternalLink, MailIcon, SparklesIcon } from "lucide-react";
 
 import { Skeleton } from "../ui/skeleton";
 import { cn } from "@/lib/utils";
@@ -40,7 +40,7 @@ export default function Hero() {
 
     return (
         <SectionCard className="space-y-6">
-            <div className="flex flex-col-reverse md:flex-row gap-8 items-center">
+            <div className="flex flex-col-reverse md:flex-row gap-8 items-center md:items-start">
                 <div className="flex-1">
                     <div
                         className="
@@ -83,7 +83,7 @@ export default function Hero() {
                             group inline-flex shrink-0 items-center justify-center rounded-xl border border-border font-semibold
                             disabled:pointer-events-none disabled:opacity-50 whitespace-nowrap transition-all select-none cursor-pointer
                             px-8 py-2 bg-muted hover:bg-muted/50 duration-300 hover:border-primary/25">
-                            <ExternalLinkIcon id="linkedin" className="size-5 mr-2 group-hover:scale-101 transition-transform duration-300" />
+                            <ExternalLink id="linkedin" className="size-5 mr-2 group-hover:scale-101 transition-transform duration-300" />
                             View Projects
                         </a>
                     </div>
