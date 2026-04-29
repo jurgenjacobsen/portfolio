@@ -21,7 +21,7 @@ export default function Disclaimer({ excludedPaths = [] }: DisclaimerProps) {
 
     useEffect(() => {
         const hasSeenDisclaimer = localStorage.getItem("hasSeenDisclaimer");
-        
+
         // If they haven't seen it, show it
         if (!hasSeenDisclaimer) {
             setIsOpen(true);
@@ -44,22 +44,29 @@ export default function Disclaimer({ excludedPaths = [] }: DisclaimerProps) {
                 <DialogHeader>
                     <div className="flex items-center gap-2 text-primary mb-2">
                         <ConstructionIcon className="size-5" />
-                        <span className="text-[10px] font-black uppercase tracking-widest">Development Notice</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest">
+                            Development Notice
+                        </span>
                     </div>
-                    <DialogTitle className="text-2xl">Work in Progress</DialogTitle>
+                    <DialogTitle className="text-2xl">
+                        Work in Progress
+                    </DialogTitle>
                     <DialogDescription className="text-base">
-                        This website is currently under active development. Some features might be incomplete and some data displayed may be placeholders.
+                        This website is currently under active development. Some
+                        features might be incomplete and some data displayed may
+                        be placeholders.
                     </DialogDescription>
                 </DialogHeader>
                 <div className="flex items-start gap-3 p-4 rounded-2xl bg-muted/30 border border-border/50 my-2">
                     <InfoIcon className="size-5 text-primary shrink-0 mt-0.5" />
                     <p className="text-xs font-medium leading-relaxed">
-                        I'm constantly improving the experience. Thank you for your patience and for visiting my portfolio!
+                        I'm constantly improving the experience. Thank you for
+                        your patience and for visiting my portfolio!
                     </p>
                 </div>
                 <DialogFooter className="mt-4">
-                    <Button 
-                        size="lg" 
+                    <Button
+                        size="lg"
                         className="w-full sm:w-auto rounded-xl font-bold"
                         onClick={handleClose}
                     >

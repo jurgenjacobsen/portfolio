@@ -1,7 +1,7 @@
 import { ExternalLinkIcon, LibraryBigIcon } from "lucide-react";
 import { Button } from "../../ui/button";
 import GithubIcon from "../../icons/Github";
-import { TechIcon, type IconId } from "@/components/ui/tech-icon";
+import { Icon, type IconId } from "@/components/ui/icon";
 import type { ProjectProps } from "@/pages/Projects";
 import { SectionCard } from "@/components/ui";
 
@@ -54,7 +54,7 @@ export default function ProjectHighlight(props: { projects: ProjectProps[] }) {
                                             key={tag}
                                             className="text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-muted/25 border border-border/50 text-primary inline-flex gap-1.5 items-center"
                                         >
-                                            <TechIcon
+                                            <Icon
                                                 id={tag as IconId}
                                                 className="size-3"
                                             />{" "}

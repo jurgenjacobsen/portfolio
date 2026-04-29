@@ -14,6 +14,8 @@ import InstagramIcon from "./Instagram";
 import TwitterIcon from "./Twitter";
 import YoutubeIcon from "./Youtube";
 import LinkedinIcon from "./Linkedin";
+import DjangoIcon from "./Django";
+import PythonIcon from "./Python";
 
 export {
     ReactIcon,
@@ -32,4 +34,6 @@ export {
     TwitterIcon,
     YoutubeIcon,
     LinkedinIcon,
+    DjangoIcon,
+    PythonIcon,
 };

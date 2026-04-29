@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import ProjectHighlight from "@/components/sections/projects/Highlight";
 import ProjectsList from "@/components/sections/projects/List";
-import type { IconId } from "@/components/ui/tech-icon";
+import type { IconId } from "@/components/ui/icon";
 import { GithubClient, type GithubRepo } from "@/lib/Github";
 
 export type ProjectProps = {

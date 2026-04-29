@@ -15,15 +15,16 @@ export type IconId =
     | "mongodb"
     | "github"
     | "linkedin"
-    | "github"
+    | "python"
+    | "django"
     | keyof typeof LucideIcons;
 
-interface TechIconProps extends React.SVGProps<SVGSVGElement> {
+interface IconProps extends React.SVGProps<SVGSVGElement> {
     id: IconId;
     className?: string;
 }
 
-export const TechIcon = ({ id, className, ...props }: TechIconProps) => {
+export const Icon = ({ id, className, ...props }: IconProps) => {
     // Mapping for our custom brand icons
     const brandIcons: Record<
         string,
@@ -41,6 +42,8 @@ export const TechIcon = ({ id, className, ...props }: TechIconProps) => {
         mongodb: Icons.MongoDBIcon,
         github: Icons.GithubIcon,
         linkedin: Icons.LinkedinIcon,
+        python: Icons.PythonIcon,
+        django: Icons.DjangoIcon,
     };
 
     // Try to find a brand icon first

@@ -3,41 +3,29 @@ import { ExternalLink, MailIcon, SparklesIcon } from "lucide-react";
 
 import { Skeleton } from "../ui/skeleton";
 import { cn } from "@/lib/utils";
-import {
-    ReactIcon,
-    TypescriptIcon,
-    NestJSIcon,
-    VueIcon,
-    GoIcon,
-    PostgreSQLIcon,
-    DotNetIcon,
-    CSharpIcon,
-    MongoDBIcon,
-    SupabaseIcon,
-} from "../icons";
-import { SectionCard } from "../ui";
+import { Icon, SectionCard, type IconId } from "../ui";
 import { useNavigate } from "react-router-dom";
 
 type TechStackItem = {
     name: string;
-    icon: React.FC<React.SVGProps<SVGSVGElement>>;
+    icon: IconId;
     color?: string;
 };
 
 export default function Hero() {
     const navigate = useNavigate();
-    const [ imageLoaded, setImageLoaded ] = useState(false);
+    const [imageLoaded, setImageLoaded] = useState(false);
     const techstack: TechStackItem[] = [
-        { name: "ReactTS", icon: ReactIcon },
-        { name: "TypeScript", icon: TypescriptIcon },
-        { name: "NestJS", icon: NestJSIcon },
-        { name: "Vue", icon: VueIcon },
-        { name: "GoLang", icon: GoIcon },
-        { name: "PostgreSQL", icon: PostgreSQLIcon },
-        { name: ".NET", icon: DotNetIcon },
-        { name: "C#", icon: CSharpIcon },
-        { name: "MongoDB", icon: MongoDBIcon },
-        { name: "Supabase", icon: SupabaseIcon },
+        { name: "ReactTS", icon: "react" },
+        { name: "TypeScript", icon: "typescript" },
+        { name: "NestJS", icon: "nestjs" },
+        { name: "Vue", icon: "vue" },
+        { name: "GoLang", icon: "go" },
+        { name: "PostgreSQL", icon: "postgresql" },
+        { name: ".NET", icon: "dotnet" },
+        { name: "C#", icon: "csharp" },
+        { name: "MongoDB", icon: "mongodb" },
+        { name: "Supabase", icon: "supabase" },
     ];
 
     return (
@@ -73,30 +61,39 @@ export default function Hero() {
                         </p>
                     </div>
                     <div className="flex flex-wrap gap-4 mt-6 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both">
-                        <button onClick={() => navigate("/contact")} className="
+                        <button
+                            onClick={() => navigate("/contact")}
+                            className="
                             group inline-flex shrink-0 items-center justify-center rounded-xl font-semibold
                             disabled:pointer-events-none disabled:opacity-50 whitespace-nowrap transition-all select-none cursor-pointer
                             px-8 py-2 bg-primary hover:bg-primary/75 text-card duration-300 hover:border-primary/25
-                            shadow-md">
+                            shadow-md"
+                        >
                             <MailIcon className="size-5 mr-2 group-hover:scale-101 transition-transform duration-300" />
                             Let's Talk
                         </button>
-                        <button onClick={() => navigate("/projects")} className="
+                        <button
+                            onClick={() => navigate("/projects")}
+                            className="
                             group inline-flex shrink-0 items-center justify-center rounded-xl border border-border font-semibold
                             disabled:pointer-events-none disabled:opacity-50 whitespace-nowrap transition-all select-none cursor-pointer
-                            px-8 py-2 bg-muted hover:bg-muted/50 duration-300 hover:border-primary/25">
-                            <ExternalLink id="linkedin" className="size-5 mr-2 group-hover:scale-101 transition-transform duration-300" />
+                            px-8 py-2 bg-muted hover:bg-muted/50 duration-300 hover:border-primary/25"
+                        >
+                            <ExternalLink
+                                id="linkedin"
+                                className="size-5 mr-2 group-hover:scale-101 transition-transform duration-300"
+                            />
                             View Projects
                         </button>
                     </div>
                 </div>
                 <div className="w-full md:w-1/3 aspect-square relative group animate-in fade-in zoom-in-95 duration-1000 delay-500 fill-mode-both">
                     <div className="absolute inset-0 bg-primary/10 rounded-xl -rotate-3 group-hover:rotate-6 transition-transform duration-500 animate-essential" />
-                    {!imageLoaded && <Skeleton
-                        className={cn(
-                            "absolute inset-0 rounded-xl z-15"
-                        )}
-                    />}
+                    {!imageLoaded && (
+                        <Skeleton
+                            className={cn("absolute inset-0 rounded-xl z-15")}
+                        />
+                    )}
                     <img
                         src="/img/profile.jpg"
                         alt="Jürgen Jacobsen"
@@ -121,7 +118,8 @@ export default function Hero() {
                             className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-muted/25 border border-border/50 hover:border-primary/25 hover:bg-card transition-all cursor-default group/item animate-in fade-in slide-in-from-bottom-2 duration-500 fill-mode-both"
                             style={{ animationDelay: `${800 + index * 100}ms` }}
                         >
-                            <item.icon
+                            <Icon
+                                id={item.icon}
                                 className={`size-4 ${item?.color || ""} group-hover/item:scale-110 transition-transform rounded-xs`}
                             />
                             <span className="text-sm font-bold tracking-tight">

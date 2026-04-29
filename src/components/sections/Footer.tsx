@@ -7,8 +7,6 @@ import {
     SelectValue,
 } from "@/components/ui";
 
-
-
 export default function Footer() {
     return (
         <>

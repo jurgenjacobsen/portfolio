@@ -29,7 +29,10 @@ function Root() {
     useEffect(() => {
         if (typeof window !== "undefined") {
             // 1. Persist to localStorage
-            localStorage.setItem("animations-enabled", String(animationsEnabled));
+            localStorage.setItem(
+                "animations-enabled",
+                String(animationsEnabled),
+            );
 
             // 2. Update the body attribute for CSS targeting
             if (animationsEnabled) {
@@ -45,7 +48,7 @@ function Root() {
             const shareData = {
                 title: "Jürgen Jacobsen - Portfolio",
                 text: "Check out my portfolio website!",
-                url: window.location.href
+                url: window.location.href,
             };
 
             if (navigator.canShare && navigator.canShare(shareData)) {
@@ -64,7 +67,7 @@ function Root() {
             <ContextMenu>
                 <ContextMenuTrigger>
                     <div className="min-h-screen">
-                         <App />
+                        <App />
                     </div>
                 </ContextMenuTrigger>
                 <ContextMenuContent>
@@ -73,16 +76,19 @@ function Root() {
                             <Share className="w-4 h-4" /> Share
                         </ContextMenuItem>
 
-                        <ContextMenuItem onClick={() => window.location.reload()}>
+                        <ContextMenuItem
+                            onClick={() => window.location.reload()}
+                        >
                             <RefreshCcw className="w-4 h-4" /> Reload
                         </ContextMenuItem>
-                        
-                        <ContextMenuSeparator/>
-                        
-                        <ContextMenuCheckboxItem 
+
+                        <ContextMenuSeparator />
+
+                        <ContextMenuCheckboxItem
                             checked={animationsEnabled}
-                            onCheckedChange={setAnimationsEnabled}>
-                            <AudioWaveform className="w-4 h-4"/> Animations
+                            onCheckedChange={setAnimationsEnabled}
+                        >
+                            <AudioWaveform className="w-4 h-4" /> Animations
                         </ContextMenuCheckboxItem>
                     </ContextMenuGroup>
                 </ContextMenuContent>

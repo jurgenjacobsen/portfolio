@@ -1,10 +1,10 @@
 import { UserIcon, GraduationCapIcon, MapPinIcon } from "lucide-react";
-import { SectionCard, Skeleton  } from "@/components/ui";
+import { SectionCard, Skeleton } from "@/components/ui";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 export default function AboutHero() {
-    const [ imageLoaded, setImageLoaded ] = useState(false);
+    const [imageLoaded, setImageLoaded] = useState(false);
 
     return (
         <SectionCard className="space-y-6">
@@ -30,31 +30,36 @@ export default function AboutHero() {
                             .
                         </h1>
                         <p className="text-lg md:text-xl text-muted-foreground leading-relaxed font-medium animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
-                            I am a software engineer based in Porto, Portugal, with a 
-                            profound interest in the intersection of design and 
-                            complex system architecture. My journey in tech is driven 
-                            by a relentless curiosity for how things work and a 
-                            commitment to building software that makes an impact.
+                            I am a software engineer based in Porto, Portugal,
+                            with a profound interest in the intersection of
+                            design and complex system architecture. My journey
+                            in tech is driven by a relentless curiosity for how
+                            things work and a commitment to building software
+                            that makes an impact.
                         </p>
                     </div>
                     <div className="flex flex-wrap gap-6 pt-4 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both">
                         <div className="flex items-center gap-2 text-muted-foreground">
                             <MapPinIcon className="size-4 text-primary" />
-                            <span className="text-sm font-bold uppercase tracking-tight">Porto, Portugal</span>
+                            <span className="text-sm font-bold uppercase tracking-tight">
+                                Porto, Portugal
+                            </span>
                         </div>
                         <div className="flex items-center gap-2 text-muted-foreground">
                             <GraduationCapIcon className="size-4 text-primary" />
-                            <span className="text-sm font-bold uppercase tracking-tight">Full-Stack Engineer</span>
+                            <span className="text-sm font-bold uppercase tracking-tight">
+                                Full-Stack Engineer
+                            </span>
                         </div>
                     </div>
                 </div>
                 <div className="w-full md:w-1/3 aspect-square relative group animate-in fade-in zoom-in-95 duration-1000 delay-500 fill-mode-both">
                     <div className="absolute inset-0 bg-primary/10 rounded-xl -rotate-3 group-hover:rotate-6 transition-transform duration-500 animate-essential" />
-                    {!imageLoaded && <Skeleton
-                        className={cn(
-                            "absolute inset-0 rounded-xl z-15"
-                        )}
-                    />}
+                    {!imageLoaded && (
+                        <Skeleton
+                            className={cn("absolute inset-0 rounded-xl z-15")}
+                        />
+                    )}
                     <img
                         src="/img/profile.jpg"
                         alt="Jürgen Jacobsen"
