@@ -17,11 +17,11 @@ My personal portfolio website. It showcases my projects, skills, and experience 
 - [ ] Add CODE_OF_CONDUCT.md
 - [ ] Add ISSUE_TEMPLATE.md
 - [ ] Add PULL_REQUEST_TEMPLATE.md
-- [ ] Add LICENSE
+- [x] Add LICENSE
 
 **Features**
 
-- [ ] Context Menu
+- [x] Context Menu
 - [ ] Dark Mode
 - [ ] Multi Locale Support
 
