@@ -16,6 +16,7 @@ import {
     SupabaseIcon,
 } from "../icons";
 import { SectionCard } from "../ui";
+import { useNavigate } from "react-router-dom";
 
 type TechStackItem = {
     name: string;
@@ -24,6 +25,7 @@ type TechStackItem = {
 };
 
 export default function Hero() {
+    const navigate = useNavigate();
     const [ imageLoaded, setImageLoaded ] = useState(false);
     const techstack: TechStackItem[] = [
         { name: "ReactTS", icon: ReactIcon },
@@ -71,21 +73,21 @@ export default function Hero() {
                         </p>
                     </div>
                     <div className="flex flex-wrap gap-4 mt-6">
-                        <a href="/contact" className="
+                        <button onClick={() => navigate("/contact")} className="
                             group inline-flex shrink-0 items-center justify-center rounded-xl font-semibold
                             disabled:pointer-events-none disabled:opacity-50 whitespace-nowrap transition-all select-none cursor-pointer
                             px-8 py-2 bg-primary hover:bg-primary/75 text-card duration-300 hover:border-primary/25
                             shadow-md">
                             <MailIcon className="size-5 mr-2 group-hover:scale-101 transition-transform duration-300" />
                             Let's Talk
-                        </a>
-                        <a href="/projects" className="
+                        </button>
+                        <button onClick={() => navigate("/projects")} className="
                             group inline-flex shrink-0 items-center justify-center rounded-xl border border-border font-semibold
                             disabled:pointer-events-none disabled:opacity-50 whitespace-nowrap transition-all select-none cursor-pointer
                             px-8 py-2 bg-muted hover:bg-muted/50 duration-300 hover:border-primary/25">
                             <ExternalLink id="linkedin" className="size-5 mr-2 group-hover:scale-101 transition-transform duration-300" />
                             View Projects
-                        </a>
+                        </button>
                     </div>
                 </div>
                 <div className="w-full md:w-1/3 aspect-square relative group">
