@@ -9,4 +9,5 @@ export { default as SectionCard } from "./section-card";
 export * from "./select";
 export * from "./separator";
 export * from "./skeleton";
+export * from "./switch";
 export * from "./tech-icon";

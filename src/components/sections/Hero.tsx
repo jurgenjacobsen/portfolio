@@ -56,14 +56,14 @@ export default function Hero() {
                         <span>Available for Hire</span>
                     </div>
                     <div className="space-y-6 mt-4">
-                        <h1 className="text-4xl md:text-7xl font-black tracking-tighter">
+                        <h1 className="text-4xl md:text-7xl font-black tracking-tighter animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100 fill-mode-both">
                             CRAFTING{" "}
                             <span className="text-primary italic font-serif">
                                 DIGITAL
                             </span>{" "}
                             ARCHITECTURE.
                         </h1>
-                        <p className="text-lg md:text-xl text-muted-foreground leading-relaxed font-medium">
+                        <p className="text-lg md:text-xl text-muted-foreground leading-relaxed font-medium animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
                             I'm{" "}
                             <span className="text-foreground font-bold underline decoration-primary/30 decoration-4 underline-offset-4">
                                 Jürgen Jacobsen
@@ -72,7 +72,7 @@ export default function Hero() {
                             robust, scalable, and beautiful web applications.
                         </p>
                     </div>
-                    <div className="flex flex-wrap gap-4 mt-6">
+                    <div className="flex flex-wrap gap-4 mt-6 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both">
                         <button onClick={() => navigate("/contact")} className="
                             group inline-flex shrink-0 items-center justify-center rounded-xl font-semibold
                             disabled:pointer-events-none disabled:opacity-50 whitespace-nowrap transition-all select-none cursor-pointer
@@ -90,8 +90,8 @@ export default function Hero() {
                         </button>
                     </div>
                 </div>
-                <div className="w-full md:w-1/3 aspect-square relative group">
-                    <div className="absolute inset-0 bg-primary/10 rounded-xl -rotate-3 group-hover:rotate-6 transition-transform duration-500" />
+                <div className="w-full md:w-1/3 aspect-square relative group animate-in fade-in zoom-in-95 duration-1000 delay-500 fill-mode-both">
+                    <div className="absolute inset-0 bg-primary/10 rounded-xl -rotate-3 group-hover:rotate-6 transition-transform duration-500 animate-essential" />
                     {!imageLoaded && <Skeleton
                         className={cn(
                             "absolute inset-0 rounded-xl z-15"
@@ -101,11 +101,11 @@ export default function Hero() {
                         src="/img/profile.jpg"
                         alt="Jürgen Jacobsen"
                         onLoad={() => setImageLoaded(true)}
-                        className="relative z-10 w-full h-full object-cover rounded-xl border border-border shadow-xl hover:grayscale transition-all duration-500 brightness-125 group-hover:-rotate-3"
+                        className="relative z-10 w-full h-full object-cover rounded-xl border border-border shadow-xl hover:grayscale transition-all duration-500 brightness-125 group-hover:-rotate-3 animate-essential"
                     />
                 </div>
             </div>
-            <div className="pt-4 md:pt-10 space-y-5">
+            <div className="pt-4 md:pt-10 space-y-5 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-700 fill-mode-both">
                 <div className="flex items-center gap-3 text-muted-foreground">
                     <div className="h-px flex-1 bg-border" />
                     <span className="text-xs font-bold uppercase tracking-[0.2em] whitespace-nowrap">
@@ -115,10 +115,11 @@ export default function Hero() {
                 </div>
 
                 <div className="flex flex-wrap gap-3">
-                    {techstack.map((item) => (
+                    {techstack.map((item, index) => (
                         <div
                             key={item.name}
-                            className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-muted/25 border border-border/50 hover:border-primary/25 hover:bg-card transition-all cursor-default group/item"
+                            className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-muted/25 border border-border/50 hover:border-primary/25 hover:bg-card transition-all cursor-default group/item animate-in fade-in slide-in-from-bottom-2 duration-500 fill-mode-both"
+                            style={{ animationDelay: `${800 + index * 100}ms` }}
                         >
                             <item.icon
                                 className={`size-4 ${item?.color || ""} group-hover/item:scale-110 transition-transform rounded-xs`}

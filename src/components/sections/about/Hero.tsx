@@ -22,14 +22,14 @@ export default function AboutHero() {
                         <span>Profile</span>
                     </div>
                     <div className="space-y-6 mt-4">
-                        <h1 className="text-4xl md:text-7xl font-black tracking-tighter uppercase leading-[0.9]">
+                        <h1 className="text-4xl md:text-7xl font-black tracking-tighter uppercase leading-[0.9] animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100 fill-mode-both">
                             STORY BEHIND THE{" "}
                             <span className="text-primary italic font-serif">
                                 CODE
                             </span>
                             .
                         </h1>
-                        <p className="text-lg md:text-xl text-muted-foreground leading-relaxed font-medium">
+                        <p className="text-lg md:text-xl text-muted-foreground leading-relaxed font-medium animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
                             I am a software engineer based in Porto, Portugal, with a 
                             profound interest in the intersection of design and 
                             complex system architecture. My journey in tech is driven 
@@ -37,7 +37,7 @@ export default function AboutHero() {
                             commitment to building software that makes an impact.
                         </p>
                     </div>
-                    <div className="flex flex-wrap gap-6 pt-4">
+                    <div className="flex flex-wrap gap-6 pt-4 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both">
                         <div className="flex items-center gap-2 text-muted-foreground">
                             <MapPinIcon className="size-4 text-primary" />
                             <span className="text-sm font-bold uppercase tracking-tight">Porto, Portugal</span>
@@ -48,8 +48,8 @@ export default function AboutHero() {
                         </div>
                     </div>
                 </div>
-                <div className="w-full md:w-1/3 aspect-square relative group">
-                    <div className="absolute inset-0 bg-primary/10 rounded-xl -rotate-3 group-hover:rotate-6 transition-transform duration-500" />
+                <div className="w-full md:w-1/3 aspect-square relative group animate-in fade-in zoom-in-95 duration-1000 delay-500 fill-mode-both">
+                    <div className="absolute inset-0 bg-primary/10 rounded-xl -rotate-3 group-hover:rotate-6 transition-transform duration-500 animate-essential" />
                     {!imageLoaded && <Skeleton
                         className={cn(
                             "absolute inset-0 rounded-xl z-15"
@@ -59,7 +59,7 @@ export default function AboutHero() {
                         src="/img/profile.jpg"
                         alt="Jürgen Jacobsen"
                         onLoad={() => setImageLoaded(true)}
-                        className="relative z-10 w-full h-full object-cover rounded-xl border border-border shadow-xl hover:grayscale transition-all duration-500 brightness-125 group-hover:-rotate-3"
+                        className="relative z-10 w-full h-full object-cover rounded-xl border border-border shadow-xl hover:grayscale transition-all duration-500 brightness-125 group-hover:-rotate-3 animate-essential"
                     />
                 </div>
             </div>

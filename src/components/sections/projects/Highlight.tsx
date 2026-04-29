@@ -21,20 +21,20 @@ export default function ProjectHighlight(props: { projects: ProjectProps[] }) {
                     <LibraryBigIcon className="size-3 md:size-4" />
                     <span>Showcase</span>
                 </div>
-                <h1 className="text-4xl md:text-6xl font-black tracking-tighter uppercase leading-[0.9]">
+                <h1 className="text-4xl md:text-6xl font-black tracking-tighter uppercase leading-[0.9] animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100 fill-mode-both">
                     HIGHLIGHTED{" "}
                     <span className="text-primary italic font-serif">
                         PROJECTS
                     </span>
                     .
                 </h1>
-                <p className="text-base md:text-lg text-muted-foreground font-medium leading-relaxed max-w-2xl">
+                <p className="text-base md:text-lg text-muted-foreground font-medium leading-relaxed max-w-2xl animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
                     A collection of work ranging from full-stack platforms to
                     experimental tools and open-source contributions.
                 </p>
             </header>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-                <div className="md:col-span-2 group relative overflow-hidden rounded-xl border border-border bg-card transition-all">
+                <div className="md:col-span-2 group relative overflow-hidden rounded-xl border border-border bg-card transition-all animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both">
                     <div className="aspect-video w-full overflow-hidden">
                         <img
                             src={projects[0].image}
@@ -99,7 +99,8 @@ export default function ProjectHighlight(props: { projects: ProjectProps[] }) {
                     {projects.slice(1, 4).map((project, i) => (
                         <div
                             key={i}
-                            className="flex-1 group relative overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all hover:shadow-md"
+                            className="flex-1 group relative overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all hover:shadow-md animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both"
+                            style={{ animationDelay: `${400 + i * 150}ms` }}
                         >
                             <div className="aspect-video md:aspect-auto md:h-full w-full overflow-hidden relative">
                                 <img

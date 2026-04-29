@@ -18,21 +18,21 @@ export default function ContactHero() {
                 </div>
 
                 <div className="space-y-4">
-                    <h1 className="text-4xl md:text-7xl font-black tracking-tighter uppercase leading-[0.9]">
+                    <h1 className="text-4xl md:text-7xl font-black tracking-tighter uppercase leading-[0.9] animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100 fill-mode-both">
                         LET'S START A{" "}
                         <span className="text-primary italic font-serif text-3xl md:text-7xl">
                             CONVERSATION
                         </span>
                         .
                     </h1>
-                    <p className="text-lg md:text-xl text-muted-foreground leading-relaxed font-medium max-w-2xl">
+                    <p className="text-lg md:text-xl text-muted-foreground leading-relaxed font-medium max-w-2xl animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
                         Have a project in mind or just want to say hi? I'm always
                         open to discussing new opportunities, creative ideas or
                         focal points to be part of your visions.
                     </p>
                 </div>
 
-                <div className="flex flex-wrap gap-4 mt-6">
+                <div className="flex flex-wrap gap-4 mt-6 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both">
                     <button onClick={() => window.location.href = "mailto:jurgenjacobsen@outlook.com"} className="
                         group inline-flex shrink-0 items-center justify-center rounded-xl font-semibold
                         disabled:pointer-events-none disabled:opacity-50 whitespace-nowrap transition-all select-none cursor-pointer
@@ -51,7 +51,7 @@ export default function ContactHero() {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-10 border-t border-border/50">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-10 border-t border-border/50 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-500 fill-mode-both">
                 <div className="group flex items-start gap-4 p-2 transition-colors">
                     <div className="mt-1 p-2 rounded-xl bg-muted/50 text-primary shrink-0">
                         <MapPinIcon className="size-5" />
