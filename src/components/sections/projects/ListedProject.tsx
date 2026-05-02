@@ -1,5 +1,6 @@
 import { CalendarIcon, ClockIcon, StarIcon } from "lucide-react";
 import type { ProjectProps } from "@/pages/Projects";
+import { Icon } from "@/components/ui/icon";
 
 export default function ListedProject({ project }: { project: ProjectProps }) {
     const formatDate = (dateString?: string) => {
@@ -43,6 +44,22 @@ export default function ListedProject({ project }: { project: ProjectProps }) {
                             </span>
                         </div>
                     </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                    <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="gap-2
+                        
+                        group inline-flex shrink-0 items-center justify-center rounded-xl border border-border font-semibold
+                            disabled:pointer-events-none disabled:opacity-50 whitespace-nowrap transition-all select-none cursor-pointer
+                            px-8 py-2 bg-muted hover:bg-muted/50 duration-300 hover:border-primary/25"
+                    >
+                        <Icon id="github" className="size-4" />
+                        View on GitHub
+                    </a>
                 </div>
             </div>
 
