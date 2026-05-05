@@ -15,6 +15,7 @@ interface ListHeaderProps {
     setSearch: (val: string) => void;
     techFilter: string;
     setTechFilter: (val: string) => void;
+    availableTags: string[];
     sortBy: string;
     setSortBy: (val: string) => void;
 }
@@ -24,13 +25,14 @@ export default function ListHeader({
     setSearch,
     techFilter,
     setTechFilter,
+    availableTags,
     sortBy,
     setSortBy,
 }: ListHeaderProps) {
     return (
-        <div className="flex flex-col md:flex-row items-center gap-4 w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-4 w-full">
             {/* Search Input */}
-            <div className="relative w-full md:w-1/2 group">
+            <div className="relative w-full group">
                 <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                 <Input
                     type="search"
@@ -44,7 +46,7 @@ export default function ListHeader({
             {/* Filters and Sorting */}
             <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 md:gap-3 w-full md:w-auto">
                 <Select value={techFilter} onValueChange={setTechFilter}>
-                    <SelectTrigger className="flex-1 md:w-[180px] h-10 rounded-xl bg-muted/30 border-border/50">
+                    <SelectTrigger className="flex-1 h-10 rounded-xl bg-muted/30 border-border/50">
                         <div className="flex items-center gap-2 overflow-hidden">
                             <FilterIcon className="size-3.5 text-muted-foreground shrink-0" />
                             <SelectValue
@@ -57,22 +59,17 @@ export default function ListHeader({
                         <SelectGroup>
                             <SelectLabel>Technologies</SelectLabel>
                             <SelectItem value="all">All Stack</SelectItem>
-                            <SelectItem value="react">React</SelectItem>
-                            <SelectItem value="typescript">
-                                TypeScript
-                            </SelectItem>
-                            <SelectItem value="nestjs">NestJS</SelectItem>
-                            <SelectItem value="vue">Vue.js</SelectItem>
-                            <SelectItem value="go">Go</SelectItem>
-                            <SelectItem value="postgresql">
-                                PostgreSQL
-                            </SelectItem>
+                            {availableTags.map((tag) => (
+                                <SelectItem key={tag} value={tag}>
+                                    {tag.charAt(0).toUpperCase() + tag.slice(1)}
+                                </SelectItem>
+                            ))}
                         </SelectGroup>
                     </SelectContent>
                 </Select>
 
                 <Select value={sortBy} onValueChange={setSortBy}>
-                    <SelectTrigger className="flex-1 md:w-[160px] h-10 rounded-xl bg-muted/30 border-border/50">
+                    <SelectTrigger className="flex-1 h-10 rounded-xl bg-muted/30 border-border/50">
                         <div className="flex items-center gap-2 overflow-hidden">
                             <SortDescIcon className="size-3.5 text-muted-foreground shrink-0" />
                             <SelectValue

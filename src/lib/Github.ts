@@ -44,4 +44,21 @@ export class GithubClient {
         }
         return await res.json();
     }
+
+    async fetchRepo(owner: string, repo: string): Promise<GithubRepo> {
+        const headers: HeadersInit = {
+            Accept: "application/vnd.github+json",
+            "X-GitHub-Api-Version": "2022-11-28",
+        };
+        if (this.token) {
+            headers["Authorization"] = `Bearer ${this.token}`;
+        }
+        const res = await fetch(`${this.baseUrl}/repos/${owner}/${repo}`, {
+            headers,
+        });
+        if (!res.ok) {
+            throw new Error(`GitHub API error: ${res.status}`);
+        }
+        return await res.json();
+    }
 }

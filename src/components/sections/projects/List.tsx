@@ -5,6 +5,7 @@ import { SectionCard } from "@/components/ui";
 
 interface ProjectsListProps {
     projects: ProjectProps[];
+    availableTags: string[];
     search: string;
     setSearch: (val: string) => void;
     techFilter: string;
@@ -16,6 +17,7 @@ interface ProjectsListProps {
 
 export default function ProjectsList({
     projects,
+    availableTags,
     search,
     setSearch,
     techFilter,
@@ -31,6 +33,7 @@ export default function ProjectsList({
                 setSearch={setSearch}
                 techFilter={techFilter}
                 setTechFilter={setTechFilter}
+                availableTags={availableTags}
                 sortBy={sortBy}
                 setSortBy={setSortBy}
             />
