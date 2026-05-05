@@ -6,7 +6,7 @@ export default function DotNetIcon(props: React.SVGProps<SVGSVGElement>) {
             viewBox="0 0 100 100"
             {...props}
         >
-            <g clip-path="url(#dotnet-icon-clip)">
+            <g clipPath="url(#dotnet-icon-clip)">
                 <path fill="#512bd4" d="M100 0H0v100h100z" />
                 <path
                     fill="#fff"

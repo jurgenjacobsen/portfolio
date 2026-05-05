@@ -6,7 +6,7 @@ export default function SupabaseIcon(props: React.SVGProps<SVGSVGElement>) {
             viewBox="0 0 100 100"
             {...props}
         >
-            <g clip-path="url(#supabase-icon-clip)">
+            <g clipPath="url(#supabase-icon-clip)">
                 <path
                     fill="url(#b)"
                     d="M57.894 98.338c-2.554 3.217-7.734 1.454-7.796-2.654l-.9-60.082h40.4c7.316 0 11.397 8.452 6.847 14.182z"

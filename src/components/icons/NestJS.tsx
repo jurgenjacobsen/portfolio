@@ -6,7 +6,7 @@ export default function NestJSIcon(props: React.SVGProps<SVGSVGElement>) {
             viewBox="0 0 100 100"
             {...props}
         >
-            <g clip-path="url(#nestjs-icon-clip)">
+            <g clipPath="url(#nestjs-icon-clip)">
                 <path
                     fill="#e0234e"
                     fill-rule="evenodd"

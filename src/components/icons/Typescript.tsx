@@ -6,7 +6,7 @@ export default function TypescriptIcon(props: React.SVGProps<SVGSVGElement>) {
             viewBox="0 0 100 100"
             {...props}
         >
-            <g clip-path="url(#typescript-icon-clip)">
+            <g clipPath="url(#typescript-icon-clip)">
                 <path fill="#017acb" d="M0 0h100v100H0z" />
                 <path
                     fill="#fff"
