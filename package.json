@@ -7,7 +7,8 @@
         "dev": "vite --host",
         "build": "node scripts/sitemap.js && tsc -b && vite build",
         "lint": "eslint .",
-        "prettier": "prettier --write ."
+        "prettier": "prettier --write .",
+        "projects:update": "node scripts/project-index.js"
     },
     "dependencies": {
         "@fontsource-variable/inter": "^5.2.8",
@@ -35,6 +36,7 @@
         "eslint-plugin-react-hooks": "^7.0.1",
         "eslint-plugin-react-refresh": "^0.5.2",
         "globals": "^17.4.0",
+        "gray-matter": "^4.0.3",
         "prettier": "^3.8.3",
         "typescript": "~6.0.2",
         "typescript-eslint": "^8.58.0",
