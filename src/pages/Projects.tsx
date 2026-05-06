@@ -47,7 +47,7 @@ export default function Projects() {
                     data.map(async (project) => {
                         if (
                             project.github &&
-                            project.github.includes("github.com")
+                            project.github.startsWith("https://github.com")
                         ) {
                             try {
                                 const parsedUrl = new URL(project.github);
