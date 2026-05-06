@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 
 // 2. Go up one level from /scripts to the root, then into /public/projects
 const projectsDir = path.join(__dirname, '..', 'public', 'projects');
-const outputPath = path.join(projectsDir, 'index.json');
+const outputPath = path.join(projectsDir, '_.json');
 
 const files = fs.readdirSync(projectsDir)
   .filter(file => file.endsWith('.md'))

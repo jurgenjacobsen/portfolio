@@ -36,7 +36,7 @@ export default function Projects() {
     useEffect(() => {
         const fetchProjects = async () => {
             try {
-                const response = await fetch("/projects/index.json");
+                const response = await fetch("/projects/_.json");
                 const data: (ProjectProps & { highlight?: boolean })[] =
                     await response.json();
 
@@ -50,26 +50,23 @@ export default function Projects() {
                             project.github.includes("github.com")
                         ) {
                             try {
-                                const url = project.github.endsWith("/")
-                                    ? project.github.slice(0, -1)
-                                    : project.github;
-                                const parts = url
-                                    .replace("https://github.com/", "")
-                                    .split("/");
-                                if (parts.length >= 2) {
-                                    const owner = parts[0];
-                                    const repo = parts[1];
-                                    const repoData = await github.fetchRepo(
-                                        owner,
-                                        repo,
-                                    );
-                                    return {
-                                        ...project,
-                                        stars: repoData.stargazers_count,
-                                        createdAt: repoData.created_at || project.createdAt,
-                                        updatedAt: repoData.pushed_at || repoData.updated_at || project.updatedAt,
-                                        date: project.date || repoData.pushed_at || project.updatedAt
-                                    };
+                                const parsedUrl = new URL(project.github);
+                                const isGithubHost = parsedUrl.hostname === "github.com" && parsedUrl.protocol === "https:";
+                                if(isGithubHost) {
+                                    const params = parsedUrl.pathname.split("/").filter(Boolean);
+                                    if(params.length >= 2) {
+                                        const owner = params[0];
+                                        const repo = params[1];
+
+                                        const repoData = await github.fetchRepo(owner, repo);
+                                        return {
+                                            ...project,
+                                            stars: repoData.stargazers_count,
+                                            createdAt: repoData.created_at || project.createdAt,
+                                            updatedAt: repoData.pushed_at || repoData.updated_at || project.updatedAt,
+                                            date: project.date || repoData.pushed_at || project.updatedAt
+                                        };
+                                    }
                                 }
                             } catch (error) {
                                 console.error(
