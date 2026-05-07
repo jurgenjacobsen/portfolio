@@ -6,6 +6,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui";
+import LastCommit from "../ui/last-commit";
 
 export default function Footer() {
     return (
@@ -22,6 +23,12 @@ export default function Footer() {
                             All rights reserved.
                         </p>
 
+                        
+                    </div>
+                    <div>
+                        <h3 className="font-bold text-lg tracking-tight mb-2">
+                            Settings
+                        </h3>
                         <Select>
                             <SelectTrigger className="w-full mt-2">
                                 <SelectValue placeholder="Language" />
@@ -38,6 +45,12 @@ export default function Footer() {
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
+                    </div>
+                    <div>
+                        <h3 className="font-bold text-lg tracking-tight mb-2">
+                            Last commit
+                        </h3>
+                        <LastCommit />
                     </div>
                 </div>
             </footer>
