@@ -26,7 +26,7 @@ export default function Navbar() {
         to: string;
         className?: string;
     }) {
-        const isActive = location.pathname === props.to;
+        const isActive = location.pathname === props.to || (location.pathname.startsWith("/projects") && props.to === "/projects");
 
         return (
             <Link

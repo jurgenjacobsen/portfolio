@@ -7,6 +7,7 @@ import Projects from "@/pages/Projects";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
 import Socials from "@/pages/Socials";
+import ProjectView from "@/pages/ProjectView";
 
 function App() {
     return (
@@ -17,7 +18,9 @@ function App() {
                 <div className="flex-1 py-0 md:py-8">
                     <Routes>
                         <Route path="/" element={<Home />} />
+                        <Route path="/projects/:projectSlug" element={<ProjectView />} />
                         <Route path="/projects" element={<Projects />} />
+
                         <Route path="/about" element={<About />} />
                         <Route path="/contact" element={<Contact />} />
                         <Route path="/socials" element={<Socials />} />
