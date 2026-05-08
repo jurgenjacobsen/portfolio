@@ -1,7 +1,7 @@
 [
   {
     "filename": "hello-world.md",
-    "slug": null,
+    "slug": "hello-world",
     "title": "Hello World",
     "createdAt": "2026-05-05T00:00:00.000Z",
     "updatedAt": "2026-05-05T00:00:00.000Z",
