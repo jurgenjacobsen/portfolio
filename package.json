@@ -5,10 +5,11 @@
     "type": "module",
     "scripts": {
         "dev": "vite --host",
-        "build": "node scripts/sitemap.js && tsc -b && vite build",
+        "build": "npm run sitemap:update && npm run projects:update && tsc -b && vite build",
         "lint": "eslint .",
         "prettier": "prettier --write .",
-        "projects:update": "node scripts/project-index.js"
+        "projects:update": "node scripts/project-index.js",
+        "sitemap:update": "node scripts/sitemap.js"
     },
     "dependencies": {
         "@fontsource-variable/inter": "^5.2.8",
