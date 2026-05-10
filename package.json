@@ -5,10 +5,11 @@
     "type": "module",
     "scripts": {
         "dev": "vite --host",
-        "build": "npm run sitemap:update && npm run projects:update && tsc -b && vite build",
+        "build": "npm run sitemap:update && npm run projects:update && npm run rss:update && tsc -b && vite build",
         "lint": "eslint .",
         "prettier": "prettier --write .",
         "projects:update": "node scripts/project-index.js",
+        "rss:update": "node scripts/generate-rss.js",
         "sitemap:update": "node scripts/sitemap.js"
     },
     "dependencies": {

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jürgen Jacobsen - Projects</title>
+    <link>https://jurgen.fyi/projects</link>
+    <description>Latest projects and blog posts from Jürgen Jacobsen</description>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 10 May 2026 18:12:49 GMT</lastBuildDate>
+    <atom:link href="https://jurgen.fyi/rss.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title><![CDATA[Hello World]]></title>
+      <link>https://jurgen.fyi/projects/hello-world</link>
+      <guid isPermaLink="true">https://jurgen.fyi/projects/hello-world</guid>
+      <pubDate>Tue, 05 May 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[This is the first post to my list of projects. It is a simple example for this page, further development will be done in the future. Stay tuned for more updates and projects!]]></description>
+    </item>
+  </channel>
+</rss>
