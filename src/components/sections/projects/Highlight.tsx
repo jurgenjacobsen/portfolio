@@ -4,10 +4,13 @@ import GithubIcon from "../../icons/Github";
 import { Icon, type IconId } from "@/components/ui/icon";
 import type { ProjectProps } from "@/pages/Projects";
 import { SectionCard } from "@/components/ui";
+import { useNavigate } from "react-router-dom";
 
 export default function ProjectHighlight(props: { projects: ProjectProps[] }) {
     const projects: ProjectProps[] = props.projects;
     
+    const navigate = useNavigate();
+
     return (
         <SectionCard className="space-y-6">
             <header className="space-y-4">
@@ -64,28 +67,25 @@ export default function ProjectHighlight(props: { projects: ProjectProps[] }) {
                                 </div>
                             </div>
                             <div className="flex gap-2 shrink-0">
-                                <Button
+                                {projects[0]?.github && <Button
                                     variant="outline"
                                     size="icon"
                                     className="rounded-xl size-9 cursor-pointer hover:opacity-75 "
-                                    onClick={() =>
-                                        window.open(
-                                            projects[0]?.github,
-                                            "_blank",
-                                        )
-                                    }
+                                    onClick={() => {
+                                        window.open(projects[0]?.github, "_blank");
+                                    }}
                                 >
                                     <GithubIcon className="size-4 fill-foreground" />
-                                </Button>
-                                <Button
+                                </Button>}
+                                {projects[0]?.slug && <Button
                                     size="icon"
                                     className="rounded-xl size-9 cursor-pointer"
                                     onClick={() =>
-                                        window.open(projects[0]?.link, "_blank")
+                                        navigate(`/projects/${projects[0].slug}`)
                                     }
                                 >
                                     <ExternalLinkIcon className="size-4" />
-                                </Button>
+                                </Button>}
                             </div>
                         </div>
                         <p className="text-sm md:text-base text-muted-foreground font-medium leading-relaxed line-clamp-2 md:line-clamp-3">
