@@ -51,20 +51,35 @@ export default function Projects() {
                         ) {
                             try {
                                 const parsedUrl = new URL(project.github);
-                                const isGithubHost = parsedUrl.hostname === "github.com" && parsedUrl.protocol === "https:";
-                                if(isGithubHost) {
-                                    const params = parsedUrl.pathname.split("/").filter(Boolean);
-                                    if(params.length >= 2) {
+                                const isGithubHost =
+                                    parsedUrl.hostname === "github.com" &&
+                                    parsedUrl.protocol === "https:";
+                                if (isGithubHost) {
+                                    const params = parsedUrl.pathname
+                                        .split("/")
+                                        .filter(Boolean);
+                                    if (params.length >= 2) {
                                         const owner = params[0];
                                         const repo = params[1];
 
-                                        const repoData = await github.fetchRepo(owner, repo);
+                                        const repoData = await github.fetchRepo(
+                                            owner,
+                                            repo,
+                                        );
                                         return {
                                             ...project,
                                             stars: repoData.stargazers_count,
-                                            createdAt: repoData.created_at || project.createdAt,
-                                            updatedAt: repoData.pushed_at || repoData.updated_at || project.updatedAt,
-                                            date: project.date || repoData.pushed_at || project.updatedAt
+                                            createdAt:
+                                                repoData.created_at ||
+                                                project.createdAt,
+                                            updatedAt:
+                                                repoData.pushed_at ||
+                                                repoData.updated_at ||
+                                                project.updatedAt,
+                                            date:
+                                                project.date ||
+                                                repoData.pushed_at ||
+                                                project.updatedAt,
                                         };
                                     }
                                 }
@@ -77,7 +92,7 @@ export default function Projects() {
                         }
                         return {
                             ...project,
-                            date: project.date || project.updatedAt
+                            date: project.date || project.updatedAt,
                         };
                     }),
                 );

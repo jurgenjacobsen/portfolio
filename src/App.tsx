@@ -18,7 +18,10 @@ function App() {
                 <div className="flex-1 py-0 md:py-8">
                     <Routes>
                         <Route path="/" element={<Home />} />
-                        <Route path="/projects/:projectSlug" element={<ProjectView />} />
+                        <Route
+                            path="/projects/:projectSlug"
+                            element={<ProjectView />}
+                        />
                         <Route path="/projects" element={<Projects />} />
 
                         <Route path="/about" element={<About />} />

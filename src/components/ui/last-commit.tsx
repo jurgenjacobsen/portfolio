@@ -1,6 +1,6 @@
-import { GithubClient, type GithubCommit } from "@/lib/Github"
-import { useEffect, useState } from "react"
-import { GithubIcon } from "../icons"
+import { GithubClient, type GithubCommit } from "@/lib/Github";
+import { useEffect, useState } from "react";
+import { GithubIcon } from "../icons";
 
 export default function LastCommit() {
     const [lastCommit, setLastCommit] = useState<GithubCommit>();
@@ -9,7 +9,8 @@ export default function LastCommit() {
     useEffect(() => {
         const client = new GithubClient();
 
-        client.fetchCommits("jurgenjacobsen", "portfolio")
+        client
+            .fetchCommits("jurgenjacobsen", "portfolio")
             .then((commits) => {
                 if (commits.length > 0) {
                     setLastCommit(commits[0]);
@@ -17,7 +18,7 @@ export default function LastCommit() {
             })
             .catch((err) => console.error("Failed to fetch last commit", err))
             .finally(() => setLoading(false));
-    }, [])
+    }, []);
 
     return (
         <span className="flex items-center gap-2 text-sm font-normal text-muted-foreground group py-2 px-4 bg-card rounded-xl border border-border overflow-hidden">
@@ -36,9 +37,11 @@ export default function LastCommit() {
                         {lastCommit.commit.message}
                     </a>
                 ) : (
-                    <span className="text-xs italic opacity-50">Unavailable</span>
+                    <span className="text-xs italic opacity-50">
+                        Unavailable
+                    </span>
                 )}
             </span>
         </span>
-    )
+    );
 }

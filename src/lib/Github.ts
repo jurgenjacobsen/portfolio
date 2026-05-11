@@ -27,17 +27,17 @@ export interface GithubCommit {
             name: string;
             email: string;
             date: string;
-        }
+        };
         committer: {
             name: string;
             email: string;
             date: string;
-        }
+        };
         message: string;
         tree: {
             sha: string;
             url: string;
-        }
+        };
         url: string;
     };
     url: string;
@@ -52,7 +52,7 @@ export interface GithubCommit {
     };
     parents: {
         sha: string;
-        url: string;        
+        url: string;
     }[];
 }
 

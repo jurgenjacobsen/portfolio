@@ -1,6 +1,11 @@
 export default function PythonIcon(props: React.SVGProps<SVGSVGElement>) {
     return (
-        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <svg
+            viewBox="0 0 32 32"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            {...props}
+        >
             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
             <g
                 id="SVGRepo_tracerCarrier"

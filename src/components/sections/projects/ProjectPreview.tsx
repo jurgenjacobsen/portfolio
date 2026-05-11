@@ -5,14 +5,14 @@ import { StarIcon } from "lucide-react";
 
 export default function ProjectPreview({ project }: { project: ProjectProps }) {
     return (
-        <Link 
+        <Link
             to={`/projects/${project.slug}`}
             className="group block bg-card rounded-xl p-6 shadow-md"
         >
             <div className="relative aspect-video mb-4 overflow-hidden rounded-lg bg-muted">
                 {project.image ? (
-                    <img 
-                        src={project.image} 
+                    <img
+                        src={project.image}
                         alt={project.title}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
@@ -28,22 +28,18 @@ export default function ProjectPreview({ project }: { project: ProjectProps }) {
                     </div>
                 )}
             </div>
-            
+
             <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors line-clamp-1">
                 {project.title}
             </h3>
-            
+
             <p className="text-sm text-muted-foreground line-clamp-2 mb-4 h-10">
                 {project.description}
             </p>
-            
+
             <div className="flex flex-wrap gap-2 mt-auto text-[10px] font-semibold">
                 {project.tags.slice(0, 2).map((tag, i) => (
-                    <ProjectTag 
-                        key={i} 
-                        tag={tag} 
-                        icon={tag}
-                    />
+                    <ProjectTag key={i} tag={tag} icon={tag} />
                 ))}
                 {project.tags.length > 2 && (
                     <span className="text-muted-foreground self-center ml-1">

@@ -16,6 +16,7 @@ import YoutubeIcon from "./Youtube";
 import LinkedinIcon from "./Linkedin";
 import DjangoIcon from "./Django";
 import PythonIcon from "./Python";
+import TailwindCSS from "./Tailwind";
 
 export {
     ReactIcon,
@@ -36,4 +37,5 @@ export {
     LinkedinIcon,
     DjangoIcon,
     PythonIcon,
+    TailwindCSS,
 };

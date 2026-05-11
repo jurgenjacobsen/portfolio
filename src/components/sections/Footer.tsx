@@ -34,13 +34,24 @@ export default function Footer() {
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectGroup>
-                                    <SelectItem value="en" className="cursor-pointer">
+                                    <SelectItem
+                                        value="en"
+                                        className="cursor-pointer"
+                                    >
                                         English
                                     </SelectItem>
-                                    <SelectItem value="de" disabled className="cursor-pointer">
+                                    <SelectItem
+                                        value="de"
+                                        disabled
+                                        className="cursor-pointer"
+                                    >
                                         Deutsch
                                     </SelectItem>
-                                    <SelectItem value="pt-br" disabled className="cursor-pointer">
+                                    <SelectItem
+                                        value="pt-br"
+                                        disabled
+                                        className="cursor-pointer"
+                                    >
                                         Português
                                     </SelectItem>
                                 </SelectGroup>
@@ -59,15 +70,15 @@ export default function Footer() {
                         </h3>
                         <ul className="space-y-2">
                             <li>
-                                <a 
-                                    href="/rss.xml" 
-                                    target="_blank" 
+                                <a
+                                    href="/rss.xml"
+                                    target="_blank"
                                     rel="noopener noreferrer"
                                     className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors duration-300"
-                                    >
-                                        <Icon id="RssIcon" className="w-4 h-4" />
-                                        RSS Feed
-                                    </a>
+                                >
+                                    <Icon id="RssIcon" className="w-4 h-4" />
+                                    RSS Feed
+                                </a>
                             </li>
                         </ul>
                     </div>

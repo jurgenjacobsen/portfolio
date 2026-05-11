@@ -1,4 +1,5 @@
 # Jürgen
+
 My personal portfolio website. It showcases my projects, skills, and experience in web development.
 
 [![wakatime](https://wakatime.com/badge/user/010adc07-6382-419f-87bc-0b3f507ee495/project/40495962-a255-4ec9-bd9d-e568a325077e.svg)](https://wakatime.com/badge/user/010adc07-6382-419f-87bc-0b3f507ee495/project/40495962-a255-4ec9-bd9d-e568a325077e)
@@ -24,8 +25,10 @@ My personal portfolio website. It showcases my projects, skills, and experience 
 - [ ] Multi Locale Support
 
 ### Built With
-- https://ui.shadcn.com/docs/components 
+
+- https://ui.shadcn.com/docs/components
 - https://www.tech-stack-icons.com/
 
 ### License
-This project is licensed under the  GNU Affero General Public License - see the [LICENSE](LICENSE) file for details.
+
+This project is licensed under the GNU Affero General Public License - see the [LICENSE](LICENSE) file for details.
