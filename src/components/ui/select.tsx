@@ -42,7 +42,7 @@ function SelectTrigger({
             data-slot="select-trigger"
             data-size={size}
             className={cn(
-                `flex w-fit items-center justify-between gap-1.5 rounded-xl bg-card px-4 py-2 text-sm font-bold tracking-tight border border-border transition-all outline-none 
+                `flex w-fit items-center justify-between gap-1.5 rounded-xl font-semibold bg-card px-4 py-2 text-sm tracking-tight border border-border transition-all outline-none 
                 disabled:cursor-not-allowed disabled:opacity-50 data-placeholder:text-muted-foreground 
                   *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center 
                 *:data-[slot=select-value]:gap-1.5 hover:bg-muted/25 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4`,
@@ -103,7 +103,7 @@ function SelectLabel({
         <SelectPrimitive.Label
             data-slot="select-label"
             className={cn(
-                "px-3 py-2 text-xs font-bold uppercase tracking-wider text-muted-foreground/70",
+                "px-3 py-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground/70",
                 className,
             )}
             {...props}
@@ -120,7 +120,7 @@ function SelectItem({
         <SelectPrimitive.Item
             data-slot="select-item"
             className={cn(
-                "relative flex w-full cursor-default items-center gap-2.5 rounded-lg py-2 pr-8 pl-3 text-sm font-bold tracking-tight outline-none select-none focus:bg-muted/50 focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+                "relative flex w-full cursor-default items-center gap-2.5 rounded-lg py-2 pr-8 pl-3 text-sm font-semibold tracking-tight outline-none select-none focus:bg-muted/50 focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
                 className,
             )}
             {...props}

@@ -90,6 +90,20 @@ function Root() {
                         >
                             <AudioWaveform className="w-4 h-4" /> Animations
                         </ContextMenuCheckboxItem>
+
+                        {/*<ContextMenuCheckboxItem
+                            checked={nightMode}
+                            onCheckedChange={() => {}}
+                        >
+                            {
+                                nightMode ? (
+                                    <><Sun className="w-4 h-4" /> Light Mode</>
+                                ) : (
+                                    <><Moon className="w-4 h-4" /> Dark Mode</>
+                                )
+                            }
+
+                        </ContextMenuCheckboxItem> */}
                     </ContextMenuGroup>
                 </ContextMenuContent>
             </ContextMenu>

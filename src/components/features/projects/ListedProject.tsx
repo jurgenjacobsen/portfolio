@@ -1,8 +1,8 @@
 import { StarIcon } from "lucide-react";
 import type { ProjectProps } from "@/pages/Projects";
-import { Icon, type IconId } from "@/components/ui/icon";
+import { Icon, type IconId } from "@/components/shared/icon";
 import { Link } from "react-router-dom";
-import ProjectTag from "@/components/ui/project-tag";
+import ProjectTag from "@/components/shared/project-tag";
 
 export default function ListedProject({ project }: { project: ProjectProps }) {
     const formatDate = (dateString?: Date | string) => {

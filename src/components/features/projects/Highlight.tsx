@@ -1,9 +1,7 @@
 import { ExternalLinkIcon, LibraryBigIcon } from "lucide-react";
-import { Button } from "../../ui/button";
-import GithubIcon from "../../icons/Github";
-import { Icon, type IconId } from "@/components/ui/icon";
+import { Button } from "@/components/ui";
+import { Icon, type IconId, SectionCard } from "@/components/shared";
 import type { ProjectProps } from "@/pages/Projects";
-import { SectionCard } from "@/components/ui";
 import { useNavigate } from "react-router-dom";
 
 export default function ProjectHighlight(props: { projects: ProjectProps[] }) {
@@ -83,7 +81,10 @@ export default function ProjectHighlight(props: { projects: ProjectProps[] }) {
                                             );
                                         }}
                                     >
-                                        <GithubIcon className="size-4 fill-foreground" />
+                                        <Icon
+                                            id="github"
+                                            className="size-4 fill-foreground"
+                                        />
                                     </Button>
                                 )}
                                 {projects[0]?.slug && (

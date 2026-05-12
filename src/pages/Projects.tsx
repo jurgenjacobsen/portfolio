@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
-import ProjectHighlight from "@/components/sections/projects/Highlight";
-import ProjectsList from "@/components/sections/projects/List";
 import { GithubClient } from "@/lib/Github";
+import ProjectHighlight from "@/components/features/projects/Highlight";
+import ProjectsList from "@/components/features/projects/List";
 
 export type ProjectProps = {
     title: string;

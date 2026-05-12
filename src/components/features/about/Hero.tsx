@@ -1,5 +1,6 @@
 import { UserIcon, GraduationCapIcon, MapPinIcon } from "lucide-react";
-import { SectionCard, Skeleton } from "@/components/ui";
+import { Skeleton } from "@/components/ui";
+import { SectionCard } from "@/components/shared";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 

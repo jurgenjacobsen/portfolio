@@ -1,5 +1,4 @@
 import {
-    Icon,
     Select,
     SelectContent,
     SelectGroup,
@@ -7,7 +6,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui";
-import LastCommit from "../ui/last-commit";
+import { LastCommit, Icon } from "@/components/shared";
 
 export default function Footer() {
     return (

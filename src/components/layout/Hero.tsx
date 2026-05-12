@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { ExternalLink, MailIcon, SparklesIcon } from "lucide-react";
-
-import { Skeleton } from "../ui/skeleton";
 import { cn } from "@/lib/utils";
-import { Icon, SectionCard, type IconId } from "../ui";
+import { Skeleton } from "@/components/ui";
+import { SectionCard, Icon, type IconId } from "@/components/shared";
 import { useNavigate } from "react-router-dom";
 
 type TechStackItem = {
@@ -16,16 +15,12 @@ export default function Hero() {
     const navigate = useNavigate();
     const [imageLoaded, setImageLoaded] = useState(false);
     const techstack: TechStackItem[] = [
-        { name: "ReactTS", icon: "react" },
         { name: "TypeScript", icon: "typescript" },
-        { name: "NestJS", icon: "nestjs" },
+        { name: "ReactTS", icon: "react" },
         { name: "Vue", icon: "vue" },
-        { name: "GoLang", icon: "go" },
-        { name: "PostgreSQL", icon: "postgresql" },
-        { name: ".NET", icon: "dotnet" },
-        { name: "C#", icon: "csharp" },
+        { name: "TailwindCSS", icon: "tailwindcss" },
+        { name: "NestJS", icon: "nestjs" },
         { name: "MongoDB", icon: "mongodb" },
-        { name: "Supabase", icon: "supabase" },
     ];
 
     return (

@@ -1,5 +1,5 @@
-import { SectionCard } from "@/components/ui";
-import ProjectTag from "@/components/ui/project-tag";
+import { SectionCard } from "@/components/shared";
+import ProjectTag from "@/components/shared/project-tag";
 import type { ProjectProps } from "@/pages/Projects";
 
 export default function ProjectViewHeader(props: { metadata: ProjectProps }) {

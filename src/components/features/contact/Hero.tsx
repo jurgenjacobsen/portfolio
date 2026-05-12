@@ -5,7 +5,7 @@ import {
     MapPinIcon,
     BriefcaseIcon,
 } from "lucide-react";
-import { SectionCard, Icon } from "@/components/ui";
+import { SectionCard, Icon } from "@/components/shared";
 
 export default function ContactHero() {
     return (

@@ -1,5 +1,5 @@
 import { GithubIcon, InstagramIcon, LinkedinIcon } from "@/components/icons";
-import { SectionCard } from "@/components/ui";
+import { SectionCard } from "@/components/shared";
 import { MailboxIcon, UsersRound } from "lucide-react";
 
 export const socials_links = [

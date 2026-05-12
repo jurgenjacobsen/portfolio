@@ -2,11 +2,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState, useMemo } from "react";
 import ReactMarkdown from "react-markdown";
 import fm from "front-matter";
-import { SectionCard } from "@/components/ui";
-import type { ProjectProps } from "./Projects";
+import { SectionCard } from "@/components/shared";
+import type { ProjectProps } from "../Projects";
 import remarkGfm from "remark-gfm";
-import ProjectViewHeader from "@/components/sections/projects/ProjectViewHeader";
-import ProjectPreview from "@/components/sections/projects/ProjectPreview";
+import ProjectViewHeader from "@/components/features/projects/ProjectViewHeader";
+import ProjectPreview from "@/components/features/projects/ProjectPreview";
 
 export default function ProjectView() {
     const { projectSlug } = useParams();

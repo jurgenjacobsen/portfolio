@@ -1,5 +1,5 @@
-import AboutHero from "@/components/sections/about/Hero";
-import Curriculum from "@/components/sections/about/Curriculum";
+import AboutHero from "@/components/features/about/Hero";
+import Curriculum from "@/components/features/about/Curriculum";
 
 export default function About() {
     return (

@@ -4,7 +4,7 @@ import {
     Code2Icon,
     CalendarIcon,
 } from "lucide-react";
-import { SectionCard } from "@/components/ui";
+import { SectionCard } from "@/components/shared";
 
 const EXPERIENCE = [
     {

@@ -1,4 +1,4 @@
-import ContactHero from "@/components/sections/contact/Hero";
+import ContactHero from "@/components/features/contact/Hero";
 
 export default function Contact() {
     return (

@@ -1,7 +1,7 @@
-import ListHeader from "@/components/ui/list-header";
+import ListHeader from "./ListHeader";
 import type { ProjectProps } from "@/pages/Projects";
 import ListedProject from "./ListedProject";
-import { SectionCard } from "@/components/ui";
+import { SectionCard } from "@/components/shared";
 
 interface ProjectsListProps {
     projects: ProjectProps[];
