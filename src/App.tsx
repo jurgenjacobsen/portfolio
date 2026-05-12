@@ -6,6 +6,7 @@ import Projects from "@/pages/Projects";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
 import Socials from "@/pages/Socials";
+import NotFound from "@/pages/NotFound";
 import { ProjectView } from "@/pages/subpages";
 
 function App() {
@@ -26,7 +27,7 @@ function App() {
                         <Route path="/contact" element={<Contact />} />
                         <Route path="/socials" element={<Socials />} />
 
-                        <Route path="*" element={<Home />} />
+                        <Route path="*" element={<NotFound />} />
                     </Routes>
                 </div>
                 <Footer />

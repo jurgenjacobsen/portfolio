@@ -40,7 +40,7 @@ export default function ProjectHighlight(props: { projects: ProjectProps[] }) {
                 <div
                     className={`${projects.length <= 1 ? "" : "md:col-span-2"}  group relative overflow-hidden rounded-xl border border-border bg-card transition-all animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both`}
                 >
-                    <div className="aspect-video md:aspect-3/1 w-full overflow-hidden">
+                    <div className="aspect-3/1 w-full overflow-hidden">
                         <img
                             src={projects[0]?.image}
                             alt={projects[0]?.title}

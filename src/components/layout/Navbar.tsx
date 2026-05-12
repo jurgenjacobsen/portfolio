@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Contact2Icon, HomeIcon, InfoIcon, LibraryBigIcon } from "lucide-react";
+import { Contact2Icon, FileUser, HomeIcon, InfoIcon, LibraryBigIcon } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
@@ -77,6 +77,12 @@ export default function Navbar() {
                         </NavbarButton>
                     </li>
                     <li>
+                        <NavbarButton to="/cv">
+                            <FileUser className="size-4 group-hover:scale-105 transition-transform" />
+                            <span>CV</span>
+                        </NavbarButton>
+                    </li>
+                    <li>
                         <NavbarButton to="/contact">
                             <Contact2Icon className="size-4 group-hover:scale-105 transition-transform" />
                             <span>Contact</span>
@@ -143,6 +149,13 @@ export default function Navbar() {
                     >
                         <LibraryBigIcon className="size-4" />
                         <span className="font-bold">Projects</span>
+                    </NavbarButton>
+                    <NavbarButton
+                        to="/cv"
+                        className="w-full justify-start py-2 px-4 border-none hover:bg-primary/5"
+                    >
+                        <FileUser className="size-4" />
+                        <span className="font-bold">CV</span>
                     </NavbarButton>
                     <NavbarButton
                         to="/contact"

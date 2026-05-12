@@ -83,17 +83,17 @@ export default function ListedProject({ project }: { project: ProjectProps }) {
     }
 
     return (
-        <div className="group p-4 md:p-6 rounded-2xl border border-border bg-card/50 hover:bg-card transition-colors">
+        <div className="group p-4 md:p-6 rounded-xl border border-border">
             <div className="flex flex-col md:grid md:grid-cols-4 gap-6 items-start">
-                <div className="md:col-span-3 space-y-4 w-full">
-                    <div className="flex flex-wrap items-center gap-3">
-                        <h2 className="text-xl md:text-2xl font-black tracking-tight group-hover:text-primary transition-colors">
+                <div className="md:col-span-3 space-y-2 md:space-y-4 w-full">
+                    <div className="flex flex-wrap items-center gap-2">
+                        <h2 className="text-2xl md:text-3xl font-black tracking-tight group-hover:text-primary transition-colors">
                             {project.title}
                         </h2>
 
                         {project.stars !== undefined && project.stars > 0 && (
-                            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-600 dark:text-yellow-500">
-                                <StarIcon className="size-3.5 fill-current" />
+                            <div className="flex items-center gap-1 px-4 py-1 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-600 dark:text-yellow-500">
+                                <StarIcon className="size-4 fill-current" />
                                 <span className="text-xs font-bold">
                                     {project.stars}
                                 </span>
@@ -128,7 +128,7 @@ export default function ListedProject({ project }: { project: ProjectProps }) {
                     </div>
                 </div>
 
-                <div className="flex flex-row md:flex-col items-center gap-3 w-full md:w-auto mt-2 md:mt-0">
+                <div className="flex flex-row md:flex-col items-center gap-2 w-full md:w-auto mt-2 md:mt-0">
                     {project.github && (
                         <Button
                             icon="github"
