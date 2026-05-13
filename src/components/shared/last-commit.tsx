@@ -24,11 +24,11 @@ export default function LastCommit() {
         <span className="flex items-center gap-2 text-sm font-normal text-muted-foreground group py-2 px-4 bg-card rounded-xl border border-border overflow-hidden">
             <Icon
                 id="github"
-                className="size-4 opacity-70 group-hover:opacity-100 transition-opacity hidden xl:block"
+                className="size-4 opacity-75 group-hover:opacity-100 transition-opacity hidden xl:block"
             />
             <span className="flex items-center gap-1.5">
                 {loading ? (
-                    <span className="h-5 w-24 md:w-32 bg-muted animate-pulse rounded-sm" />
+                    <span className="h-4 w-24 md:w-32 bg-muted animate-pulse rounded-sm" />
                 ) : lastCommit ? (
                     <a
                         href={`https://github.com/jurgenjacobsen/portfolio/commit/${lastCommit.sha}`}

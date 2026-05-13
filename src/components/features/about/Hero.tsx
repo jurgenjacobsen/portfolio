@@ -1,4 +1,4 @@
-import { UserIcon, GraduationCapIcon, MapPinIcon } from "lucide-react";
+import { UserIcon, GraduationCapIcon, MapPinIcon, Printer } from "lucide-react";
 import { Skeleton } from "@/components/ui";
 import { SectionCard } from "@/components/shared";
 import { useState } from "react";
@@ -8,7 +8,7 @@ export default function AboutHero() {
     const [imageLoaded, setImageLoaded] = useState(false);
 
     return (
-        <SectionCard className="space-y-6">
+        <SectionCard className="space-y-6 print:hidden">
             <div className="flex flex-col-reverse md:flex-row gap-8 items-center md:items-start">
                 <div className="flex-1">
                     <div
@@ -52,6 +52,15 @@ export default function AboutHero() {
                                 Full-Stack Engineer
                             </span>
                         </div>
+                        <button
+                            className="flex items-center gap-2 bg-primary px-4 py-1 rounded-full text-card group cursor-pointer hover:bg-primary/75 transition-colors duration-300"
+                            onClick={() => window.print()}
+                        >
+                            <Printer className="size-4 group-hover:scale-105 transition-transform duration-300" />
+                            <span className="text-sm font-bold uppercase tracking-tight">
+                                Print CV
+                            </span>
+                        </button>
                     </div>
                 </div>
                 <div className="w-full md:w-1/3 aspect-square relative group animate-in fade-in zoom-in-95 duration-1000 delay-500 fill-mode-both">

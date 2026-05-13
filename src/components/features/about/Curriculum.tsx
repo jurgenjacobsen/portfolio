@@ -56,7 +56,7 @@ const SKILLS = [
 
 export default function Curriculum() {
     return (
-        <SectionCard className="space-y-12">
+        <SectionCard className="space-y-12 print:border-none">
             {/* Experience Section */}
             <section className="space-y-8">
                 <div className="flex items-center gap-3">
@@ -71,7 +71,7 @@ export default function Curriculum() {
                             key={index}
                             className="relative pl-8 before:absolute before:left-0 before:top-2 before:bottom-0 before:w-px before:bg-border"
                         >
-                            <div className="absolute left-[-1] top-2 size-2 rounded-full bg-primary" />
+                            <div className="absolute left-[-3.5px] top-2 size-2 rounded-full bg-primary" />
                             <div className="space-y-2">
                                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-1">
                                     <h3 className="text-xl font-bold">

@@ -11,7 +11,7 @@ import { LastCommit, Icon } from "@/components/shared";
 export default function Footer() {
     return (
         <>
-            <footer className="w-full border-t-2 border-border mt-8 py-4 px-8">
+            <footer className="w-full border-t-2 border-border mt-8 py-4 px-8 no-print">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div>
                         <h3 className="font-bold text-lg tracking-tight mb-2">

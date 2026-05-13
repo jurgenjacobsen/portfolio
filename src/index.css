@@ -137,4 +137,55 @@
         transition-duration: 0s !important;
         transition-delay: 0s !important;
     }
+
+    @media print {
+        @page {
+            margin: 0;
+            size: auto;
+        }
+        body {
+            background: white !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        .no-print {
+            display: none !important;
+        }
+        .print-only {
+            display: block !important;
+        }
+        main {
+            padding: 0 !important;
+            margin: 0 !important;
+            max-width: 100% !important;
+        }
+        /* Remove shadows and rounded corners for a cleaner print */
+        .rounded-xl,
+        .rounded-2xl,
+        .rounded-3xl,
+        .rounded-lg,
+        .rounded-md {
+            border-radius: 0 !important;
+        }
+        .shadow-md,
+        .shadow-lg,
+        .shadow-xl,
+        .shadow-sm {
+            shadow: none !important;
+            box-shadow: none !important;
+        }
+        /* Ensure text color is black for better contrast on white paper */
+        .text-muted-foreground {
+            color: #666 !important;
+        }
+        .bg-muted,
+        .bg-muted\/20 {
+            background-color: #f3f4f6 !important;
+        }
+        /* Ensure background colors are printed */
+        * {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+    }
 }

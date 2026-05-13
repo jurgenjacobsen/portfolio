@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Contact2Icon, FileUser, HomeIcon, InfoIcon, LibraryBigIcon } from "lucide-react";
+import { Contact2Icon, HomeIcon, InfoIcon, LibraryBigIcon } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
@@ -48,12 +48,12 @@ export default function Navbar() {
     }
 
     return (
-        <nav className="relative z-50">
-            <div className="rounded-xl bg-card py-3 px-5 md:px-8 flex justify-between items-center shadow-md border border-border">
+        <nav className="relative z-50 no-print">
+            <div className="rounded-xl bg-card py-2 px-4 md:px-8 flex justify-between items-center shadow-md border border-border">
                 <div className="flex items-baseline shrink-0">
                     <Link
                         to="/"
-                        className="flex items-baseline hover:opacity-80 transition-opacity"
+                        className="flex items-baseline hover:opacity-75 transition-opacity"
                     >
                         <h1 className="font-bold text-lg">Jürgen</h1>
                         <span className="opacity-50 text-sm font-medium">
@@ -74,12 +74,6 @@ export default function Navbar() {
                         <NavbarButton to="/projects">
                             <LibraryBigIcon className="size-4 group-hover:scale-105 transition-transform" />
                             <span>Projects</span>
-                        </NavbarButton>
-                    </li>
-                    <li>
-                        <NavbarButton to="/cv">
-                            <FileUser className="size-4 group-hover:scale-105 transition-transform" />
-                            <span>CV</span>
                         </NavbarButton>
                     </li>
                     <li>
@@ -126,14 +120,14 @@ export default function Navbar() {
             {/* Mobile Menu Dropdown */}
             <div
                 className={cn(
-                    "absolute top-full left-0 right-0 mt-2 z-40 bg-card/95 backdrop-blur-md md:hidden transition-all duration-300 ease-in-out border border-border rounded-xl shadow-xl overflow-hidden origin-top",
+                    "absolute top-full left-0 right-0 mt-2 z-50 bg-card backdrop-blur-md md:hidden transition-all duration-300 ease-in-out border border-border rounded-xl shadow-xl overflow-hidden origin-top",
                     isMenuOpen
                         ? "opacity-100 scale-y-100 pointer-events-auto"
                         : "opacity-0 scale-y-95 pointer-events-none",
                 )}
             >
                 <div className="flex flex-col p-4 gap-2">
-                    <div className="text-xs font-black text-muted-foreground uppercase px-2 mb-1">
+                    <div className="text-xs font-bold text-muted-foreground uppercase px-2 mb-1">
                         Navigation
                     </div>
                     <NavbarButton
@@ -149,13 +143,6 @@ export default function Navbar() {
                     >
                         <LibraryBigIcon className="size-4" />
                         <span className="font-bold">Projects</span>
-                    </NavbarButton>
-                    <NavbarButton
-                        to="/cv"
-                        className="w-full justify-start py-2 px-4 border-none hover:bg-primary/5"
-                    >
-                        <FileUser className="size-4" />
-                        <span className="font-bold">CV</span>
                     </NavbarButton>
                     <NavbarButton
                         to="/contact"
@@ -177,7 +164,7 @@ export default function Navbar() {
             {/* Backdrop for closing menu */}
             {isMenuOpen && (
                 <div
-                    className="fixed inset-0 z-30 md:hidden bg-background/20"
+                    className="fixed inset-0 z-40 md:hidden bg-background/20"
                     onClick={() => setIsMenuOpen(false)}
                 />
             )}
