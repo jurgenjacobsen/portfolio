@@ -9,7 +9,7 @@ export default function ProjectPreview({ project }: { project: ProjectProps }) {
             to={`/projects/${project.slug}`}
             className="group block bg-card rounded-xl p-6 shadow-md"
         >
-            <div className="relative aspect-video mb-4 overflow-hidden rounded-lg bg-muted">
+            <div className="relative aspect-3/1 mb-4 overflow-hidden rounded-lg bg-muted">
                 {project.image ? (
                     <img
                         src={project.image}

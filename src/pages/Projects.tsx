@@ -42,6 +42,18 @@ export default function Projects() {
 
                 const github = new GithubClient();
 
+                const getLatestDate = (date1?: string, date2?: string) => {
+                    if (!date1) return date2 || "";
+                    if (!date2) return date1 || "";
+                    return new Date(date1) > new Date(date2) ? date1 : date2;
+                };
+
+                const getEarliestDate = (date1?: string, date2?: string) => {
+                    if (!date1) return date2 || "";
+                    if (!date2) return date1 || "";
+                    return new Date(date1) < new Date(date2) ? date1 : date2;
+                };
+
                 // Fetch stars and dates for each project that has a github URL
                 const projectsWithGithubData = await Promise.all(
                     data.map(async (project) => {
@@ -66,20 +78,29 @@ export default function Projects() {
                                             owner,
                                             repo,
                                         );
+
+                                        const githubCreated =
+                                            repoData.created_at;
+                                        const githubUpdated =
+                                            repoData.pushed_at ||
+                                            repoData.updated_at;
+
+                                        const finalCreatedAt = getEarliestDate(
+                                            githubCreated,
+                                            project.createdAt,
+                                        );
+                                        const finalUpdatedAt = getLatestDate(
+                                            githubUpdated,
+                                            project.updatedAt,
+                                        );
+
                                         return {
                                             ...project,
                                             stars: repoData.stargazers_count,
-                                            createdAt:
-                                                repoData.created_at ||
-                                                project.createdAt,
-                                            updatedAt:
-                                                repoData.pushed_at ||
-                                                repoData.updated_at ||
-                                                project.updatedAt,
+                                            createdAt: finalCreatedAt,
+                                            updatedAt: finalUpdatedAt,
                                             date:
-                                                project.date ||
-                                                repoData.pushed_at ||
-                                                project.updatedAt,
+                                                project.date || finalUpdatedAt,
                                         };
                                     }
                                 }

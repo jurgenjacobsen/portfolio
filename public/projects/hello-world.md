@@ -6,7 +6,7 @@ tags: [Typescript, React, TailwindCSS]
 description: This is the first post to my list of projects. It is a simple example for this page, further development will be done in the future. Stay tuned for more updates and projects!
 highlight: true
 image: /img/hello-world.png
-github: https://github.com/jurgenjacobsen/portfolio
+github: # https://github.com/jurgenjacobsen/portfolio
 link: #
 slug: hello-world
 ---

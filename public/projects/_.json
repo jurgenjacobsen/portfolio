@@ -1,15 +1,37 @@
 [
-    {
-        "filename": "hello-world.md",
-        "slug": "hello-world",
-        "title": "Hello World",
-        "createdAt": "2026-05-05T00:00:00.000Z",
-        "updatedAt": "2026-05-11T00:00:00.000Z",
-        "tags": ["Typescript", "React", "TailwindCSS"],
-        "description": "This is the first post to my list of projects. It is a simple example for this page, further development will be done in the future. Stay tuned for more updates and projects!",
-        "highlight": true,
-        "image": "/img/hello-world.png",
-        "github": "https://github.com/jurgenjacobsen/portfolio",
-        "link": null
-    }
+  {
+    "filename": "archivum-markdown.md",
+    "slug": "archivum-markdown",
+    "title": "Archivum Markdown",
+    "createdAt": "2026-04-30T00:00:00.000Z",
+    "updatedAt": "2026-05-13T00:00:00.000Z",
+    "tags": [
+      "Go",
+      "Typescript",
+      "React",
+      "TailwindCSS"
+    ],
+    "description": "This is my first actual Go application built with Wails and React with the goal of having a light weight fast desktop app for markdown editing.",
+    "highlight": true,
+    "image": "/img/archivum-markdown.png",
+    "github": "https://github.com/jurgenjacobsen/archivum-markdown",
+    "link": null
+  },
+  {
+    "filename": "hello-world.md",
+    "slug": "hello-world",
+    "title": "Hello World",
+    "createdAt": "2026-05-05T00:00:00.000Z",
+    "updatedAt": "2026-05-11T00:00:00.000Z",
+    "tags": [
+      "Typescript",
+      "React",
+      "TailwindCSS"
+    ],
+    "description": "This is the first post to my list of projects. It is a simple example for this page, further development will be done in the future. Stay tuned for more updates and projects!",
+    "highlight": true,
+    "image": "/img/hello-world.png",
+    "github": null,
+    "link": null
+  }
 ]

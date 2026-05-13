@@ -7,6 +7,7 @@ import type { ProjectProps } from "../Projects";
 import remarkGfm from "remark-gfm";
 import ProjectViewHeader from "@/components/features/projects/ProjectViewHeader";
 import ProjectPreview from "@/components/features/projects/ProjectPreview";
+import { GithubClient } from "@/lib/Github";
 
 export default function ProjectView() {
     const { projectSlug } = useParams();
@@ -16,6 +17,18 @@ export default function ProjectView() {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
+    const getLatestDate = (date1?: string, date2?: string) => {
+        if (!date1) return date2 || "";
+        if (!date2) return date1 || "";
+        return new Date(date1) > new Date(date2) ? date1 : date2;
+    };
+
+    const getEarliestDate = (date1?: string, date2?: string) => {
+        if (!date1) return date2 || "";
+        if (!date2) return date1 || "";
+        return new Date(date1) < new Date(date2) ? date1 : date2;
+    };
+
     async function fetchProjectData() {
         try {
             const response = await fetch(`/projects/${projectSlug}.md`);
@@ -23,8 +36,54 @@ export default function ProjectView() {
 
             const rawText = await response.text();
             const { attributes, body } = fm(rawText);
+            const project = attributes as ProjectProps;
 
-            setMetadata(attributes as ProjectProps);
+            let finalMetadata = { ...project };
+
+            if (project.github && project.github.startsWith("https://github.com")) {
+                try {
+                    const parsedUrl = new URL(project.github);
+                    const isGithubHost =
+                        parsedUrl.hostname === "github.com" &&
+                        parsedUrl.protocol === "https:";
+                    if (isGithubHost) {
+                        const params = parsedUrl.pathname
+                            .split("/")
+                            .filter(Boolean);
+                        if (params.length >= 2) {
+                            const owner = params[0];
+                            const repo = params[1];
+
+                            const github = new GithubClient();
+                            const repoData = await github.fetchRepo(
+                                owner,
+                                repo,
+                            );
+
+                            const githubCreated = repoData.created_at;
+                            const githubUpdated =
+                                repoData.pushed_at || repoData.updated_at;
+
+                            finalMetadata = {
+                                ...project,
+                                stars: repoData.stargazers_count,
+                                createdAt: getEarliestDate(
+                                    githubCreated,
+                                    project.createdAt,
+                                ),
+                                updatedAt: getLatestDate(
+                                    githubUpdated,
+                                    project.updatedAt,
+                                ),
+                            };
+                        }
+                    }
+                } catch (error) {
+                    console.error("Error fetching github data:", error);
+                }
+            }
+
+            setMetadata(finalMetadata);
             setContent(body);
         } catch (err) {
             console.error("Error loading markdown:", err);

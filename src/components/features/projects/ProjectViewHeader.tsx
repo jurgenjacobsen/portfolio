@@ -25,7 +25,7 @@ export default function ProjectViewHeader(props: { metadata: ProjectProps }) {
                     />
                 )}
                 <div
-                    className={`absolute inset-0 bg-linear-to-t from-black/75 via-black/25 to-transparent opacity-75`}
+                    className={`absolute inset-0 bg-linear-to-t from-black via-black/25 to-transparent opacity-50`}
                 />
                 <div className="absolute inset-0 bottom-0 left-0 p-6 w-full flex flex-col justify-end gap-4">
                     <h1
@@ -45,7 +45,7 @@ export default function ProjectViewHeader(props: { metadata: ProjectProps }) {
                                 style={{ animationDelay: `${400 + i * 100}ms` }}
                             />
                         ))}
-                        <span className="hidden sm:inline mx-2 text-card animate-in fade-in duration-700 delay-500 fill-mode-both">
+                        <span className="hidden sm:inline mx-2 text-card animate-in fade-in duration-700 fill-mode-both" style={{ animationDelay: `${400 + (metadata?.tags.length + 1) * 100}ms` }}>
                             •
                         </span>
                         <ProjectTag
