@@ -53,7 +53,7 @@ export default function Navbar() {
                 <div className="flex items-baseline shrink-0">
                     <Link
                         to="/"
-                        className="flex items-baseline hover:opacity-75 transition-opacity"
+                        className="flex items-baseline"
                     >
                         <h1 className="font-bold text-lg">Jürgen</h1>
                         <span className="opacity-50 text-sm font-medium">

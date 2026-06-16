@@ -1,14 +1,14 @@
 ---
-title: Archivum Markdown
+title: Archivum.md
 createdAt: 2026-04-30
 updatedAt: 2026-05-13
 tags: [Go, Typescript, React, TailwindCSS]
 description: This is my first actual Go application built with Wails and React with the goal of having a light weight fast desktop app for markdown editing.
 highlight: true
-image: /img/archivum-markdown.png
-github: https://github.com/jurgenjacobsen/archivum-markdown
+image: /img/archivum-md.png
+github: https://github.com/jurgenjacobsen/archivum.md
 link: #
-slug: archivum-markdown
+slug: archivum-md
 ---
 
 # Building a High-Performance Markdown Editor with Go and React
@@ -36,14 +36,14 @@ Most Markdown editors are either too heavy (consuming gigabytes of RAM) or too s
 # How to Try It
 ## Production Environment
 You can download the latest release for your operating system from the GitHub releases page: 
-**[Archivum Markdown - Releases](https://github.com/jurgenjacobsen/archivum-markdown/releases)**
+**[Archivum Markdown - Releases](https://github.com/jurgenjacobsen/archivum.md/releases)**
 
 ## Development Environment
 If you want to explore the code or build it yourself, you'll need Go (v1.23+) and the Wails CLI.
 
 ```
 # Clone the repo
-git clone https://github.com/jurgenjacobsen/archivum-markdown
+git clone https://github.com/jurgenjacobsen/archivum.md
 
 # Run in development mode
 wails dev

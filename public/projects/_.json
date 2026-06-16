@@ -1,8 +1,8 @@
 [
   {
-    "filename": "archivum-markdown.md",
-    "slug": "archivum-markdown",
-    "title": "Archivum Markdown",
+    "filename": "archivum-md.md",
+    "slug": "archivum-md",
+    "title": "Archivum.md",
     "createdAt": "2026-04-30T00:00:00.000Z",
     "updatedAt": "2026-05-13T00:00:00.000Z",
     "tags": [
@@ -13,8 +13,8 @@
     ],
     "description": "This is my first actual Go application built with Wails and React with the goal of having a light weight fast desktop app for markdown editing.",
     "highlight": true,
-    "image": "/img/archivum-markdown.png",
-    "github": "https://github.com/jurgenjacobsen/archivum-markdown",
+    "image": "/img/archivum-md.png",
+    "github": "https://github.com/jurgenjacobsen/archivum.md",
     "link": null
   },
   {
