@@ -272,7 +272,7 @@ export default function Download(props: DownloadOptions) {
 
     if (loading) {
         return (
-            <div className="bg-background border border-border rounded-xl p-6 flex flex-col items-center justify-center gap-4 animate-pulse">
+            <div className="bg-background border border-border rounded-xl p-6 flex flex-col items-center justify-center gap-4 animate-pulse mt-6">
                 <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
                 <span className="text-sm font-medium text-muted-foreground">Checking for latest downloads...</span>
             </div>
