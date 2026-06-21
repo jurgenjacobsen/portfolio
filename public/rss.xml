@@ -5,7 +5,7 @@
     <link>https://jurgen.fyi/projects</link>
     <description>Latest projects and blog posts from Jürgen Jacobsen</description>
     <language>en-GB</language>
-    <lastBuildDate>Sun, 21 Jun 2026 15:54:32 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 21 Jun 2026 16:38:30 GMT</lastBuildDate>
     <atom:link href="https://jurgen.fyi/rss.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -13,6 +13,7 @@
       <link>https://jurgen.fyi/projects/hello-world</link>
       <guid isPermaLink="true">https://jurgen.fyi/projects/hello-world</guid>
       <pubDate>Tue, 05 May 2026 00:00:00 GMT</pubDate>
+      <atom:updated>2026-05-11T00:00:00.000Z</atom:updated>
       <description><![CDATA[This is the first post to my list of projects. It is a simple example for this page, further development will be done in the future. Stay tuned for more updates and projects!]]></description>
     </item>
     <item>
@@ -20,6 +21,7 @@
       <link>https://jurgen.fyi/projects/archivum-md</link>
       <guid isPermaLink="true">https://jurgen.fyi/projects/archivum-md</guid>
       <pubDate>Thu, 30 Apr 2026 00:00:00 GMT</pubDate>
+      <atom:updated>2026-05-13T00:00:00.000Z</atom:updated>
       <description><![CDATA[This is my first actual Go application built with Wails and React with the goal of having a light weight fast desktop app for markdown editing.]]></description>
     </item>
     <item>
@@ -27,6 +29,7 @@
       <link>https://jurgen.fyi/projects/tld-helper</link>
       <guid isPermaLink="true">https://jurgen.fyi/projects/tld-helper</guid>
       <pubDate>Thu, 30 Apr 2026 00:00:00 GMT</pubDate>
+      <atom:updated>2026-06-07T00:00:00.000Z</atom:updated>
       <description><![CDATA[An interactive CLI tool to explore domain extensions. It allows you to fetch domain extensions and WHOIS information.]]></description>
     </item>
   </channel>

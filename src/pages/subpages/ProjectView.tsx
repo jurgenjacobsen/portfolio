@@ -1,14 +1,68 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState, useMemo } from "react";
 import ReactMarkdown from "react-markdown";
-import fm from "front-matter";
 import { SectionCard } from "@/components/shared";
 import type { ProjectProps } from "../Projects";
-import remarkGfm from "remark-gfm";
+import remarkGfmPlugin from "remark-gfm";
+const remarkGfm = (remarkGfmPlugin as any).default || remarkGfmPlugin;
 import ProjectViewHeader from "@/components/features/projects/ProjectViewHeader";
 import ProjectPreview from "@/components/features/projects/ProjectPreview";
 import { GithubClient } from "@/lib/Github";
 import Download from "@/components/features/projects/Download";
+
+function parseFrontMatter(text: string): { attributes: any; body: string } {
+    const regex = /^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/;
+    const match = text.match(regex);
+    
+    const attributes: any = {};
+    let body = text;
+    
+    if (match) {
+        const yamlSection = match[1];
+        body = match[2];
+        
+        const lines = yamlSection.split('\n');
+        for (const line of lines) {
+            const trimLine = line.trim();
+            if (!trimLine || trimLine.startsWith('#')) continue;
+            
+            const colonIndex = trimLine.indexOf(':');
+            if (colonIndex !== -1) {
+                const key = trimLine.substring(0, colonIndex).trim();
+                let val = trimLine.substring(colonIndex + 1).trim();
+                
+                // Remove optional surrounding quotes
+                if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+                    val = val.substring(1, val.length - 1);
+                }
+                
+                // Parse values
+                if (val.toLowerCase() === 'true') {
+                    attributes[key] = true;
+                } else if (val.toLowerCase() === 'false') {
+                    attributes[key] = false;
+                } else if (val.toLowerCase() === 'null' || val === '~') {
+                    attributes[key] = null;
+                } else if (val.startsWith('[') && val.endsWith(']')) {
+                    attributes[key] = val
+                        .substring(1, val.length - 1)
+                        .split(',')
+                        .map(item => item.trim())
+                        .filter(Boolean);
+                } else {
+                    if (val.includes('#') && !val.includes('://')) {
+                        const cleanVal = val.split('#')[0].trim();
+                        attributes[key] = cleanVal === '' ? null : cleanVal;
+                    } else {
+                        attributes[key] = val;
+                    }
+                }
+            }
+        }
+    }
+    
+    return { attributes, body };
+}
 
 export default function ProjectView() {
     const { projectSlug } = useParams();
@@ -36,7 +90,7 @@ export default function ProjectView() {
             if (!response.ok) return navigate("/projects");
 
             const rawText = await response.text();
-            const { attributes, body } = fm(rawText);
+            const { attributes, body } = parseFrontMatter(rawText);
             const project = attributes as ProjectProps;
 
             let finalMetadata = { ...project };

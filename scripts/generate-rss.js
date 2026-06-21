@@ -22,6 +22,7 @@ function generateRSS() {
             .map((project) => {
                 const url = `${BASE_URL}/projects/${project.slug}`;
                 const date = new Date(project.createdAt).toUTCString();
+                const updatedDate = new Date(project.updatedAt || project.createdAt).toISOString();
 
                 return `
     <item>
@@ -29,6 +30,7 @@ function generateRSS() {
       <link>${url}</link>
       <guid isPermaLink="true">${url}</guid>
       <pubDate>${date}</pubDate>
+      <atom:updated>${updatedDate}</atom:updated>
       <description><![CDATA[${project.description}]]></description>
     </item>`;
             })
