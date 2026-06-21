@@ -126,8 +126,6 @@ export default function ProjectView() {
 
     if (loading) return <div>Loading...</div>;
 
-    console.log(metadata);
-
     return (
         <div className="space-y-8">
             <ProjectViewHeader metadata={metadata!} />

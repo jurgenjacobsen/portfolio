@@ -133,6 +133,12 @@
         text-decoration: none !important;
     }
 
+    article pre:has(code) {
+        background-color: var(--color-background) !important;
+        color: var(--color-primary) !important;
+        user-select: text !important;
+    }
+
     [data-animations="disabled"] *:not(.animate-essential),
     [data-animations="disabled"] *:not(.animate-essential)::before,
     [data-animations="disabled"] *:not(.animate-essential)::after {
