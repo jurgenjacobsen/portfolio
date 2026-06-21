@@ -56,6 +56,26 @@ export interface GithubCommit {
     }[];
 }
 
+export interface GithubReleaseAsset {
+    id: number;
+    name: string;
+    browser_download_url: string;
+    size: number;
+    download_count: number;
+}
+
+export interface GithubRelease {
+    id: number;
+    tag_name: string;
+    name: string;
+    body: string;
+    draft: boolean;
+    prerelease: boolean;
+    created_at: string;
+    published_at: string;
+    assets: GithubReleaseAsset[];
+}
+
 export class GithubClient {
     private token: string | undefined;
     private baseUrl: string;
@@ -111,6 +131,23 @@ export class GithubClient {
             `${this.baseUrl}/repos/${owner}/${repo}/commits?per_page=1`,
             { headers },
         );
+        if (!res.ok) {
+            throw new Error(`GitHub API error: ${res.status}`);
+        }
+        return await res.json();
+    }
+
+    async fetchLatestRelease(owner: string, repo: string): Promise<GithubRelease> {
+        const headers: HeadersInit = {
+            Accept: "application/vnd.github+json",
+            "X-GitHub-Api-Version": "2022-11-28",
+        };
+        if (this.token) {
+            headers["Authorization"] = `Bearer ${this.token}`;
+        }
+        const res = await fetch(`${this.baseUrl}/repos/${owner}/${repo}/releases/latest`, {
+            headers,
+        });
         if (!res.ok) {
             throw new Error(`GitHub API error: ${res.status}`);
         }

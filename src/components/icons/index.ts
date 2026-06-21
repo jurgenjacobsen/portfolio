@@ -17,6 +17,9 @@ import LinkedinIcon from "./Linkedin";
 import DjangoIcon from "./Django";
 import PythonIcon from "./Python";
 import TailwindCSS from "./Tailwind";
+import WindowsIcon from "./Windows";
+import AppleIcon from "./Apple";
+import LinuxIcon from "./Linux";
 
 export {
     ReactIcon,
@@ -38,4 +41,7 @@ export {
     DjangoIcon,
     PythonIcon,
     TailwindCSS,
+    WindowsIcon,
+    AppleIcon,
+    LinuxIcon
 };

@@ -129,6 +129,10 @@
         @apply font-sans antialiased;
     }
 
+    a {
+        text-decoration: none !important;
+    }
+
     [data-animations="disabled"] *:not(.animate-essential),
     [data-animations="disabled"] *:not(.animate-essential)::before,
     [data-animations="disabled"] *:not(.animate-essential)::after {

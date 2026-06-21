@@ -18,6 +18,9 @@ export type IconId =
     | "python"
     | "django"
     | "tailwindcss"
+    | "windowsicon"
+    | "appleicon"
+    | "linuxicon"
     | keyof typeof LucideIcons;
 
 interface IconProps extends React.SVGProps<SVGSVGElement> {
@@ -46,6 +49,9 @@ export const Icon = ({ id, className, ...props }: IconProps) => {
         python: Icons.PythonIcon,
         django: Icons.DjangoIcon,
         tailwindcss: Icons.TailwindCSS,
+        windowsicon: Icons.WindowsIcon,
+        appleicon: Icons.AppleIcon,
+        linuxicon: Icons.LinuxIcon
     };
 
     // Try to find a brand icon first

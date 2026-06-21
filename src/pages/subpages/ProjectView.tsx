@@ -8,6 +8,7 @@ import remarkGfm from "remark-gfm";
 import ProjectViewHeader from "@/components/features/projects/ProjectViewHeader";
 import ProjectPreview from "@/components/features/projects/ProjectPreview";
 import { GithubClient } from "@/lib/Github";
+import Download from "@/components/features/projects/Download";
 
 export default function ProjectView() {
     const { projectSlug } = useParams();
@@ -135,6 +136,7 @@ export default function ProjectView() {
                         {content}
                     </ReactMarkdown>
                 </article>
+                {metadata?.github && <Download projectId={metadata.github} />}
             </SectionCard>
 
             {recommendations.length > 0 && (
