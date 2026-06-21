@@ -9,6 +9,10 @@ image: /img/hello-world.png
 github: # https://github.com/jurgenjacobsen/portfolio
 link: #
 slug: hello-world
+downloads: 
+    hideUnavailable: false
+    disableAll: false
+    hideDownloads: false
 ---
 
 # Hello World

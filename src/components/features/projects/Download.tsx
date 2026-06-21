@@ -285,7 +285,7 @@ export default function Download(props: DownloadOptions) {
         const fallbackUrl = repo ? `https://github.com/${repo.owner}/${repo.repo}/releases` : '#';
 
         return (
-            <div className="bg-background border border-destructive/20 rounded-xl p-6 text-center">
+            <div className="bg-background border border-border rounded-xl p-6 text-center mt-6">
                 <Icon id="AlertCircle" className="w-10 h-10 text-destructive mx-auto mb-2" />
                 <h4 className="font-bold text-foreground">Downloads Unavailable</h4>
                 <p className="text-sm text-muted-foreground mt-1 mb-4">

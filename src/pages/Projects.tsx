@@ -16,6 +16,11 @@ export type ProjectProps = {
     updatedAt: string;
     highlight?: boolean;
     slug: string;
+    downloads?: {
+        hideUnavailable?: boolean;
+        disableAll?: boolean;
+        hideDownloads?: boolean;
+    };
 };
 
 export default function Projects() {

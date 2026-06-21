@@ -15,7 +15,12 @@
     "highlight": true,
     "image": "/img/archivum-md.png",
     "github": "https://github.com/jurgenjacobsen/archivum.md",
-    "link": null
+    "link": null,
+    "downloads": {
+      "hideUnavailable": false,
+      "disableAll": false,
+      "hideDownloads": false
+    }
   },
   {
     "filename": "hello-world.md",
@@ -32,6 +37,31 @@
     "highlight": true,
     "image": "/img/hello-world.png",
     "github": null,
-    "link": null
+    "link": null,
+    "downloads": {
+      "hideUnavailable": false,
+      "disableAll": false,
+      "hideDownloads": false
+    }
+  },
+  {
+    "filename": "tld-helper.md",
+    "slug": "tld-helper",
+    "title": "TLD Helper",
+    "createdAt": "2026-04-30T00:00:00.000Z",
+    "updatedAt": "2026-06-07T00:00:00.000Z",
+    "tags": [
+      "Python"
+    ],
+    "description": "An interactive CLI tool to explore domain extensions. It allows you to fetch domain extensions and WHOIS information.",
+    "highlight": true,
+    "image": "/img/hello-world.png",
+    "github": "https://github.com/jurgenjacobsen/tld-helper",
+    "link": null,
+    "downloads": {
+      "hideUnavailable": true,
+      "disableAll": true,
+      "hideDownloads": true
+    }
   }
 ]

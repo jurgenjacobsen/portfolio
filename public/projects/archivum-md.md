@@ -9,6 +9,10 @@ image: /img/archivum-md.png
 github: https://github.com/jurgenjacobsen/archivum.md
 link: #
 slug: archivum-md
+downloads: 
+    hideUnavailable: false
+    disableAll: false
+    hideDownloads: false
 ---
 
 # Building a High-Performance Markdown Editor with Go and React

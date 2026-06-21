@@ -5,7 +5,7 @@
     <link>https://jurgen.fyi/projects</link>
     <description>Latest projects and blog posts from Jürgen Jacobsen</description>
     <language>en-GB</language>
-    <lastBuildDate>Tue, 16 Jun 2026 10:25:31 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 21 Jun 2026 15:54:32 GMT</lastBuildDate>
     <atom:link href="https://jurgen.fyi/rss.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -21,6 +21,13 @@
       <guid isPermaLink="true">https://jurgen.fyi/projects/archivum-md</guid>
       <pubDate>Thu, 30 Apr 2026 00:00:00 GMT</pubDate>
       <description><![CDATA[This is my first actual Go application built with Wails and React with the goal of having a light weight fast desktop app for markdown editing.]]></description>
+    </item>
+    <item>
+      <title><![CDATA[TLD Helper]]></title>
+      <link>https://jurgen.fyi/projects/tld-helper</link>
+      <guid isPermaLink="true">https://jurgen.fyi/projects/tld-helper</guid>
+      <pubDate>Thu, 30 Apr 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[An interactive CLI tool to explore domain extensions. It allows you to fetch domain extensions and WHOIS information.]]></description>
     </item>
   </channel>
 </rss>

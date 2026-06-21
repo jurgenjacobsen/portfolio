@@ -126,6 +126,8 @@ export default function ProjectView() {
 
     if (loading) return <div>Loading...</div>;
 
+    console.log(metadata);
+
     return (
         <div className="space-y-8">
             <ProjectViewHeader metadata={metadata!} />
@@ -136,7 +138,12 @@ export default function ProjectView() {
                         {content}
                     </ReactMarkdown>
                 </article>
-                {metadata?.github && <Download projectId={metadata.github} />}
+                {metadata?.github && !metadata.downloads?.hideDownloads && 
+                    <Download 
+                        projectId={metadata.github} 
+                        hideUnavailable={metadata.downloads?.hideUnavailable} 
+                        disableAll={metadata.downloads?.disableAll} 
+                    />}
             </SectionCard>
 
             {recommendations.length > 0 && (
