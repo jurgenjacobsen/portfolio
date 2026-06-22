@@ -5,7 +5,7 @@ updatedAt: 2026-06-07
 tags: [Python]
 description: An interactive CLI tool to explore domain extensions. It allows you to fetch domain extensions and WHOIS information.
 highlight: true
-image: /img/hello-world.png
+image: https://placehold.co/1200x400?text=TLD
 github: https://github.com/jurgenjacobsen/tld-helper
 link: #
 slug: tld-helper

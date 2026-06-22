@@ -147,20 +147,25 @@ export default function ProjectHighlight(props: { projects: ProjectProps[] }) {
                                                 ))}
                                         </div>
                                     </div>
-                                    <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <Button
-                                            size="icon"
-                                            className="rounded-xl size-8 bg-card text-black hover:bg-card/90 cursor-pointer"
-                                            onClick={() =>
-                                                window.open(
-                                                    project.link,
-                                                    "_blank",
-                                                )
-                                            }
+                                    { (project.link || project.github || project.slug) &&
+                                        <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <Button
+                                                size="icon"
+                                                className="rounded-xl size-8 bg-card text-black hover:bg-card/90 cursor-pointer"
+                                                onClick={() => {
+                                                    if (project.slug) {
+                                                    navigate(`/projects/${project.slug}`)
+                                                } else if (project.link) {
+                                                    window.open(project.link, "_blank");
+                                                } else if (project.github) {
+                                                    window.open(project.github, "_blank");
+                                                }
+                                            }}
                                         >
                                             <ExternalLinkIcon className="size-3" />
                                         </Button>
                                     </div>
+                                    }
                                 </div>
                             </div>
                         ))}
