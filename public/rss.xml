@@ -5,9 +5,17 @@
     <link>https://jurgen.fyi/projects</link>
     <description>Latest projects and blog posts from Jürgen Jacobsen</description>
     <language>en-GB</language>
-    <lastBuildDate>Mon, 22 Jun 2026 12:54:44 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 09 Jul 2026 22:26:41 GMT</lastBuildDate>
     <atom:link href="https://jurgen.fyi/rss.xml" rel="self" type="application/rss+xml" />
     
+    <item>
+      <title><![CDATA[Live Wallpaper]]></title>
+      <link>https://jurgen.fyi/projects/live-wallpaper</link>
+      <guid isPermaLink="true">https://jurgen.fyi/projects/live-wallpaper</guid>
+      <pubDate>Fri, 10 Jul 2026 00:00:00 GMT</pubDate>
+      <atom:updated>2026-07-10T00:00:00.000Z</atom:updated>
+      <description><![CDATA[A desktop application that allows users to set dynamic wallpapers on their desktop.]]></description>
+    </item>
     <item>
       <title><![CDATA[Hello World]]></title>
       <link>https://jurgen.fyi/projects/hello-world</link>

@@ -45,6 +45,28 @@
     }
   },
   {
+    "filename": "live-wallpaper.md",
+    "slug": "live-wallpaper",
+    "title": "Live Wallpaper",
+    "createdAt": "2026-07-10T00:00:00.000Z",
+    "updatedAt": "2026-07-10T00:00:00.000Z",
+    "tags": [
+      "Go",
+      "Typescript",
+      "React"
+    ],
+    "description": "A desktop application that allows users to set dynamic wallpapers on their desktop.",
+    "highlight": true,
+    "image": "https://placehold.co/1200x400?text=Live+Wallpaper",
+    "github": "https://github.com/jurgenjacobsen/live-wallpaper",
+    "link": null,
+    "downloads": {
+      "hideUnavailable": false,
+      "disableAll": false,
+      "hideDownloads": false
+    }
+  },
+  {
     "filename": "tld-helper.md",
     "slug": "tld-helper",
     "title": "TLD Helper",
