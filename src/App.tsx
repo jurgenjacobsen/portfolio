@@ -3,7 +3,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import NotFound from "@/pages/NotFound";
 
-import { Home, Projects, About, Contact, Socials } from "@/pages";
+import { Home, Projects, About, Contact, Socials, Boilerplate } from "@/pages";
 
 import { ProjectView } from "@/pages/subpages";
 
@@ -24,6 +24,8 @@ function App() {
                         <Route path="/about" element={<About />} />
                         <Route path="/contact" element={<Contact />} />
                         <Route path="/socials" element={<Socials />} />
+                        
+                        <Route path="/boilerplate" element={<Boilerplate />} />
 
                         <Route path="*" element={<NotFound />} />
                     </Routes>
