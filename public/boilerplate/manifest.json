@@ -1,0 +1,10 @@
+{
+    "version": "0.0.1",
+    "files": [
+        "PLAN.md",
+        "AGENTS.md",
+        ".prettierrc",
+        ".editorconfig",
+        "tailwind.config.js"
+    ]
+}
