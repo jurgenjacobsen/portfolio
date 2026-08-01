@@ -1,3 +1,6 @@
 {
+    "redirects": [
+        { "source": "/cv", "destination": "/CV.pdf", "permanent": true }
+    ],
     "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }
