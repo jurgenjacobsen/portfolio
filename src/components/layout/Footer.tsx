@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+import { FileTextIcon } from "lucide-react";
 import {
     Select,
     SelectContent,
@@ -67,7 +69,42 @@ export default function Footer() {
                         <h3 className="font-bold text-lg tracking-tight mb-2">
                             Resources
                         </h3>
-                        <ul className="space-y-2">
+                        <div className="flex flex-col gap-2 text-sm font-normal text-muted-foreground group py-2 px-4 bg-card rounded-xl border border-border">
+                            <ul className="space-y-2">
+                                <li>
+                                    <Link
+                                        to="/cv"
+                                        className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors duration-300"
+                                    >
+                                        <FileTextIcon className="w-4 h-4 text-primary" />
+                                        Curriculum Vitae
+                                    </Link>
+                                </li>
+                                <li>
+                                    <a
+                                        href="/rss.xml"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors duration-300"
+                                    >
+                                        <Icon id="RssIcon" className="w-4 h-4" />
+                                        RSS Feed
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        {
+                            /* 
+                            <ul className="space-y-2">
+                            <li>
+                                <Link
+                                    to="/cv"
+                                    className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors duration-300"
+                                >
+                                    <FileTextIcon className="w-4 h-4 text-primary" />
+                                    Curriculum Vitae
+                                </Link>
+                            </li>
                             <li>
                                 <a
                                     href="/rss.xml"
@@ -80,6 +117,8 @@ export default function Footer() {
                                 </a>
                             </li>
                         </ul>
+                            */
+                        }
                     </div>
                 </div>
             </footer>

@@ -4,7 +4,7 @@ import path from "path";
 const BASE_URL = "https://jurgen.fyi";
 const PAGES_DIR = path.join(process.cwd(), "src/pages");
 const OUTPUT_DIR = path.join(process.cwd(), "dist");
-const EXCLUDE_LIST = ["Socials"]; // Add any others here
+const EXCLUDE_LIST = ["Socials", "index", "subpages", "NotFound"]; // Add any others here
 
 if (!fs.existsSync(OUTPUT_DIR)) fs.mkdirSync(OUTPUT_DIR);
 

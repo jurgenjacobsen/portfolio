@@ -3,5 +3,5 @@ export { default as Projects } from "./Projects";
 export { default as About } from "./About";
 export { default as Contact } from "./Contact";
 export { default as Socials } from "./Socials";
-export { default as Boilerplate } from "./Boilerplate";
+export { default as CV } from "./CV";
 export { default as NotFound } from "./NotFound";

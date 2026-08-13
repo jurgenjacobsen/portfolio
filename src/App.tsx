@@ -1,19 +1,11 @@
-import { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import NotFound from "@/pages/NotFound";
 
-import { Home, Projects, About, Contact, Socials, Boilerplate } from "@/pages";
+import { Home, Projects, About, Contact, Socials, CV } from "@/pages";
 
 import { ProjectView } from "@/pages/subpages";
-
-function CVRedirect() {
-    useEffect(() => {
-        window.location.replace("/CV.pdf");
-    }, []);
-    return null;
-}
 
 function App() {
     return (
@@ -33,11 +25,7 @@ function App() {
                         <Route path="/contact" element={<Contact />} />
                         <Route path="/socials" element={<Socials />} />
                         
-                        <Route path="/boilerplate" element={<Boilerplate />} />
-                        <Route
-                            path="/cv"
-                            element={<CVRedirect />}
-                        />
+                        <Route path="/cv" element={<CV />} />
 
                         <Route path="*" element={<NotFound />} />
                     </Routes>
