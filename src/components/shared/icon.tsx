@@ -21,6 +21,8 @@ export type IconId =
     | "windowsicon"
     | "appleicon"
     | "linuxicon"
+    | "instagram"
+    | "facebook"
     | keyof typeof LucideIcons;
 
 interface IconProps extends React.SVGProps<SVGSVGElement> {
@@ -51,7 +53,9 @@ export const Icon = ({ id, className, ...props }: IconProps) => {
         tailwindcss: Icons.TailwindCSS,
         windowsicon: Icons.WindowsIcon,
         appleicon: Icons.AppleIcon,
-        linuxicon: Icons.LinuxIcon
+        linuxicon: Icons.LinuxIcon,
+        instagram: Icons.InstagramIcon,
+        facebook: Icons.FacebookIcon,
     };
 
     // Try to find a brand icon first

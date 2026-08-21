@@ -20,7 +20,7 @@ function generateRSS() {
 
         const items = projects
             .map((project) => {
-                const url = `${BASE_URL}/projects/${project.slug}`;
+                const url = `${BASE_URL}/code/${project.slug}`;
                 const date = new Date(project.createdAt).toUTCString();
                 const updatedDate = new Date(project.updatedAt || project.createdAt).toISOString();
 
@@ -40,7 +40,7 @@ function generateRSS() {
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Jürgen Jacobsen - Projects</title>
-    <link>${BASE_URL}/projects</link>
+    <link>${BASE_URL}/code</link>
     <description>Latest projects and blog posts from Jürgen Jacobsen</description>
     <language>en-GB</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>

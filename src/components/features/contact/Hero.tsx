@@ -97,8 +97,10 @@ export default function ContactHero() {
                         <span className="text-xs font-black uppercase tracking-widest text-muted-foreground">
                             Email
                         </span>
-                        <p className="text-base md:text-lg font-bold truncate group-hover:text-primary transition-colors">
-                            jurgenjacobsen@outlook.com
+                        <p className="text-base md:text-lg font-bold truncate group-hover:text-primary transition-colors text-primary hover:underline">
+                            <a href="mailto:jurgenjacobsen@outlook.com">
+                                jurgenjacobsen@outlook.com
+                            </a>
                         </p>
                     </div>
                 </div>
@@ -109,10 +111,10 @@ export default function ContactHero() {
                     </div>
                     <div className="space-y-1 overflow-hidden">
                         <span className="text-xs font-black uppercase tracking-widest text-muted-foreground">
-                            Availability
+                            Current Status
                         </span>
                         <p className="text-base md:text-lg font-bold group-hover:text-primary transition-colors truncate">
-                            Open for Freelance
+                            Available to hire
                         </p>
                     </div>
                 </div>

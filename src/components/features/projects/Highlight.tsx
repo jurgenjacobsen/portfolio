@@ -1,7 +1,7 @@
 import { ExternalLinkIcon, LibraryBigIcon } from "lucide-react";
 import { Button } from "@/components/ui";
 import { Icon, type IconId, SectionCard } from "@/components/shared";
-import type { ProjectProps } from "@/pages/Projects";
+import type { ProjectProps } from "@/pages/Code";
 import { useNavigate } from "react-router-dom";
 
 export default function ProjectHighlight(props: { projects: ProjectProps[] }) {
@@ -20,7 +20,7 @@ export default function ProjectHighlight(props: { projects: ProjectProps[] }) {
                     animate-in fade-in slide-in-from-bottom-4 duration-700"
                 >
                     <LibraryBigIcon className="size-3 md:size-4" />
-                    <span>Showcase</span>
+                    <span>Programming</span>
                 </div>
                 <h1 className="text-4xl md:text-6xl font-black tracking-tighter uppercase leading-[0.9] animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100 fill-mode-both">
                     HIGHLIGHTED{" "}
@@ -93,7 +93,7 @@ export default function ProjectHighlight(props: { projects: ProjectProps[] }) {
                                         className="rounded-xl size-9 cursor-pointer"
                                         onClick={() =>
                                             navigate(
-                                                `/projects/${projects[0].slug}`,
+                                                `/code/${projects[0].slug}`,
                                             )
                                         }
                                     >
@@ -154,7 +154,7 @@ export default function ProjectHighlight(props: { projects: ProjectProps[] }) {
                                                 className="rounded-xl size-8 bg-card text-black hover:bg-card/90 cursor-pointer"
                                                 onClick={() => {
                                                     if (project.slug) {
-                                                    navigate(`/projects/${project.slug}`)
+                                                    navigate(`/code/${project.slug}`)
                                                 } else if (project.link) {
                                                     window.open(project.link, "_blank");
                                                 } else if (project.github) {

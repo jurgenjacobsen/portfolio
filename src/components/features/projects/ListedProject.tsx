@@ -1,5 +1,5 @@
 import { StarIcon } from "lucide-react";
-import type { ProjectProps } from "@/pages/Projects";
+import type { ProjectProps } from "@/pages/Code";
 import { Icon, type IconId } from "@/components/shared/icon";
 import { Link } from "react-router-dom";
 import ProjectTag from "@/components/shared/project-tag";
@@ -144,7 +144,7 @@ export default function ListedProject({ project }: { project: ProjectProps }) {
                             <Button
                                 icon="BookOpen"
                                 link={
-                                    project.link || `/projects/${project.slug}`
+                                    project.link || `/code/${project.slug}`
                                 }
                                 title="Details"
                                 style="solid"

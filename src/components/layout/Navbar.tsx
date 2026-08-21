@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Contact2Icon, HomeIcon, InfoIcon, LibraryBigIcon } from "lucide-react";
+import { Code2Icon, FileTextIcon, HomeIcon, MailIcon, PlaneIcon } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
@@ -28,8 +28,8 @@ export default function Navbar() {
     }) {
         const isActive =
             location.pathname === props.to ||
-            (location.pathname.startsWith("/projects") &&
-                props.to === "/projects");
+            (location.pathname.startsWith("/code") &&
+                props.to === "/code");
 
         return (
             <Link
@@ -37,8 +37,8 @@ export default function Navbar() {
                 className={cn(
                     "py-1 px-4 rounded-lg transition-all duration-300 cursor-pointer border group inline-flex items-center gap-2",
                     isActive
-                        ? "bg-primary/5 border-primary/25 text-primary"
-                        : "border-border/50 hover:bg-primary/5 hover:border-primary/25",
+                        ? "bg-primary text-primary-foreground border-primary"
+                        : "text-primary border-border/50 hover:bg-primary/5 hover:border-primary/25",
                     props.className,
                 )}
             >
@@ -47,9 +47,17 @@ export default function Navbar() {
         );
     }
 
+    const NavbarItems = [
+        { to: "/", label: "Home", icon: HomeIcon },
+        { to: "/aviation", label: "Aviation", icon: PlaneIcon },
+        { to: "/code", label: "Code", icon: Code2Icon },
+        { to: "/cv", label: "CV", icon: FileTextIcon },
+        { to: "/contact", label: "Contact", icon: MailIcon },
+    ]
+
     return (
         <nav className="relative z-50 no-print">
-            <div className="rounded-xl bg-card py-2 px-4 md:px-8 flex justify-between items-center shadow-md border border-border">
+            <div className="rounded-xl bg-card py-2 px-4 md:px-8 flex justify-between items-center shadow-md border border-border text-sm">
                 <div className="flex items-baseline shrink-0">
                     <Link
                         to="/"
@@ -64,30 +72,14 @@ export default function Navbar() {
 
                 {/* Desktop Menu */}
                 <ul className="hidden md:flex gap-4">
-                    <li>
-                        <NavbarButton to="/">
-                            <HomeIcon className="size-4 group-hover:scale-105 transition-transform" />
-                            <span>Home</span>
-                        </NavbarButton>
-                    </li>
-                    <li>
-                        <NavbarButton to="/projects">
-                            <LibraryBigIcon className="size-4 group-hover:scale-105 transition-transform" />
-                            <span>Projects</span>
-                        </NavbarButton>
-                    </li>
-                    <li>
-                        <NavbarButton to="/contact">
-                            <Contact2Icon className="size-4 group-hover:scale-105 transition-transform" />
-                            <span>Contact</span>
-                        </NavbarButton>
-                    </li>
-                    <li>
-                        <NavbarButton to="/about">
-                            <InfoIcon className="size-4 group-hover:scale-105 transition-transform" />
-                            <span>About</span>
-                        </NavbarButton>
-                    </li>
+                    {NavbarItems.map((item) => (
+                        <li key={item.to}>
+                            <NavbarButton to={item.to}>
+                                <item.icon className="size-4 transition-transform" />
+                                <span>{item.label}</span>
+                            </NavbarButton>
+                        </li>
+                    ))}
                 </ul>
 
                 {/* Mobile Toggle Button */}
@@ -130,34 +122,16 @@ export default function Navbar() {
                     <div className="text-xs font-bold text-muted-foreground uppercase px-2 mb-1">
                         Navigation
                     </div>
-                    <NavbarButton
-                        to="/"
-                        className="w-full justify-start py-2 px-4 border-none hover:bg-primary/5"
-                    >
-                        <HomeIcon className="size-4" />
-                        <span className="font-bold">Home</span>
-                    </NavbarButton>
-                    <NavbarButton
-                        to="/projects"
-                        className="w-full justify-start py-2 px-4 border-none hover:bg-primary/5"
-                    >
-                        <LibraryBigIcon className="size-4" />
-                        <span className="font-bold">Projects</span>
-                    </NavbarButton>
-                    <NavbarButton
-                        to="/contact"
-                        className="w-full justify-start py-2 px-4 border-none hover:bg-primary/5"
-                    >
-                        <Contact2Icon className="size-4" />
-                        <span className="font-bold">Contact</span>
-                    </NavbarButton>
-                    <NavbarButton
-                        to="/about"
-                        className="w-full justify-start py-2 px-4 border-none hover:bg-primary/5"
-                    >
-                        <InfoIcon className="size-4" />
-                        <span className="font-bold">About</span>
-                    </NavbarButton>
+                    {NavbarItems.map((item) => (
+                        <NavbarButton
+                            key={item.to}
+                            to={item.to}
+                            className="w-full justify-start py-2 px-4 border-none hover:bg-primary/5"
+                        >
+                            <item.icon className="size-4" />
+                            <span className="font-bold">{item.label}</span>
+                        </NavbarButton>
+                    ))}
                 </div>
             </div>
 

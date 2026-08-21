@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
-import type { ProjectProps } from "@/pages/Projects";
+import type { ProjectProps } from "@/pages/Code";
 import { ProjectTag } from "@/components/shared";
 import { StarIcon } from "lucide-react";
 
 export default function ProjectPreview({ project }: { project: ProjectProps }) {
     return (
         <Link
-            to={`/projects/${project.slug}`}
+            to={`/code/${project.slug}`}
             className="group block bg-card rounded-xl p-6 shadow-md"
         >
             <div className="relative aspect-3/1 mb-4 overflow-hidden rounded-lg bg-muted">

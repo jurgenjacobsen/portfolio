@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState, useMemo } from "react";
 import ReactMarkdown from "react-markdown";
 import { SectionCard } from "@/components/shared";
-import type { ProjectProps } from "../Projects";
+import type { ProjectProps } from "../Code";
 import remarkGfmPlugin from "remark-gfm";
 const remarkGfm = (remarkGfmPlugin as any).default || remarkGfmPlugin;
 import ProjectViewHeader from "@/components/features/projects/ProjectViewHeader";
@@ -87,7 +87,7 @@ export default function ProjectView() {
     async function fetchProjectData() {
         try {
             const response = await fetch(`/projects/${projectSlug}.md`);
-            if (!response.ok) return navigate("/projects");
+            if (!response.ok) return navigate("/code");
 
             const rawText = await response.text();
             const { attributes, body } = parseFrontMatter(rawText);
@@ -142,7 +142,7 @@ export default function ProjectView() {
             setContent(body);
         } catch (err) {
             console.error("Error loading markdown:", err);
-            navigate("/projects");
+            navigate("/code");
         }
     }
 

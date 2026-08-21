@@ -1,1 +1,1 @@
-export { default as ProjectView } from "./ProjectView";
+export { default as CodeView } from "./CodeView";

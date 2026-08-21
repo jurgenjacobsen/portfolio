@@ -2,87 +2,74 @@ import { useState } from "react";
 import { ExternalLink, MailIcon, SparklesIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui";
-import { SectionCard, Icon, type IconId } from "@/components/shared";
+import { SectionCard } from "@/components/shared";
 import { useNavigate } from "react-router-dom";
-
-type TechStackItem = {
-    name: string;
-    icon: IconId;
-    color?: string;
-};
 
 export default function Hero() {
     const navigate = useNavigate();
     const [imageLoaded, setImageLoaded] = useState(false);
-    const techstack: TechStackItem[] = [
-        { name: "TypeScript", icon: "typescript" },
-        { name: "ReactTS", icon: "react" },
-        { name: "Vue", icon: "vue" },
-        { name: "TailwindCSS", icon: "tailwindcss" },
-        { name: "NestJS", icon: "nestjs" },
-        { name: "MongoDB", icon: "mongodb" },
-    ];
+
+    function Button({ children, onClick, type }: { children: React.ReactNode; onClick: () => void; type?: "primary" | "secondary"}) {
+        return (
+            <button
+                onClick={onClick}
+                className={`
+                group inline-flex shrink-0 items-center justify-center rounded-xl font-semibold
+                disabled:pointer-events-none disabled:opacity-50 whitespace-nowrap transition-all select-none cursor-pointer
+                px-8 py-2
+                ${type === "primary" ? "bg-primary hover:bg-primary/75 text-card duration-300 hover:border-primary/25" : "hover:bg-muted/50 border border-border hover:border-primary/25"}`}
+            >
+                {children}
+            </button>
+        );
+    }
 
     return (
-        <SectionCard className="space-y-6">
+        <SectionCard>
             <div className="flex flex-col-reverse md:flex-row gap-8 items-center md:items-start">
                 <div className="flex-1">
                     <div
                         className="
-                    inline-flex items-center gap-2 px-4 py-1.5 
-                    border border-border rounded-full 
-                    text-primary text-[10px] md:text-xs uppercase tracking-wider font-bold
-                    bg-primary/5 
-                    animate-in fade-in slide-in-from-bottom-4 duration-700"
+                        inline-flex items-center gap-2 px-4 py-1.5 
+                        border border-border rounded-full 
+                        text-primary text-[10px] md:text-xs uppercase tracking-wider font-bold
+                        bg-primary/5 
+                        animate-in fade-in slide-in-from-bottom-4 duration-700"
                     >
                         <SparklesIcon className="size-3 md:size-4 fill-primary/15" />
                         <span>Available for Hire</span>
                     </div>
-                    <div className="space-y-6 mt-4">
+                    <div className="space-y-6 mt-6">
                         <h1 className="text-4xl md:text-7xl font-black tracking-tighter animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100 fill-mode-both">
-                            CRAFTING{" "}
+                            JÜRGEN{" "}
                             <span className="text-primary italic font-serif">
-                                DIGITAL
+                                JACOBSEN
                             </span>{" "}
-                            ARCHITECTURE.
                         </h1>
-                        <p className="text-lg md:text-xl text-muted-foreground leading-relaxed font-medium animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
+                        <p className="text-lg md:text-xl  text-muted-foreground leading-relaxed font-medium animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
                             I'm{" "}
                             <span className="text-foreground font-bold underline decoration-primary/30 decoration-4 underline-offset-4">
                                 Jürgen Jacobsen
                             </span>
-                            , a Full-stack Engineer dedicated to building
-                            robust, scalable, and beautiful web applications.
+                            . I am a licensed commercial pilot with a passion for software engineering and design. 
+                            My aviation experience spans over 230 flight hours across various aircraft types.
                         </p>
                     </div>
-                    <div className="flex flex-wrap gap-4 mt-6 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both">
-                        <button
+                    <div className="text-sm flex md:flex-wrap gap-4 mt-6 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both">
+                        <Button
+                            type="primary"
                             onClick={() => navigate("/contact")}
-                            className="
-                            group inline-flex shrink-0 items-center justify-center rounded-xl font-semibold
-                            disabled:pointer-events-none disabled:opacity-50 whitespace-nowrap transition-all select-none cursor-pointer
-                            px-8 py-2 bg-primary hover:bg-primary/75 text-card duration-300 hover:border-primary/25
-                            shadow-md"
                         >
-                            <MailIcon className="size-5 mr-2 group-hover:scale-101 transition-transform duration-300" />
+                            <MailIcon className="size-5 mr-2 duration-300" />
                             Let's Talk
-                        </button>
-                        <button
-                            onClick={() => navigate("/projects")}
-                            className="
-                            group inline-flex shrink-0 items-center justify-center rounded-xl border border-border font-semibold
-                            disabled:pointer-events-none disabled:opacity-50 whitespace-nowrap transition-all select-none cursor-pointer
-                            px-8 py-2 bg-muted hover:bg-muted/50 duration-300 hover:border-primary/25"
-                        >
-                            <ExternalLink
-                                id="linkedin"
-                                className="size-5 mr-2 group-hover:scale-101 transition-transform duration-300"
-                            />
+                        </Button>
+                        <Button onClick={() => navigate("/code")}>
+                            <ExternalLink id="linkedin" className="size-5 mr-2 duration-300" />
                             View Projects
-                        </button>
+                        </Button>
                     </div>
                 </div>
-                <div className="w-full md:w-1/3 aspect-square relative group animate-in fade-in zoom-in-95 duration-1000 delay-500 fill-mode-both">
+                <div className="w-full md:w-1/4 aspect-square relative group animate-in fade-in zoom-in-95 duration-1000 delay-500 fill-mode-both">
                     <div className="absolute inset-0 bg-primary/10 rounded-xl -rotate-3 group-hover:rotate-6 transition-transform duration-500 animate-essential" />
                     {!imageLoaded && (
                         <Skeleton
@@ -97,15 +84,21 @@ export default function Hero() {
                     />
                 </div>
             </div>
-            <div className="pt-4 md:pt-10 space-y-5 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-700 fill-mode-both">
-                <div className="flex items-center gap-3 text-muted-foreground">
-                    <div className="h-px flex-1 bg-border" />
-                    <span className="text-xs font-bold uppercase tracking-[0.2em] whitespace-nowrap">
-                        Core Expertise
-                    </span>
-                    <div className="h-px flex-1 bg-border" />
-                </div>
+        </SectionCard>
+    );
+}
 
+{
+    /* 
+
+            const techstack: TechStackItem[] = [
+        { name: "TypeScript", icon: "typescript" },
+        { name: "ReactTS", icon: "react" },
+        { name: "Vue", icon: "vue" },
+        { name: "TailwindCSS", icon: "tailwindcss" },
+        { name: "NestJS", icon: "nestjs" },
+        { name: "MongoDB", icon: "mongodb" },
+    ];
                 <div className="flex flex-wrap gap-3">
                     {techstack.map((item, index) => (
                         <div
@@ -123,7 +116,5 @@ export default function Hero() {
                         </div>
                     ))}
                 </div>
-            </div>
-        </SectionCard>
-    );
+    */
 }

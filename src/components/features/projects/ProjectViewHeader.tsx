@@ -1,6 +1,6 @@
 import { SectionCard } from "@/components/shared";
 import ProjectTag from "@/components/shared/project-tag";
-import type { ProjectProps } from "@/pages/Projects";
+import type { ProjectProps } from "@/pages/Code";
 
 export default function ProjectViewHeader(props: { metadata: ProjectProps }) {
     const { metadata } = props;
