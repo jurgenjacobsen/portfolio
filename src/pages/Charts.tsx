@@ -1,9 +1,8 @@
-import { useState } from "react";
 import {
     HammerIcon,
     MapIcon,
-    SparklesIcon,
 } from "lucide-react";
+
 import { SectionCard } from "@/components/shared";
 
 export default function Charts() {
