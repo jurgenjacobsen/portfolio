@@ -94,7 +94,7 @@ export default function CV() {
                 className={`relative w-full transition-all duration-300 rounded-xl overflow-hidden border border-border bg-card shadow-lg ${
                     isFullscreen
                         ? "fixed inset-4 z-50 h-[calc(100vh-2rem)] bg-background p-4 flex flex-col"
-                        : "h-[75vh] min-h-[600px] md:min-h-[850px]"
+                        : "h-[75vh] min-h-150 md:min-h-212.5"
                 }`}
             >
                 {isFullscreen && (
