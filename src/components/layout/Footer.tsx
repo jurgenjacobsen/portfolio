@@ -14,7 +14,7 @@ function SocialMediaLink(props: { href: string; label: string; icon: React.React
         <a
             href={props.href}
             target="_blank"
-            rel="https://jurgen.fyi"
+            rel="noopener noreferrer"
             title={props.label}
             aria-label={props.label}
             className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors duration-300 p-1 rounded-lg bg-card border border-border/75 group"
