@@ -17,7 +17,14 @@
             content="Personal portfolio of Jürgen Jacobsen, showcasing software engineering projects, skills, and experience in web development."
         />
 
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+        <link rel="canonical" href="https://jurgen.fyi/" />
+
+        <!-- Preload Critical Hero Image -->
+        <link rel="preload" as="image" href="/img/profile.jpg" fetchpriority="high" />
+
         <meta name="author" content="Jürgen Jacobsen" />
+
         <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
         <meta name="theme-color" content="#171717" media="(prefers-color-scheme: dark)" />
 
@@ -30,9 +37,13 @@
             content="Personal portfolio of Jürgen Jacobsen, showcasing software engineering projects, skills, and experience in web development."
         />
         <meta property="og:image" content="https://jurgen.fyi/img/preview.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="Jürgen Jacobsen - Portfolio Preview" />
         <meta property="og:site_name" content="Jürgen Jacobsen" />
 
         <!-- Twitter -->
+        <meta property="twitter:image" content="https://jurgen.fyi/img/preview.png" />
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:url" content="https://jurgen.fyi/" />
         <meta property="twitter:title" content="Jürgen Jacobsen" />
@@ -40,7 +51,6 @@
             property="twitter:description"
             content="Personal portfolio of Jürgen Jacobsen, showcasing software engineering projects, skills, and experience in web development."
         />
-        <meta property="twitter:image" content="https://jurgen.fyi/img/preview.png" />
 
         <link rel="manifest" href="/site.webmanifest">
         <link
@@ -49,6 +59,8 @@
             title="Jürgen Jacobsen - Projects"
             href="/rss.xml"
         />
+
+        <meta name="msvalidate.01" content="1787BDA65670CBABC330602F07923C3C" />
     </head>
     <body>
         <div id="root"></div>
