@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from "react";
 import { GithubClient } from "@/lib/Github";
 import ProjectHighlight from "@/components/features/projects/Highlight";
 import ProjectsList from "@/components/features/projects/List";
+import { SEO } from "@/components/shared";
 
 export type ProjectProps = {
     title: string;
@@ -190,6 +191,11 @@ export default function Projects() {
 
     return (
         <main className="space-y-4 md:space-y-8">
+            <SEO
+                title="Software Projects & Open Source | Jürgen Jacobsen"
+                description="Explore software engineering projects, open-source tools, and applications built with TypeScript, React, Node.js, and more by Jürgen Jacobsen."
+                canonical="/code"
+            />
             {!loading && highlightedProjects.length > 0 && (
                 <ProjectHighlight projects={highlightedProjects} />
             )}
@@ -206,4 +212,5 @@ export default function Projects() {
             />
         </main>
     );
+
 }

@@ -1,12 +1,18 @@
 import { Link } from "react-router-dom";
 import { MoveLeftIcon, OctagonAlertIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SectionCard } from "@/components/shared";
+import { SectionCard, SEO } from "@/components/shared";
 
 export default function NotFound() {
     return (
         <main className="flex items-center justify-center">
+            <SEO
+                title="404 - Page Not Found | Jürgen Jacobsen"
+                description="The page you are looking for does not exist or has been moved."
+                robots="noindex, nofollow"
+            />
             <SectionCard className="w-full p-6 text-center flex flex-col items-center gap-6">
+
                 <div className="bg-destructive/15 p-4 rounded-full text-destructive">
                     <OctagonAlertIcon className="size-12" />
                 </div>

@@ -63,7 +63,7 @@ export default function Navbar() {
                         to="/"
                         className="flex items-baseline"
                     >
-                        <h1 className="font-bold text-lg">Jürgen</h1>
+                        <span className="font-bold text-lg">Jürgen</span>
                         <span className="opacity-50 text-sm font-medium">
                             .fyi
                         </span>

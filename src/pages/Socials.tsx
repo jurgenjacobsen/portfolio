@@ -1,5 +1,5 @@
 import { GithubIcon, InstagramIcon, LinkedinIcon } from "@/components/icons";
-import { SectionCard } from "@/components/shared";
+import { SectionCard, SEO } from "@/components/shared";
 import { MailboxIcon, UsersRound } from "lucide-react";
 
 export const socials_links = [
@@ -27,7 +27,12 @@ export const socials_links = [
 
 export default function Socials() {
     return (
-        <>
+        <main>
+            <SEO
+                title="Social Links & Profiles | Jürgen Jacobsen"
+                description="Connect with Jürgen Jacobsen across GitHub, LinkedIn, Instagram, and direct email."
+                canonical="/socials"
+            />
             <SectionCard className="space-y-8">
                 <header className="space-y-4">
                     <div
@@ -72,6 +77,7 @@ export default function Socials() {
                     ))}
                 </div>
             </SectionCard>
-        </>
+        </main>
     );
 }
+

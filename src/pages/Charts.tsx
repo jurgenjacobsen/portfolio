@@ -3,13 +3,19 @@ import {
     MapIcon,
 } from "lucide-react";
 
-import { SectionCard } from "@/components/shared";
+import { SectionCard, SEO } from "@/components/shared";
 
 export default function Charts() {
     return (
         <main className="space-y-6 md:space-y-8">
+            <SEO
+                title="Aeronautical Cartography & Procedure Design | Jürgen Jacobsen"
+                description="Custom aeronautical cartography and procedural chart design tailored for flight schools, visual approach plates (VAC), and flight training SOP guides."
+                canonical="/charts"
+            />
             {/* 1. Header SectionCard */}
             <SectionCard className="space-y-6">
+
                 <header className="space-y-4">
                     {/* Badge */}
                     <div className="flex flex-wrap items-center gap-2">

@@ -5,7 +5,7 @@ import {
     ExternalLinkIcon,
     PrinterIcon,
 } from "lucide-react";
-import { SectionCard } from "@/components/shared";
+import { SectionCard, SEO } from "@/components/shared";
 import { Button } from "@/components/ui/button";
 
 export default function CV() {
@@ -22,8 +22,15 @@ export default function CV() {
     };
 
     return (
-        <SectionCard className="space-y-6">
-            <header className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-border">
+        <main>
+            <SEO
+                title="Curriculum Vitae & Career Timeline | Jürgen Jacobsen"
+                description="Curriculum Vitae and career timeline of Jürgen Jacobsen. View or download the official resume spanning software engineering and aviation."
+                canonical="/cv"
+            />
+            <SectionCard className="space-y-6">
+                <header className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-border">
+
                 <div className="space-y-3">
                     <div
                         className="inline-flex items-center gap-2 px-4 py-1.5 
@@ -137,5 +144,7 @@ export default function CV() {
                 </object>
             </div>
         </SectionCard>
+    </main>
     );
 }
+

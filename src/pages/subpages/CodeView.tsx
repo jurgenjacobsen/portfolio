@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState, useMemo } from "react";
 import ReactMarkdown from "react-markdown";
-import { SectionCard } from "@/components/shared";
+import { SectionCard, SEO } from "@/components/shared";
 import type { ProjectProps } from "../Code";
 import remarkGfmPlugin from "remark-gfm";
 const remarkGfm = (remarkGfmPlugin as any).default || remarkGfmPlugin;
@@ -178,11 +178,41 @@ export default function ProjectView() {
             .map((item) => item.project);
     }, [projects, metadata, projectSlug]);
 
-    if (loading) return <div>Loading...</div>;
+    const techSummary = metadata?.tags?.length
+        ? metadata.tags.slice(0, 3).join(", ")
+        : "";
+    const pageTitle = metadata?.title
+        ? techSummary
+            ? `${metadata.title} - ${techSummary} | Jürgen Jacobsen`
+            : `${metadata.title} | Jürgen Jacobsen`
+        : "Project Details | Jürgen Jacobsen";
+    const pageDescription =
+        metadata?.description ||
+        "Project details and source code by Jürgen Jacobsen.";
+
+    if (loading) {
+        return (
+            <div>
+                <SEO
+                    title="Loading Project... | Jürgen Jacobsen"
+                    canonical={`/code/${projectSlug}`}
+                />
+                Loading...
+            </div>
+        );
+    }
 
     return (
         <div className="space-y-8">
+            <SEO
+                title={pageTitle}
+                description={pageDescription}
+                canonical={`/code/${projectSlug}`}
+                image={metadata?.image}
+                type="article"
+            />
             <ProjectViewHeader metadata={metadata!} />
+
 
             <SectionCard>
                 <article className="prose dark:prose-invert lg:prose-base max-w-none">

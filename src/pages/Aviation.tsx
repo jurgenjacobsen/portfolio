@@ -1,11 +1,17 @@
-import { SectionCard } from "@/components/shared";
+import { SectionCard, SEO } from "@/components/shared";
 import { HammerIcon, PlaneIcon } from "lucide-react";
 
 export default function Aviation() {
 
     return (
         <main className="space-y-4 md:space-y-8">
+            <SEO
+                title="Commercial Aviation & Flight Experience | Jürgen Jacobsen"
+                description="Commercial aviation journey, flight experience, and piloting credentials of Jürgen Jacobsen, licensed commercial pilot with 230+ flight hours across various aircraft types."
+                canonical="/aviation"
+            />
             <SectionCard>
+
                 <header className="space-y-4">
                     <div
                         className="inline-flex items-center gap-2 px-4 py-1.5 
