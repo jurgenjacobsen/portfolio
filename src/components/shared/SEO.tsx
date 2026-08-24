@@ -7,6 +7,7 @@ export interface SEOProps {
     image?: string;
     type?: "website" | "article";
     robots?: string;
+    jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 const SITE_URL = "https://jurgen.fyi";
@@ -23,8 +24,8 @@ export default function SEO({
     image = DEFAULT_IMAGE,
     type = "website",
     robots = DEFAULT_ROBOTS,
+    jsonLd,
 }: SEOProps) {
-
     const canonicalUrl = canonical
         ? canonical.startsWith("http")
             ? canonical
@@ -90,7 +91,22 @@ export default function SEO({
         setMetaTag("property", "twitter:url", canonicalUrl);
         setMetaTag("property", "twitter:image", imageUrl);
         setMetaTag("property", "twitter:card", "summary_large_image");
-    }, [title, description, canonicalUrl, imageUrl, type, robots]);
+
+        // Dynamic JSON-LD injection
+        const jsonLdId = "dynamic-jsonld";
+        let scriptEl = document.getElementById(jsonLdId) as HTMLScriptElement | null;
+        if (jsonLd) {
+            if (!scriptEl) {
+                scriptEl = document.createElement("script");
+                scriptEl.id = jsonLdId;
+                scriptEl.type = "application/ld+json";
+                document.head.appendChild(scriptEl);
+            }
+            scriptEl.textContent = JSON.stringify(jsonLd);
+        } else if (scriptEl) {
+            scriptEl.remove();
+        }
+    }, [title, description, canonicalUrl, imageUrl, type, robots, jsonLd]);
 
     return (
         <>
@@ -113,6 +129,17 @@ export default function SEO({
             <meta property="twitter:description" content={description} />
             <meta property="twitter:image" content={imageUrl} />
             <meta property="twitter:url" content={canonicalUrl} />
+
+            {/* Structured Data (JSON-LD) */}
+            {jsonLd && (
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify(jsonLd),
+                    }}
+                />
+            )}
         </>
     );
 }
+

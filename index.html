@@ -60,6 +60,49 @@
             href="/rss.xml"
         />
 
+        <!-- Structured Data (Schema.org / JSON-LD) -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@graph": [
+                {
+                    "@type": "WebSite",
+                    "@id": "https://jurgen.fyi/#website",
+                    "url": "https://jurgen.fyi/",
+                    "name": "Jürgen Jacobsen",
+                    "description": "Portfolio of Jürgen Jacobsen, Commercial Pilot and Software Engineer.",
+                    "inLanguage": "en-GB"
+                },
+                {
+                    "@type": "Person",
+                    "@id": "https://jurgen.fyi/#person",
+                    "name": "Jürgen Jacobsen",
+                    "url": "https://jurgen.fyi/",
+                    "image": "https://jurgen.fyi/img/profile.jpg",
+                    "jobTitle": ["Commercial Pilot", "Software Engineer"],
+                    "address": {
+                        "@type": "PostalAddress",
+                        "addressLocality": "Porto",
+                        "addressCountry": "PT"
+                    },
+                    "sameAs": [
+                        "https://github.com/jurgenjacobsen",
+                        "https://linkedin.com/in/jurgenjacobsen",
+                        "https://instagram.com/jurgen.jacobsen"
+                    ],
+                    "knowsAbout": [
+                        "Commercial Aviation",
+                        "Aeronautical Cartography",
+                        "Software Engineering",
+                        "React",
+                        "TypeScript",
+                        "Tailwind CSS"
+                    ]
+                }
+            ]
+        }
+        </script>
+
         <meta name="msvalidate.01" content="1787BDA65670CBABC330602F07923C3C" />
     </head>
     <body>
