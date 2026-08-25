@@ -195,6 +195,10 @@ export default function Projects() {
                 title="Software Projects & Open Source | Jürgen Jacobsen"
                 description="Explore software engineering projects, open-source tools, and applications built with TypeScript, React, Node.js, and more by Jürgen Jacobsen."
                 canonical="/code"
+                breadcrumbs={[
+                    { name: "Home", path: "/" },
+                    { name: "Code", path: "/code" },
+                ]}
             />
             {!loading && highlightedProjects.length > 0 && (
                 <ProjectHighlight projects={highlightedProjects} />

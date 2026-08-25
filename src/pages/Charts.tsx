@@ -12,6 +12,10 @@ export default function Charts() {
                 title="Aeronautical Cartography & Procedure Design | Jürgen Jacobsen"
                 description="Custom aeronautical cartography and procedural chart design tailored for flight schools, visual approach plates (VAC), and flight training SOP guides."
                 canonical="/charts"
+                breadcrumbs={[
+                    { name: "Home", path: "/" },
+                    { name: "Aeronautical Charts", path: "/charts" },
+                ]}
             />
             {/* 1. Header SectionCard */}
             <SectionCard className="space-y-6">

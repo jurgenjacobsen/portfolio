@@ -231,6 +231,14 @@ export default function ProjectView() {
                 canonical={`/code/${projectSlug}`}
                 image={metadata?.image}
                 type="article"
+                breadcrumbs={[
+                    { name: "Home", path: "/" },
+                    { name: "Code", path: "/code" },
+                    {
+                        name: metadata?.title || "Project Details",
+                        path: `/code/${projectSlug}`,
+                    },
+                ]}
             />
             <ProjectViewHeader metadata={metadata!} />
 

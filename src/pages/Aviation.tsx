@@ -9,6 +9,10 @@ export default function Aviation() {
                 title="Commercial Aviation & Flight Experience | Jürgen Jacobsen"
                 description="Commercial aviation journey, flight experience, and piloting credentials of Jürgen Jacobsen, licensed commercial pilot with 230+ flight hours across various aircraft types."
                 canonical="/aviation"
+                breadcrumbs={[
+                    { name: "Home", path: "/" },
+                    { name: "Aviation", path: "/aviation" },
+                ]}
             />
             <SectionCard>
 

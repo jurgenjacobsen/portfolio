@@ -1,4 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
+
+export interface BreadcrumbItem {
+    name: string;
+    path: string;
+}
 
 export interface SEOProps {
     title: string;
@@ -8,6 +13,7 @@ export interface SEOProps {
     type?: "website" | "article";
     robots?: string;
     jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+    breadcrumbs?: BreadcrumbItem[];
 }
 
 const SITE_URL = "https://jurgen.fyi";
@@ -25,6 +31,7 @@ export default function SEO({
     type = "website",
     robots = DEFAULT_ROBOTS,
     jsonLd,
+    breadcrumbs,
 }: SEOProps) {
     const isNoIndex = Boolean(robots && robots.includes("noindex"));
 
@@ -41,6 +48,46 @@ export default function SEO({
             ? image
             : `${SITE_URL}${image.startsWith("/") ? "" : "/"}${image}`
         : DEFAULT_IMAGE;
+
+    const finalJsonLd = useMemo(() => {
+        const schemas: Record<string, unknown>[] = [];
+
+        if (jsonLd) {
+            if (Array.isArray(jsonLd)) {
+                schemas.push(...jsonLd);
+            } else if (
+                typeof jsonLd === "object" &&
+                "@graph" in jsonLd &&
+                Array.isArray(jsonLd["@graph"])
+            ) {
+                schemas.push(...(jsonLd["@graph"] as Record<string, unknown>[]));
+            } else {
+                schemas.push(jsonLd);
+            }
+        }
+
+        if (breadcrumbs && breadcrumbs.length > 0) {
+            schemas.push({
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "itemListElement": breadcrumbs.map((crumb, idx) => ({
+                    "@type": "ListItem",
+                    "position": idx + 1,
+                    "name": crumb.name,
+                    "item": crumb.path.startsWith("http")
+                        ? crumb.path
+                        : `${SITE_URL}${crumb.path.startsWith("/") ? "" : "/"}${crumb.path}`,
+                })),
+            });
+        }
+
+        if (schemas.length === 0) return undefined;
+        if (schemas.length === 1) return schemas[0];
+        return {
+            "@context": "https://schema.org",
+            "@graph": schemas,
+        };
+    }, [jsonLd, breadcrumbs]);
 
     useEffect(() => {
         document.title = title;
@@ -107,18 +154,18 @@ export default function SEO({
         // Dynamic JSON-LD injection
         const jsonLdId = "dynamic-jsonld";
         let scriptEl = document.getElementById(jsonLdId) as HTMLScriptElement | null;
-        if (jsonLd) {
+        if (finalJsonLd) {
             if (!scriptEl) {
                 scriptEl = document.createElement("script");
                 scriptEl.id = jsonLdId;
                 scriptEl.type = "application/ld+json";
                 document.head.appendChild(scriptEl);
             }
-            scriptEl.textContent = JSON.stringify(jsonLd);
+            scriptEl.textContent = JSON.stringify(finalJsonLd);
         } else if (scriptEl) {
             scriptEl.remove();
         }
-    }, [title, description, canonicalUrl, imageUrl, type, robots, jsonLd]);
+    }, [title, description, canonicalUrl, imageUrl, type, robots, finalJsonLd]);
 
     return (
         <>
@@ -143,11 +190,11 @@ export default function SEO({
             {canonicalUrl && <meta property="twitter:url" content={canonicalUrl} />}
 
             {/* Structured Data (JSON-LD) */}
-            {jsonLd && (
+            {finalJsonLd && (
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{
-                        __html: JSON.stringify(jsonLd),
+                        __html: JSON.stringify(finalJsonLd),
                     }}
                 />
             )}

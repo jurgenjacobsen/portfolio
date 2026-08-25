@@ -171,8 +171,8 @@ Adding schema markup gives Google rich context about who you are, what projects 
   }
   ```
 
-- [ ] **Add `BreadcrumbList` Schema**
-  - Helps Google render hierarchical breadcrumb trails in search listings (`jurgen.fyi > code > tld-helper`).
+- [x] **Add `BreadcrumbList` Schema**
+  - **Status:** Resolved ✅ — Extended `SEO.tsx` with a `breadcrumbs` prop to dynamically generate Schema.org `BreadcrumbList` JSON-LD data across all top-level sections (`/code`, `/aviation`, `/charts`, `/cv`, `/contact`, `/socials`) and hierarchical 3-level breadcrumb trails for project detail pages (`/code/:slug`).
 
 ---
 

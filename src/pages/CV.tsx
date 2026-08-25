@@ -27,6 +27,10 @@ export default function CV() {
                 title="Curriculum Vitae & Career Timeline | Jürgen Jacobsen"
                 description="Curriculum Vitae and career timeline of Jürgen Jacobsen. View or download the official resume spanning software engineering and aviation."
                 canonical="/cv"
+                breadcrumbs={[
+                    { name: "Home", path: "/" },
+                    { name: "Curriculum Vitae", path: "/cv" },
+                ]}
             />
             <SectionCard className="space-y-6">
                 <header className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-border">

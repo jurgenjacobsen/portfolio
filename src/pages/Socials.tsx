@@ -32,6 +32,10 @@ export default function Socials() {
                 title="Social Links & Profiles | Jürgen Jacobsen"
                 description="Connect with Jürgen Jacobsen across GitHub, LinkedIn, Instagram, and direct email."
                 canonical="/socials"
+                breadcrumbs={[
+                    { name: "Home", path: "/" },
+                    { name: "Socials", path: "/socials" },
+                ]}
             />
             <SectionCard className="space-y-8">
                 <header className="space-y-4">
