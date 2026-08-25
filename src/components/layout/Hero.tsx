@@ -3,26 +3,10 @@ import { ExternalLink, MailIcon, SparklesIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui";
 import { SectionCard } from "@/components/shared";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Hero() {
-    const navigate = useNavigate();
     const [imageLoaded, setImageLoaded] = useState(false);
-
-    function Button({ children, onClick, type }: { children: React.ReactNode; onClick: () => void; type?: "primary" | "secondary"}) {
-        return (
-            <button
-                onClick={onClick}
-                className={`
-                group inline-flex shrink-0 items-center justify-center rounded-xl font-semibold
-                disabled:pointer-events-none disabled:opacity-50 whitespace-nowrap transition-all select-none cursor-pointer
-                px-8 py-2
-                ${type === "primary" ? "bg-primary hover:bg-primary/75 text-card duration-300 hover:border-primary/25" : "hover:bg-muted/50 border border-border hover:border-primary/25"}`}
-            >
-                {children}
-            </button>
-        );
-    }
 
     return (
         <SectionCard>
@@ -56,17 +40,20 @@ export default function Hero() {
                         </p>
                     </div>
                     <div className="text-sm flex md:flex-wrap gap-4 mt-6 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both">
-                        <Button
-                            type="primary"
-                            onClick={() => navigate("/contact")}
+                        <Link
+                            to="/contact"
+                            className="group inline-flex shrink-0 items-center justify-center rounded-xl font-semibold whitespace-nowrap transition-all select-none cursor-pointer px-8 py-2 bg-primary hover:bg-primary/75 text-card duration-300 hover:border-primary/25"
                         >
                             <MailIcon className="size-5 mr-2 duration-300" />
                             Let's Talk
-                        </Button>
-                        <Button onClick={() => navigate("/code")}>
-                            <ExternalLink id="linkedin" className="size-5 mr-2 duration-300" />
+                        </Link>
+                        <Link
+                            to="/code"
+                            className="group inline-flex shrink-0 items-center justify-center rounded-xl font-semibold whitespace-nowrap transition-all select-none cursor-pointer px-8 py-2 hover:bg-muted/50 border border-border hover:border-primary/25 text-foreground"
+                        >
+                            <ExternalLink className="size-5 mr-2 duration-300" />
                             View Projects
-                        </Button>
+                        </Link>
                     </div>
                 </div>
                 <div className="w-full md:w-1/4 aspect-square relative group animate-in fade-in zoom-in-95 duration-1000 delay-500 fill-mode-both">

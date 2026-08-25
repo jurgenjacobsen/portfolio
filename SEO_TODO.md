@@ -152,24 +152,8 @@ Adding schema markup gives Google rich context about who you are, what projects 
   </script>
   ```
 
-- [ ] **Add `SoftwareSourceCode` / `CreativeWork` Schema for Project Pages (`/code/:slug`)**
-  - Inject JSON-LD dynamically in `CodeView.tsx`:
-  ```json
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareSourceCode",
-    "name": "TLD Helper",
-    "description": "Chrome extension to quickly navigate top-level domains.",
-    "codeRepository": "https://github.com/jurgenjacobsen/tld-helper",
-    "programmingLanguage": "TypeScript",
-    "author": {
-      "@type": "Person",
-      "name": "Jürgen Jacobsen"
-    },
-    "dateCreated": "2024-05-10",
-    "dateModified": "2024-11-20"
-  }
-  ```
+- [x] **Add `SoftwareSourceCode` / `CreativeWork` Schema for Project Pages (`/code/:slug`)**
+  - **Status:** Resolved ✅ — Added dynamic Schema.org `SoftwareSourceCode` / `CreativeWork` JSON-LD generation in `CodeView.tsx` with repository, description, programming language, timestamps, and author metadata.
 
 - [x] **Add `BreadcrumbList` Schema**
   - **Status:** Resolved ✅ — Extended `SEO.tsx` with a `breadcrumbs` prop to dynamically generate Schema.org `BreadcrumbList` JSON-LD data across all top-level sections (`/code`, `/aviation`, `/charts`, `/cv`, `/contact`, `/socials`) and hierarchical 3-level breadcrumb trails for project detail pages (`/code/:slug`).

@@ -9,6 +9,12 @@ const homeSchema = {
             "@id": "https://jurgen.fyi/#website",
             "url": "https://jurgen.fyi/",
             "name": "Jürgen Jacobsen",
+            "alternateName": [
+                "Jurgen Jacobsen",
+                "jurgen.fyi",
+                "Jürgen Jacobsen Portfolio",
+                "Jurgen Jacobsen Portfolio"
+            ],
             "description":
                 "Portfolio of Jürgen Jacobsen, Commercial Pilot and Software Engineer.",
             "inLanguage": "en-GB",

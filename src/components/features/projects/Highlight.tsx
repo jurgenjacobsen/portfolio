@@ -2,12 +2,10 @@ import { ExternalLinkIcon, LibraryBigIcon } from "lucide-react";
 import { Button } from "@/components/ui";
 import { Icon, type IconId, SectionCard } from "@/components/shared";
 import type { ProjectProps } from "@/pages/Code";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function ProjectHighlight(props: { projects: ProjectProps[] }) {
     const projects: ProjectProps[] = props.projects;
-
-    const navigate = useNavigate();
 
     return (
         <SectionCard className="space-y-6">
@@ -71,33 +69,36 @@ export default function ProjectHighlight(props: { projects: ProjectProps[] }) {
                             <div className="flex gap-2 shrink-0">
                                 {projects[0]?.github && (
                                     <Button
+                                        asChild
                                         variant="outline"
                                         size="icon"
-                                        className="rounded-xl size-9 cursor-pointer hover:opacity-75 "
-                                        onClick={() => {
-                                            window.open(
-                                                projects[0]?.github,
-                                                "_blank",
-                                            );
-                                        }}
+                                        className="rounded-xl size-9 cursor-pointer hover:opacity-75"
                                     >
-                                        <Icon
-                                            id="github"
-                                            className="size-4 fill-foreground"
-                                        />
+                                        <a
+                                            href={projects[0]?.github}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            aria-label={`GitHub repository for ${projects[0]?.title}`}
+                                        >
+                                            <Icon
+                                                id="github"
+                                                className="size-4 fill-foreground"
+                                            />
+                                        </a>
                                     </Button>
                                 )}
                                 {projects[0]?.slug && (
                                     <Button
+                                        asChild
                                         size="icon"
                                         className="rounded-xl size-9 cursor-pointer"
-                                        onClick={() =>
-                                            navigate(
-                                                `/code/${projects[0].slug}`,
-                                            )
-                                        }
                                     >
-                                        <ExternalLinkIcon className="size-4" />
+                                        <Link
+                                            to={`/code/${projects[0].slug}`}
+                                            aria-label={`View ${projects[0]?.title} project details`}
+                                        >
+                                            <ExternalLinkIcon className="size-4" />
+                                        </Link>
                                     </Button>
                                 )}
                             </div>
@@ -149,22 +150,36 @@ export default function ProjectHighlight(props: { projects: ProjectProps[] }) {
                                     </div>
                                     { (project.link || project.github || project.slug) &&
                                         <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <Button
-                                                size="icon"
-                                                className="rounded-xl size-8 bg-card text-black hover:bg-card/90 cursor-pointer"
-                                                onClick={() => {
-                                                    if (project.slug) {
-                                                    navigate(`/code/${project.slug}`)
-                                                } else if (project.link) {
-                                                    window.open(project.link, "_blank");
-                                                } else if (project.github) {
-                                                    window.open(project.github, "_blank");
-                                                }
-                                            }}
-                                        >
-                                            <ExternalLinkIcon className="size-3" />
-                                        </Button>
-                                    </div>
+                                            {project.slug ? (
+                                                <Button
+                                                    asChild
+                                                    size="icon"
+                                                    className="rounded-xl size-8 bg-card text-foreground hover:bg-card/90 cursor-pointer"
+                                                >
+                                                    <Link
+                                                        to={`/code/${project.slug}`}
+                                                        aria-label={`View ${project.title} project details`}
+                                                    >
+                                                        <ExternalLinkIcon className="size-3" />
+                                                    </Link>
+                                                </Button>
+                                            ) : (
+                                                <Button
+                                                    asChild
+                                                    size="icon"
+                                                    className="rounded-xl size-8 bg-card text-foreground hover:bg-card/90 cursor-pointer"
+                                                >
+                                                    <a
+                                                        href={project.link || project.github}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        aria-label={`Visit ${project.title}`}
+                                                    >
+                                                        <ExternalLinkIcon className="size-3" />
+                                                    </a>
+                                                </Button>
+                                            )}
+                                        </div>
                                     }
                                 </div>
                             </div>

@@ -211,6 +211,38 @@ export default function ProjectView() {
         metadata?.description ||
         "Project details and source code by Jürgen Jacobsen.";
 
+    const projectSchema = useMemo(() => {
+        if (!metadata) return undefined;
+        return {
+            "@context": "https://schema.org",
+            "@type": metadata.github ? "SoftwareSourceCode" : "CreativeWork",
+            name: metadata.title,
+            description: metadata.description,
+            ...(metadata.github ? { codeRepository: metadata.github } : {}),
+            ...(metadata.link ? { url: metadata.link } : {}),
+            ...(metadata.image
+                ? {
+                      image: metadata.image.startsWith("http")
+                          ? metadata.image
+                          : `https://jurgen.fyi${metadata.image.startsWith("/") ? "" : "/"}${metadata.image}`,
+                  }
+                : {}),
+            ...(metadata.tags && metadata.tags.length > 0
+                ? {
+                      programmingLanguage: metadata.tags[0],
+                      keywords: metadata.tags.join(", "),
+                  }
+                : {}),
+            author: {
+                "@type": "Person",
+                name: "Jürgen Jacobsen",
+                url: "https://jurgen.fyi/",
+            },
+            ...(metadata.createdAt ? { dateCreated: metadata.createdAt } : {}),
+            ...(metadata.updatedAt ? { dateModified: metadata.updatedAt } : {}),
+        };
+    }, [metadata]);
+
     if (loading) {
         return (
             <div>
@@ -231,6 +263,7 @@ export default function ProjectView() {
                 canonical={`/code/${projectSlug}`}
                 image={metadata?.image}
                 type="article"
+                jsonLd={projectSchema}
                 breadcrumbs={[
                     { name: "Home", path: "/" },
                     { name: "Code", path: "/code" },
