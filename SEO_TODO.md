@@ -68,7 +68,7 @@ Comprehensive audit and actionable roadmap to optimize **[jurgen.fyi](https://ju
 - [x] **Implement Dynamic Document Titles & Meta Tags per Route**
   - Currently, `index.html` serves static metadata for all routes.
   - Install a head manager (e.g. `@unhead/react` or `react-helmet-async`) to manage `<title>`, `<meta name="description">`, and canonical URLs dynamically:
-    - **Home (`/`):** `Jürgen Jacobsen | Commercial Pilot & Software Engineer`
+    - **Home (`/`):** `Jürgen Jacobsen | Commercial Pilot & Web Developer`
     - **Code (`/code`):** `Software Projects & Open Source | Jürgen Jacobsen`
     - **Project Detail (`/code/:slug`):** `[Project Title] - [Short Tech Summary] | Jürgen Jacobsen`
     - **Aviation (`/aviation`):** `Commercial Aviation & Flight Experience | Jürgen Jacobsen`

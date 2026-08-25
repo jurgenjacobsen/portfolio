@@ -16,7 +16,7 @@ const homeSchema = {
                 "Jurgen Jacobsen Portfolio"
             ],
             "description":
-                "Portfolio of Jürgen Jacobsen, Commercial Pilot and Software Engineer.",
+                "Portfolio of Jürgen Jacobsen, Commercial Pilot and Web Developer.",
             "inLanguage": "en-GB",
         },
         {
@@ -25,7 +25,7 @@ const homeSchema = {
             "name": "Jürgen Jacobsen",
             "url": "https://jurgen.fyi/",
             "image": "https://jurgen.fyi/img/profile.jpg",
-            "jobTitle": ["Commercial Pilot", "Software Engineer"],
+            "jobTitle": ["Commercial Pilot", "Web Developer", "Software Engineer"],
             "address": {
                 "@type": "PostalAddress",
                 "addressLocality": "Porto",
@@ -39,6 +39,7 @@ const homeSchema = {
             "knowsAbout": [
                 "Commercial Aviation",
                 "Aeronautical Cartography",
+                "Web Development",
                 "Software Engineering",
                 "React",
                 "TypeScript",
@@ -52,8 +53,8 @@ export default function Home() {
     return (
         <main>
             <SEO
-                title="Jürgen Jacobsen | Commercial Pilot & Software Engineer"
-                description="Personal portfolio of Jürgen Jacobsen, Commercial Pilot and Software Engineer. Showcasing software engineering projects, flight experience, and aeronautical cartography."
+                title="Jürgen Jacobsen | Commercial Pilot & Web Developer"
+                description="Personal portfolio of Jürgen Jacobsen, Commercial Pilot and Web Developer. Showcasing web development projects, flight experience, and aeronautical cartography."
                 canonical="/"
                 jsonLd={homeSchema}
             />
