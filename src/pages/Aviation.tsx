@@ -34,7 +34,7 @@ export default function Aviation() {
                         This page is dedicated to my aviation experience, showcasing my journey as a licensed commercial pilot. With over 230 flight hours across various aircraft types, I have honed my skills and developed a deep understanding of aviation principles.
                     </p>
                     {/* TEMPORARY */}
-                    <div className="flex justify-center">
+                    <div className="flex justify-center animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
                         <div
                             className="inline-flex items-center gap-2 px-4 py-1.5 
                             border border-border rounded-full 

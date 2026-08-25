@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Award, Briefcase, Code, PlaneIcon } from "lucide-react";
+import { Award, Camera, Code, PlaneIcon } from "lucide-react";
 
 export default function QuickInfo() {
     const primary = [
@@ -31,11 +31,11 @@ export default function QuickInfo() {
             link: "/code"
         },
         {
-            label: "Freelance",
-            icon: Briefcase,
-            title: "5+ Years",
-            subtitle: "Client Engineering",
-            link: "/freelance"
+            label: "Photo & Design",
+            icon: Camera,
+            title: "3+ Years",
+            subtitle: "Meeting Client Needs",
+            link: "/photos"
         }
     ]
 

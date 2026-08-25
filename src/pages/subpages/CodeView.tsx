@@ -1,7 +1,8 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState, useMemo } from "react";
 import ReactMarkdown from "react-markdown";
 import { SectionCard, SEO } from "@/components/shared";
+import NotFound from "@/pages/NotFound";
 import type { ProjectProps } from "../Code";
 import remarkGfmPlugin from "remark-gfm";
 const remarkGfm = (remarkGfmPlugin as any).default || remarkGfmPlugin;
@@ -70,7 +71,7 @@ export default function ProjectView() {
     const [metadata, setMetadata] = useState<ProjectProps | null>(null);
     const [projects, setProjects] = useState<ProjectProps[]>([]);
     const [loading, setLoading] = useState(true);
-    const navigate = useNavigate();
+    const [notFound, setNotFound] = useState(false);
 
     const getLatestDate = (date1?: string, date2?: string) => {
         if (!date1) return date2 || "";
@@ -86,11 +87,27 @@ export default function ProjectView() {
 
     async function fetchProjectData() {
         try {
+            setLoading(true);
+            setNotFound(false);
             const response = await fetch(`/projects/${projectSlug}.md`);
-            if (!response.ok) return navigate("/code");
+            if (!response.ok) {
+                setNotFound(true);
+                return;
+            }
 
             const rawText = await response.text();
             const { attributes, body } = parseFrontMatter(rawText);
+
+            if (
+                !attributes ||
+                !attributes.title ||
+                typeof attributes.title !== "string" ||
+                attributes.title.trim() === ""
+            ) {
+                setNotFound(true);
+                return;
+            }
+
             const project = attributes as ProjectProps;
 
             let finalMetadata = { ...project };
@@ -142,7 +159,9 @@ export default function ProjectView() {
             setContent(body);
         } catch (err) {
             console.error("Error loading markdown:", err);
-            navigate("/code");
+            setNotFound(true);
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -154,8 +173,6 @@ export default function ProjectView() {
             setProjects(data);
         } catch (err) {
             console.error("Error loading projects:", err);
-        } finally {
-            setLoading(false);
         }
     }
 
@@ -164,6 +181,10 @@ export default function ProjectView() {
         fetchProjects();
         window.scrollTo(0, 0);
     }, [projectSlug]);
+
+    if (notFound) {
+        return <NotFound />;
+    }
 
     const recommendations = useMemo(() => {
         if (!metadata) return [];

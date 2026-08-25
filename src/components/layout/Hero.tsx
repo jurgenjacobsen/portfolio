@@ -87,34 +87,3 @@ export default function Hero() {
         </SectionCard>
     );
 }
-
-{
-    /* 
-
-            const techstack: TechStackItem[] = [
-        { name: "TypeScript", icon: "typescript" },
-        { name: "ReactTS", icon: "react" },
-        { name: "Vue", icon: "vue" },
-        { name: "TailwindCSS", icon: "tailwindcss" },
-        { name: "NestJS", icon: "nestjs" },
-        { name: "MongoDB", icon: "mongodb" },
-    ];
-                <div className="flex flex-wrap gap-3">
-                    {techstack.map((item, index) => (
-                        <div
-                            key={item.name}
-                            className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-muted/25 border border-border/50 hover:border-primary/25 hover:bg-card transition-all cursor-default group/item animate-in fade-in slide-in-from-bottom-2 duration-500 fill-mode-both"
-                            style={{ animationDelay: `${800 + index * 100}ms` }}
-                        >
-                            <Icon
-                                id={item.icon}
-                                className={`size-4 ${item?.color || ""} group-hover/item:scale-110 transition-transform rounded-xs`}
-                            />
-                            <span className="text-sm font-bold tracking-tight">
-                                {item.name}
-                            </span>
-                        </div>
-                    ))}
-                </div>
-    */
-}

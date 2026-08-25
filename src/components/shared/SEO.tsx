@@ -26,11 +26,15 @@ export default function SEO({
     robots = DEFAULT_ROBOTS,
     jsonLd,
 }: SEOProps) {
-    const canonicalUrl = canonical
-        ? canonical.startsWith("http")
-            ? canonical
-            : `${SITE_URL}${canonical.startsWith("/") ? "" : "/"}${canonical}`
-        : SITE_URL;
+    const isNoIndex = Boolean(robots && robots.includes("noindex"));
+
+    const canonicalUrl = isNoIndex
+        ? undefined
+        : canonical
+          ? canonical.startsWith("http")
+              ? canonical
+              : `${SITE_URL}${canonical.startsWith("/") ? "" : "/"}${canonical}`
+          : SITE_URL;
 
     const imageUrl = image
         ? image.startsWith("http")
@@ -44,12 +48,16 @@ export default function SEO({
         const setMetaTag = (
             attrName: "name" | "property",
             key: string,
-            content: string,
+            content?: string,
         ) => {
             let el = document.querySelector(`meta[${attrName}="${key}"]`);
             if (!el) {
                 const altAttr = attrName === "name" ? "property" : "name";
                 el = document.querySelector(`meta[${altAttr}="${key}"]`);
+            }
+            if (!content) {
+                if (el) el.remove();
+                return;
             }
             if (!el) {
                 el = document.createElement("meta");
@@ -59,8 +67,12 @@ export default function SEO({
             el.setAttribute("content", content);
         };
 
-        const setLinkTag = (rel: string, href: string) => {
+        const setLinkTag = (rel: string, href?: string) => {
             let el = document.querySelector(`link[rel="${rel}"]`);
+            if (!href) {
+                if (el) el.remove();
+                return;
+            }
             if (!el) {
                 el = document.createElement("link");
                 el.setAttribute("rel", rel);
@@ -75,7 +87,7 @@ export default function SEO({
             setMetaTag("name", "robots", robots);
         }
 
-        // Canonical
+        // Canonical (remove if noindex / undefined)
         setLinkTag("canonical", canonicalUrl);
 
         // OpenGraph
@@ -112,14 +124,14 @@ export default function SEO({
         <>
             <title>{title}</title>
             <meta name="description" content={description} />
-            <link rel="canonical" href={canonicalUrl} />
+            {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
 
             {robots && <meta name="robots" content={robots} />}
 
             {/* Open Graph */}
             <meta property="og:title" content={title} />
             <meta property="og:description" content={description} />
-            <meta property="og:url" content={canonicalUrl} />
+            {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
             <meta property="og:type" content={type} />
             <meta property="og:image" content={imageUrl} />
 
@@ -128,7 +140,7 @@ export default function SEO({
             <meta property="twitter:title" content={title} />
             <meta property="twitter:description" content={description} />
             <meta property="twitter:image" content={imageUrl} />
-            <meta property="twitter:url" content={canonicalUrl} />
+            {canonicalUrl && <meta property="twitter:url" content={canonicalUrl} />}
 
             {/* Structured Data (JSON-LD) */}
             {jsonLd && (

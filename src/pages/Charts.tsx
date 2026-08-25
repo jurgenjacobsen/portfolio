@@ -62,7 +62,7 @@ export default function Charts() {
                         ))}
                     </div>
                     {/* TEMPORARY */}
-                    <div className="flex justify-center">
+                    <div className="flex justify-center animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
                         <div
                             className="inline-flex items-center gap-2 px-4 py-1.5 
                             border border-border rounded-full 

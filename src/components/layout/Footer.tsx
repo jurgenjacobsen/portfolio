@@ -9,6 +9,13 @@ import {
 import { LastCommit, Icon } from "@/components/shared";
 import { Link } from "react-router";
 
+type LinkType = {
+    href: string;
+    icon: React.ReactNode;
+    label: string;
+    type?: "EXT";
+}
+
 function SocialMediaLink(props: { href: string; label: string; icon: React.ReactNode }) {
     return (
         <a
@@ -43,7 +50,7 @@ export default function Footer() {
         },
     ];
 
-    const competencies = [
+    const competencies: LinkType[] = [
         {
             href: "/aviation",
             icon: <Icon id="PlaneIcon" className="w-4 h-4" />,
@@ -60,17 +67,18 @@ export default function Footer() {
             label: "Aviation Charts",
         },
         {
-            href: "/charts",
+            href: "/photos",
             icon: <Icon id="Image" className="w-4 h-4" />,
             label: "Photo & Design",
         },
     ];
 
-    const information = [
+    const information: LinkType[] = [
         {
             href: "/rss.xml",
             icon: <Icon id="RssIcon" className="w-4 h-4" />,
             label: "RSS Feed",
+            type: "EXT",
         },
     ];
 
@@ -108,14 +116,27 @@ export default function Footer() {
                                 {
                                     competencies.map((comp, index) => (
                                         <li key={index}>
-                                            <Link
-                                                to={comp.href}
-                                                className="flex
-    items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors duration-300"
-                                            >
-                                                {comp.icon}
-                                                {comp.label}
-                                            </Link>
+                                            {
+                                                comp.type === "EXT" ? (
+                                                    <a
+                                                        href={comp.href}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors duration-300"
+                                                    >
+                                                        {comp.icon}
+                                                        {comp.label}
+                                                    </a>
+                                                ) : (
+                                                    <Link
+                                                        to={comp.href}
+                                                        className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors duration-300"
+                                                    >
+                                                        {comp.icon}
+                                                        {comp.label}
+                                                    </Link>
+                                                )
+                                            }
                                         </li>
                                     ))
                                 }
@@ -132,13 +153,27 @@ export default function Footer() {
                                 {
                                     information.map((info, index) => (
                                         <li key={index}>
-                                            <Link
-                                                to={info.href}
-                                                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors duration-300"
-                                            >
-                                                {info.icon}
-                                                {info.label}
-                                            </Link>
+                                            {
+                                                info.type === "EXT" ? (
+                                                    <a
+                                                        href={info.href}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors duration-300"
+                                                    >
+                                                        {info.icon}
+                                                        {info.label}
+                                                    </a>
+                                                ) : (
+                                                    <Link
+                                                        to={info.href}
+                                                        className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors duration-300"
+                                                    >
+                                                        {info.icon}
+                                                        {info.label}
+                                                    </Link>
+                                                )
+                                            }
                                         </li>
                                     ))
                                 }

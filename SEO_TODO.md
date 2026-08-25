@@ -24,13 +24,13 @@ Comprehensive audit and actionable roadmap to optimize **[jurgen.fyi](https://ju
   - **Fix:** Update `scripts/sitemap.js` to write directly to `public/sitemap.xml` before `vite build`, or run the sitemap generator as a post-build step.
 - [x] **Fix Routing Inconsistencies (`/code` vs `/projects`)**
   - **Status:** Resolved ✅ — Standardized on `/code` and `/code/:slug` across all components, navigation items, previews, fallback redirects, RSS generator, sitemap, and added permanent redirects in `vercel.json` and `App.tsx`.
-- [ ] **Fix Invalid `rel` Attribute in Footer Links**
+- [x] **Fix Invalid `rel` Attribute in Footer Links**
   - **Issue:** In `src/components/layout/Footer.tsx` line 17, `SocialMediaLink` sets `rel="https://jurgen.fyi"`.
   - **Fix:** Change to `rel="noopener noreferrer"`.
-- [ ] **Remove `<h1>` from Global Navbar**
+- [x] **Remove `<h1>` from Global Navbar**
   - **Issue:** `src/components/layout/Navbar.tsx` contains `<h1 className="font-bold text-lg">Jürgen</h1>`. Having an `<h1>` inside the global navigation produces multiple `<h1>` elements on every page and weakens page-specific keyword targeting.
   - **Fix:** Change the navbar brand to a `<span>` or `<div>`.
-- [ ] **Fix Absolute URL for OpenGraph and Twitter Image**
+- [x] **Fix Absolute URL for OpenGraph and Twitter Image**
   - **Issue:** `index.html` has `<meta property="og:image" content="/img/preview.png" />`. Social platforms and search crawlers require fully-qualified absolute URLs (e.g. `https://jurgen.fyi/img/preview.png`).
 
 ---
@@ -52,7 +52,7 @@ Comprehensive audit and actionable roadmap to optimize **[jurgen.fyi](https://ju
       <priority>0.8</priority>
     </url>
     ```
-- [ ] **Ensure `robots.txt` is Crawl-Friendly**
+- [x] **Ensure `robots.txt` is Crawl-Friendly**
   - Verify `public/robots.txt` points to the canonical sitemap URL:
     ```txt
     User-agent: *
@@ -65,7 +65,7 @@ Comprehensive audit and actionable roadmap to optimize **[jurgen.fyi](https://ju
 
 ## 3. 🏷️ Meta Tags, Head Management & Social Previews
 
-- [ ] **Implement Dynamic Document Titles & Meta Tags per Route**
+- [x] **Implement Dynamic Document Titles & Meta Tags per Route**
   - Currently, `index.html` serves static metadata for all routes.
   - Install a head manager (e.g. `@unhead/react` or `react-helmet-async`) to manage `<title>`, `<meta name="description">`, and canonical URLs dynamically:
     - **Home (`/`):** `Jürgen Jacobsen | Commercial Pilot & Software Engineer`
@@ -75,13 +75,15 @@ Comprehensive audit and actionable roadmap to optimize **[jurgen.fyi](https://ju
     - **Aeronautical Charts (`/charts`):** `Aeronautical Cartography & Procedure Design | Jürgen Jacobsen`
     - **CV (`/cv`):** `Curriculum Vitae & Career Timeline | Jürgen Jacobsen`
     - **Contact (`/contact`):** `Contact & Inquiries | Jürgen Jacobsen`
-- [ ] **Add Canonical Tag `<link rel="canonical" href="..." />`**
+
+- [x] **Add Canonical Tag `<link rel="canonical" href="..." />`**
   - Add self-referencing canonical URLs to prevent duplicate content indexing (e.g., preventing trailing slash issues or query parameter duplicates).
-- [ ] **Add Robots Index Directives to `index.html`**
+- [x] **Add Robots Index Directives to `index.html`**
   ```html
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   ```
-- [ ] **Add Complete Open Graph & Twitter Card Meta Tags**
+
+- [x] **Add Complete Open Graph & Twitter Card Meta Tags**
   - Ensure image dimensions and alt text are declared:
     ```html
     <meta property="og:image" content="https://jurgen.fyi/img/preview.png" />
@@ -91,7 +93,7 @@ Comprehensive audit and actionable roadmap to optimize **[jurgen.fyi](https://ju
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://jurgen.fyi/img/preview.png" />
     ```
-- [ ] **Add Theme Color & Author Meta Tags**
+- [x] **Add Theme Color & Author Meta Tags**
   ```html
   <meta name="author" content="Jürgen Jacobsen" />
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
@@ -104,8 +106,9 @@ Comprehensive audit and actionable roadmap to optimize **[jurgen.fyi](https://ju
 
 Adding schema markup gives Google rich context about who you are, what projects you build, and allows rich snippet display in search results.
 
-- [ ] **Add `Person` & `WebSite` Schema on Homepage (`/`)**
+- [x] **Add `Person` & `WebSite` Schema on Homepage (`/`)**
   ```html
+
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -180,9 +183,11 @@ Adding schema markup gives Google rich context about who you are, what projects 
   - **Options:**
     - Option A: Use a pre-render plugin like `vite-plugin-prerender` to emit static HTML for all main routes and markdown project pages during build.
     - Option B: Use Vite SSG (`vite-ssg`) or custom build script to render React components to static `.html` files in `dist/`.
-- [ ] **Eliminate Soft 404s in Vercel Rewrites**
-  - `vercel.json` rewrites all requests to `/index.html`. Make sure `NotFound.tsx` signals 404 (or pre-rendered routes serve clean 404 pages where applicable) so Google doesn't index broken URLs as 200 OK soft 404s.
-- [ ] **Fix Footer Navigation Links**
+- [x] **Eliminate Soft 404s in Vercel Rewrites**
+  - **Status:** Resolved ✅
+    - Configured client-side `NotFound.tsx` to set `robots="noindex, nofollow"` and updated `SEO.tsx` to omit canonical URL tags and strip stale canonical links on 404 pages.
+    - Updated `src/pages/subpages/CodeView.tsx` to render `<NotFound />` on non-existent or invalid project slugs instead of redirecting to `/code`.
+- [x] **Fix Footer Navigation Links**
   - In `src/components/layout/Footer.tsx`:
     - "Aviation Charts" and "Photo & Design" both point to `/charts`. Point "Photo & Design" to its dedicated section or correct URL.
     - Change `/rss.xml` to a standard `<a href="/rss.xml">` link instead of React Router's `<Link>` to prevent client router hijacking.
@@ -206,7 +211,7 @@ Adding schema markup gives Google rich context about who you are, what projects 
 
 Google uses Core Web Vitals (LCP, INP, CLS) as a ranking signal.
 
-- [ ] **Add Static Asset Caching Headers in `vercel.json`**
+- [x] **Add Static Asset Caching Headers in `vercel.json`**
   - Cache immutable static assets (images, fonts, PDFs) with long TTL:
     ```json
     {
@@ -233,35 +238,23 @@ Google uses Core Web Vitals (LCP, INP, CLS) as a ranking signal.
       ]
     }
     ```
-- [ ] **Modern Image Formats (WebP / AVIF)**
-  - Convert `/img/profile.jpg` and `/img/preview.png` to modern `.webp` or `.avif` formats to reduce payload size.
-- [ ] **Preload Critical Hero Image / Fonts**
+- [x] **Preload Critical Hero Image / Fonts**
   - In `index.html`, add `<link rel="preload" as="image" href="/img/profile.jpg" fetchpriority="high" />` for faster Largest Contentful Paint (LCP).
-- [ ] **Security Headers**
+- [x] **Security Headers**
   - Add standard security headers in `vercel.json` (`X-Frame-Options`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`).
+
 
 ---
 
 ## 8. ✍️ Content Strategy & E-E-A-T Authority
 
 Google prioritizes **Experience, Expertise, Authoritativeness, and Trustworthiness (E-E-A-T)**.
-
-- [ ] **Complete "Under Construction" Pages (`/aviation` & `/charts`)**
-  - Currently, `/aviation` and `/charts` have "Page under construction" banners.
-  - Flesh out these pages with comprehensive, detailed copy, case studies, chart samples, flight training background, and equipment/technical competencies. These are high-value, niche keywords with low competition and strong personal branding appeal.
 - [ ] **Deepen Project Case Studies in Markdown**
   - In `public/projects/*.md`, expand case studies to include:
     - Problem statement & technical architecture.
     - Key challenges overcome & engineering decisions.
     - Measurable outcomes (performance gains, stars, downloads).
     - Code snippets and interactive demo links.
-- [ ] **Target Long-Tail Personal & Professional Keywords**
-  - Target key search terms across pages:
-    - `"Jürgen Jacobsen"` / `"Jurgen Jacobsen"`
-    - `"Commercial Pilot Software Engineer"`
-    - `"Aeronautical Cartography & Procedure Design"`
-    - `"Jeppesen style approach plates design"`
-    - `"Vite React Tailwind portfolio"`
 - [ ] **Ensure Cross-Linking Between Pages**
   - Link from project markdown files back to related projects, CV, and aviation competencies to build strong internal page authority flows.
 
