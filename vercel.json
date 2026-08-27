@@ -6,7 +6,7 @@
             "permanent": true
         },
         {
-            "source": "/projects/:slug",
+            "source": "/projects/:slug([^.]+)",
             "destination": "/code/:slug",
             "permanent": true
         }

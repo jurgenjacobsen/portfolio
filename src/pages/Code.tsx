@@ -43,6 +43,9 @@ export default function Projects() {
         const fetchProjects = async () => {
             try {
                 const response = await fetch("/projects/_.json");
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch projects: ${response.status} ${response.statusText}`);
+                }
                 const data: (ProjectProps & { highlight?: boolean })[] =
                     await response.json();
 

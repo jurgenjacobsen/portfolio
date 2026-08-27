@@ -182,10 +182,6 @@ export default function ProjectView() {
         window.scrollTo(0, 0);
     }, [projectSlug]);
 
-    if (notFound) {
-        return <NotFound />;
-    }
-
     const recommendations = useMemo(() => {
         if (!metadata) return [];
         return projects
@@ -242,6 +238,10 @@ export default function ProjectView() {
             ...(metadata.updatedAt ? { dateModified: metadata.updatedAt } : {}),
         };
     }, [metadata]);
+
+    if (notFound) {
+        return <NotFound />;
+    }
 
     if (loading) {
         return (
