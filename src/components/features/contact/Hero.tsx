@@ -32,9 +32,8 @@ export default function ContactHero() {
                         .
                     </h1>
                     <p className="text-lg md:text-xl text-muted-foreground leading-relaxed font-medium max-w-2xl animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
-                        Have a project in mind or just want to say hi? I'm
-                        always open to discussing new opportunities, creative
-                        ideas or focal points to be part of your visions.
+                        I'm always open to new opportunities and collaborations. 
+                        Whether you have an open role, a project in mind, or just want to say hello, feel free to reach out. I look forward to connecting with you!
                     </p>
                 </div>
 
