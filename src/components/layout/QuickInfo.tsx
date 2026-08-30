@@ -9,6 +9,7 @@ export default function QuickInfo() {
             title: "230+ hrs",
             subtitle: "78 hrs PIC",
             link: "/aviation",
+            displayDelay: 500,
         },
         {
             label: "Pilot Ratings",
@@ -21,27 +22,30 @@ export default function QuickInfo() {
                 </span>
             ),
             subtitle: "Class 1 Medical",
-            link: "/aviation"
+            link: "/aviation",
+            displayDelay: 600
         },
         {
-            label: "Programmer",
+            label: "Web Developer",
             icon: Code,
             title: "24+ Projects",
             subtitle: "Full-Stack & React",
-            link: "/code"
+            link: "/code",
+            displayDelay: 700
         },
         {
             label: "Photo & Design",
             icon: Camera,
             title: "3+ Years",
             subtitle: "Meeting Client Needs",
-            link: "/photos"
+            link: "/photos",
+            displayDelay: 800
         }
     ]
 
     return (
         <>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-6">
                 {
                     primary.map((p) => {
                     const Icon = p.icon;
@@ -49,7 +53,8 @@ export default function QuickInfo() {
                         <Link
                             key={p.label}
                             to={p.link}
-                            className="p-4 rounded-xl border border-border/75 bg-card hover:border-primary/50 transition-all duration-300 shadow-md flex flex-col justify-between group"
+                            style={{ animationDelay: `${p.displayDelay}ms` }}
+                            className="p-6 rounded-xl border border-border/75 bg-card hover:border-primary/50 transition-all shadow-md flex flex-col justify-between group animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both"
                         >
                             <div className="flex items-center justify-between mb-1">
                                 <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
@@ -70,9 +75,6 @@ export default function QuickInfo() {
                         </Link>
                     );
                 })}
-            </div>
-            <div className="grid grid-cols-3">
-
             </div>
         </>
     )

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Code2Icon, FileTextIcon, HomeIcon, MailIcon, PlaneIcon } from "lucide-react";
+import { Code2Icon, FileTextIcon, HomeIcon, MailIcon, PlaneIcon, Image } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
@@ -53,7 +53,11 @@ export default function Navbar() {
         { to: "/code", label: "Code", icon: Code2Icon },
         { to: "/cv", label: "CV", icon: FileTextIcon },
         { to: "/contact", label: "Contact", icon: MailIcon },
-    ]
+    ];
+
+    const HiddenItems = [
+        { to: "/photos", label: "Photos", icon: Image },
+    ];
 
     return (
         <nav className="relative z-50 no-print">
@@ -80,6 +84,21 @@ export default function Navbar() {
                             </NavbarButton>
                         </li>
                     ))}
+                    {HiddenItems.find(item => item.to === window.location.pathname) && (
+                        <span className="text-muted-foreground text-xs flex items-center">
+                            |
+                        </span>
+                    )}
+                    {HiddenItems.map((item) => {
+                            if (item.to === window.location.pathname) return (
+                                <li key={item.to}>
+                                    <NavbarButton to={item.to}>
+                                        <item.icon className="size-4 transition-transform" />
+                                        <span>{item.label}</span>
+                                    </NavbarButton>
+                                </li>
+                            )
+                        })}
                 </ul>
 
                 {/* Mobile Toggle Button */}

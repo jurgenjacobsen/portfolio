@@ -14,7 +14,7 @@ export default function Hero() {
                 <div className="flex-1">
                     <div
                         className="
-                        inline-flex items-center gap-2 px-4 py-1.5 
+                        inline-flex items-center gap-2 px-4 py-2
                         border border-border rounded-full 
                         text-primary text-[10px] md:text-xs uppercase tracking-wider font-bold
                         bg-primary/5 
@@ -35,7 +35,7 @@ export default function Hero() {
                             <span className="text-foreground font-bold underline decoration-primary/30 decoration-4 underline-offset-4">
                                 Jürgen Jacobsen
                             </span>
-                            . I am a licensed commercial pilot with a passion for software engineering and design. 
+                            . I am a licensed commercial pilot with a passion for web development and design. 
                             My aviation experience spans over 230 flight hours across various aircraft types.
                         </p>
                     </div>

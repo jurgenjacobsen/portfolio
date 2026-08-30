@@ -126,7 +126,13 @@
         @apply bg-background text-foreground;
     }
     html {
-        @apply font-sans antialiased;
+        @apply font-sans antialiased scroll-smooth;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        html {
+            scroll-behavior: auto !important;
+        }
     }
 
     a {
@@ -137,6 +143,11 @@
         background-color: var(--color-background) !important;
         color: var(--color-primary) !important;
         user-select: text !important;
+    }
+
+    [data-animations="disabled"],
+    [data-animations="disabled"] html {
+        scroll-behavior: auto !important;
     }
 
     [data-animations="disabled"] *:not(.animate-essential),
@@ -198,4 +209,21 @@
             print-color-adjust: exact !important;
         }
     }
+}
+                                                                                                                                                                                         
+::-webkit-scrollbar {
+    @apply w-3 h-3;
+}
+
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    @apply bg-primary rounded-full border-2 border-transparent bg-clip-padding;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary/75;
 }
