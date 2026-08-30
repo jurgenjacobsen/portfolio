@@ -5,4 +5,6 @@ export { default as Socials } from "./Socials";
 export { default as CV } from "./CV";
 export { default as Aviation } from "./Aviation";
 export { default as Charts } from "./Charts";
+export { default as Photos } from "./Photos";
+export { default as Guides } from "./Guides";
 export { default as NotFound } from "./NotFound";

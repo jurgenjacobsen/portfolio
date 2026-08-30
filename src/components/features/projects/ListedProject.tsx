@@ -4,7 +4,13 @@ import { Icon, type IconId } from "@/components/shared/icon";
 import { Link } from "react-router-dom";
 import ProjectTag from "@/components/shared/project-tag";
 
-export default function ListedProject({ project }: { project: ProjectProps }) {
+export default function ListedProject({
+    project,
+    index,
+}: {
+    project: ProjectProps;
+    index?: number;
+}) {
     const formatDate = (dateString?: Date | string) => {
         if (!dateString) return "N/A";
         return new Date(dateString).toLocaleDateString("en-GB", {
@@ -83,10 +89,17 @@ export default function ListedProject({ project }: { project: ProjectProps }) {
     }
 
     return (
-        <div className="group p-4 md:p-6 rounded-xl border border-border">
+        <div
+            className="group p-4 md:p-6 rounded-xl border border-border bg-card transition-all animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both"
+            style={
+                index !== undefined
+                    ? { animationDelay: `${Math.min(index * 100, 600)}ms` }
+                    : undefined
+            }
+        >
             <div className="flex flex-col md:grid md:grid-cols-4 gap-6 items-start">
                 <div className="md:col-span-3 space-y-2 md:space-y-4 w-full">
-                    <div className="flex flex-wrap items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-4">
                         <h2 className="text-2xl md:text-3xl font-black tracking-tight group-hover:text-primary transition-colors">
                             {project.title}
                         </h2>
@@ -128,7 +141,7 @@ export default function ListedProject({ project }: { project: ProjectProps }) {
                     </div>
                 </div>
 
-                <div className="flex flex-row md:flex-col items-center gap-2 w-full md:w-auto mt-2 md:mt-0">
+                <div className="flex flex-row md:flex-col items-center gap-4 w-full md:w-auto mt-2 md:mt-0">
                     {project.github && (
                         <Button
                             icon="github"

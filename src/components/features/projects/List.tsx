@@ -47,7 +47,11 @@ export default function ProjectsList({
                     </div>
                 ) : projects.length > 0 ? (
                     projects.map((project, i) => (
-                        <ListedProject key={i} project={project} />
+                        <ListedProject
+                            key={project.slug || i}
+                            project={project}
+                            index={i}
+                        />
                     ))
                 ) : (
                     <div className="py-20 text-center space-y-3">

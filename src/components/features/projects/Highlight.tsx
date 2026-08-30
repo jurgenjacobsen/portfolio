@@ -1,4 +1,4 @@
-import { ExternalLinkIcon, LibraryBigIcon } from "lucide-react";
+import { Code2Icon, ExternalLinkIcon } from "lucide-react";
 import { Button } from "@/components/ui";
 import { Icon, type IconId, SectionCard } from "@/components/shared";
 import type { ProjectProps } from "@/pages/Code";
@@ -17,7 +17,7 @@ export default function ProjectHighlight(props: { projects: ProjectProps[] }) {
                     bg-primary/5 
                     animate-in fade-in slide-in-from-bottom-4 duration-700"
                 >
-                    <LibraryBigIcon className="size-3 md:size-4" />
+                    <Code2Icon className="size-3 md:size-4" />
                     <span>Programming</span>
                 </div>
                 <h1 className="text-4xl md:text-6xl font-black tracking-tighter uppercase leading-[0.9] animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100 fill-mode-both">
@@ -27,9 +27,9 @@ export default function ProjectHighlight(props: { projects: ProjectProps[] }) {
                     </span>
                     .
                 </h1>
-                <p className="text-base md:text-lg text-muted-foreground font-medium leading-relaxed max-w-2xl animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
-                    A collection of work ranging from full-stack platforms to
-                    experimental tools and open-source contributions.
+                <p className="text-base md:text-lg text-muted-foreground font-medium leading-relaxed max-w-5xl animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
+                    A collection of my web development projects, showcasing a range of skills and technologies. 
+                    From full-stack applications to open-source contributions, these projects highlight my expertise in building innovative solutions.
                 </p>
             </header>
             <div

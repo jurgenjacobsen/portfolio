@@ -1,8 +1,35 @@
 import { useState, useMemo, useEffect } from "react";
-import { GithubClient } from "@/lib/Github";
+import { GithubClient, type GithubRepo } from "@/lib/Github";
 import ProjectHighlight from "@/components/features/projects/Highlight";
 import ProjectsList from "@/components/features/projects/List";
 import { SEO } from "@/components/shared";
+
+const CACHE_TTL_MS = 1000 * 60 * 60; // 1 hour
+
+const getCachedRepo = (owner: string, repo: string): GithubRepo | null => {
+    try {
+        const cached = sessionStorage.getItem(`gh_repo_${owner}_${repo}`);
+        if (!cached) return null;
+        const { data, timestamp } = JSON.parse(cached);
+        if (Date.now() - timestamp < CACHE_TTL_MS) {
+            return data;
+        }
+    } catch {
+        // ignore cache read errors
+    }
+    return null;
+};
+
+const setCachedRepo = (owner: string, repo: string, data: GithubRepo) => {
+    try {
+        sessionStorage.setItem(
+            `gh_repo_${owner}_${repo}`,
+            JSON.stringify({ data, timestamp: Date.now() })
+        );
+    } catch {
+        // ignore cache write errors
+    }
+};
 
 export type ProjectProps = {
     title: string;
@@ -40,6 +67,8 @@ export default function Projects() {
     }, [projects]);
 
     useEffect(() => {
+        let isMounted = true;
+
         const fetchProjects = async () => {
             try {
                 const response = await fetch("/projects/_.json");
@@ -49,6 +78,17 @@ export default function Projects() {
                 const data: (ProjectProps & { highlight?: boolean })[] =
                     await response.json();
 
+                if (!isMounted) return;
+
+                // Step 1: Immediately render the local project data (Instant UI load)
+                const initialProjects: ProjectProps[] = data.map((project) => ({
+                    ...project,
+                    date: project.date || project.updatedAt,
+                }));
+                setProjects(initialProjects);
+                setLoading(false);
+
+                // Step 2: Fetch and hydrate GitHub stats (stars, pushed dates) asynchronously in the background
                 const github = new GithubClient();
 
                 const getLatestDate = (date1?: string, date2?: string) => {
@@ -63,7 +103,6 @@ export default function Projects() {
                     return new Date(date1) < new Date(date2) ? date1 : date2;
                 };
 
-                // Fetch stars and dates for each project that has a github URL
                 const projectsWithGithubData = await Promise.all(
                     data.map(async (project) => {
                         if (
@@ -83,10 +122,14 @@ export default function Projects() {
                                         const owner = params[0];
                                         const repo = params[1];
 
-                                        const repoData = await github.fetchRepo(
-                                            owner,
-                                            repo,
-                                        );
+                                        let repoData = getCachedRepo(owner, repo);
+                                        if (!repoData) {
+                                            repoData = await github.fetchRepo(
+                                                owner,
+                                                repo,
+                                            );
+                                            setCachedRepo(owner, repo, repoData);
+                                        }
 
                                         const githubCreated =
                                             repoData.created_at;
@@ -127,15 +170,22 @@ export default function Projects() {
                     }),
                 );
 
-                setProjects(projectsWithGithubData);
+                if (isMounted) {
+                    setProjects(projectsWithGithubData);
+                }
             } catch (error) {
                 console.error("Error loading projects:", error);
-            } finally {
-                setLoading(false);
+                if (isMounted) {
+                    setLoading(false);
+                }
             }
         };
 
         fetchProjects();
+
+        return () => {
+            isMounted = false;
+        };
     }, []);
 
     const highlightedProjects = useMemo(() => {
