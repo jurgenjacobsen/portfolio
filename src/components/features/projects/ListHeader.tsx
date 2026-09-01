@@ -1,14 +1,6 @@
-import { SearchIcon, FilterIcon, SortDescIcon } from "lucide-react";
+import { SearchIcon, FilterIcon, SortDescIcon, ChevronDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import {
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-    Select,
-    SelectLabel,
-} from "@/components/ui/select";
+import { Select } from "@/components/ui/select";
 
 interface ListHeaderProps {
     search: string;
@@ -29,6 +21,21 @@ export default function ListHeader({
     sortBy,
     setSortBy,
 }: ListHeaderProps) {
+    const techOptions = [
+        { value: "all", label: "All Stack" },
+        ...availableTags.map((tag) => ({
+            value: tag,
+            label: tag.charAt(0).toUpperCase() + tag.slice(1),
+        })),
+    ];
+
+    const sortOptions = [
+        { value: "newest", label: "Newest First" },
+        { value: "oldest", label: "Oldest First" },
+        { value: "stars", label: "Most Stars" },
+        { value: "alphabetical", label: "A-Z" },
+    ];
+
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-4 w-full">
             {/* Search Input */}
@@ -45,49 +52,53 @@ export default function ListHeader({
 
             {/* Filters and Sorting */}
             <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 md:gap-3 w-full md:w-auto">
-                <Select value={techFilter} onValueChange={setTechFilter}>
-                    <SelectTrigger className="flex-1 h-10 rounded-xl bg-muted/30 border-border/50">
-                        <div className="flex items-center gap-2 overflow-hidden">
-                            <FilterIcon className="size-3.5 text-muted-foreground shrink-0" />
-                            <SelectValue
-                                placeholder="Technology"
-                                className="truncate"
-                            />
-                        </div>
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectGroup>
-                            <SelectLabel>Technologies</SelectLabel>
-                            <SelectItem value="all">All Stack</SelectItem>
-                            {availableTags.map((tag) => (
-                                <SelectItem key={tag} value={tag}>
-                                    {tag.charAt(0).toUpperCase() + tag.slice(1)}
-                                </SelectItem>
-                            ))}
-                        </SelectGroup>
-                    </SelectContent>
-                </Select>
+                <Select
+                    value={techFilter}
+                    onChange={(val) => setTechFilter(val)}
+                    options={techOptions}
+                    placeholder="Technology"
+                    className="flex-1"
+                    triggerClassName="h-10 rounded-xl bg-muted/30 border-border/50 w-full"
+                    renderTrigger={(selectedOption, isOpen) => (
+                        <>
+                            <div className="flex items-center gap-2 overflow-hidden">
+                                <FilterIcon className="size-3.5 text-muted-foreground shrink-0" />
+                                <span className="truncate text-sm text-foreground">
+                                    {selectedOption ? selectedOption.label : "Technology"}
+                                </span>
+                            </div>
+                            <span aria-hidden="true">
+                                <ChevronDown
+                                    className={`size-4 stroke-muted-foreground transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                                />
+                            </span>
+                        </>
+                    )}
+                />
 
-                <Select value={sortBy} onValueChange={setSortBy}>
-                    <SelectTrigger className="flex-1 h-10 rounded-xl bg-muted/30 border-border/50">
-                        <div className="flex items-center gap-2 overflow-hidden">
-                            <SortDescIcon className="size-3.5 text-muted-foreground shrink-0" />
-                            <SelectValue
-                                placeholder="Sort by"
-                                className="truncate"
-                            />
-                        </div>
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectGroup>
-                            <SelectLabel>Sort options</SelectLabel>
-                            <SelectItem value="newest">Newest First</SelectItem>
-                            <SelectItem value="oldest">Oldest First</SelectItem>
-                            <SelectItem value="stars">Most Stars</SelectItem>
-                            <SelectItem value="alphabetical">A-Z</SelectItem>
-                        </SelectGroup>
-                    </SelectContent>
-                </Select>
+                <Select
+                    value={sortBy}
+                    onChange={(val) => setSortBy(val)}
+                    options={sortOptions}
+                    placeholder="Sort by"
+                    className="flex-1"
+                    triggerClassName="h-10 rounded-xl bg-muted/30 border-border/50 w-full"
+                    renderTrigger={(selectedOption, isOpen) => (
+                        <>
+                            <div className="flex items-center gap-2 overflow-hidden">
+                                <SortDescIcon className="size-3.5 text-muted-foreground shrink-0" />
+                                <span className="truncate text-sm text-foreground">
+                                    {selectedOption ? selectedOption.label : "Sort by"}
+                                </span>
+                            </div>
+                            <span aria-hidden="true">
+                                <ChevronDown
+                                    className={`size-4 stroke-muted-foreground transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                                />
+                            </span>
+                        </>
+                    )}
+                />
             </div>
         </div>
     );

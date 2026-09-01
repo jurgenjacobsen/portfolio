@@ -1,201 +1,397 @@
-import * as React from "react";
-import { Select as SelectPrimitive } from "radix-ui";
-
+import { CheckIcon, ChevronDown } from "lucide-react";
+import React, {
+    useState,
+    useRef,
+    useEffect,
+    useLayoutEffect,
+    useId,
+    useCallback,
+} from "react";
 import { cn } from "@/lib/utils";
-import { ChevronDownIcon, CheckIcon, ChevronUpIcon } from "lucide-react";
 
-function Select({
-    ...props
-}: React.ComponentProps<typeof SelectPrimitive.Root>) {
-    return <SelectPrimitive.Root data-slot="select" {...props} />;
+const useIsomorphicLayoutEffect =
+    typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
+export interface SelectOption<T = string> {
+    value: T;
+    label: React.ReactNode;
+    disabled?: boolean;
+    [key: string]: any;
 }
 
-function SelectGroup({
-    className,
-    ...props
-}: React.ComponentProps<typeof SelectPrimitive.Group>) {
+export interface SelectTitleProps extends React.HTMLAttributes<HTMLSpanElement> {
+    children?: React.ReactNode;
+}
+
+export function SelectTitle({ children, className, ...props }: SelectTitleProps) {
     return (
-        <SelectPrimitive.Group
-            data-slot="select-group"
-            className={cn("scroll-my-1.5 p-1.5", className)}
-            {...props}
-        />
-    );
-}
-
-function SelectValue({
-    ...props
-}: React.ComponentProps<typeof SelectPrimitive.Value>) {
-    return <SelectPrimitive.Value data-slot="select-value" {...props} />;
-}
-
-function SelectTrigger({
-    className,
-    size = "default",
-    children,
-    ...props
-}: React.ComponentProps<typeof SelectPrimitive.Trigger> & {
-    size?: "sm" | "default";
-}) {
-    return (
-        <SelectPrimitive.Trigger
-            data-slot="select-trigger"
-            data-size={size}
-            className={cn(
-                `flex w-fit items-center justify-between gap-1.5 rounded-xl bg-card px-4 py-2 text-sm font-normal text-muted-foreground tracking-tight border border-border transition-all outline-none 
-                disabled:cursor-not-allowed disabled:opacity-50 data-placeholder:text-muted-foreground 
-                  *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center 
-                *:data-[slot=select-value]:gap-1.5 hover:bg-muted/25 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4`,
-                className,
-            )}
-            {...props}
-        >
+        <span className={cn("flex items-center gap-2", className)} {...props}>
             {children}
-            <SelectPrimitive.Icon asChild>
-                <ChevronDownIcon className="pointer-events-none size-4 text-muted-foreground" />
-            </SelectPrimitive.Icon>
-        </SelectPrimitive.Trigger>
+        </span>
     );
 }
 
-function SelectContent({
+export interface SelectProps<T = string> {
+    options: (SelectOption<T> | T)[];
+    value?: T;
+    defaultValue?: T;
+    onChange?: (value: T, option: SelectOption<T>) => void;
+    onValueChange?: (value: T) => void;
+    placeholder?: string;
+    title?: React.ReactNode;
+    showValue?: boolean;
+    disabled?: boolean;
+    name?: string;
+    id?: string;
+    required?: boolean;
+    className?: string;
+    triggerClassName?: string;
+    titleClassName?: string;
+    valueClassName?: string;
+    menuClassName?: string;
+    optionClassName?: string;
+    renderTrigger?: (
+        selectedOption: SelectOption<T> | undefined,
+        isOpen: boolean,
+        title?: React.ReactNode
+    ) => React.ReactNode;
+    renderOption?: (
+        option: SelectOption<T>,
+        isSelected: boolean,
+        isHighlighted: boolean
+    ) => React.ReactNode;
+}
+
+export function Select<T extends string | number = string>({
+    options,
+    value: controlledValue,
+    defaultValue,
+    onChange,
+    onValueChange,
+    placeholder = "Select an option",
+    title,
+    showValue = title === undefined,
+    disabled = false,
+    name,
+    id,
+    required = false,
     className,
-    children,
-    position = "popper",
-    align = "start",
-    sideOffset = 4,
-    ...props
-}: React.ComponentProps<typeof SelectPrimitive.Content>) {
+    triggerClassName,
+    titleClassName,
+    valueClassName,
+    menuClassName,
+    optionClassName,
+    renderTrigger,
+    renderOption,
+}: SelectProps<T>) {
+    const generatedId = useId();
+    const selectId = id || generatedId;
+    const containerRef = useRef<HTMLDivElement>(null);
+    const listRef = useRef<HTMLUListElement>(null);
+
+    // Normalize options to uniform SelectOption<T>[] objects
+    const normalizedOptions: SelectOption<T>[] = options.map((opt) => {
+        if (typeof opt === "object" && opt !== null && "value" in opt) {
+            return opt as SelectOption<T>;
+        }
+        return {
+            value: opt as T,
+            label: String(opt),
+        };
+    });
+
+    const isControlled = controlledValue !== undefined;
+    const [uncontrolledValue, setUncontrolledValue] = useState<T | undefined>(
+        defaultValue
+    );
+    const currentValue = isControlled ? controlledValue : uncontrolledValue;
+
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
+    const [placement, setPlacement] = useState<"bottom" | "top">("bottom");
+
+    const selectedOption = normalizedOptions.find(
+        (opt) => opt.value === currentValue
+    );
+
+    // Calculate whether dropdown should appear below or above trigger button
+    const updatePlacement = useCallback(() => {
+        if (!containerRef.current) return;
+        const rect = containerRef.current.getBoundingClientRect();
+        const viewportHeight =
+            window.innerHeight || document.documentElement.clientHeight;
+
+        const spaceBelow = viewportHeight - rect.bottom;
+        const spaceAbove = rect.top;
+
+        const menuHeight = listRef.current
+            ? listRef.current.offsetHeight
+            : 220;
+        const margin = 8;
+
+        if (spaceBelow < menuHeight + margin && spaceAbove > spaceBelow) {
+            setPlacement("top");
+        } else {
+            setPlacement("bottom");
+        }
+    }, []);
+
+    useIsomorphicLayoutEffect(() => {
+        if (isOpen) {
+            updatePlacement();
+        }
+    }, [isOpen, updatePlacement]);
+
+    // Handle outside click, scroll, and resize events
+    useEffect(() => {
+        if (!isOpen) return;
+
+        function handleClickOutside(event: MouseEvent | TouchEvent) {
+            if (
+                containerRef.current &&
+                !containerRef.current.contains(event.target as Node)
+            ) {
+                setIsOpen(false);
+            }
+        }
+
+        const handleScrollOrResize = () => {
+            updatePlacement();
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        document.addEventListener("touchstart", handleClickOutside);
+        window.addEventListener("resize", handleScrollOrResize);
+        window.addEventListener("scroll", handleScrollOrResize, true);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener("touchstart", handleClickOutside);
+            window.removeEventListener("resize", handleScrollOrResize);
+            window.removeEventListener("scroll", handleScrollOrResize, true);
+        };
+    }, [isOpen, updatePlacement]);
+
+    // Scroll highlighted item into view if list is scrollable
+    useEffect(() => {
+        if (isOpen && highlightedIndex >= 0 && listRef.current) {
+            const item = listRef.current.children[
+                highlightedIndex
+            ] as HTMLElement | undefined;
+            if (item) {
+                item.scrollIntoView({ block: "nearest" });
+            }
+        }
+    }, [isOpen, highlightedIndex]);
+
+    const handleSelect = useCallback(
+        (option: SelectOption<T>) => {
+            if (option.disabled || disabled) return;
+
+            if (!isControlled) {
+                setUncontrolledValue(option.value);
+            }
+
+            if (onChange) {
+                onChange(option.value, option);
+            }
+
+            if (onValueChange) {
+                onValueChange(option.value);
+            }
+
+            setIsOpen(false);
+        },
+        [disabled, isControlled, onChange, onValueChange]
+    );
+
+    // Handle keyboard navigation
+    const handleKeyDown = (event: React.KeyboardEvent) => {
+        if (disabled) return;
+
+        switch (event.key) {
+            case "Enter":
+            case " ":
+                event.preventDefault();
+                if (isOpen) {
+                    if (
+                        highlightedIndex >= 0 &&
+                        highlightedIndex < normalizedOptions.length
+                    ) {
+                        const opt = normalizedOptions[highlightedIndex];
+                        if (!opt.disabled) {
+                            handleSelect(opt);
+                        }
+                    }
+                } else {
+                    setIsOpen(true);
+                }
+                break;
+
+            case "ArrowDown":
+                event.preventDefault();
+                if (!isOpen) {
+                    setIsOpen(true);
+                    setHighlightedIndex(0);
+                } else {
+                    setHighlightedIndex((prev) => {
+                        const next = prev + 1;
+                        return next >= normalizedOptions.length ? 0 : next;
+                    });
+                }
+                break;
+
+            case "ArrowUp":
+                event.preventDefault();
+                if (!isOpen) {
+                    setIsOpen(true);
+                    setHighlightedIndex(normalizedOptions.length - 1);
+                } else {
+                    setHighlightedIndex((prev) => {
+                        const next = prev - 1;
+                        return next < 0 ? normalizedOptions.length - 1 : next;
+                    });
+                }
+                break;
+
+            case "Escape":
+                if (isOpen) {
+                    event.preventDefault();
+                    setIsOpen(false);
+                }
+                break;
+
+            case "Tab":
+                if (isOpen) {
+                    setIsOpen(false);
+                }
+                break;
+
+            default:
+                break;
+        }
+    };
+
     return (
-        <SelectPrimitive.Portal>
-            <SelectPrimitive.Content
-                data-slot="select-content"
+        <div ref={containerRef} className={cn("relative", className)}>
+            {/* Hidden native input for HTML form submissions */}
+            {name && (
+                <input
+                    type="hidden"
+                    name={name}
+                    value={currentValue !== undefined ? String(currentValue) : ""}
+                    required={required}
+                    disabled={disabled}
+                />
+            )}
+
+            {/* Select Trigger Button */}
+            <button
+                type="button"
+                id={selectId}
+                disabled={disabled}
+                aria-haspopup="listbox"
+                aria-expanded={isOpen}
+                aria-labelledby={selectId}
+                onClick={() => !disabled && setIsOpen((prev) => !prev)}
+                onKeyDown={handleKeyDown}
                 className={cn(
-                    "relative z-50 max-h-(--radix-select-content-available-height) min-w-40 overflow-hidden rounded-xl border border-border bg-card text-popover-foreground animate-in fade-in-0 zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
-                    className,
+                    "bg-card px-4 py-2 rounded-xl border border-border/75 font-normal text-muted-foreground flex gap-2 items-center cursor-pointer justify-between transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring",
+                    disabled && "opacity-50 cursor-not-allowed",
+                    triggerClassName
                 )}
-                position={position}
-                align={align}
-                sideOffset={sideOffset}
-                {...props}
             >
-                <SelectScrollUpButton />
-                <SelectPrimitive.Viewport
+                {renderTrigger ? (
+                    renderTrigger(selectedOption, isOpen, title)
+                ) : (
+                    <>
+                        {title ? (
+                            <>
+                                <SelectTitle className={titleClassName}>
+                                    {title}
+                                </SelectTitle>
+                                {showValue && (
+                                    <span className={valueClassName}>
+                                        {selectedOption
+                                            ? selectedOption.label
+                                            : placeholder}
+                                    </span>
+                                )}
+                            </>
+                        ) : (
+                            <span className={valueClassName}>
+                                {selectedOption ? selectedOption.label : placeholder}
+                            </span>
+                        )}
+                        <span aria-hidden="true">
+                            <ChevronDown
+                                className={cn(
+                                    "size-4 stroke-muted-foreground transition-transform duration-200",
+                                    isOpen && "rotate-180"
+                                )}
+                            />
+                        </span>
+                    </>
+                )}
+            </button>
+
+            {/* Dropdown Options Menu */}
+            {isOpen && (
+                <ul
+                    ref={listRef}
+                    role="listbox"
+                    aria-labelledby={selectId}
+                    tabIndex={-1}
                     className={cn(
-                        "p-1.5",
-                        position === "popper" &&
-                            "h-(--radix-select-trigger-height) w-full min-w-(--radix-select-trigger-width)",
+                        "absolute left-0 w-full z-50 bg-card rounded-xl border border-border/75 p-2 shadow-lg max-h-60 overflow-y-auto animate-in fade-in-0 zoom-in-95 duration-150 ease-out",
+                        placement === "bottom"
+                            ? "top-full mt-2 origin-top slide-in-from-top-2"
+                            : "bottom-full mb-2 origin-bottom slide-in-from-bottom-2",
+                        menuClassName
                     )}
                 >
-                    {children}
-                </SelectPrimitive.Viewport>
-                <SelectScrollDownButton />
-            </SelectPrimitive.Content>
-        </SelectPrimitive.Portal>
-    );
-}
+                    {normalizedOptions.map((option, index) => {
+                        const isSelected = option.value === currentValue;
+                        const isHighlighted = index === highlightedIndex;
 
-function SelectLabel({
-    className,
-    ...props
-}: React.ComponentProps<typeof SelectPrimitive.Label>) {
-    return (
-        <SelectPrimitive.Label
-            data-slot="select-label"
-            className={cn(
-                "px-3 py-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground/70",
-                className,
+                        return (
+                            <li
+                                key={String(option.value)}
+                                role="option"
+                                aria-selected={isSelected}
+                                aria-disabled={option.disabled}
+                                onClick={() => handleSelect(option)}
+                                onMouseEnter={() => setHighlightedIndex(index)}
+                                className={cn(
+                                    "transition-colors duration-200 rounded-lg hover:bg-muted px-3 py-2 flex items-center justify-between gap-2 cursor-pointer text-sm font-medium",
+                                    isSelected && "bg-muted/50 text-foreground font-semibold",
+                                    isHighlighted && !isSelected && "bg-muted/30",
+                                    option.disabled &&
+                                        "opacity-50 cursor-not-allowed pointer-events-none",
+                                    optionClassName
+                                )}
+                            >
+                                {renderOption ? (
+                                    renderOption(option, isSelected, isHighlighted)
+                                ) : (
+                                    <>
+                                        <span className="truncate">{option.label}</span>
+                                        {isSelected && (
+                                            <span aria-hidden="true" className="shrink-0">
+                                                <CheckIcon className="size-4" />
+                                            </span>
+                                        )}
+                                    </>
+                                )}
+                            </li>
+                        );
+                    })}
+                </ul>
             )}
-            {...props}
-        />
+        </div>
     );
 }
 
-function SelectItem({
-    className,
-    children,
-    ...props
-}: React.ComponentProps<typeof SelectPrimitive.Item>) {
-    return (
-        <SelectPrimitive.Item
-            data-slot="select-item"
-            className={cn(
-                "relative flex w-full cursor-default items-center gap-2.5 rounded-lg py-2 pr-8 pl-3 text-sm font-semibold tracking-tight outline-none select-none focus:bg-muted/50 focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-                className,
-            )}
-            {...props}
-        >
-            <span className="pointer-events-none absolute right-2 flex size-4 items-center justify-center">
-                <SelectPrimitive.ItemIndicator>
-                    <CheckIcon className="size-4 text-primary" />
-                </SelectPrimitive.ItemIndicator>
-            </span>
-            <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
-        </SelectPrimitive.Item>
-    );
-}
+Select.Title = SelectTitle;
 
-function SelectSeparator({
-    className,
-    ...props
-}: React.ComponentProps<typeof SelectPrimitive.Separator>) {
-    return (
-        <SelectPrimitive.Separator
-            data-slot="select-separator"
-            className={cn(
-                "pointer-events-none -mx-1.5 my-1.5 h-px bg-border",
-                className,
-            )}
-            {...props}
-        />
-    );
-}
-
-function SelectScrollUpButton({
-    className,
-    ...props
-}: React.ComponentProps<typeof SelectPrimitive.ScrollUpButton>) {
-    return (
-        <SelectPrimitive.ScrollUpButton
-            data-slot="select-scroll-up-button"
-            className={cn(
-                "z-10 flex cursor-default items-center justify-center bg-popover py-1 [&_svg:not([class*='size-'])]:size-4",
-                className,
-            )}
-            {...props}
-        >
-            <ChevronUpIcon />
-        </SelectPrimitive.ScrollUpButton>
-    );
-}
-
-function SelectScrollDownButton({
-    className,
-    ...props
-}: React.ComponentProps<typeof SelectPrimitive.ScrollDownButton>) {
-    return (
-        <SelectPrimitive.ScrollDownButton
-            data-slot="select-scroll-down-button"
-            className={cn(
-                "z-10 flex cursor-default items-center justify-center bg-popover py-1 [&_svg:not([class*='size-'])]:size-4",
-                className,
-            )}
-            {...props}
-        >
-            <ChevronDownIcon />
-        </SelectPrimitive.ScrollDownButton>
-    );
-}
-
-export {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectScrollDownButton,
-    SelectScrollUpButton,
-    SelectSeparator,
-    SelectTrigger,
-    SelectValue,
-};
+export default Select;
