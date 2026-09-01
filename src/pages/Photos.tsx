@@ -20,6 +20,9 @@ function SinglePhotoBanner(props: { src: string, alt: string, title: string, sub
                 src={props.src}
                 alt={props.alt}
                 className="w-full h-full object-cover"
+                loading="eager"
+                fetchPriority="high"                                                                                                                                                                                                                                                 
+                decoding="async"
             />
             <div className="absolute left-0 top-0 w-full h-full p-6 flex flex-col justify-between bg-black/25 pointer-events-none">
                 <div className="flex justify-center items-center gap-2">
@@ -62,6 +65,9 @@ function MultiplePhotoBanner(props: { photos: string[], alt: string, title: stri
                             alt={props.alt}
                             className="w-full h-full min-w-0 flex-1 object-cover transition-all duration-500 ease-in-out hover:flex-3"
                             key={i}
+                            loading="eager"                                                                                                                                                                                                                                                      
+                            fetchPriority="high"                                                                                                                                                                                                                                                 
+                            decoding="async"
                         />
                     ))
                 }
