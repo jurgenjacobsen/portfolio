@@ -1,0 +1,24 @@
+# Build and dependency artifacts
+node_modules
+dist
+dist-ssr
+coverage
+
+# Package manager lockfile
+package-lock.json
+
+# Environment and local configs
+.env
+.env.*
+!.env.example
+.wakatime-project
+
+# Editor and Git metadata
+.git
+.vscode
+.idea
+
+# Generated files
+public/projects/_.json
+public/rss.xml
+public/sitemap.xml
