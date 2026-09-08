@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { MoveLeftIcon, OctagonAlertIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { SectionCard, SEO } from "@/components/shared";
 
 export default function NotFound() {
@@ -12,7 +11,6 @@ export default function NotFound() {
                 robots="noindex, nofollow"
             />
             <SectionCard className="w-full p-6 text-center flex flex-col items-center gap-6">
-
                 <div className="bg-destructive/15 p-4 rounded-full text-destructive">
                     <OctagonAlertIcon className="size-12" />
                 </div>
@@ -28,16 +26,13 @@ export default function NotFound() {
                     </p>
                 </div>
 
-                <Button
-                    asChild
-                    variant="outline"
-                    className="mt-2 px-4 hover:opacity-75 duration-300"
+                <Link
+                    to="/"
+                    className="mt-2 inline-flex items-center justify-center gap-2 h-9 px-4 text-sm font-medium rounded-full border border-border bg-background hover:bg-muted hover:text-foreground transition-all duration-300"
                 >
-                    <Link to="/" className="flex items-center gap-2">
-                        <MoveLeftIcon className="size-4" />
-                        Back to Home
-                    </Link>
-                </Button>
+                    <MoveLeftIcon className="size-4" />
+                    Back to Home
+                </Link>
             </SectionCard>
         </main>
     );

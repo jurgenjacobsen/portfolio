@@ -11,7 +11,7 @@ import {
     ContextMenuItem,
     ContextMenuSeparator,
     ContextMenuTrigger,
-} from "@/components/ui/context-menu";
+} from "@/components/shared";
 
 import { Analytics } from "@vercel/analytics/react";
 import { AudioWaveform, RefreshCcw, Share } from "lucide-react";
@@ -73,10 +73,11 @@ function Root() {
                 <ContextMenuContent>
                     <ContextMenuGroup>
                         <ContextMenuItem onClick={share}>
-                            <Share className="w-4 h-4" /> Share
+                                <Share className="w-4 h-4" /> Share
                         </ContextMenuItem>
 
                         <ContextMenuItem
+                            className="mt-1"
                             onClick={() => window.location.reload()}
                         >
                             <RefreshCcw className="w-4 h-4" /> Reload
@@ -90,20 +91,6 @@ function Root() {
                         >
                             <AudioWaveform className="w-4 h-4" /> Animations
                         </ContextMenuCheckboxItem>
-
-                        {/*<ContextMenuCheckboxItem
-                            checked={nightMode}
-                            onCheckedChange={() => {}}
-                        >
-                            {
-                                nightMode ? (
-                                    <><Sun className="w-4 h-4" /> Light Mode</>
-                                ) : (
-                                    <><Moon className="w-4 h-4" /> Dark Mode</>
-                                )
-                            }
-
-                        </ContextMenuCheckboxItem> */}
                     </ContextMenuGroup>
                 </ContextMenuContent>
             </ContextMenu>

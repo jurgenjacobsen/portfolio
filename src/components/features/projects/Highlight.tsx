@@ -1,5 +1,4 @@
 import { Code2Icon, ExternalLinkIcon } from "lucide-react";
-import { Button } from "@/components/ui";
 import { Icon, type IconId, SectionCard } from "@/components/shared";
 import type { ProjectProps } from "@/pages/Code";
 import { Link } from "react-router-dom";
@@ -28,8 +27,10 @@ export default function ProjectHighlight(props: { projects: ProjectProps[] }) {
                     .
                 </h1>
                 <p className="text-base md:text-lg text-muted-foreground font-medium leading-relaxed max-w-5xl animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
-                    A collection of my web development projects, showcasing a range of skills and technologies. 
-                    From full-stack applications to open-source contributions, these projects highlight my expertise in building innovative solutions.
+                    A collection of my web development projects, showcasing a
+                    range of skills and technologies. From full-stack
+                    applications to open-source contributions, these projects
+                    highlight my expertise in building innovative solutions.
                 </p>
             </header>
             <div
@@ -68,38 +69,27 @@ export default function ProjectHighlight(props: { projects: ProjectProps[] }) {
                             </div>
                             <div className="flex gap-2 shrink-0">
                                 {projects[0]?.github && (
-                                    <Button
-                                        asChild
-                                        variant="outline"
-                                        size="icon"
-                                        className="rounded-xl size-9 cursor-pointer hover:opacity-75"
+                                    <a
+                                        href={projects[0]?.github}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        aria-label={`GitHub repository for ${projects[0]?.title}`}
+                                        className="inline-flex items-center justify-center rounded-xl size-9 border border-border bg-background hover:bg-muted hover:text-foreground hover:opacity-75 transition-all cursor-pointer"
                                     >
-                                        <a
-                                            href={projects[0]?.github}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            aria-label={`GitHub repository for ${projects[0]?.title}`}
-                                        >
-                                            <Icon
-                                                id="github"
-                                                className="size-4 fill-foreground"
-                                            />
-                                        </a>
-                                    </Button>
+                                        <Icon
+                                            id="github"
+                                            className="size-4 fill-foreground"
+                                        />
+                                    </a>
                                 )}
                                 {projects[0]?.slug && (
-                                    <Button
-                                        asChild
-                                        size="icon"
-                                        className="rounded-xl size-9 cursor-pointer"
+                                    <Link
+                                        to={`/code/${projects[0].slug}`}
+                                        aria-label={`View ${projects[0]?.title} project details`}
+                                        className="inline-flex items-center justify-center rounded-xl size-9 bg-primary text-primary-foreground hover:bg-primary/80 transition-colors cursor-pointer"
                                     >
-                                        <Link
-                                            to={`/code/${projects[0].slug}`}
-                                            aria-label={`View ${projects[0]?.title} project details`}
-                                        >
-                                            <ExternalLinkIcon className="size-4" />
-                                        </Link>
-                                    </Button>
+                                        <ExternalLinkIcon className="size-4" />
+                                    </Link>
                                 )}
                             </div>
                         </div>
@@ -148,39 +138,34 @@ export default function ProjectHighlight(props: { projects: ProjectProps[] }) {
                                                 ))}
                                         </div>
                                     </div>
-                                    { (project.link || project.github || project.slug) &&
+                                    {(project.link ||
+                                        project.github ||
+                                        project.slug) && (
                                         <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
                                             {project.slug ? (
-                                                <Button
-                                                    asChild
-                                                    size="icon"
-                                                    className="rounded-xl size-8 bg-card text-foreground hover:bg-card/90 cursor-pointer"
+                                                <Link
+                                                    to={`/code/${project.slug}`}
+                                                    aria-label={`View ${project.title} project details`}
+                                                    className="inline-flex items-center justify-center rounded-xl size-8 bg-card text-foreground hover:bg-card/90 transition-colors cursor-pointer"
                                                 >
-                                                    <Link
-                                                        to={`/code/${project.slug}`}
-                                                        aria-label={`View ${project.title} project details`}
-                                                    >
-                                                        <ExternalLinkIcon className="size-3" />
-                                                    </Link>
-                                                </Button>
+                                                    <ExternalLinkIcon className="size-3" />
+                                                </Link>
                                             ) : (
-                                                <Button
-                                                    asChild
-                                                    size="icon"
-                                                    className="rounded-xl size-8 bg-card text-foreground hover:bg-card/90 cursor-pointer"
+                                                <a
+                                                    href={
+                                                        project.link ||
+                                                        project.github
+                                                    }
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    aria-label={`Visit ${project.title}`}
+                                                    className="inline-flex items-center justify-center rounded-xl size-8 bg-card text-foreground hover:bg-card/90 transition-colors cursor-pointer"
                                                 >
-                                                    <a
-                                                        href={project.link || project.github}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        aria-label={`Visit ${project.title}`}
-                                                    >
-                                                        <ExternalLinkIcon className="size-3" />
-                                                    </a>
-                                                </Button>
+                                                    <ExternalLinkIcon className="size-3" />
+                                                </a>
                                             )}
                                         </div>
-                                    }
+                                    )}
                                 </div>
                             </div>
                         ))}
