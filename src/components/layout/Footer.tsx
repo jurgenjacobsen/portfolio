@@ -75,7 +75,6 @@ export default function Footer() {
             href: "/guides",
             icon: <Icon id="BookOpenIcon" className="w-4 h-4" />,
             label: "Guides",
-            disabled: true,
         },
         {
             href: "/rss.xml",

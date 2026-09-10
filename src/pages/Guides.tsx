@@ -1,462 +1,648 @@
-import { useState } from "react";
-import { SectionCard, SEO } from "@/components/shared";
-import { Input } from "@/components/ui/input";
+import { useState, useEffect, useMemo } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { SEO } from "@/components/shared";
+import GuidesHero from "@/components/features/guides/GuidesHero";
+import parseFrontMatter from "front-matter";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import {
-    BookOpenIcon,
-    SearchIcon,
-    ChevronRightIcon,
-    PlaneIcon,
-    Code2Icon,
-    TerminalIcon,
-    CompassIcon,
-    CheckCircle2Icon,
     ClockIcon,
-    SparklesIcon,
-    LayersIcon,
     Share2Icon,
-    FileTextIcon,
+    CheckIcon,
+    LinkIcon,
+    BookOpenIcon,
+    Loader2Icon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface GuideArticle {
-    id: string;
+interface GuideItem {
     title: string;
+    slug: string;
+    section: string;
+    sectionId: string;
+    topic: string;
+    topicId: string;
+    order: number;
     description: string;
-    category: "aviation" | "software" | "tooling" | "workflow";
     readTime: string;
     updatedAt: string;
     tags: string[];
-    sections: {
-        id: string;
-        heading: string;
-        content: string[];
-        tip?: string;
-        codeSnippet?: string;
-    }[];
+    filePath: string;
 }
 
-const GUIDES_DATA: GuideArticle[] = [
-    {
-        id: "ifr-flight-planning",
-        title: "IFR Flight Planning & SOP Workflow",
-        description:
-            "A structured breakdown of Instrument Flight Rules preparation, route validation, alternate minimums, and fuel contingencies.",
-        category: "aviation",
-        readTime: "7 min read",
-        updatedAt: "March 2025",
-        tags: ["Aviation", "IFR", "Navigation", "SOPs"],
-        sections: [
-            {
-                id: "overview",
-                heading: "1. Overview & Objective",
-                content: [
-                    "Instrument Flight Rules (IFR) operations demand rigorous pre-flight preparation, standard operating procedure (SOP) adherence, and accurate risk assessments before engine start.",
-                    "This guide outlines key verification stages including NOTAM analysis, route structure selection, weather minimum compliance, and calculated reserve fuel calculations.",
-                ],
-                tip: "Always cross-reference alternate aerodrome weather forecasts with the applicable non-precision or precision approach ceiling and visibility minimums.",
-            },
-            {
-                id: "weather-notam",
-                heading: "2. Meteorological Assessment & NOTAMs",
-                content: [
-                    "Review METARs, TAFs, and SIGMET charts along the planned route of flight. Identify freezing levels, icing hazards, turbulence forecasts, and convective activity.",
-                    "Verify runway closures, navigational aid outages (VOR/DME/ILS), and airspace restrictions through current NOTAM bulletins.",
-                ],
-            },
-            {
-                id: "fuel-contingency",
-                heading: "3. Fuel Planning & Alternate Selection",
-                content: [
-                    "Calculate block fuel ensuring required reserves: Taxi Fuel + Trip Fuel + Contingency (minimum 5%) + Alternate Fuel + Final Reserve Fuel (30/45 min).",
-                    "Choose appropriate take-off, destination, and en-route alternates depending on aerodrome operating categories and forecast trend buffers.",
-                ],
-                tip: "Under ICAO rules, ensure final reserve fuel is protected at all times and not considered usable for routing adjustments.",
-            },
-        ],
-    },
-    {
-        id: "react-architecture-modern-spa",
-        title: "Modern React 19 Architecture & Performance",
-        description:
-            "Architectural patterns for scalable, lightweight React single-page applications with Tailwind CSS, client caching, and SEO optimization.",
-        category: "software",
-        readTime: "6 min read",
-        updatedAt: "February 2025",
-        tags: ["React", "TypeScript", "Tailwind CSS", "Architecture"],
-        sections: [
-            {
-                id: "core-principles",
-                heading: "1. Core Principles of High-Performance SPAs",
-                content: [
-                    "Modern SPAs should prioritize minimal bundle footprints, instant client transitions, and rock-solid state boundary isolation.",
-                    "By leveraging component-driven modularity and utility-first styling with Tailwind CSS, interfaces remain clean, consistent, and maintainable.",
-                ],
-                codeSnippet: `// Example: Clean reactive scroll restoration hook
-useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-}, [location.pathname]);`,
-            },
-            {
-                id: "seo-metadata",
-                heading: "2. Client-Side SEO & Structured Data",
-                content: [
-                    "Ensure every route mounts dynamic meta tags, OpenGraph attributes, canonical URLs, and Schema.org JSON-LD breadcrumb graphs.",
-                    "This guarantees search crawlers accurately index client-rendered applications while maintaining full SPA fluid navigability.",
-                ],
-                tip: "Include BreadcrumbList and SoftwareSourceCode / Article schemas to maximize rich snippets in search engines.",
-            },
-        ],
-    },
-    {
-        id: "developer-environment-terminal",
-        title: "Unix & PowerShell Productive Developer Setup",
-        description:
-            "Optimized shell configuration, prompt styling, Git aliases, and build pipeline automation for cross-platform efficiency.",
-        category: "tooling",
-        readTime: "5 min read",
-        updatedAt: "January 2025",
-        tags: ["DevOps", "Terminal", "Git", "Tooling"],
-        sections: [
-            {
-                id: "shell-config",
-                heading: "1. Shell Ergonomics & Keybindings",
-                content: [
-                    "A fast terminal workflow relies on instant command recall, Git status awareness, and customized aliases for repetitive tasks.",
-                    "Configure auto-completions, syntax highlighting, and minimal status prompts to reduce cognitive overhead during development.",
-                ],
-                codeSnippet: `# Fast Git commit & push shortcut
-git add -A && git commit -m "feat: enhance navigation flow" && git push`,
-            },
-            {
-                id: "automation-scripts",
-                heading: "2. Build & Content Automation",
-                content: [
-                    "Automate repetitive tasks like RSS feed generation, project index collation, and sitemap synchronization directly via pre-build scripts.",
-                ],
-                tip: "Keep automated build hooks fast and idempotent so local development remains seamless.",
-            },
-        ],
-    },
-];
+interface TopicNode {
+    id: string;
+    title: string;
+    order: number;
+    guides: GuideItem[];
+}
 
-const CATEGORIES = [
-    { id: "all", label: "All Guides", icon: LayersIcon, count: GUIDES_DATA.length },
-    {
-        id: "aviation",
-        label: "Aviation & Flight Ops",
-        icon: PlaneIcon,
-        count: GUIDES_DATA.filter((g) => g.category === "aviation").length,
-    },
-    {
-        id: "software",
-        label: "Software & Web Dev",
-        icon: Code2Icon,
-        count: GUIDES_DATA.filter((g) => g.category === "software").length,
-    },
-    {
-        id: "tooling",
-        label: "Tooling & Workflow",
-        icon: TerminalIcon,
-        count: GUIDES_DATA.filter((g) => g.category === "tooling").length,
-    },
-];
+interface SectionNode {
+    id: string;
+    title: string;
+    order: number;
+    topics: TopicNode[];
+}
+
+interface GuidesIndexData {
+    sections: SectionNode[];
+    bySlug: Record<string, GuideItem>;
+    guides: GuideItem[];
+}
+
+const ChevronIcon = ({ isOpen = false }: { isOpen?: boolean }) => (
+    <svg
+        aria-hidden="true"
+        focusable="false"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={`transition-transform duration-200 shrink-0 ${isOpen ? "rotate-180" : ""}`}
+    >
+        <path d="m6 9 6 6 6-6" />
+    </svg>
+);
+
+function formatMonthYear(dateString?: string): string {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return dateString;
+    return date.toLocaleDateString("en-US", {
+        month: "long",
+        year: "numeric",
+    });
+}
 
 export default function Guides() {
-    const [selectedCategory, setSelectedCategory] = useState<string>("all");
-    const [selectedGuideId, setSelectedGuideId] = useState<string>(GUIDES_DATA[0].id);
-    const [searchQuery, setSearchQuery] = useState<string>("");
+    const { slug } = useParams();
+    const navigate = useNavigate();
 
-    const filteredGuides = GUIDES_DATA.filter((guide) => {
-        const matchesCategory =
-            selectedCategory === "all" || guide.category === selectedCategory;
-        const matchesSearch =
-            searchQuery.trim() === "" ||
-            guide.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            guide.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            guide.tags.some((tag) =>
-                tag.toLowerCase().includes(searchQuery.toLowerCase())
-            );
-        return matchesCategory && matchesSearch;
-    });
+    const [indexData, setIndexData] = useState<GuidesIndexData | null>(null);
+    const [openSections, setOpenSections] = useState<Record<string, boolean>>(
+        {},
+    );
+    const [isMobileDirectoryOpen, setIsMobileDirectoryOpen] =
+        useState<boolean>(false);
+    const [markdownContent, setMarkdownContent] = useState<string>("");
+    const [loadingIndex, setLoadingIndex] = useState<boolean>(true);
+    const [loadingContent, setLoadingContent] = useState<boolean>(false);
+    const [copiedLink, setCopiedLink] = useState<boolean>(false);
 
-    const activeGuide =
-        filteredGuides.find((g) => g.id === selectedGuideId) ||
-        filteredGuides[0] ||
-        GUIDES_DATA[0];
+    // Track read status per guide slug with localStorage persistence
+    const [readGuides, setReadGuides] = useState<Record<string, boolean>>(
+        () => {
+            try {
+                const stored = localStorage.getItem("guides_read_status");
+                return stored ? JSON.parse(stored) : {};
+            } catch {
+                return {};
+            }
+        },
+    );
+
+    // Fetch the pre-built index of guides
+    useEffect(() => {
+        let isMounted = true;
+        fetch("/guide/_.json")
+            .then((res) => {
+                if (!res.ok) throw new Error("Failed to load guides index");
+                return res.json();
+            })
+            .then((data: GuidesIndexData) => {
+                if (!isMounted) return;
+                setIndexData(data);
+
+                // Open all sections by default
+                const initialOpen: Record<string, boolean> = {};
+                data.sections.forEach((sec) => {
+                    initialOpen[sec.id] = true;
+                });
+                setOpenSections(initialOpen);
+                setLoadingIndex(false);
+            })
+            .catch((err) => {
+                console.error(err);
+                if (isMounted) setLoadingIndex(false);
+            });
+
+        return () => {
+            isMounted = false;
+        };
+    }, []);
+
+    // Resolve active guide from slug or default to the landing guide ("hello-world" or first guide)
+    const activeGuide = useMemo(() => {
+        if (!indexData || indexData.guides.length === 0) return null;
+        if (slug && indexData.bySlug[slug]) {
+            return indexData.bySlug[slug];
+        }
+        // Default to "hello-world" as the landing guide if available
+        if (indexData.bySlug["hello-world"]) {
+            return indexData.bySlug["hello-world"];
+        }
+        // Fallback to first guide in the first sorted section, or first indexed guide
+        const firstSectionGuide = indexData.sections[0]?.topics[0]?.guides[0];
+        return firstSectionGuide || indexData.guides[0];
+    }, [indexData, slug]);
+
+    // Keep URL synchronized if /guides is visited without a slug
+    useEffect(() => {
+        if (!slug && activeGuide) {
+            navigate(`/guides/${activeGuide.slug}`, { replace: true });
+        }
+    }, [slug, activeGuide, navigate]);
+
+    // Fetch and strip frontmatter from the active markdown file
+    useEffect(() => {
+        if (!activeGuide) {
+            setMarkdownContent("");
+            return;
+        }
+
+        let isMounted = true;
+        setLoadingContent(true);
+
+        fetch(activeGuide.filePath)
+            .then((res) => {
+                if (!res.ok) throw new Error("Failed to load markdown content");
+                return res.text();
+            })
+            .then((rawText) => {
+                if (!isMounted) return;
+                const parsed = parseFrontMatter(rawText);
+                setMarkdownContent(parsed.body);
+                setLoadingContent(false);
+            })
+            .catch((err) => {
+                console.error(err);
+                if (isMounted) {
+                    setMarkdownContent("Failed to load guide content.");
+                    setLoadingContent(false);
+                }
+            });
+
+        return () => {
+            isMounted = false;
+        };
+    }, [activeGuide]);
+
+    const toggleSection = (sectionId: string) => {
+        setOpenSections((prev) => ({
+            ...prev,
+            [sectionId]: !prev[sectionId],
+        }));
+    };
+
+    const handleSelectGuide = (guideSlug: string) => {
+        navigate(`/guides/${guideSlug}`);
+        setIsMobileDirectoryOpen(false);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    const toggleMarkAsRead = () => {
+        if (!activeGuide) return;
+        setReadGuides((prev) => {
+            const next = {
+                ...prev,
+                [activeGuide.slug]: !prev[activeGuide.slug],
+            };
+            try {
+                localStorage.setItem(
+                    "guides_read_status",
+                    JSON.stringify(next),
+                );
+            } catch (e) {
+                console.error("Failed to save read status to localStorage:", e);
+            }
+            return next;
+        });
+    };
+
+    const handleCopyLink = () => {
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(window.location.href);
+            setCopiedLink(true);
+            setTimeout(() => setCopiedLink(false), 2000);
+        }
+    };
+
+    const handleShare = async () => {
+        if (navigator.share && activeGuide) {
+            try {
+                await navigator.share({
+                    title: activeGuide.title,
+                    text: activeGuide.description || activeGuide.title,
+                    url: window.location.href,
+                });
+            } catch (err) {
+                if ((err as Error).name !== "AbortError") {
+                    console.error("Error sharing:", err);
+                }
+            }
+        } else {
+            handleCopyLink();
+        }
+    };
 
     return (
         <main className="space-y-6 md:space-y-8 animate-in fade-in duration-500 fill-mode-both">
             <SEO
-                title="Guides | Jürgen Jacobsen"
-                description="Comprehensive documentation, aviation flight operational procedures, web architecture guides, and technical tutorials by Jürgen Jacobsen."
-                canonical="/guides"
+                title={
+                    activeGuide
+                        ? `${activeGuide.title} | Guides | Jürgen Jacobsen`
+                        : "Guides | Jürgen Jacobsen"
+                }
+                description={
+                    activeGuide?.description ||
+                    "Comprehensive documentation, aviation flight operational procedures, web architecture guides, and technical tutorials by Jürgen Jacobsen."
+                }
+                canonical={
+                    activeGuide ? `/guides/${activeGuide.slug}` : "/guides"
+                }
                 breadcrumbs={[
                     { name: "Home", path: "/" },
                     { name: "Guides", path: "/guides" },
+                    ...(activeGuide
+                        ? [
+                              {
+                                  name: activeGuide.title,
+                                  path: `/guides/${activeGuide.slug}`,
+                              },
+                          ]
+                        : []),
                 ]}
             />
 
-            {/* Hero Header SectionCard */}
-            <SectionCard className="animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both">
-                <header className="space-y-4">
-                    <div className="inline-flex items-center gap-2 px-4 py-1.5 border border-border rounded-full text-primary text-[10px] md:text-xs uppercase tracking-wider font-bold bg-primary/5">
-                        <BookOpenIcon className="size-3 md:size-4" />
-                        <span>Guides</span>
+            {/* Hero Header Section */}
+            <GuidesHero />
+
+            <div className="flex flex-col md:flex-row gap-6 items-start">
+                {/* Collapsible Hierarchical Sidebar */}
+                <aside className="w-full md:w-84 shrink-0 bg-card p-4 text-sm shadow-md rounded-xl select-none md:sticky md:top-6">
+                    {/* Sidebar Header & Mobile Collapsible Bar */}
+                    <div className="flex items-center justify-between px-2">
+                        <div className="flex items-center gap-2">
+                            <h2 className="text-base font-bold text-foreground">
+                                Directory
+                            </h2>
+                            {indexData && (
+                                <span className="text-xs font-semibold text-muted-foreground">
+                                    ({indexData.guides.length})
+                                </span>
+                            )}
+                        </div>
+
+                        {/* Collapsible Mobile Bar Toggle Button */}
+                        <button
+                            type="button"
+                            onClick={() =>
+                                setIsMobileDirectoryOpen((prev) => !prev)
+                            }
+                            aria-expanded={isMobileDirectoryOpen}
+                            aria-controls="guides-directory-nav"
+                            className="md:hidden flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border bg-muted/40 hover:bg-muted text-xs font-semibold text-foreground transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/50"
+                        >
+                            <span>
+                                {isMobileDirectoryOpen
+                                    ? "Hide Directory"
+                                    : "Browse Directory"}
+                            </span>
+                            <ChevronIcon isOpen={isMobileDirectoryOpen} />
+                        </button>
                     </div>
 
-                    <h1 className="text-4xl md:text-6xl font-black tracking-tighter uppercase leading-[0.9]">
-                        TECHNICAL{" "}
-                        <span className="text-primary italic font-serif">GUIDES</span>
-                        .
-                    </h1>
+                    {/* Directory Navigation */}
+                    <div
+                        id="guides-directory-nav"
+                        className={`${
+                            isMobileDirectoryOpen ? "block mt-4" : "hidden"
+                        } md:block md:mt-4`}
+                    >
+                        {loadingIndex ? (
+                            <div className="flex items-center justify-center py-8 text-muted-foreground gap-2">
+                                <Loader2Icon
+                                    aria-hidden="true"
+                                    className="size-4 animate-spin"
+                                />
+                                <span>Loading index...</span>
+                            </div>
+                        ) : (
+                            <nav
+                                aria-label="Guides Directory"
+                                className="flex flex-col space-y-2"
+                            >
+                                {indexData?.sections.map((section) => {
+                                    const isOpen = !!openSections[section.id];
+                                    return (
+                                        <div key={section.id}>
+                                            {/* Section Header Button */}
+                                            <button
+                                                id={`section-btn-${section.id}`}
+                                                aria-expanded={isOpen}
+                                                aria-controls={`section-panel-${section.id}`}
+                                                onClick={() =>
+                                                    toggleSection(section.id)
+                                                }
+                                                className="w-full flex items-center justify-between px-2 py-1 font-medium text-foreground hover:text-foreground/75 transition-colors cursor-pointer rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/50"
+                                            >
+                                                <span>{section.title}</span>
+                                                <ChevronIcon isOpen={isOpen} />
+                                            </button>
 
-                    <p className="text-base md:text-lg text-muted-foreground font-medium leading-relaxed max-w-3xl">
-                        Curated reference manuals, aviation standard operating
-                        procedures, software engineering workflows, and system guides
-                        built for clarity and precision.
-                    </p>
+                                            {/* Collapsible Section Topics & Guides with smooth open/hide animation */}
+                                            <div
+                                                id={`section-panel-${section.id}`}
+                                                role="region"
+                                                aria-labelledby={`section-btn-${section.id}`}
+                                                className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${
+                                                    isOpen
+                                                        ? "grid-rows-[1fr] opacity-100 mt-2"
+                                                        : "grid-rows-[0fr] opacity-0 mt-0 pointer-events-none"
+                                                }`}
+                                            >
+                                                <div className="overflow-hidden">
+                                                    <div className="relative pl-2 space-y-2 border-l border-border ml-2">
+                                                        {section.topics.map(
+                                                            (
+                                                                topic,
+                                                                topicIdx,
+                                                            ) => (
+                                                                <div
+                                                                    key={
+                                                                        topic.id
+                                                                    }
+                                                                    className="space-y-2"
+                                                                >
+                                                                    {topic.title &&
+                                                                        (section
+                                                                            .topics
+                                                                            .length >
+                                                                            1 ||
+                                                                            topic.title.toLowerCase() !==
+                                                                                section.title.toLowerCase()) && (
+                                                                            <h3
+                                                                                style={{
+                                                                                    animationDelay: `${topicIdx * 50}ms`,
+                                                                                }}
+                                                                                className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground ml-2 animate-in fade-in slide-in-from-left-2 duration-300 fill-mode-both"
+                                                                            >
+                                                                                {
+                                                                                    topic.title
+                                                                                }
+                                                                            </h3>
+                                                                        )}
 
-                    {/* Search & Category Filter Toolbar */}
-                    <div className="pt-2 flex flex-col sm:flex-row gap-4 items-stretch sm:items-center justify-between">
-                        <div className="relative flex-1 max-w-md">
-                            <SearchIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
-                            <Input
-                                placeholder="Search guides, tags, or topics..."
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                className="pl-10 h-10 rounded-full bg-muted/40 border border-border/80 focus-visible:bg-card"
+                                                                    <div className="space-y-2">
+                                                                        {topic.guides.map(
+                                                                            (
+                                                                                guide,
+                                                                                guideIdx,
+                                                                            ) => {
+                                                                                const isActive =
+                                                                                    guide.slug ===
+                                                                                    activeGuide?.slug;
+                                                                                const isRead =
+                                                                                    !!readGuides[
+                                                                                        guide
+                                                                                            .slug
+                                                                                    ];
+                                                                                const itemDelay =
+                                                                                    (topicIdx *
+                                                                                        3 +
+                                                                                        guideIdx) *
+                                                                                    45;
+                                                                                return (
+                                                                                    <button
+                                                                                        key={
+                                                                                            guide.slug
+                                                                                        }
+                                                                                        onClick={() =>
+                                                                                            handleSelectGuide(
+                                                                                                guide.slug,
+                                                                                            )
+                                                                                        }
+                                                                                        aria-current={
+                                                                                            isActive
+                                                                                                ? "page"
+                                                                                                : undefined
+                                                                                        }
+                                                                                        style={{
+                                                                                            animationDelay: `${itemDelay}ms`,
+                                                                                        }}
+                                                                                        className={`relative w-full text-left ml-2 pl-4 pr-2 py-2 flex items-center justify-between text-sm transition-colors cursor-pointer animate-in fade-in slide-in-from-left-2 duration-300 fill-mode-both focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/50 ${
+                                                                                            isActive
+                                                                                                ? "text-foreground font-semibold"
+                                                                                                : "text-muted-foreground hover:text-primary"
+                                                                                        }`}
+                                                                                    >
+                                                                                        {isActive && (
+                                                                                            <span className="absolute left-0 top-2 bottom-2 w-1 bg-foreground rounded-full" />
+                                                                                        )}
+                                                                                        <span className="truncate block mr-2">
+                                                                                            {
+                                                                                                guide.title
+                                                                                            }
+                                                                                        </span>
+                                                                                        {isRead && (
+                                                                                            <CheckIcon
+                                                                                                aria-hidden="true"
+                                                                                                className="size-4 text-muted-foreground shrink-0"
+                                                                                            />
+                                                                                        )}
+                                                                                    </button>
+                                                                                );
+                                                                            },
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+                                                            ),
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </nav>
+                        )}
+                    </div>
+                </aside>
+
+                {/* Main Content Card */}
+                <div className="w-full min-w-0 bg-card p-6 md:p-8 shadow-md rounded-xl space-y-6">
+                    {loadingContent ? (
+                        <div className="flex flex-col items-center justify-center py-20 text-muted-foreground gap-4">
+                            <Loader2Icon
+                                aria-hidden="true"
+                                className="size-6 animate-spin text-primary"
                             />
-                        </div>
-
-                        <div className="flex flex-wrap gap-2">
-                            {CATEGORIES.map((cat) => {
-                                const Icon = cat.icon;
-                                const isSelected = selectedCategory === cat.id;
-                                return (
-                                    <button
-                                        key={cat.id}
-                                        onClick={() => setSelectedCategory(cat.id)}
-                                        className={cn(
-                                            "inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer border",
-                                            isSelected
-                                                ? "bg-primary text-primary-foreground border-primary shadow-xs"
-                                                : "bg-muted/40 text-muted-foreground border-border/60 hover:text-foreground hover:bg-muted"
-                                        )}
-                                    >
-                                        <Icon className="size-3.5" />
-                                        <span>{cat.label}</span>
-                                        <span
-                                            className={cn(
-                                                "text-[10px] px-1.5 py-0.2 rounded-full font-bold",
-                                                isSelected
-                                                    ? "bg-primary-foreground/20 text-primary-foreground"
-                                                    : "bg-muted text-muted-foreground"
-                                            )}
-                                        >
-                                            {cat.count}
-                                        </span>
-                                    </button>
-                                );
-                            })}
-                        </div>
-                    </div>
-                </header>
-            </SectionCard>
-
-            {/* Guides Content Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-                {/* Left Sidebar: Guide List */}
-                <div className="lg:col-span-4 space-y-3">
-                    <div className="flex items-center justify-between px-2 text-xs font-bold text-muted-foreground uppercase tracking-wider">
-                        <span>Articles & Guides</span>
-                        <span>{filteredGuides.length} Found</span>
-                    </div>
-
-                    {filteredGuides.length === 0 ? (
-                        <div className="bg-card rounded-xl border border-border p-6 text-center text-muted-foreground text-sm">
-                            <CompassIcon className="size-8 mx-auto mb-2 opacity-40" />
-                            <p className="font-semibold">No guides match your query</p>
-                            <p className="text-xs mt-1 text-muted-foreground/80">
-                                Try changing your search terms or category filter.
+                            <p className="text-sm font-medium">
+                                Loading guide content...
                             </p>
                         </div>
-                    ) : (
-                        <div className="space-y-2">
-                            {filteredGuides.map((guide) => {
-                                const isActive = guide.id === activeGuide.id;
-                                return (
-                                    <button
-                                        key={guide.id}
-                                        onClick={() => setSelectedGuideId(guide.id)}
-                                        className={cn(
-                                            "w-full text-left p-4 rounded-xl border transition-all duration-200 cursor-pointer flex flex-col gap-2 group",
-                                            isActive
-                                                ? "bg-card border-primary/40 shadow-sm ring-1 ring-primary/20"
-                                                : "bg-card/70 border-border/70 hover:bg-card hover:border-border"
-                                        )}
-                                    >
-                                        <div className="flex items-center justify-between gap-2">
-                                            <span
-                                                className={cn(
-                                                    "text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-md",
-                                                    guide.category === "aviation"
-                                                        ? "bg-blue-500/10 text-blue-600 dark:text-blue-400"
-                                                        : guide.category === "software"
-                                                          ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
-                                                          : "bg-amber-500/10 text-amber-600 dark:text-amber-400"
-                                                )}
-                                            >
-                                                {guide.category}
-                                            </span>
-                                            <div className="flex items-center gap-1 text-[11px] text-muted-foreground font-medium">
-                                                <ClockIcon className="size-3" />
-                                                <span>{guide.readTime}</span>
-                                            </div>
-                                        </div>
-
-                                        <h3
-                                            className={cn(
-                                                "font-bold text-sm leading-snug group-hover:text-primary transition-colors",
-                                                isActive ? "text-foreground" : "text-muted-foreground"
-                                            )}
-                                        >
-                                            {guide.title}
-                                        </h3>
-
-                                        <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
-                                            {guide.description}
-                                        </p>
-
-                                        <div className="flex items-center justify-between pt-1 border-t border-border/30 text-[11px] text-muted-foreground">
-                                            <span>{guide.updatedAt}</span>
-                                            <ChevronRightIcon
-                                                className={cn(
-                                                    "size-4 transition-transform",
-                                                    isActive
-                                                        ? "translate-x-0.5 text-primary"
-                                                        : "group-hover:translate-x-1 opacity-50"
-                                                )}
-                                            />
-                                        </div>
-                                    </button>
-                                );
-                            })}
-                        </div>
-                    )}
-                </div>
-
-                {/* Right / Center Area: Active Guide Reader */}
-                <div className="lg:col-span-8">
-                    {activeGuide ? (
-                        <SectionCard className="space-y-6 animate-in fade-in slide-in-from-bottom-3 duration-500">
+                    ) : activeGuide ? (
+                        <div className="space-y-6 animate-in fade-in duration-300">
                             {/* Guide Header Banner */}
-                            <div className="space-y-4 pb-6 border-b border-border">
-                                <div className="flex flex-wrap items-center gap-2">
-                                    <span className="bg-primary/10 text-primary text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full border border-primary/20">
-                                        {activeGuide.category}
+                            <div className="pb-6 border-b border-border">
+                                <div className="flex flex-wrap items-center gap-4">
+                                    <span className="text-primary text-[11px] uppercase font-bold tracking-wider px-2 py-1 rounded-full border border-border">
+                                        {activeGuide.section} •{" "}
+                                        {activeGuide.topic}
                                     </span>
-                                    <div className="flex items-center gap-1.5 text-xs text-muted-foreground font-medium">
-                                        <ClockIcon className="size-3.5" />
-                                        <span>{activeGuide.readTime}</span>
-                                    </div>
-                                    <span className="text-muted-foreground/40">•</span>
-                                    <span className="text-xs text-muted-foreground font-medium">
-                                        Updated {activeGuide.updatedAt}
-                                    </span>
+                                    {activeGuide.readTime && (
+                                        <div className="flex items-center gap-2 text-xs text-muted-foreground font-medium">
+                                            <ClockIcon
+                                                aria-hidden="true"
+                                                className="size-4"
+                                            />
+                                            <span>{activeGuide.readTime}</span>
+                                        </div>
+                                    )}
+                                    {activeGuide.updatedAt && (
+                                        <>
+                                            <span className="text-muted-foreground/25">
+                                                •
+                                            </span>
+                                            <span className="text-xs text-muted-foreground font-medium">
+                                                Updated{" "}
+                                                {formatMonthYear(
+                                                    activeGuide.updatedAt,
+                                                )}
+                                            </span>
+                                        </>
+                                    )}
                                 </div>
 
-                                <h2 className="text-2xl md:text-3xl font-black tracking-tight text-foreground">
+                                <h1 className="mt-6 text-2xl md:text-5xl font-black tracking-tight text-foreground">
                                     {activeGuide.title}
-                                </h2>
+                                </h1>
 
-                                <p className="text-base text-muted-foreground leading-relaxed">
-                                    {activeGuide.description}
-                                </p>
+                                {activeGuide.description && (
+                                    <p className="mt-2 text-base text-muted-foreground leading-relaxed">
+                                        {activeGuide.description}
+                                    </p>
+                                )}
 
-                                <div className="flex flex-wrap gap-1.5 pt-1">
-                                    {activeGuide.tags.map((tag) => (
-                                        <span
-                                            key={tag}
-                                            className="px-2.5 py-0.5 text-xs rounded-full bg-muted/60 text-muted-foreground border border-border/50 font-medium"
-                                        >
-                                            #{tag}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* Guide Content Sections */}
-                            <div className="space-y-8 text-foreground">
-                                {activeGuide.sections.map((sec) => (
-                                    <section
-                                        key={sec.id}
-                                        id={sec.id}
-                                        className="space-y-4 scroll-mt-24"
-                                    >
-                                        <h3 className="text-lg md:text-xl font-bold tracking-tight text-foreground flex items-center gap-2">
-                                            <FileTextIcon className="size-4 text-primary opacity-70" />
-                                            {sec.heading}
-                                        </h3>
-
-                                        <div className="space-y-3 text-sm md:text-base text-muted-foreground leading-relaxed">
-                                            {sec.content.map((paragraph, pIdx) => (
-                                                <p key={pIdx}>{paragraph}</p>
+                                {activeGuide.tags &&
+                                    activeGuide.tags.length > 0 && (
+                                        <div className="flex flex-wrap gap-2 mt-4">
+                                            {activeGuide.tags.map((tag) => (
+                                                <span
+                                                    key={tag}
+                                                    className="px-2 py-1 text-xs rounded-full bg-muted/25 text-muted-foreground border border-border font-medium"
+                                                >
+                                                    #{tag}
+                                                </span>
                                             ))}
                                         </div>
-
-                                        {sec.tip && (
-                                            <div className="bg-muted/50 border-l-3 border-primary p-4 rounded-r-xl text-xs md:text-sm text-foreground/90 space-y-1">
-                                                <div className="flex items-center gap-1.5 font-bold text-primary uppercase text-[11px] tracking-wider">
-                                                    <SparklesIcon className="size-3.5" />
-                                                    <span>Flight Ops / Pro Tip</span>
-                                                </div>
-                                                <p className="text-muted-foreground font-medium leading-relaxed">
-                                                    {sec.tip}
-                                                </p>
-                                            </div>
-                                        )}
-
-                                        {sec.codeSnippet && (
-                                            <div className="rounded-xl overflow-hidden border border-border bg-card shadow-xs">
-                                                <div className="bg-muted/40 px-4 py-2 text-xs font-mono font-medium text-muted-foreground border-b border-border flex items-center justify-between">
-                                                    <span>Terminal / Code Example</span>
-                                                    <span className="text-[10px] uppercase font-bold text-primary">
-                                                        Snippet
-                                                    </span>
-                                                </div>
-                                                <pre className="p-4 text-xs md:text-sm font-mono overflow-x-auto text-primary bg-background/50">
-                                                    <code>{sec.codeSnippet}</code>
-                                                </pre>
-                                            </div>
-                                        )}
-                                    </section>
-                                ))}
+                                    )}
                             </div>
 
+                            {/* Markdown Render Body */}
+                            <article className="prose dark:prose-invert lg:prose-base max-w-none text-foreground leading-relaxed">
+                                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                                    {markdownContent}
+                                </ReactMarkdown>
+                            </article>
+
                             {/* Section Footer Actions */}
-                            <div className="pt-6 border-t border-border flex flex-wrap items-center justify-between gap-4 text-xs text-muted-foreground">
-                                <div className="flex items-center gap-2">
-                                    <CheckCircle2Icon className="size-4 text-emerald-500" />
-                                    <span>Standard Operating Procedure Verified</span>
-                                </div>
+                            <div className="pt-6 border-t border-border flex flex-wrap items-center justify-between gap-4 text-sm">
+                                {/* Left corner: Mark as Read button */}
+                                <button
+                                    type="button"
+                                    onClick={toggleMarkAsRead}
+                                    aria-pressed={
+                                        activeGuide
+                                            ? !!readGuides[activeGuide.slug]
+                                            : false
+                                    }
+                                    className={cn(
+                                        "py-1 px-4 rounded-lg transition-all duration-300 cursor-pointer border group inline-flex items-center gap-2",
+                                        activeGuide &&
+                                            readGuides[activeGuide.slug]
+                                            ? "bg-primary text-primary-foreground border-primary"
+                                            : "text-primary border-border/50 hover:bg-primary/5 hover:border-primary/25",
+                                    )}
+                                >
+                                    <CheckIcon
+                                        aria-hidden="true"
+                                        className="size-4 transition-transform"
+                                    />
+                                    <span>
+                                        {activeGuide &&
+                                        readGuides[activeGuide.slug]
+                                            ? "Marked as Read"
+                                            : "Mark as Read"}
+                                    </span>
+                                </button>
+
+                                {/* Right corner: Copy Link & Share Guide buttons */}
                                 <div className="flex items-center gap-2">
                                     <button
-                                        onClick={() => {
-                                            if (navigator.clipboard) {
-                                                navigator.clipboard.writeText(
-                                                    window.location.href
-                                                );
-                                            }
-                                        }}
-                                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border bg-muted/40 hover:bg-muted hover:text-foreground transition-all cursor-pointer font-semibold"
+                                        type="button"
+                                        onClick={handleCopyLink}
+                                        className={cn(
+                                            "py-1 px-4 rounded-lg transition-all duration-300 cursor-pointer border group inline-flex items-center gap-2",
+                                            copiedLink
+                                                ? "bg-primary text-primary-foreground border-primary"
+                                                : "text-primary border-border/50 hover:bg-primary/5 hover:border-primary/25",
+                                        )}
                                     >
-                                        <Share2Icon className="size-3.5" />
+                                        {copiedLink ? (
+                                            <>
+                                                <CheckIcon
+                                                    aria-hidden="true"
+                                                    className="size-4 transition-transform"
+                                                />
+                                                <span>Copied Link</span>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <LinkIcon
+                                                    aria-hidden="true"
+                                                    className="size-4 transition-transform"
+                                                />
+                                                <span>Copy Link</span>
+                                            </>
+                                        )}
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={handleShare}
+                                        className="py-1 px-4 rounded-lg transition-all duration-300 cursor-pointer border group inline-flex items-center gap-2 text-primary border-border/50 hover:bg-primary/5 hover:border-primary/25"
+                                    >
+                                        <Share2Icon
+                                            aria-hidden="true"
+                                            className="size-4 transition-transform"
+                                        />
                                         <span>Share Guide</span>
                                     </button>
                                 </div>
                             </div>
-                        </SectionCard>
-                    ) : null}
+                        </div>
+                    ) : (
+                        <div className="text-center py-16 space-y-4">
+                            <BookOpenIcon
+                                aria-hidden="true"
+                                className="size-10 text-muted-foreground/40 mx-auto"
+                            />
+                            <h3 className="text-lg font-bold text-foreground">
+                                No Guides Found
+                            </h3>
+                            <p className="text-sm text-muted-foreground">
+                                Add markdown files to{" "}
+                                <code className="bg-muted px-2 py-1 rounded">
+                                    public/guide/
+                                </code>{" "}
+                                to get started.
+                            </p>
+                        </div>
+                    )}
                 </div>
             </div>
         </main>

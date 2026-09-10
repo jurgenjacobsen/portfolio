@@ -57,7 +57,7 @@
     ],
     "description": "A desktop application that allows users to set dynamic wallpapers on their desktop.",
     "highlight": true,
-    "image": "https://placehold.co/1200x400?text=Live+Wallpaper",
+    "image": "/img/live-wallpaper.png",
     "github": "https://github.com/jurgenjacobsen/live-wallpaper",
     "link": null,
     "downloads": {
@@ -77,7 +77,7 @@
     ],
     "description": "An interactive CLI tool to explore domain extensions. It allows you to fetch domain extensions and WHOIS information.",
     "highlight": true,
-    "image": "https://placehold.co/1200x400?text=TLD",
+    "image": "/img/tld-helper.png",
     "github": "https://github.com/jurgenjacobsen/tld-helper",
     "link": null,
     "downloads": {

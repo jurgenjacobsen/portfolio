@@ -5,7 +5,8 @@
     "type": "module",
     "scripts": {
         "dev": "vite --host",
-        "build": "npm run sitemap:update && npm run projects:update && npm run rss:update && tsc -b && vite build",
+        "build": "npm run projects:update && npm run guides:update && npm run sitemap:update && npm run rss:update && tsc -b && vite build",
+        "guides:update": "node scripts/guide-index.js",
         "lint": "eslint .",
         "prettier": "prettier --write .",
         "projects:update": "node scripts/project-index.js",

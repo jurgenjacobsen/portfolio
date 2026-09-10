@@ -5,7 +5,7 @@ updatedAt: 2026-07-10
 tags: [Go, Typescript, React]
 description: A desktop application that allows users to set dynamic wallpapers on their desktop.
 highlight: true
-image: https://placehold.co/1200x400?text=Live+Wallpaper
+image: /img/live-wallpaper.png
 github: https://github.com/jurgenjacobsen/live-wallpaper
 link: #
 slug: live-wallpaper

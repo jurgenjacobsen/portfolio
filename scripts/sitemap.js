@@ -26,6 +26,20 @@ files.forEach((file) => {
     }
 });
 
+// 3. Add Guide pages
+const guideIndexPath = path.join(process.cwd(), "public/guide/_.json");
+if (fs.existsSync(guideIndexPath)) {
+    try {
+        const guidesData = JSON.parse(fs.readFileSync(guideIndexPath, "utf-8"));
+        const guides = guidesData.guides || [];
+        guides.forEach((g) => {
+            xml += `  <url>\n    <loc>${BASE_URL}/guides/${g.slug}</loc>\n    <lastmod>${isoDate}</lastmod>\n    <priority>0.7</priority>\n  </url>\n`;
+        });
+    } catch (e) {
+        console.error("Error reading guides index for sitemap:", e);
+    }
+}
+
 xml += `</urlset>`;
 fs.writeFileSync(path.join(OUTPUT_DIR, "sitemap.xml"), xml);
 console.log("Sitemap generated successfully.");

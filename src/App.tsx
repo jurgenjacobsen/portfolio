@@ -9,17 +9,24 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import NotFound from "@/pages/NotFound";
 
-import { Home, Code, Contact, Socials, CV, Charts, Aviation, Photos, Guides } from "@/pages";
+import {
+    Home,
+    Code,
+    Contact,
+    Socials,
+    CV,
+    Charts,
+    Aviation,
+    Photos,
+    Guides,
+} from "@/pages";
 import { CodeView } from "@/pages/subpages";
 import { ScrollToTop } from "@/components/shared";
 
 function ProjectRedirect() {
     const { projectSlug } = useParams();
     return (
-        <Navigate
-            to={projectSlug ? `/code/${projectSlug}` : "/code"}
-            replace
-        />
+        <Navigate to={projectSlug ? `/code/${projectSlug}` : "/code"} replace />
     );
 }
 
@@ -49,10 +56,11 @@ function App() {
                         <Route path="/charts" element={<Charts />} />
                         <Route path="/photos" element={<Photos />} />
                         <Route path="/guides" element={<Guides />} />
+                        <Route path="/guides/:slug" element={<Guides />} />
 
                         <Route path="/contact" element={<Contact />} />
                         <Route path="/socials" element={<Socials />} />
-                        
+
                         <Route path="/cv" element={<CV />} />
 
                         <Route path="*" element={<NotFound />} />

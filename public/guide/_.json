@@ -1,0 +1,153 @@
+{
+  "sections": [
+    {
+      "id": "general",
+      "title": "General",
+      "order": 1,
+      "topics": [
+        {
+          "id": "getting-started",
+          "title": "Getting Started",
+          "order": 1,
+          "guides": [
+            {
+              "title": "Hello World",
+              "slug": "hello-world",
+              "section": "General",
+              "sectionId": "general",
+              "topic": "Getting Started",
+              "topicId": "getting-started",
+              "order": 1,
+              "description": "Welcome to the knowledge guides—a curated technical library of operational procedures, software architecture, and system workflows.",
+              "readTime": "1 min read",
+              "updatedAt": "2026-09-10T11:48:00.000Z",
+              "tags": [
+                "General",
+                "Overview",
+                "Documentation"
+              ],
+              "filePath": "/guide/hello-world.md"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "software",
+      "title": "Software",
+      "order": 2,
+      "topics": [
+        {
+          "id": "seo-search-discovery",
+          "title": "SEO & Search Discovery",
+          "order": 2,
+          "guides": [
+            {
+              "title": "Modern Technical SEO & Google Sitelinks Architecture",
+              "slug": "technical-seo-and-google-sitelinks",
+              "section": "Software",
+              "sectionId": "software",
+              "topic": "SEO & Search Discovery",
+              "topicId": "seo-search-discovery",
+              "order": 2,
+              "description": "A comprehensive, actionable manual for modern technical SEO, crawl optimization, Schema.org JSON-LD structured data, and qualifying for Google Search Sitelinks.",
+              "readTime": "11 min read",
+              "updatedAt": "2026-09-10T20:15:00.000Z",
+              "tags": [
+                "SEO",
+                "Google Sitelinks",
+                "Structured Data",
+                "Schema.org",
+                "Web Performance",
+                "Core Web Vitals"
+              ],
+              "filePath": "/guide/software/seo/seo-and-google-sitelinks.md"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "bySlug": {
+    "hello-world": {
+      "title": "Hello World",
+      "slug": "hello-world",
+      "section": "General",
+      "sectionId": "general",
+      "topic": "Getting Started",
+      "topicId": "getting-started",
+      "order": 1,
+      "description": "Welcome to the knowledge guides—a curated technical library of operational procedures, software architecture, and system workflows.",
+      "readTime": "1 min read",
+      "updatedAt": "2026-09-10T11:48:00.000Z",
+      "tags": [
+        "General",
+        "Overview",
+        "Documentation"
+      ],
+      "filePath": "/guide/hello-world.md"
+    },
+    "technical-seo-and-google-sitelinks": {
+      "title": "Modern Technical SEO & Google Sitelinks Architecture",
+      "slug": "technical-seo-and-google-sitelinks",
+      "section": "Software",
+      "sectionId": "software",
+      "topic": "SEO & Search Discovery",
+      "topicId": "seo-search-discovery",
+      "order": 2,
+      "description": "A comprehensive, actionable manual for modern technical SEO, crawl optimization, Schema.org JSON-LD structured data, and qualifying for Google Search Sitelinks.",
+      "readTime": "11 min read",
+      "updatedAt": "2026-09-10T20:15:00.000Z",
+      "tags": [
+        "SEO",
+        "Google Sitelinks",
+        "Structured Data",
+        "Schema.org",
+        "Web Performance",
+        "Core Web Vitals"
+      ],
+      "filePath": "/guide/software/seo/seo-and-google-sitelinks.md"
+    }
+  },
+  "guides": [
+    {
+      "title": "Hello World",
+      "slug": "hello-world",
+      "section": "General",
+      "sectionId": "general",
+      "topic": "Getting Started",
+      "topicId": "getting-started",
+      "order": 1,
+      "description": "Welcome to the knowledge guides—a curated technical library of operational procedures, software architecture, and system workflows.",
+      "readTime": "1 min read",
+      "updatedAt": "2026-09-10T11:48:00.000Z",
+      "tags": [
+        "General",
+        "Overview",
+        "Documentation"
+      ],
+      "filePath": "/guide/hello-world.md"
+    },
+    {
+      "title": "Modern Technical SEO & Google Sitelinks Architecture",
+      "slug": "technical-seo-and-google-sitelinks",
+      "section": "Software",
+      "sectionId": "software",
+      "topic": "SEO & Search Discovery",
+      "topicId": "seo-search-discovery",
+      "order": 2,
+      "description": "A comprehensive, actionable manual for modern technical SEO, crawl optimization, Schema.org JSON-LD structured data, and qualifying for Google Search Sitelinks.",
+      "readTime": "11 min read",
+      "updatedAt": "2026-09-10T20:15:00.000Z",
+      "tags": [
+        "SEO",
+        "Google Sitelinks",
+        "Structured Data",
+        "Schema.org",
+        "Web Performance",
+        "Core Web Vitals"
+      ],
+      "filePath": "/guide/software/seo/seo-and-google-sitelinks.md"
+    }
+  ]
+}
