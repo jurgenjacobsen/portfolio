@@ -26,7 +26,19 @@
                 "Overview",
                 "Documentation"
               ],
-              "filePath": "/guide/hello-world.md"
+              "filePath": "/guide/hello-world.md",
+              "headings": [
+                {
+                  "id": "welcome-to-the-knowledge-guides",
+                  "text": "Welcome to the Knowledge Guides",
+                  "level": 2
+                },
+                {
+                  "id": "how-it-works",
+                  "text": "How It Works",
+                  "level": 3
+                }
+              ]
             }
           ]
         }
@@ -38,19 +50,19 @@
       "order": 2,
       "topics": [
         {
-          "id": "seo-search-discovery",
-          "title": "SEO & Search Discovery",
+          "id": "software",
+          "title": "Software",
           "order": 2,
           "guides": [
             {
-              "title": "Modern Technical SEO & Google Sitelinks Architecture",
+              "title": "SEO & Google Sitelinks",
               "slug": "technical-seo-and-google-sitelinks",
               "section": "Software",
               "sectionId": "software",
-              "topic": "SEO & Search Discovery",
-              "topicId": "seo-search-discovery",
+              "topic": "Software",
+              "topicId": "software",
               "order": 2,
-              "description": "A comprehensive, actionable manual for modern technical SEO, crawl optimization, Schema.org JSON-LD structured data, and qualifying for Google Search Sitelinks.",
+              "description": "A practical guide to technical SEO, crawl optimization, Schema.org JSON-LD structured data, and qualifying for Google Search Sitelinks.",
               "readTime": "11 min read",
               "updatedAt": "2026-09-10T20:15:00.000Z",
               "tags": [
@@ -61,7 +73,199 @@
                 "Web Performance",
                 "Core Web Vitals"
               ],
-              "filePath": "/guide/software/seo/seo-and-google-sitelinks.md"
+              "filePath": "/guide/software/seo-and-google-sitelinks.md",
+              "headings": [
+                {
+                  "id": "1-search-pipeline",
+                  "text": "1. Search Pipeline",
+                  "level": 2
+                },
+                {
+                  "id": "spa-challenges",
+                  "text": "SPA Challenges",
+                  "level": 3
+                },
+                {
+                  "id": "2-crawling-indexing",
+                  "text": "2. Crawling & Indexing",
+                  "level": 2
+                },
+                {
+                  "id": "21-robotstxt",
+                  "text": "2.1 robots.txt",
+                  "level": 3
+                },
+                {
+                  "id": "22-xml-sitemaps",
+                  "text": "2.2 XML Sitemaps",
+                  "level": 3
+                },
+                {
+                  "id": "23-canonical-urls-redirects",
+                  "text": "2.3 Canonical URLs & Redirects",
+                  "level": 3
+                },
+                {
+                  "id": "24-soft-404s",
+                  "text": "2.4 Soft 404s",
+                  "level": 3
+                },
+                {
+                  "id": "3-document-metadata",
+                  "text": "3. Document Metadata",
+                  "level": 2
+                },
+                {
+                  "id": "31-title-tags",
+                  "text": "3.1 Title Tags",
+                  "level": 3
+                },
+                {
+                  "id": "32-meta-descriptions",
+                  "text": "3.2 Meta Descriptions",
+                  "level": 3
+                },
+                {
+                  "id": "33-crawler-directives",
+                  "text": "3.3 Crawler Directives",
+                  "level": 3
+                },
+                {
+                  "id": "34-open-graph-twitter",
+                  "text": "3.4 Open Graph & Twitter",
+                  "level": 3
+                },
+                {
+                  "id": "4-structured-data-json-ld",
+                  "text": "4. Structured Data (JSON-LD)",
+                  "level": 2
+                },
+                {
+                  "id": "41-website-organization",
+                  "text": "4.1 WebSite & Organization",
+                  "level": 3
+                },
+                {
+                  "id": "42-breadcrumb-schema",
+                  "text": "4.2 Breadcrumb Schema",
+                  "level": 3
+                },
+                {
+                  "id": "43-article-code-schema",
+                  "text": "4.3 Article & Code Schema",
+                  "level": 3
+                },
+                {
+                  "id": "5-google-sitelinks-pillars",
+                  "text": "5. Google Sitelinks Pillars",
+                  "level": 2
+                },
+                {
+                  "id": "pillar-1-distinct-titles",
+                  "text": "Pillar 1: Distinct Titles",
+                  "level": 3
+                },
+                {
+                  "id": "pillar-2-semantic-links",
+                  "text": "Pillar 2: Semantic Links",
+                  "level": 3
+                },
+                {
+                  "id": "pillar-3-clear-navigation",
+                  "text": "Pillar 3: Clear Navigation",
+                  "level": 3
+                },
+                {
+                  "id": "pillar-4-entity-disambiguation",
+                  "text": "Pillar 4: Entity Disambiguation",
+                  "level": 3
+                },
+                {
+                  "id": "pillar-5-content-depth",
+                  "text": "Pillar 5: Content Depth",
+                  "level": 3
+                },
+                {
+                  "id": "6-semantic-html-accessibility",
+                  "text": "6. Semantic HTML & Accessibility",
+                  "level": 2
+                },
+                {
+                  "id": "61-heading-hierarchy",
+                  "text": "6.1 Heading Hierarchy",
+                  "level": 3
+                },
+                {
+                  "id": "62-images-layout-shift",
+                  "text": "6.2 Images & Layout Shift",
+                  "level": 3
+                },
+                {
+                  "id": "63-external-links",
+                  "text": "6.3 External Links",
+                  "level": 3
+                },
+                {
+                  "id": "7-core-web-vitals",
+                  "text": "7. Core Web Vitals",
+                  "level": 2
+                },
+                {
+                  "id": "71-asset-preloading",
+                  "text": "7.1 Asset Preloading",
+                  "level": 3
+                },
+                {
+                  "id": "72-http-caching",
+                  "text": "7.2 HTTP Caching",
+                  "level": 3
+                },
+                {
+                  "id": "8-e-e-a-t-authority",
+                  "text": "8. E-E-A-T Authority",
+                  "level": 2
+                },
+                {
+                  "id": "topic-clusters",
+                  "text": "Topic Clusters",
+                  "level": 3
+                },
+                {
+                  "id": "9-implementation-checklist",
+                  "text": "9. Implementation Checklist",
+                  "level": 2
+                },
+                {
+                  "id": "phase-1-crawling-indexing",
+                  "text": "Phase 1: Crawling & Indexing",
+                  "level": 3
+                },
+                {
+                  "id": "phase-2-metadata",
+                  "text": "Phase 2: Metadata",
+                  "level": 3
+                },
+                {
+                  "id": "phase-3-structured-data",
+                  "text": "Phase 3: Structured Data",
+                  "level": 3
+                },
+                {
+                  "id": "phase-4-semantic-html",
+                  "text": "Phase 4: Semantic HTML",
+                  "level": 3
+                },
+                {
+                  "id": "phase-5-performance",
+                  "text": "Phase 5: Performance",
+                  "level": 3
+                },
+                {
+                  "id": "phase-6-monitoring",
+                  "text": "Phase 6: Monitoring",
+                  "level": 3
+                }
+              ]
             }
           ]
         }
@@ -85,17 +289,29 @@
         "Overview",
         "Documentation"
       ],
-      "filePath": "/guide/hello-world.md"
+      "filePath": "/guide/hello-world.md",
+      "headings": [
+        {
+          "id": "welcome-to-the-knowledge-guides",
+          "text": "Welcome to the Knowledge Guides",
+          "level": 2
+        },
+        {
+          "id": "how-it-works",
+          "text": "How It Works",
+          "level": 3
+        }
+      ]
     },
     "technical-seo-and-google-sitelinks": {
-      "title": "Modern Technical SEO & Google Sitelinks Architecture",
+      "title": "SEO & Google Sitelinks",
       "slug": "technical-seo-and-google-sitelinks",
       "section": "Software",
       "sectionId": "software",
-      "topic": "SEO & Search Discovery",
-      "topicId": "seo-search-discovery",
+      "topic": "Software",
+      "topicId": "software",
       "order": 2,
-      "description": "A comprehensive, actionable manual for modern technical SEO, crawl optimization, Schema.org JSON-LD structured data, and qualifying for Google Search Sitelinks.",
+      "description": "A practical guide to technical SEO, crawl optimization, Schema.org JSON-LD structured data, and qualifying for Google Search Sitelinks.",
       "readTime": "11 min read",
       "updatedAt": "2026-09-10T20:15:00.000Z",
       "tags": [
@@ -106,7 +322,199 @@
         "Web Performance",
         "Core Web Vitals"
       ],
-      "filePath": "/guide/software/seo/seo-and-google-sitelinks.md"
+      "filePath": "/guide/software/seo-and-google-sitelinks.md",
+      "headings": [
+        {
+          "id": "1-search-pipeline",
+          "text": "1. Search Pipeline",
+          "level": 2
+        },
+        {
+          "id": "spa-challenges",
+          "text": "SPA Challenges",
+          "level": 3
+        },
+        {
+          "id": "2-crawling-indexing",
+          "text": "2. Crawling & Indexing",
+          "level": 2
+        },
+        {
+          "id": "21-robotstxt",
+          "text": "2.1 robots.txt",
+          "level": 3
+        },
+        {
+          "id": "22-xml-sitemaps",
+          "text": "2.2 XML Sitemaps",
+          "level": 3
+        },
+        {
+          "id": "23-canonical-urls-redirects",
+          "text": "2.3 Canonical URLs & Redirects",
+          "level": 3
+        },
+        {
+          "id": "24-soft-404s",
+          "text": "2.4 Soft 404s",
+          "level": 3
+        },
+        {
+          "id": "3-document-metadata",
+          "text": "3. Document Metadata",
+          "level": 2
+        },
+        {
+          "id": "31-title-tags",
+          "text": "3.1 Title Tags",
+          "level": 3
+        },
+        {
+          "id": "32-meta-descriptions",
+          "text": "3.2 Meta Descriptions",
+          "level": 3
+        },
+        {
+          "id": "33-crawler-directives",
+          "text": "3.3 Crawler Directives",
+          "level": 3
+        },
+        {
+          "id": "34-open-graph-twitter",
+          "text": "3.4 Open Graph & Twitter",
+          "level": 3
+        },
+        {
+          "id": "4-structured-data-json-ld",
+          "text": "4. Structured Data (JSON-LD)",
+          "level": 2
+        },
+        {
+          "id": "41-website-organization",
+          "text": "4.1 WebSite & Organization",
+          "level": 3
+        },
+        {
+          "id": "42-breadcrumb-schema",
+          "text": "4.2 Breadcrumb Schema",
+          "level": 3
+        },
+        {
+          "id": "43-article-code-schema",
+          "text": "4.3 Article & Code Schema",
+          "level": 3
+        },
+        {
+          "id": "5-google-sitelinks-pillars",
+          "text": "5. Google Sitelinks Pillars",
+          "level": 2
+        },
+        {
+          "id": "pillar-1-distinct-titles",
+          "text": "Pillar 1: Distinct Titles",
+          "level": 3
+        },
+        {
+          "id": "pillar-2-semantic-links",
+          "text": "Pillar 2: Semantic Links",
+          "level": 3
+        },
+        {
+          "id": "pillar-3-clear-navigation",
+          "text": "Pillar 3: Clear Navigation",
+          "level": 3
+        },
+        {
+          "id": "pillar-4-entity-disambiguation",
+          "text": "Pillar 4: Entity Disambiguation",
+          "level": 3
+        },
+        {
+          "id": "pillar-5-content-depth",
+          "text": "Pillar 5: Content Depth",
+          "level": 3
+        },
+        {
+          "id": "6-semantic-html-accessibility",
+          "text": "6. Semantic HTML & Accessibility",
+          "level": 2
+        },
+        {
+          "id": "61-heading-hierarchy",
+          "text": "6.1 Heading Hierarchy",
+          "level": 3
+        },
+        {
+          "id": "62-images-layout-shift",
+          "text": "6.2 Images & Layout Shift",
+          "level": 3
+        },
+        {
+          "id": "63-external-links",
+          "text": "6.3 External Links",
+          "level": 3
+        },
+        {
+          "id": "7-core-web-vitals",
+          "text": "7. Core Web Vitals",
+          "level": 2
+        },
+        {
+          "id": "71-asset-preloading",
+          "text": "7.1 Asset Preloading",
+          "level": 3
+        },
+        {
+          "id": "72-http-caching",
+          "text": "7.2 HTTP Caching",
+          "level": 3
+        },
+        {
+          "id": "8-e-e-a-t-authority",
+          "text": "8. E-E-A-T Authority",
+          "level": 2
+        },
+        {
+          "id": "topic-clusters",
+          "text": "Topic Clusters",
+          "level": 3
+        },
+        {
+          "id": "9-implementation-checklist",
+          "text": "9. Implementation Checklist",
+          "level": 2
+        },
+        {
+          "id": "phase-1-crawling-indexing",
+          "text": "Phase 1: Crawling & Indexing",
+          "level": 3
+        },
+        {
+          "id": "phase-2-metadata",
+          "text": "Phase 2: Metadata",
+          "level": 3
+        },
+        {
+          "id": "phase-3-structured-data",
+          "text": "Phase 3: Structured Data",
+          "level": 3
+        },
+        {
+          "id": "phase-4-semantic-html",
+          "text": "Phase 4: Semantic HTML",
+          "level": 3
+        },
+        {
+          "id": "phase-5-performance",
+          "text": "Phase 5: Performance",
+          "level": 3
+        },
+        {
+          "id": "phase-6-monitoring",
+          "text": "Phase 6: Monitoring",
+          "level": 3
+        }
+      ]
     }
   },
   "guides": [
@@ -126,17 +534,29 @@
         "Overview",
         "Documentation"
       ],
-      "filePath": "/guide/hello-world.md"
+      "filePath": "/guide/hello-world.md",
+      "headings": [
+        {
+          "id": "welcome-to-the-knowledge-guides",
+          "text": "Welcome to the Knowledge Guides",
+          "level": 2
+        },
+        {
+          "id": "how-it-works",
+          "text": "How It Works",
+          "level": 3
+        }
+      ]
     },
     {
-      "title": "Modern Technical SEO & Google Sitelinks Architecture",
+      "title": "SEO & Google Sitelinks",
       "slug": "technical-seo-and-google-sitelinks",
       "section": "Software",
       "sectionId": "software",
-      "topic": "SEO & Search Discovery",
-      "topicId": "seo-search-discovery",
+      "topic": "Software",
+      "topicId": "software",
       "order": 2,
-      "description": "A comprehensive, actionable manual for modern technical SEO, crawl optimization, Schema.org JSON-LD structured data, and qualifying for Google Search Sitelinks.",
+      "description": "A practical guide to technical SEO, crawl optimization, Schema.org JSON-LD structured data, and qualifying for Google Search Sitelinks.",
       "readTime": "11 min read",
       "updatedAt": "2026-09-10T20:15:00.000Z",
       "tags": [
@@ -147,7 +567,199 @@
         "Web Performance",
         "Core Web Vitals"
       ],
-      "filePath": "/guide/software/seo/seo-and-google-sitelinks.md"
+      "filePath": "/guide/software/seo-and-google-sitelinks.md",
+      "headings": [
+        {
+          "id": "1-search-pipeline",
+          "text": "1. Search Pipeline",
+          "level": 2
+        },
+        {
+          "id": "spa-challenges",
+          "text": "SPA Challenges",
+          "level": 3
+        },
+        {
+          "id": "2-crawling-indexing",
+          "text": "2. Crawling & Indexing",
+          "level": 2
+        },
+        {
+          "id": "21-robotstxt",
+          "text": "2.1 robots.txt",
+          "level": 3
+        },
+        {
+          "id": "22-xml-sitemaps",
+          "text": "2.2 XML Sitemaps",
+          "level": 3
+        },
+        {
+          "id": "23-canonical-urls-redirects",
+          "text": "2.3 Canonical URLs & Redirects",
+          "level": 3
+        },
+        {
+          "id": "24-soft-404s",
+          "text": "2.4 Soft 404s",
+          "level": 3
+        },
+        {
+          "id": "3-document-metadata",
+          "text": "3. Document Metadata",
+          "level": 2
+        },
+        {
+          "id": "31-title-tags",
+          "text": "3.1 Title Tags",
+          "level": 3
+        },
+        {
+          "id": "32-meta-descriptions",
+          "text": "3.2 Meta Descriptions",
+          "level": 3
+        },
+        {
+          "id": "33-crawler-directives",
+          "text": "3.3 Crawler Directives",
+          "level": 3
+        },
+        {
+          "id": "34-open-graph-twitter",
+          "text": "3.4 Open Graph & Twitter",
+          "level": 3
+        },
+        {
+          "id": "4-structured-data-json-ld",
+          "text": "4. Structured Data (JSON-LD)",
+          "level": 2
+        },
+        {
+          "id": "41-website-organization",
+          "text": "4.1 WebSite & Organization",
+          "level": 3
+        },
+        {
+          "id": "42-breadcrumb-schema",
+          "text": "4.2 Breadcrumb Schema",
+          "level": 3
+        },
+        {
+          "id": "43-article-code-schema",
+          "text": "4.3 Article & Code Schema",
+          "level": 3
+        },
+        {
+          "id": "5-google-sitelinks-pillars",
+          "text": "5. Google Sitelinks Pillars",
+          "level": 2
+        },
+        {
+          "id": "pillar-1-distinct-titles",
+          "text": "Pillar 1: Distinct Titles",
+          "level": 3
+        },
+        {
+          "id": "pillar-2-semantic-links",
+          "text": "Pillar 2: Semantic Links",
+          "level": 3
+        },
+        {
+          "id": "pillar-3-clear-navigation",
+          "text": "Pillar 3: Clear Navigation",
+          "level": 3
+        },
+        {
+          "id": "pillar-4-entity-disambiguation",
+          "text": "Pillar 4: Entity Disambiguation",
+          "level": 3
+        },
+        {
+          "id": "pillar-5-content-depth",
+          "text": "Pillar 5: Content Depth",
+          "level": 3
+        },
+        {
+          "id": "6-semantic-html-accessibility",
+          "text": "6. Semantic HTML & Accessibility",
+          "level": 2
+        },
+        {
+          "id": "61-heading-hierarchy",
+          "text": "6.1 Heading Hierarchy",
+          "level": 3
+        },
+        {
+          "id": "62-images-layout-shift",
+          "text": "6.2 Images & Layout Shift",
+          "level": 3
+        },
+        {
+          "id": "63-external-links",
+          "text": "6.3 External Links",
+          "level": 3
+        },
+        {
+          "id": "7-core-web-vitals",
+          "text": "7. Core Web Vitals",
+          "level": 2
+        },
+        {
+          "id": "71-asset-preloading",
+          "text": "7.1 Asset Preloading",
+          "level": 3
+        },
+        {
+          "id": "72-http-caching",
+          "text": "7.2 HTTP Caching",
+          "level": 3
+        },
+        {
+          "id": "8-e-e-a-t-authority",
+          "text": "8. E-E-A-T Authority",
+          "level": 2
+        },
+        {
+          "id": "topic-clusters",
+          "text": "Topic Clusters",
+          "level": 3
+        },
+        {
+          "id": "9-implementation-checklist",
+          "text": "9. Implementation Checklist",
+          "level": 2
+        },
+        {
+          "id": "phase-1-crawling-indexing",
+          "text": "Phase 1: Crawling & Indexing",
+          "level": 3
+        },
+        {
+          "id": "phase-2-metadata",
+          "text": "Phase 2: Metadata",
+          "level": 3
+        },
+        {
+          "id": "phase-3-structured-data",
+          "text": "Phase 3: Structured Data",
+          "level": 3
+        },
+        {
+          "id": "phase-4-semantic-html",
+          "text": "Phase 4: Semantic HTML",
+          "level": 3
+        },
+        {
+          "id": "phase-5-performance",
+          "text": "Phase 5: Performance",
+          "level": 3
+        },
+        {
+          "id": "phase-6-monitoring",
+          "text": "Phase 6: Monitoring",
+          "level": 3
+        }
+      ]
     }
   ]
 }

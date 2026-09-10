@@ -92,6 +92,28 @@ function calculateReadTime(markdownContent) {
     return `${minutes} min read`;
 }
 
+function extractHeadings(markdownContent) {
+    if (!markdownContent) return [];
+    const headingRegex = /^(#{2,3})\s+(.+)$/gm;
+    const headings = [];
+    let match;
+
+    while ((match = headingRegex.exec(markdownContent)) !== null) {
+        const level = match[1].length;
+        const rawText = match[2].trim();
+        const cleanText = rawText
+            .replace(/`([^`]+)`/g, "$1")
+            .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+            .replace(/[*_~]/g, "")
+            .trim();
+        const id = slugify(cleanText);
+        if (cleanText && id) {
+            headings.push({ id, text: cleanText, level });
+        }
+    }
+    return headings;
+}
+
 const mdFiles = getMarkdownFiles(guideDir);
 const seenSlugs = new Set();
 const parsedGuides = [];
@@ -136,7 +158,10 @@ for (const { fullPath, relPath, fileName } of mdFiles) {
     // 1. Automatize read time if not explicitly provided
     const readTime = data.readTime || calculateReadTime(content);
 
-    // 2. Ensure updatedAt is a precise ISO DateTime string
+    // 2. Extract headings glossary
+    const headings = extractHeadings(content);
+
+    // 3. Ensure updatedAt is a precise ISO DateTime string
     let updatedAt = "";
     if (data.updatedAt) {
         const parsed = new Date(data.updatedAt);
@@ -167,6 +192,7 @@ for (const { fullPath, relPath, fileName } of mdFiles) {
         updatedAt,
         tags: Array.isArray(data.tags) ? data.tags : [],
         filePath,
+        headings,
     });
 }
 

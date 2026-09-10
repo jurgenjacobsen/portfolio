@@ -220,6 +220,12 @@
     background: transparent;
 }
 
+.sidebar-scrollbar::-webkit-scrollbar-track,
+.scrollbar-track-my-4::-webkit-scrollbar-track {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
 ::-webkit-scrollbar-thumb {
     @apply bg-primary rounded-full border-2 border-transparent bg-clip-padding;
 }
