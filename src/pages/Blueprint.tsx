@@ -71,9 +71,9 @@ export default function Blueprint() {
 
             <BlueprintHero />
 
-            <SectionCard className="space-y-8">
+            <SectionCard className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
                 {/* Header & Quick-Start Actions */}
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-border">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-border animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both">
                     <div className="space-y-1">
                         <div className="flex items-center gap-2">
                             <h2 className="text-xl md:text-2xl font-bold tracking-tight text-foreground">
@@ -106,13 +106,19 @@ export default function Blueprint() {
                 </div>
 
                 {/* In-Terminal One-Liner Banner */}
-                <TerminalCommand />
+                <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 delay-400 fill-mode-both">
+                    <TerminalCommand />
+                </div>
 
                 {/* Available Files in Catalogue */}
-                <FilesList files={files} />
+                <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 delay-500 fill-mode-both">
+                    <FilesList files={files} />
+                </div>
 
                 {/* CLI Command Reference */}
-                <CommandReference />
+                <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 delay-600 fill-mode-both">
+                    <CommandReference />
+                </div>
             </SectionCard>
         </main>
     );

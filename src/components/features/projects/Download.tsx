@@ -189,7 +189,7 @@ export default function Download(props: DownloadOptions) {
         let active = true;
 
         async function fetchReleases() {
-            if (!projectId) {
+            if (!projectId || disableAll) {
                 setLoading(false);
                 return;
             }
@@ -263,12 +263,16 @@ export default function Download(props: DownloadOptions) {
         return () => {
             active = false;
         };
-    }, [projectId]);
+    }, [projectId, disableAll]);
 
     const availablePlatforms: Platform[] = ['windows', 'macos', 'linux'];
     const displayedPlatforms = hideUnavailable
         ? availablePlatforms.filter((platform) => downloads[platform] !== null)
         : availablePlatforms;
+
+    if (disableAll || displayedPlatforms.length === 0) {
+        return null; // Don't show anything if disabled or no platforms are available
+    }
 
     if (loading) {
         return (

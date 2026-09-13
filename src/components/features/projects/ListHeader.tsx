@@ -37,7 +37,7 @@ export default function ListHeader({
     ];
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-4 w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-4 w-full animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
             {/* Search Input */}
             <div className="relative w-full group">
                 <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground group-focus-within:text-primary transition-colors" />

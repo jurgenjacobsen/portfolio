@@ -33,7 +33,7 @@ export default function CV() {
                     { name: "Curriculum Vitae", path: "/cv" },
                 ]}
             />
-            <SectionCard className="space-y-6">
+            <SectionCard className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both">
                 <header className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-border">
                     <div className="space-y-3">
                         <div
@@ -41,25 +41,25 @@ export default function CV() {
                         border border-border rounded-full 
                         text-primary text-[10px] md:text-xs uppercase tracking-wider font-bold
                         bg-primary/5 
-                        animate-in fade-in slide-in-from-bottom-4 duration-700"
+                        animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both"
                         >
                             <FileTextIcon className="size-3 md:size-4" />
                             <span>Curriculum Vitae</span>
                         </div>
-                        <h1 className="text-4xl md:text-6xl font-black tracking-tighter uppercase leading-[0.9]">
+                        <h1 className="text-4xl md:text-6xl font-black tracking-tighter uppercase leading-[0.9] animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100 fill-mode-both">
                             CURRICULUM{" "}
                             <span className="text-primary italic font-serif">
                                 VITAE
                             </span>
                             .
                         </h1>
-                        <p className="text-base md:text-lg text-muted-foreground font-medium leading-relaxed">
+                        <p className="text-base md:text-lg text-muted-foreground font-medium leading-relaxed animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
                             View or download my official resume and career
                             timeline.
                         </p>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-2 pt-2 md:pt-0 no-print">
+                    <div className="flex flex-wrap items-center gap-2 pt-2 md:pt-0 no-print animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both">
                         <a
                             href="/CV.pdf"
                             download="Jurgen_Jacobsen_CV.pdf"
@@ -96,7 +96,7 @@ export default function CV() {
 
                 {/* Embedded PDF Viewer */}
                 <div
-                    className={`relative w-full transition-all duration-300 rounded-xl overflow-hidden border border-border bg-card shadow-lg ${
+                    className={`relative w-full transition-all duration-300 rounded-xl overflow-hidden border border-border bg-card shadow-lg animate-in fade-in slide-in-from-bottom-4 duration-700 delay-400 fill-mode-both ${
                         isFullscreen
                             ? "fixed inset-4 z-50 h-[calc(100vh-2rem)] bg-background p-4 flex flex-col"
                             : "h-[75vh] min-h-150 md:min-h-212.5"

@@ -31,6 +31,13 @@ function ProjectRedirect() {
     );
 }
 
+function GuideRedirect() {
+    const { slug } = useParams();
+    return (
+        <Navigate to={slug ? `/guides/${slug}` : "/guides"} replace />
+    );
+}
+
 function App() {
     return (
         <Router>
@@ -56,7 +63,16 @@ function App() {
                         <Route path="/aviation" element={<Aviation />} />
                         <Route path="/charts" element={<Charts />} />
                         <Route path="/photos" element={<Photos />} />
+                        <Route path="/guides/:slug" element={<Guides />} />
                         <Route path="/guides" element={<Guides />} />
+                        <Route
+                            path="/guide/:slug"
+                            element={<GuideRedirect />}
+                        />
+                        <Route
+                            path="/guide"
+                            element={<Navigate to="/guides" replace />}
+                        />
                         <Route path="/blueprint" element={<Blueprint />} />
                         <Route
                             path="/boilerplate"

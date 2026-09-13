@@ -12,7 +12,7 @@ slug: hello-world
 downloads: 
     hideUnavailable: false
     disableAll: false
-    hideDownloads: false
+    hideDownloads: true
 ---
 
 # Hello World

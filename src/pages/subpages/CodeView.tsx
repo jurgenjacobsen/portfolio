@@ -51,40 +51,59 @@ function parseFrontMatter(text: string): { attributes: any; body: string } {
         body = match[2];
         
         const lines = yamlSection.split('\n');
-        for (const line of lines) {
-            const trimLine = line.trim();
+        let currentParent: string | null = null;
+
+        for (const rawLine of lines) {
+            const trimLine = rawLine.trim();
             if (!trimLine || trimLine.startsWith('#')) continue;
-            
+
+            const isIndented = /^\s+/.test(rawLine);
             const colonIndex = trimLine.indexOf(':');
             if (colonIndex !== -1) {
                 const key = trimLine.substring(0, colonIndex).trim();
                 let val = trimLine.substring(colonIndex + 1).trim();
-                
+
+                if (!isIndented) {
+                    if (val === '') {
+                        currentParent = key;
+                        attributes[key] = {};
+                        continue;
+                    } else {
+                        currentParent = null;
+                    }
+                }
+
                 // Remove optional surrounding quotes
                 if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
                     val = val.substring(1, val.length - 1);
                 }
-                
+
+                let parsedVal: any = val;
                 // Parse values
                 if (val.toLowerCase() === 'true') {
-                    attributes[key] = true;
+                    parsedVal = true;
                 } else if (val.toLowerCase() === 'false') {
-                    attributes[key] = false;
+                    parsedVal = false;
                 } else if (val.toLowerCase() === 'null' || val === '~') {
-                    attributes[key] = null;
+                    parsedVal = null;
                 } else if (val.startsWith('[') && val.endsWith(']')) {
-                    attributes[key] = val
+                    parsedVal = val
                         .substring(1, val.length - 1)
                         .split(',')
-                        .map(item => item.trim())
+                        .map((item) => item.trim())
                         .filter(Boolean);
-                } else {
-                    if (val.includes('#') && !val.includes('://')) {
-                        const cleanVal = val.split('#')[0].trim();
-                        attributes[key] = cleanVal === '' ? null : cleanVal;
-                    } else {
-                        attributes[key] = val;
+                } else if (val.includes('#') && !val.includes('://')) {
+                    const cleanVal = val.split('#')[0].trim();
+                    parsedVal = cleanVal === '' ? null : cleanVal;
+                }
+
+                if (isIndented && currentParent) {
+                    if (typeof attributes[currentParent] !== 'object' || attributes[currentParent] === null) {
+                        attributes[currentParent] = {};
                     }
+                    attributes[currentParent][key] = parsedVal;
+                } else {
+                    attributes[key] = parsedVal;
                 }
             }
         }
@@ -390,12 +409,15 @@ export default function ProjectView() {
                         {content}
                     </ReactMarkdown>
                 </article>
-                {metadata?.github && !metadata.downloads?.hideDownloads && 
+                {metadata?.github && 
+                 !metadata.downloads?.hideDownloads && 
+                 !metadata.downloads?.disableAll && (
                     <Download 
                         projectId={metadata.github} 
                         hideUnavailable={metadata.downloads?.hideUnavailable} 
                         disableAll={metadata.downloads?.disableAll} 
-                    />}
+                    />
+                )}
             </SectionCard>
 
             {recommendations.length > 0 && (

@@ -66,7 +66,7 @@ export default function FilesList({ files }: FilesListProps) {
                                     href={`/blueprint/${file.name}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-2 py-2 px-4 text-xs font-medium rounded-lg border border-border bg-background hover:bg-muted text-foreground transition-colors cursor-pointer"
+                                    className="inline-flex items-center gap-2 py-2 px-2 md:px-4 text-xs font-medium rounded-lg border border-border bg-background hover:bg-muted text-foreground transition-colors cursor-pointer"
                                     title={`View ${file.name}`}
                                 >
                                     <ExternalLink className="size-4" />

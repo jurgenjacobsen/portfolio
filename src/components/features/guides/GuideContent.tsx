@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import remarkGfmPlugin from "remark-gfm";
+const remarkGfm = (remarkGfmPlugin as any).default || remarkGfmPlugin;
 import { Loader2Icon, BookOpenIcon } from "lucide-react";
 import GuideHeader from "./GuideHeader";
 import GuideActions from "./GuideActions";

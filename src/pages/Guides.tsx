@@ -8,7 +8,10 @@ import {
     type GuidesIndexData,
     type HeadingItem,
 } from "@/components/features/guides";
-import parseFrontMatter from "front-matter";
+
+function stripFrontMatter(text: string): string {
+    return text.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/, "");
+}
 
 function slugifyHeading(text: string): string {
     return text
@@ -117,8 +120,8 @@ export default function Guides() {
             })
             .then((rawText) => {
                 if (!isMounted) return;
-                const parsed = parseFrontMatter(rawText);
-                setMarkdownContent(parsed.body);
+                const body = stripFrontMatter(rawText);
+                setMarkdownContent(body);
                 setLoadingContent(false);
             })
             .catch((err) => {
@@ -230,6 +233,11 @@ export default function Guides() {
             const scrollY = window.scrollY;
             const offset = 140;
 
+            if (scrollY < 100) {
+                setActiveHeadingId("");
+                return;
+            }
+
             const isBottom =
                 window.innerHeight + scrollY >=
                 document.documentElement.scrollHeight - 60;
@@ -242,7 +250,7 @@ export default function Guides() {
                 return;
             }
 
-            let currentId = headings[0].id;
+            let currentId = "";
             for (const heading of headings) {
                 const top = heading.getBoundingClientRect().top;
                 if (top <= offset) {
@@ -252,9 +260,7 @@ export default function Guides() {
                 }
             }
 
-            if (currentId) {
-                setActiveHeadingId(currentId);
-            }
+            setActiveHeadingId(currentId);
         };
 
         const onScroll = () => {
@@ -297,10 +303,13 @@ export default function Guides() {
 
     // Keep URL hash synchronized with active heading as user scrolls
     useEffect(() => {
-        if (!activeHeadingId) return;
         const timer = setTimeout(() => {
-            if (window.location.hash !== `#${activeHeadingId}`) {
-                window.history.replaceState(null, "", `#${activeHeadingId}`);
+            const targetHash = activeHeadingId ? `#${activeHeadingId}` : "";
+            if (window.location.hash !== targetHash) {
+                const newUrl = targetHash
+                    ? `${window.location.pathname}${window.location.search}${targetHash}`
+                    : `${window.location.pathname}${window.location.search}`;
+                window.history.replaceState(null, "", newUrl);
             }
         }, 300);
         return () => clearTimeout(timer);
@@ -369,7 +378,7 @@ export default function Guides() {
                 {/* Main Content Card */}
                 <GuideContent
                     activeGuide={activeGuide}
-                    loadingContent={loadingContent}
+                    loadingContent={loadingContent || loadingIndex}
                     markdownContent={markdownContent}
                     isRead={
                         activeGuide ? !!readGuides[activeGuide.slug] : false

@@ -31,7 +31,7 @@ export default function BlueprintHero() {
                 </div>
 
                 <div className="col-span-1 flex items-center justify-center">
-                    <Icon id="ContainerIcon" className="min-h-full min-w-full stroke-muted"/>
+                    <Icon id="ContainerIcon" className="min-h-full min-w-full stroke-muted animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both"/>
                 </div>
             </div>
         </SectionCard>

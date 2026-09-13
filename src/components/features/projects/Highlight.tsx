@@ -7,14 +7,14 @@ export default function ProjectHighlight(props: { projects: ProjectProps[] }) {
     const projects: ProjectProps[] = props.projects;
 
     return (
-        <SectionCard className="space-y-6">
+        <SectionCard className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both">
             <header className="space-y-4">
                 <div
                     className="inline-flex items-center gap-2 px-4 py-1.5 
                     border border-border rounded-full 
                     text-primary text-[10px] md:text-xs uppercase tracking-wider font-bold
                     bg-primary/5 
-                    animate-in fade-in slide-in-from-bottom-4 duration-700"
+                    animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both"
                 >
                     <Code2Icon className="size-3 md:size-4" />
                     <span>Programming</span>
