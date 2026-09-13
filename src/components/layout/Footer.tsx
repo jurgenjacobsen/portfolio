@@ -89,10 +89,9 @@ export default function Footer() {
             type: "EXT",
         },
         {
-            href: "/boilerplate",
+            href: "/blueprint",
             icon: <Icon id="Container" className="w-4 h-4" />,
-            label: "Boilerplate",
-            disabled: true,
+            label: "Blueprint",
         }
     ];
 

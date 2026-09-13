@@ -35,8 +35,8 @@ export default function Hero() {
                             <span className="text-foreground font-bold underline decoration-primary/30 decoration-4 underline-offset-4">
                                 Jürgen Jacobsen
                             </span>
-                            . I am a licensed commercial pilot with a passion for web development and design. 
-                            My aviation experience spans over 230 flight hours across various aircraft types.
+                            . I am a licensed commercial pilot with aviation experience spanning over 230 flight hours across various aircraft types.
+                            I also have a passion for web development and design. 
                         </p>
                     </div>
                     <div className="text-sm flex md:flex-wrap gap-4 mt-6 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both">

@@ -7,7 +7,6 @@ import {
 } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import NotFound from "@/pages/NotFound";
 
 import {
     Home,
@@ -19,6 +18,8 @@ import {
     Aviation,
     Photos,
     Guides,
+    Blueprint,
+    NotFound,
 } from "@/pages";
 import { CodeView } from "@/pages/subpages";
 import { ScrollToTop } from "@/components/shared";
@@ -56,7 +57,11 @@ function App() {
                         <Route path="/charts" element={<Charts />} />
                         <Route path="/photos" element={<Photos />} />
                         <Route path="/guides" element={<Guides />} />
-                        <Route path="/guides/:slug" element={<Guides />} />
+                        <Route path="/blueprint" element={<Blueprint />} />
+                        <Route
+                            path="/boilerplate"
+                            element={<Navigate to="/blueprint" replace />}
+                        />
 
                         <Route path="/contact" element={<Contact />} />
                         <Route path="/socials" element={<Socials />} />

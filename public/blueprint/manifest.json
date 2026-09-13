@@ -1,0 +1,34 @@
+{
+    "version": "0.0.1",
+    "updatedAt": "2026-09-13T20:45:00Z",
+    "files": [
+        {
+            "id": "agents",
+            "name": "AGENTS.md",
+            "category": "AI Instructions",
+            "description": "Autonomous AI coding agent instructions and project guidelines",
+            "default": true
+        },
+        {
+            "id": "editorconfig",
+            "name": ".editorconfig",
+            "category": "Code Quality",
+            "description": "Consistent cross-editor indentation and charset configuration",
+            "default": true
+        },
+        {
+            "id": "prettier",
+            "name": ".prettierrc",
+            "category": "Code Quality",
+            "description": "Prettier code formatting configuration",
+            "default": true
+        },
+        {
+            "id": "tailwind",
+            "name": "tailwind.config.js",
+            "category": "Styling",
+            "description": "Tailwind CSS theme setup and plugin extensions",
+            "default": false
+        }
+    ]
+}
