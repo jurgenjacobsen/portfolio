@@ -10,13 +10,13 @@ export default function GuidesHero() {
                     <span>Guides</span>
                 </div>
 
-                <h1 className="text-4xl md:text-6xl font-black tracking-tighter uppercase leading-[0.9]">
+                <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase leading-[0.9]">
                     KNOWLEDGE{" "}
                     <span className="text-primary italic font-serif">
                         GUIDES
                     </span>
                     .
-                </h1>
+                </h2>
 
                 <p className="text-base md:text-lg text-muted-foreground font-medium leading-relaxed max-w-3xl">
                     Curated reference manuals, aviation standard operating

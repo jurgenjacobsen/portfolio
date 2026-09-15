@@ -145,11 +145,11 @@ export default function SEO({
         setMetaTag("property", "og:image", imageUrl);
 
         // Twitter
-        setMetaTag("property", "twitter:title", title);
-        setMetaTag("property", "twitter:description", description);
-        setMetaTag("property", "twitter:url", canonicalUrl);
-        setMetaTag("property", "twitter:image", imageUrl);
-        setMetaTag("property", "twitter:card", "summary_large_image");
+        setMetaTag("name", "twitter:title", title);
+        setMetaTag("name", "twitter:description", description);
+        setMetaTag("name", "twitter:url", canonicalUrl);
+        setMetaTag("name", "twitter:image", imageUrl);
+        setMetaTag("name", "twitter:card", "summary_large_image");
 
         // Dynamic JSON-LD injection
         const jsonLdId = "dynamic-jsonld";
@@ -183,11 +183,11 @@ export default function SEO({
             <meta property="og:image" content={imageUrl} />
 
             {/* Twitter */}
-            <meta property="twitter:card" content="summary_large_image" />
-            <meta property="twitter:title" content={title} />
-            <meta property="twitter:description" content={description} />
-            <meta property="twitter:image" content={imageUrl} />
-            {canonicalUrl && <meta property="twitter:url" content={canonicalUrl} />}
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:title" content={title} />
+            <meta name="twitter:description" content={description} />
+            <meta name="twitter:image" content={imageUrl} />
+            {canonicalUrl && <meta name="twitter:url" content={canonicalUrl} />}
 
             {/* Structured Data (JSON-LD) */}
             {finalJsonLd && (
