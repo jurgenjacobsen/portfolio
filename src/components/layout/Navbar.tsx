@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Code2Icon, FileTextIcon, HomeIcon, MailIcon, PlaneIcon, Image } from "lucide-react";
+import { Code2Icon, FileTextIcon, HomeIcon, MailIcon, PlaneIcon, Image, BookOpenIcon } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
@@ -25,11 +25,12 @@ export default function Navbar() {
         children: React.ReactNode;
         to: string;
         className?: string;
+        active?: boolean;
     }) {
         const isActive =
             location.pathname === props.to ||
             (location.pathname.startsWith("/code") &&
-                props.to === "/code");
+                props.to === "/code") || props.active;
 
         return (
             <Link
@@ -57,6 +58,7 @@ export default function Navbar() {
 
     const HiddenItems = [
         { to: "/photos", label: "Photos", icon: Image },
+        { to: "/guides", label: "Guides", icon: BookOpenIcon },
     ];
 
     return (
@@ -84,15 +86,15 @@ export default function Navbar() {
                             </NavbarButton>
                         </li>
                     ))}
-                    {HiddenItems.find(item => item.to === window.location.pathname) && (
+                    {HiddenItems.find(item => window.location.pathname.includes(item.to)) && (
                         <span className="text-muted-foreground text-xs flex items-center">
                             |
                         </span>
                     )}
                     {HiddenItems.map((item) => {
-                            if (item.to === window.location.pathname) return (
+                            if (window.location.pathname.includes(item.to)) return (
                                 <li key={item.to}>
-                                    <NavbarButton to={item.to}>
+                                    <NavbarButton to={item.to} active={true}>
                                         <item.icon className="size-4 transition-transform" />
                                         <span>{item.label}</span>
                                     </NavbarButton>
