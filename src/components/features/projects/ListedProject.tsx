@@ -152,18 +152,17 @@ export default function ListedProject({
                         />
                     )}
 
-                    {project.link ||
-                        (project.slug && (
-                            <Button
-                                icon="BookOpen"
-                                link={
-                                    project.link || `/code/${project.slug}`
-                                }
-                                title="Details"
-                                style="solid"
-                                className="flex-1 md:w-full"
-                            />
-                        ))}
+                    {(project.link || project.slug) && (
+                        <Button
+                            icon="BookOpen"
+                            link={
+                                project.link || `/code/${project.slug}`
+                            }
+                            title="Details"
+                            style="solid"
+                            className="flex-1 md:w-full"
+                        />
+                    )}
                 </div>
             </div>
         </div>
