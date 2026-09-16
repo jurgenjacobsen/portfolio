@@ -24,3 +24,5 @@ dist-ssr
 dist
 
 .env
+
+test

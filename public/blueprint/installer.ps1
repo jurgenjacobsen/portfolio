@@ -9,6 +9,8 @@ param (
     [switch]$Uninstall,
     [switch]$Reset,
     [switch]$Force,
+    [switch]$Yes,
+    [switch]$Help,
     [string]$BaseUrl = "https://jurgen.fyi/blueprint"
 )
 
@@ -19,6 +21,11 @@ $LegacyLockFileName = ".boilerplate.json"
 $LockFilePath = Join-Path -Path $TargetDir -ChildPath $LockFileName
 $LegacyLockFilePath = Join-Path -Path $TargetDir -ChildPath $LegacyLockFileName
 $ManifestUrl = "$BaseUrl/manifest.json"
+
+if ($env:BLUEPRINT_FORCE -eq "1" -or $env:BLUEPRINT_YES -eq "1") {
+    $Force = [switch]::Present
+    $Yes = [switch]::Present
+}
 
 function Write-Header {
     param ([string]$Text)
@@ -49,19 +56,49 @@ function Write-Err {
     Write-Host "[x] $Text" -ForegroundColor Red
 }
 
+if ($Help) {
+    Write-Header "Jurgen.fyi | Blueprint CLI"
+    Write-Host "Usage:" -ForegroundColor Cyan
+    Write-Host "  irm $BaseUrl/installer.ps1 | iex                 # Interactive web install" -ForegroundColor White
+    Write-Host "  .\installer.ps1                                  # Interactive local install" -ForegroundColor White
+    Write-Host "  .\installer.ps1 -Yes                             # Non-interactive default install" -ForegroundColor White
+    Write-Host "  .\installer.ps1 -Update                          # Check and apply updates" -ForegroundColor White
+    Write-Host "  .\installer.ps1 -Reset                           # Reset files to upstream defaults" -ForegroundColor White
+    Write-Host "  .\installer.ps1 -Uninstall                       # Remove all tracked blueprint files" -ForegroundColor White
+    Write-Host "  .\installer.ps1 -Help                            # Show this help message" -ForegroundColor White
+    Write-Host ""
+    Write-Host "Options:" -ForegroundColor Cyan
+    Write-Host "  -Force                                           # Force overwrite without prompting" -ForegroundColor White
+    Write-Host "  -Yes                                             # Automatically accept defaults" -ForegroundColor White
+    Write-Host "  -BaseUrl <url>                                   # Custom template source URL" -ForegroundColor White
+    Write-Host ""
+    exit 0
+}
+
 function Get-RemoteManifest {
-    $localManifest = Join-Path -Path $PSScriptRoot -ChildPath "manifest.json"
+    $localManifest = if ($PSScriptRoot -and ($PSScriptRoot -match 'public[\\/]blueprint$')) {
+        Join-Path -Path $PSScriptRoot -ChildPath "manifest.json"
+    } else {
+        $null
+    }
     $publicManifest = Join-Path -Path $TargetDir -ChildPath "public\blueprint\manifest.json"
 
     try {
         Write-Step "Fetching manifest from $ManifestUrl..."
         $response = Invoke-WebRequest -Uri $ManifestUrl -UseBasicParsing -TimeoutSec 5
-        if ($response.Content -and -not ($response.Content.TrimStart().StartsWith("<"))) {
-            return ($response.Content | ConvertFrom-Json)
+        $contentText = if ($response.Content -is [string]) {
+            $response.Content
+        } elseif ($response.Content -is [byte[]]) {
+            [System.Text.Encoding]::UTF8.GetString($response.Content)
+        } else { "" }
+
+        $isHtml = $contentText -and ($contentText.TrimStart().ToLower().StartsWith("<!doctype html") -or $contentText.TrimStart().ToLower().StartsWith("<html"))
+        if ($contentText -and -not $isHtml) {
+            return ($contentText | ConvertFrom-Json)
         }
         throw "Remote endpoint returned non-JSON content (site not yet deployed or route redirected)."
     } catch {
-        if ($PSScriptRoot -and (Test-Path -Path $localManifest)) {
+        if ($localManifest -and (Test-Path -Path $localManifest)) {
             Write-Warn "Remote manifest unavailable. Using local fallback: $localManifest"
             return (Get-Content -Path $localManifest -Raw -Encoding UTF8 | ConvertFrom-Json)
         }
@@ -121,17 +158,21 @@ function Download-BlueprintFile {
     )
     $dest = Join-Path -Path $TargetDir -ChildPath $FileName
     $fileUrl = "$BaseUrl/$FileName"
-    $localSource = Join-Path -Path $PSScriptRoot -ChildPath $FileName
+    $templateSource = if ($PSScriptRoot -and ($PSScriptRoot -match 'public[\\/]blueprint$')) {
+        Join-Path -Path $PSScriptRoot -ChildPath $FileName
+    } else {
+        $null
+    }
     $publicSource = Join-Path -Path $TargetDir -ChildPath "public\blueprint\$FileName"
 
-    # Avoid self-overwrite if running installer inside public/blueprint directory
-    if ($PSScriptRoot -and ($PSScriptRoot -eq $TargetDir)) {
+    # Avoid self-overwrite if running installer directly inside public/blueprint repository directory
+    if ($PSScriptRoot -and ($PSScriptRoot -match 'public[\\/]blueprint$') -and ($PSScriptRoot -eq $TargetDir)) {
         Write-Warn "Running directly inside the template directory. Skipping download to prevent overwrite."
         return $true
     }
 
     if (Test-Path -Path $dest) {
-        if (-not $SkipConfirmation -and -not $Force) {
+        if (-not $SkipConfirmation -and -not $Force -and -not $Yes) {
             Write-Host "  File '$FileName' already exists. " -ForegroundColor Yellow -NoNewline
             Write-Host "Overwrite [Y], Skip [N], Backup [B]? (default: N): " -ForegroundColor White -NoNewline
             $ans = Read-Host
@@ -149,16 +190,29 @@ function Download-BlueprintFile {
     # Try downloading from remote URL first
     try {
         $response = Invoke-WebRequest -Uri $fileUrl -UseBasicParsing -TimeoutSec 5
-        if ($response.Content -and -not ($response.Content.TrimStart().StartsWith("<!doctype html"))) {
-            [System.IO.File]::WriteAllBytes($dest, $response.RawContentStream.ToArray())
+        $contentText = if ($response.Content -is [string]) {
+            $response.Content
+        } elseif ($response.Content -is [byte[]]) {
+            [System.Text.Encoding]::UTF8.GetString($response.Content)
+        } else { "" }
+
+        $isHtml = $contentText -and ($contentText.TrimStart().ToLower().StartsWith("<!doctype html") -or $contentText.TrimStart().ToLower().StartsWith("<html"))
+        if (-not $isHtml) {
+            if ($response.Content -is [byte[]]) {
+                [System.IO.File]::WriteAllBytes($dest, $response.Content)
+            } elseif ($response.RawContentStream -and $response.RawContentStream.Length -gt 0) {
+                [System.IO.File]::WriteAllBytes($dest, $response.RawContentStream.ToArray())
+            } else {
+                [System.IO.File]::WriteAllText($dest, $contentText, [System.Text.Encoding]::UTF8)
+            }
             Write-Success "Installed $FileName"
             return $true
         }
-        throw "Remote URL returned HTML."
+        throw "Remote URL returned HTML instead of file content."
     } catch {
         # Fall back to local source file if present
-        if ($PSScriptRoot -and (Test-Path -Path $localSource)) {
-            Copy-Item -Path $localSource -Destination $dest -Force
+        if ($templateSource -and (Test-Path -Path $templateSource)) {
+            Copy-Item -Path $templateSource -Destination $dest -Force
             Write-Success "Installed $FileName (from local source)"
             return $true
         }
@@ -192,7 +246,7 @@ if ($Uninstall) {
     }
     Write-Host "  - $LockFileName" -ForegroundColor Gray
 
-    if (-not $Force) {
+    if (-not $Force -and -not $Yes) {
         Write-Host ""
         Write-Host "Proceed with removing tracked blueprint files? [y/N]: " -ForegroundColor White -NoNewline
         $ans = Read-Host
@@ -233,7 +287,7 @@ if ($Reset) {
 
     $manifest = Get-RemoteManifest
 
-    if (-not $Force) {
+    if (-not $Force -and -not $Yes) {
         Write-Warn "Reset will overwrite all tracked blueprint files with fresh upstream templates."
         Write-Host "Local changes to tracked files will be overwritten." -ForegroundColor Yellow
         Write-Host "Proceed with reset? [y/N]: " -ForegroundColor White -NoNewline
@@ -281,7 +335,7 @@ if ($Update) {
         $updatedFiles = @()
         foreach ($file in $lock.installedFiles) {
             $ok = Download-BlueprintFile -FileName $file
-            if ($ok) { $updatedFiles += $file }
+            $updatedFiles += $file
         }
 
         Save-LocalLockfile -Version $manifest.version -InstalledFiles $updatedFiles
@@ -289,6 +343,191 @@ if ($Update) {
         Write-Host "Blueprint update complete (v$($manifest.version))!" -ForegroundColor Green
         exit 0
     }
+}
+
+function Show-CheckboxMenu {
+    param (
+        [array]$Files
+    )
+
+    $fileCount = $Files.Count
+    $selections = [bool[]]::new($fileCount)
+    for ($i = 0; $i -lt $fileCount; $i++) {
+        $selections[$i] = [bool]$Files[$i].default
+    }
+
+    $totalItems = $fileCount + 3
+    $currentIndex = 0
+
+    # In automated/non-interactive mode, use defaults without interactive prompts
+    if ($Force -or $Yes) {
+        $selected = @()
+        for ($i = 0; $i -lt $fileCount; $i++) {
+            if ($selections[$i]) {
+                $selected += $Files[$i].name
+                Write-Host "* $($Files[$i].name.PadRight(20)) ($($Files[$i].category.PadRight(15))) [Y (default)]" -ForegroundColor Green
+            } else {
+                Write-Host "* $($Files[$i].name.PadRight(20)) ($($Files[$i].category.PadRight(15))) [N (skipped)]" -ForegroundColor DarkGray
+            }
+        }
+        return $selected
+    }
+
+    # Verify console RawUI supports cursor positioning and key reading
+    $isInteractive = $false
+    try {
+        if (-not [Console]::IsInputRedirected -and $Host.UI.RawUI -ne $null) {
+            $isInteractive = $true
+        }
+    } catch {
+        $isInteractive = $false
+    }
+
+    if (-not $isInteractive) {
+        $selected = @()
+        for ($i = 0; $i -lt $fileCount; $i++) {
+            if ($selections[$i]) {
+                $selected += $Files[$i].name
+                Write-Host "* $($Files[$i].name.PadRight(20)) ($($Files[$i].category.PadRight(15))) [Y (default)]" -ForegroundColor Green
+            } else {
+                Write-Host "* $($Files[$i].name.PadRight(20)) ($($Files[$i].category.PadRight(15))) [N (skipped)]" -ForegroundColor DarkGray
+            }
+        }
+        return $selected
+    }
+
+    # Pre-reserve console lines to prevent scrolling distortion
+    $linesNeeded = $totalItems + 6
+    try {
+        for ($i = 0; $i -lt $linesNeeded; $i++) { Write-Host "" }
+        $newY = [Math]::Max(0, $Host.UI.RawUI.CursorPosition.Y - $linesNeeded)
+        $startPos = [System.Management.Automation.Host.Coordinates]::new(0, $newY)
+        $Host.UI.RawUI.CursorPosition = $startPos
+    } catch {
+        # Fallback to default selections if cursor placement fails
+        $selected = @()
+        for ($i = 0; $i -lt $fileCount; $i++) {
+            if ($selections[$i]) { $selected += $Files[$i].name }
+        }
+        return $selected
+    }
+
+    try { [Console]::CursorVisible = $false } catch {}
+
+    try {
+        while ($true) {
+            try { $Host.UI.RawUI.CursorPosition = $startPos } catch {}
+
+            $selectedCount = ($selections | Where-Object { $_ }).Count
+
+            Write-Host ("Select configurations to install:".PadRight(75)) -ForegroundColor Cyan
+            Write-Host ("  [Up/Down] Navigate   [Enter/Space] Toggle   [Tab/I] Install   [Esc/Q] Cancel".PadRight(75)) -ForegroundColor DarkGray
+            Write-Host ("".PadRight(75))
+
+            for ($i = 0; $i -lt $fileCount; $i++) {
+                $isCurrent = ($i -eq $currentIndex)
+                $checked = $selections[$i]
+                $item = $Files[$i]
+
+                $prefix = if ($isCurrent) { " > " } else { "   " }
+                $checkMark = if ($checked) { "[X]" } else { "[ ]" }
+
+                $fg = if ($isCurrent) { "Yellow" } else { "White" }
+                $checkFg = if ($checked) { "Green" } else { "DarkGray" }
+
+                Write-Host $prefix -NoNewline -ForegroundColor Cyan
+                Write-Host $checkMark -NoNewline -ForegroundColor $checkFg
+                Write-Host " $($item.name.PadRight(20))" -NoNewline -ForegroundColor $fg
+                Write-Host " $($item.category.PadRight(16))" -NoNewline -ForegroundColor Cyan
+                $desc = if ($item.description.Length -gt 32) { $item.description.Substring(0, 29) + "..." } else { $item.description }
+                Write-Host " $desc".PadRight(35) -ForegroundColor Gray
+            }
+
+            Write-Host ("   " + ("-" * 68)).PadRight(75) -ForegroundColor DarkGray
+
+            # Action 1: Confirm & Install
+            $isActionInstall = ($currentIndex -eq $fileCount)
+            $p1 = if ($isActionInstall) { " > " } else { "   " }
+            $fg1 = if ($isActionInstall) { "Green" } else { "White" }
+            Write-Host ("$p1[ Install Selected ($selectedCount files) ]").PadRight(75) -ForegroundColor $fg1
+
+            # Action 2: Select All / None
+            $isActionAll = ($currentIndex -eq ($fileCount + 1))
+            $allSelected = ($selectedCount -eq $fileCount)
+            $p2 = if ($isActionAll) { " > " } else { "   " }
+            $fg2 = if ($isActionAll) { "Yellow" } else { "Gray" }
+            $allLabel = if ($allSelected) { "[ Deselect All ]" } else { "[ Select All ]" }
+            Write-Host ("$p2$allLabel").PadRight(75) -ForegroundColor $fg2
+
+            # Action 3: Cancel
+            $isActionCancel = ($currentIndex -eq ($fileCount + 2))
+            $p3 = if ($isActionCancel) { " > " } else { "   " }
+            $fg3 = if ($isActionCancel) { "Red" } else { "Gray" }
+            Write-Host ("$p3[ Cancel / Exit ]").PadRight(75) -ForegroundColor $fg3
+
+            # Read key press
+            $keyInfo = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+            $vk = $keyInfo.VirtualKeyCode
+            $ch = $keyInfo.Character
+
+            # Up Arrow (38) or 'k'/'K'
+            if ($vk -eq 38 -or $ch -eq 'k' -or $ch -eq 'K') {
+                $currentIndex = ($currentIndex - 1 + $totalItems) % $totalItems
+            }
+            # Down Arrow (40) or 'j'/'J'
+            elseif ($vk -eq 40 -or $ch -eq 'j' -or $ch -eq 'J') {
+                $currentIndex = ($currentIndex + 1) % $totalItems
+            }
+            # Enter (13) or Space (32)
+            elseif ($vk -eq 13 -or $vk -eq 32) {
+                if ($currentIndex -lt $fileCount) {
+                    # Toggle checked / unchecked on the highlighted file
+                    $selections[$currentIndex] = -not $selections[$currentIndex]
+                }
+                elseif ($currentIndex -eq $fileCount) {
+                    # Confirm & Install
+                    break
+                }
+                elseif ($currentIndex -eq ($fileCount + 1)) {
+                    # Toggle All / None
+                    $newVal = -not $allSelected
+                    for ($j = 0; $j -lt $fileCount; $j++) {
+                        $selections[$j] = $newVal
+                    }
+                }
+                elseif ($currentIndex -eq ($fileCount + 2)) {
+                    # Cancel
+                    return $null
+                }
+            }
+            # Tab (9) or 'i'/'I' or 'c'/'C': Quick Confirm & Install
+            elseif ($vk -eq 9 -or $ch -eq 'i' -or $ch -eq 'I' -or $ch -eq 'c' -or $ch -eq 'C') {
+                break
+            }
+            # 'a'/'A': Quick Toggle All
+            elseif ($ch -eq 'a' -or $ch -eq 'A') {
+                $newVal = -not ($selectedCount -eq $fileCount)
+                for ($j = 0; $j -lt $fileCount; $j++) {
+                    $selections[$j] = $newVal
+                }
+            }
+            # Escape (27) or 'q'/'Q': Quick Cancel
+            elseif ($vk -eq 27 -or $ch -eq 'q' -or $ch -eq 'Q') {
+                return $null
+            }
+        }
+    } finally {
+        try { [Console]::CursorVisible = $true } catch {}
+    }
+
+    Write-Host ""
+    $selected = @()
+    for ($i = 0; $i -lt $fileCount; $i++) {
+        if ($selections[$i]) {
+            $selected += $Files[$i].name
+        }
+    }
+    return $selected
 }
 
 # ----------------------------------------------------
@@ -302,35 +541,11 @@ $manifest = Get-RemoteManifest
 Write-Host "Found release v$($manifest.version) (Updated: $($manifest.updatedAt))" -ForegroundColor Green
 Write-Host ""
 
-$selectedFiles = @()
+$selectedFiles = Show-CheckboxMenu -Files $manifest.files
 
-Write-Host "Select which configurations to install:" -ForegroundColor Cyan
-Write-Host ""
-
-foreach ($item in $manifest.files) {
-    $promptHint = "[y/N]"
-    if ($item.default) {
-        $promptHint = "[Y/n]"
-    }
-
-    Write-Host "* $($item.name)" -ForegroundColor Yellow -NoNewline
-    Write-Host " ($($item.category))" -ForegroundColor Gray
-    Write-Host "  Description: $($item.description)" -ForegroundColor DarkGray
-    Write-Host "  Install $promptHint? " -ForegroundColor White -NoNewline
-
-    $ans = Read-Host
-    $shouldInstall = $false
-
-    if ([string]::IsNullOrWhiteSpace($ans)) {
-        $shouldInstall = [bool]$item.default
-    } elseif ($ans -match "^[Yy]$") {
-        $shouldInstall = $true
-    }
-
-    if ($shouldInstall) {
-        $selectedFiles += $item.name
-    }
-    Write-Host ""
+if ($null -eq $selectedFiles) {
+    Write-Warn "Installation canceled."
+    exit 0
 }
 
 if ($selectedFiles.Count -eq 0) {
@@ -349,6 +564,18 @@ foreach ($file in $selectedFiles) {
 }
 
 if ($successfullyInstalled.Count -gt 0) {
+    # Ensure installer.ps1 is available locally in TargetDir for subsequent -Update, -Reset, -Uninstall commands
+    $installerName = "installer.ps1"
+    $installerDest = Join-Path -Path $TargetDir -ChildPath $installerName
+    if (-not (Test-Path -Path $installerDest)) {
+        $dlOk = Download-BlueprintFile -FileName $installerName -SkipConfirmation
+        if ($dlOk) {
+            $successfullyInstalled += $installerName
+        }
+    } elseif ($successfullyInstalled -notcontains $installerName) {
+        $successfullyInstalled += $installerName
+    }
+
     Save-LocalLockfile -Version $manifest.version -InstalledFiles $successfullyInstalled
     Write-Header "Setup Complete!"
     Write-Host "Installed $($successfullyInstalled.Count) blueprint file(s) into $TargetDir" -ForegroundColor Green
