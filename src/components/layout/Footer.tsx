@@ -67,6 +67,7 @@ export default function Footer() {
             href: "/photos",
             icon: <Icon id="Image" className="w-4 h-4" />,
             label: "Photo & Design",
+            disabled: true,
         },
     ];
 

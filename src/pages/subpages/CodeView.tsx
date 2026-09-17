@@ -1,5 +1,5 @@
-import { useParams } from "react-router-dom";
-import { useEffect, useState, useMemo } from "react";
+import { Link, useParams } from "react-router-dom";
+import { useEffect, useState, useMemo, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import { SectionCard, SEO } from "@/components/shared";
 import NotFound from "@/pages/NotFound";
@@ -11,6 +11,7 @@ import ProjectPreview from "@/components/features/projects/ProjectPreview";
 import { GithubClient, type GithubRepo } from "@/lib/Github";
 import Download from "@/components/features/projects/Download";
 import { Skeleton } from "@/components/ui";
+import { Check, ChevronLeft, Share2 } from "lucide-react";
 
 const CACHE_TTL_MS = 1000 * 60 * 60; // 1 hour
 
@@ -32,7 +33,7 @@ const setCachedRepo = (owner: string, repo: string, data: GithubRepo) => {
     try {
         sessionStorage.setItem(
             `gh_repo_${owner}_${repo}`,
-            JSON.stringify({ data, timestamp: Date.now() })
+            JSON.stringify({ data, timestamp: Date.now() }),
         );
     } catch {
         // ignore cache write errors
@@ -42,29 +43,29 @@ const setCachedRepo = (owner: string, repo: string, data: GithubRepo) => {
 function parseFrontMatter(text: string): { attributes: any; body: string } {
     const regex = /^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/;
     const match = text.match(regex);
-    
+
     const attributes: any = {};
     let body = text;
-    
+
     if (match) {
         const yamlSection = match[1];
         body = match[2];
-        
-        const lines = yamlSection.split('\n');
+
+        const lines = yamlSection.split("\n");
         let currentParent: string | null = null;
 
         for (const rawLine of lines) {
             const trimLine = rawLine.trim();
-            if (!trimLine || trimLine.startsWith('#')) continue;
+            if (!trimLine || trimLine.startsWith("#")) continue;
 
             const isIndented = /^\s+/.test(rawLine);
-            const colonIndex = trimLine.indexOf(':');
+            const colonIndex = trimLine.indexOf(":");
             if (colonIndex !== -1) {
                 const key = trimLine.substring(0, colonIndex).trim();
                 let val = trimLine.substring(colonIndex + 1).trim();
 
                 if (!isIndented) {
-                    if (val === '') {
+                    if (val === "") {
                         currentParent = key;
                         attributes[key] = {};
                         continue;
@@ -74,31 +75,37 @@ function parseFrontMatter(text: string): { attributes: any; body: string } {
                 }
 
                 // Remove optional surrounding quotes
-                if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+                if (
+                    (val.startsWith('"') && val.endsWith('"')) ||
+                    (val.startsWith("'") && val.endsWith("'"))
+                ) {
                     val = val.substring(1, val.length - 1);
                 }
 
                 let parsedVal: any = val;
                 // Parse values
-                if (val.toLowerCase() === 'true') {
+                if (val.toLowerCase() === "true") {
                     parsedVal = true;
-                } else if (val.toLowerCase() === 'false') {
+                } else if (val.toLowerCase() === "false") {
                     parsedVal = false;
-                } else if (val.toLowerCase() === 'null' || val === '~') {
+                } else if (val.toLowerCase() === "null" || val === "~") {
                     parsedVal = null;
-                } else if (val.startsWith('[') && val.endsWith(']')) {
+                } else if (val.startsWith("[") && val.endsWith("]")) {
                     parsedVal = val
                         .substring(1, val.length - 1)
-                        .split(',')
+                        .split(",")
                         .map((item) => item.trim())
                         .filter(Boolean);
-                } else if (val.includes('#') && !val.includes('://')) {
-                    const cleanVal = val.split('#')[0].trim();
-                    parsedVal = cleanVal === '' ? null : cleanVal;
+                } else if (val.includes("#") && !val.includes("://")) {
+                    const cleanVal = val.split("#")[0].trim();
+                    parsedVal = cleanVal === "" ? null : cleanVal;
                 }
 
                 if (isIndented && currentParent) {
-                    if (typeof attributes[currentParent] !== 'object' || attributes[currentParent] === null) {
+                    if (
+                        typeof attributes[currentParent] !== "object" ||
+                        attributes[currentParent] === null
+                    ) {
                         attributes[currentParent] = {};
                     }
                     attributes[currentParent][key] = parsedVal;
@@ -108,7 +115,7 @@ function parseFrontMatter(text: string): { attributes: any; body: string } {
             }
         }
     }
-    
+
     return { attributes, body };
 }
 
@@ -116,19 +123,19 @@ function CodeViewSkeleton() {
     return (
         <div className="space-y-8 animate-in fade-in duration-500 fill-mode-both">
             {/* Header Hero Banner Skeleton */}
-            <SectionCard className="animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both">
-                <div className="relative overflow-hidden rounded-xl aspect-3/1 bg-muted/60 dark:bg-muted/30 p-6 flex flex-col justify-end gap-4 border border-border/50">
-                    <Skeleton className="h-8 md:h-10 w-2/3 md:w-1/2 rounded-xl bg-card/60" />
-                    <div className="flex flex-wrap items-center gap-2">
-                        <Skeleton className="h-6 w-20 rounded-full bg-card/60" />
-                        <Skeleton className="h-6 w-24 rounded-full bg-card/60" />
-                        <Skeleton className="h-6 w-16 rounded-full bg-card/60" />
-                        <span className="hidden sm:inline text-muted-foreground/30">•</span>
-                        <Skeleton className="h-6 w-28 rounded-full bg-card/60" />
-                        <Skeleton className="h-6 w-28 rounded-full bg-card/60" />
-                    </div>
+            <div className="relative overflow-hidden rounded-xl min-h-60 sm:min-h-70 md:min-h-0 md:aspect-3/1 bg-muted/60 dark:bg-muted/30 p-4 sm:p-6 md:p-8 flex flex-col justify-end gap-3 md:gap-4 border border-border/50 animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both">
+                <Skeleton className="h-8 md:h-10 w-2/3 md:w-1/2 rounded-xl bg-card/60" />
+                <div className="flex flex-wrap items-center gap-2">
+                    <Skeleton className="h-6 w-20 rounded-full bg-card/60" />
+                    <Skeleton className="h-6 w-24 rounded-full bg-card/60" />
+                    <Skeleton className="h-6 w-16 rounded-full bg-card/60" />
+                    <span className="hidden sm:inline text-muted-foreground/30">
+                        •
+                    </span>
+                    <Skeleton className="h-6 w-28 rounded-full bg-card/60" />
+                    <Skeleton className="h-6 w-28 rounded-full bg-card/60" />
                 </div>
-            </SectionCard>
+            </div>
 
             {/* Content Body Skeleton */}
             <SectionCard className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100 fill-mode-both">
@@ -184,6 +191,74 @@ export default function ProjectView() {
     const [projects, setProjects] = useState<ProjectProps[]>([]);
     const [loading, setLoading] = useState(true);
     const [notFound, setNotFound] = useState(false);
+    const [shareStatus, setShareStatus] = useState<
+        "idle" | "copied" | "shared"
+    >("idle");
+    const shareTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    useEffect(() => {
+        return () => {
+            if (shareTimeoutRef.current) {
+                clearTimeout(shareTimeoutRef.current);
+            }
+        };
+    }, []);
+
+    const copyToClipboard = async () => {
+        try {
+            if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(window.location.href);
+            } else {
+                const textArea = document.createElement("textarea");
+                textArea.value = window.location.href;
+                textArea.style.position = "fixed";
+                textArea.style.opacity = "0";
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                document.execCommand("copy");
+                document.body.removeChild(textArea);
+            }
+            setShareStatus("copied");
+            if (shareTimeoutRef.current) clearTimeout(shareTimeoutRef.current);
+            shareTimeoutRef.current = setTimeout(
+                () => setShareStatus("idle"),
+                2000,
+            );
+        } catch (err) {
+            console.error("Failed to copy link:", err);
+        }
+    };
+
+    const handleShare = async () => {
+        const shareData = {
+            title: metadata?.title || "Project Details",
+            text: metadata?.description || metadata?.title || "",
+            url: window.location.href,
+        };
+
+        if (
+            navigator.share &&
+            (!navigator.canShare || navigator.canShare(shareData))
+        ) {
+            try {
+                await navigator.share(shareData);
+                setShareStatus("shared");
+                if (shareTimeoutRef.current)
+                    clearTimeout(shareTimeoutRef.current);
+                shareTimeoutRef.current = setTimeout(
+                    () => setShareStatus("idle"),
+                    2000,
+                );
+            } catch (err) {
+                if ((err as Error).name !== "AbortError") {
+                    await copyToClipboard();
+                }
+            }
+        } else {
+            await copyToClipboard();
+        }
+    };
 
     const getLatestDate = (date1?: string, date2?: string) => {
         if (!date1) return date2 || "";
@@ -233,7 +308,10 @@ export default function ProjectView() {
                 setLoading(false);
 
                 // Step 2: Fetch and hydrate GitHub stats in the background
-                if (project.github && project.github.startsWith("https://github.com")) {
+                if (
+                    project.github &&
+                    project.github.startsWith("https://github.com")
+                ) {
                     try {
                         const parsedUrl = new URL(project.github);
                         const isGithubHost =
@@ -250,7 +328,10 @@ export default function ProjectView() {
                                 const github = new GithubClient();
                                 let repoData = getCachedRepo(owner, repo);
                                 if (!repoData) {
-                                    repoData = await github.fetchRepo(owner, repo);
+                                    repoData = await github.fetchRepo(
+                                        owner,
+                                        repo,
+                                    );
                                     setCachedRepo(owner, repo, repoData);
                                 }
 
@@ -273,7 +354,7 @@ export default function ProjectView() {
                                                       prev.updatedAt,
                                                   ),
                                               }
-                                            : prev
+                                            : prev,
                                     );
                                 }
                             }
@@ -403,21 +484,62 @@ export default function ProjectView() {
             />
             <ProjectViewHeader metadata={metadata!} />
 
+            <div className="grid md:hidden bg-card rounded-xl border border-border p-4 md:p-8 mt-4 md:mt-6 shadow-md grid-cols-2 gap-4">
+                <Link
+                    to="/code"
+                    className="font-medium py-1 px-4 rounded-lg transition-all duration-300 cursor-pointer border group inline-flex items-center justify-center gap-2 text-primary border-border/50 hover:bg-primary/5 hover:border-primary/25"
+                >
+                    <ChevronLeft className="w-4 h-4" />
+                    Back
+                </Link>
+                <button
+                    type="button"
+                    onClick={handleShare}
+                    aria-label={
+                        shareStatus === "copied"
+                            ? "Link copied"
+                            : shareStatus === "shared"
+                              ? "Project shared"
+                              : "Share project"
+                    }
+                    className="py-1 px-4 rounded-lg transition-all duration-300 cursor-pointer border group inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground border-primary"
+                >
+                    {shareStatus === "shared" ? (
+                        <>
+                            <Check className="w-4 h-4" />
+                            Shared!
+                        </>
+                    ) : shareStatus === "copied" ? (
+                        <>
+                            <Check className="w-4 h-4" />
+                            Link Copied!
+                        </>
+                    ) : (
+                        <>
+                            <Share2 className="w-4 h-4" />
+                            Share
+                        </>
+                    )}
+                </button>
+            </div>
+
             <SectionCard className="animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100 fill-mode-both">
                 <article className="prose dark:prose-invert lg:prose-base max-w-none">
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
                         {content}
                     </ReactMarkdown>
                 </article>
-                {metadata?.github && 
-                 !metadata.downloads?.hideDownloads && 
-                 !metadata.downloads?.disableAll && (
-                    <Download 
-                        projectId={metadata.github} 
-                        hideUnavailable={metadata.downloads?.hideUnavailable} 
-                        disableAll={metadata.downloads?.disableAll} 
-                    />
-                )}
+                {metadata?.github &&
+                    !metadata.downloads?.hideDownloads &&
+                    !metadata.downloads?.disableAll && (
+                        <Download
+                            projectId={metadata.github}
+                            hideUnavailable={
+                                metadata.downloads?.hideUnavailable
+                            }
+                            disableAll={metadata.downloads?.disableAll}
+                        />
+                    )}
             </SectionCard>
 
             {recommendations.length > 0 && (
@@ -433,7 +555,9 @@ export default function ProjectView() {
                             <div
                                 key={project.slug}
                                 className="animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both"
-                                style={{ animationDelay: `${300 + idx * 100}ms` }}
+                                style={{
+                                    animationDelay: `${300 + idx * 100}ms`,
+                                }}
                             >
                                 <ProjectPreview project={project} />
                             </div>

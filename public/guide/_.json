@@ -50,6 +50,112 @@
       "order": 2,
       "topics": [
         {
+          "id": "architecture-cms",
+          "title": "Architecture & CMS",
+          "order": 1,
+          "guides": [
+            {
+              "title": "Database-Free Markdown Publishing Engine",
+              "slug": "database-free-markdown-publishing-engine",
+              "section": "Software",
+              "sectionId": "software",
+              "topic": "Architecture & CMS",
+              "topicId": "architecture-cms",
+              "order": 1,
+              "description": "How to build a zero-database, file-based publishing engine for blogs, documentation, and portfolios using flat Markdown files, build-time Node.js indexers, and on-demand React rendering.",
+              "readTime": "5 min read",
+              "updatedAt": "2026-09-17T12:00:00.000Z",
+              "tags": [
+                "Architecture",
+                "Markdown",
+                "Static Site Generator",
+                "Vite",
+                "React",
+                "Node.js",
+                "Gray-Matter"
+              ],
+              "filePath": "/guide/software/database-free-markdown-publishing-engine.md",
+              "headings": [
+                {
+                  "id": "1-architectural-philosophy-the-case-against-databases",
+                  "text": "1. Architectural Philosophy: The Case Against Databases",
+                  "level": 2
+                },
+                {
+                  "id": "2-system-overview-the-two-phase-pipeline",
+                  "text": "2. System Overview & The Two-Phase Pipeline",
+                  "level": 2
+                },
+                {
+                  "id": "3-content-structure-frontmatter-taxonomy",
+                  "text": "3. Content Structure & Frontmatter Taxonomy",
+                  "level": 2
+                },
+                {
+                  "id": "31-project-file-structure-publicprojects",
+                  "text": "3.1 Project File Structure (/public/projects/)",
+                  "level": 3
+                },
+                {
+                  "id": "32-hierarchical-guide-structure-publicguide",
+                  "text": "3.2 Hierarchical Guide Structure (/public/guide/)",
+                  "level": 3
+                },
+                {
+                  "id": "4-the-build-time-indexing-pipeline",
+                  "text": "4. The Build-Time Indexing Pipeline",
+                  "level": 2
+                },
+                {
+                  "id": "41-flat-project-indexer-scriptsproject-indexjs",
+                  "text": "4.1 Flat Project Indexer (scripts/project-index.js)",
+                  "level": 3
+                },
+                {
+                  "id": "42-deep-hierarchical-guide-indexer-scriptsguide-indexjs",
+                  "text": "4.2 Deep Hierarchical Guide Indexer (scripts/guide-index.js)",
+                  "level": 3
+                },
+                {
+                  "id": "5-client-side-runtime-consumption-in-react",
+                  "text": "5. Client-Side Runtime Consumption in React",
+                  "level": 2
+                },
+                {
+                  "id": "51-instant-client-side-listing-search-codetsx",
+                  "text": "5.1 Instant Client-Side Listing & Search (Code.tsx)",
+                  "level": 3
+                },
+                {
+                  "id": "52-dynamic-background-hydration-github-api-stats",
+                  "text": "5.2 Dynamic Background Hydration (GitHub API Stats)",
+                  "level": 3
+                },
+                {
+                  "id": "53-on-demand-article-rendering-codeviewtsx-guidestsx",
+                  "text": "5.3 On-Demand Article Rendering (CodeView.tsx & Guides.tsx)",
+                  "level": 3
+                },
+                {
+                  "id": "6-build-lifecycle-automation-synergies",
+                  "text": "6. Build Lifecycle Automation & Synergies",
+                  "level": 2
+                },
+                {
+                  "id": "7-architecture-comparison",
+                  "text": "7. Architecture Comparison",
+                  "level": 2
+                },
+                {
+                  "id": "8-summary",
+                  "text": "8. Summary",
+                  "level": 2
+                }
+              ]
+            }
+          ]
+        },
+        {
           "id": "software",
           "title": "Software",
           "order": 2,
@@ -303,6 +409,105 @@
         }
       ]
     },
+    "database-free-markdown-publishing-engine": {
+      "title": "Database-Free Markdown Publishing Engine",
+      "slug": "database-free-markdown-publishing-engine",
+      "section": "Software",
+      "sectionId": "software",
+      "topic": "Architecture & CMS",
+      "topicId": "architecture-cms",
+      "order": 1,
+      "description": "How to build a zero-database, file-based publishing engine for blogs, documentation, and portfolios using flat Markdown files, build-time Node.js indexers, and on-demand React rendering.",
+      "readTime": "5 min read",
+      "updatedAt": "2026-09-17T12:00:00.000Z",
+      "tags": [
+        "Architecture",
+        "Markdown",
+        "Static Site Generator",
+        "Vite",
+        "React",
+        "Node.js",
+        "Gray-Matter"
+      ],
+      "filePath": "/guide/software/database-free-markdown-publishing-engine.md",
+      "headings": [
+        {
+          "id": "1-architectural-philosophy-the-case-against-databases",
+          "text": "1. Architectural Philosophy: The Case Against Databases",
+          "level": 2
+        },
+        {
+          "id": "2-system-overview-the-two-phase-pipeline",
+          "text": "2. System Overview & The Two-Phase Pipeline",
+          "level": 2
+        },
+        {
+          "id": "3-content-structure-frontmatter-taxonomy",
+          "text": "3. Content Structure & Frontmatter Taxonomy",
+          "level": 2
+        },
+        {
+          "id": "31-project-file-structure-publicprojects",
+          "text": "3.1 Project File Structure (/public/projects/)",
+          "level": 3
+        },
+        {
+          "id": "32-hierarchical-guide-structure-publicguide",
+          "text": "3.2 Hierarchical Guide Structure (/public/guide/)",
+          "level": 3
+        },
+        {
+          "id": "4-the-build-time-indexing-pipeline",
+          "text": "4. The Build-Time Indexing Pipeline",
+          "level": 2
+        },
+        {
+          "id": "41-flat-project-indexer-scriptsproject-indexjs",
+          "text": "4.1 Flat Project Indexer (scripts/project-index.js)",
+          "level": 3
+        },
+        {
+          "id": "42-deep-hierarchical-guide-indexer-scriptsguide-indexjs",
+          "text": "4.2 Deep Hierarchical Guide Indexer (scripts/guide-index.js)",
+          "level": 3
+        },
+        {
+          "id": "5-client-side-runtime-consumption-in-react",
+          "text": "5. Client-Side Runtime Consumption in React",
+          "level": 2
+        },
+        {
+          "id": "51-instant-client-side-listing-search-codetsx",
+          "text": "5.1 Instant Client-Side Listing & Search (Code.tsx)",
+          "level": 3
+        },
+        {
+          "id": "52-dynamic-background-hydration-github-api-stats",
+          "text": "5.2 Dynamic Background Hydration (GitHub API Stats)",
+          "level": 3
+        },
+        {
+          "id": "53-on-demand-article-rendering-codeviewtsx-guidestsx",
+          "text": "5.3 On-Demand Article Rendering (CodeView.tsx & Guides.tsx)",
+          "level": 3
+        },
+        {
+          "id": "6-build-lifecycle-automation-synergies",
+          "text": "6. Build Lifecycle Automation & Synergies",
+          "level": 2
+        },
+        {
+          "id": "7-architecture-comparison",
+          "text": "7. Architecture Comparison",
+          "level": 2
+        },
+        {
+          "id": "8-summary",
+          "text": "8. Summary",
+          "level": 2
+        }
+      ]
+    },
     "technical-seo-and-google-sitelinks": {
       "title": "SEO & Google Sitelinks",
       "slug": "technical-seo-and-google-sitelinks",
@@ -545,6 +750,105 @@
           "id": "how-it-works",
           "text": "How It Works",
           "level": 3
+        }
+      ]
+    },
+    {
+      "title": "Database-Free Markdown Publishing Engine",
+      "slug": "database-free-markdown-publishing-engine",
+      "section": "Software",
+      "sectionId": "software",
+      "topic": "Architecture & CMS",
+      "topicId": "architecture-cms",
+      "order": 1,
+      "description": "How to build a zero-database, file-based publishing engine for blogs, documentation, and portfolios using flat Markdown files, build-time Node.js indexers, and on-demand React rendering.",
+      "readTime": "5 min read",
+      "updatedAt": "2026-09-17T12:00:00.000Z",
+      "tags": [
+        "Architecture",
+        "Markdown",
+        "Static Site Generator",
+        "Vite",
+        "React",
+        "Node.js",
+        "Gray-Matter"
+      ],
+      "filePath": "/guide/software/database-free-markdown-publishing-engine.md",
+      "headings": [
+        {
+          "id": "1-architectural-philosophy-the-case-against-databases",
+          "text": "1. Architectural Philosophy: The Case Against Databases",
+          "level": 2
+        },
+        {
+          "id": "2-system-overview-the-two-phase-pipeline",
+          "text": "2. System Overview & The Two-Phase Pipeline",
+          "level": 2
+        },
+        {
+          "id": "3-content-structure-frontmatter-taxonomy",
+          "text": "3. Content Structure & Frontmatter Taxonomy",
+          "level": 2
+        },
+        {
+          "id": "31-project-file-structure-publicprojects",
+          "text": "3.1 Project File Structure (/public/projects/)",
+          "level": 3
+        },
+        {
+          "id": "32-hierarchical-guide-structure-publicguide",
+          "text": "3.2 Hierarchical Guide Structure (/public/guide/)",
+          "level": 3
+        },
+        {
+          "id": "4-the-build-time-indexing-pipeline",
+          "text": "4. The Build-Time Indexing Pipeline",
+          "level": 2
+        },
+        {
+          "id": "41-flat-project-indexer-scriptsproject-indexjs",
+          "text": "4.1 Flat Project Indexer (scripts/project-index.js)",
+          "level": 3
+        },
+        {
+          "id": "42-deep-hierarchical-guide-indexer-scriptsguide-indexjs",
+          "text": "4.2 Deep Hierarchical Guide Indexer (scripts/guide-index.js)",
+          "level": 3
+        },
+        {
+          "id": "5-client-side-runtime-consumption-in-react",
+          "text": "5. Client-Side Runtime Consumption in React",
+          "level": 2
+        },
+        {
+          "id": "51-instant-client-side-listing-search-codetsx",
+          "text": "5.1 Instant Client-Side Listing & Search (Code.tsx)",
+          "level": 3
+        },
+        {
+          "id": "52-dynamic-background-hydration-github-api-stats",
+          "text": "5.2 Dynamic Background Hydration (GitHub API Stats)",
+          "level": 3
+        },
+        {
+          "id": "53-on-demand-article-rendering-codeviewtsx-guidestsx",
+          "text": "5.3 On-Demand Article Rendering (CodeView.tsx & Guides.tsx)",
+          "level": 3
+        },
+        {
+          "id": "6-build-lifecycle-automation-synergies",
+          "text": "6. Build Lifecycle Automation & Synergies",
+          "level": 2
+        },
+        {
+          "id": "7-architecture-comparison",
+          "text": "7. Architecture Comparison",
+          "level": 2
+        },
+        {
+          "id": "8-summary",
+          "text": "8. Summary",
+          "level": 2
         }
       ]
     },

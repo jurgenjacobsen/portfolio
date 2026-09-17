@@ -12,7 +12,7 @@ import {
 
 export default function Aviation() {
     return (
-        <main className="space-y-6 md:space-y-8 animate-in fade-in duration-700 delay-100 fill-mode-both">
+        <main className="space-y-6 md:space-y-8 mt-6 animate-in fade-in duration-700 delay-100 fill-mode-both">
             <SEO
                 title="Commercial Aviation & Flight Experience | Jürgen Jacobsen"
                 description="Commercial aviation journey, flight experience, and piloting credentials of Jürgen Jacobsen, licensed commercial pilot with 230+ flight hours across various aircraft types."
@@ -50,10 +50,11 @@ export default function Aviation() {
 
                     {/* Description */}
                     <p className="text-base md:text-lg text-muted-foreground font-medium leading-relaxed max-w-3xl">
-                        This section is currently undergoing active development. Detailed
-                        aircraft endorsements, flight hour breakdowns, route logs,
-                        cross-country navigation records, and instrument approach
-                        procedure archives are being compiled and will be available soon.
+                        This section is currently undergoing active development.
+                        Detailed aircraft endorsements, flight hour breakdowns,
+                        route logs, cross-country navigation records, and
+                        instrument approach procedure archives are being
+                        compiled and will be available soon.
                     </p>
                 </header>
 
@@ -65,8 +66,9 @@ export default function Aviation() {
                             <span>Route Histories</span>
                         </div>
                         <p className="text-xs text-muted-foreground leading-relaxed">
-                            Interactive flight trajectories, cross-country flight paths, and
-                            aerodrome operations across Europe.
+                            Interactive flight trajectories, cross-country
+                            flight paths, and aerodrome operations across
+                            Europe.
                         </p>
                     </div>
 
@@ -76,8 +78,8 @@ export default function Aviation() {
                             <span>Fleet & Ratings</span>
                         </div>
                         <p className="text-xs text-muted-foreground leading-relaxed">
-                            Single-engine (SEP) and multi-engine (MEP) aircraft hours, glass
-                            cockpit avionics, and simulator time.
+                            Single-engine (SEP) and multi-engine (MEP) aircraft
+                            hours, glass cockpit avionics, and simulator time.
                         </p>
                     </div>
 
@@ -87,8 +89,9 @@ export default function Aviation() {
                             <span>SOPs & Procedures</span>
                         </div>
                         <p className="text-xs text-muted-foreground leading-relaxed">
-                            Standard operating procedures, IFR departure & arrival
-                            procedures, and flight training documentation.
+                            Standard operating procedures, IFR departure &
+                            arrival procedures, and flight training
+                            documentation.
                         </p>
                     </div>
                 </div>
@@ -100,7 +103,7 @@ export default function Aviation() {
                     </span>
                     <div className="flex flex-wrap items-center gap-2.5 text-xs md:text-sm">
                         <Link
-                            to="/cv"
+                            to="/cv?version=aviation"
                             className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl font-semibold bg-primary text-primary-foreground hover:bg-primary/85 transition-all cursor-pointer"
                         >
                             <FileTextIcon className="size-4" />
