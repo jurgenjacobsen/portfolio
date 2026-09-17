@@ -16,14 +16,18 @@ export interface SelectOption<T = string> {
     value: T;
     label: React.ReactNode;
     disabled?: boolean;
-    [key: string]: any;
+    [key: string]: unknown;
 }
 
 export interface SelectTitleProps extends React.HTMLAttributes<HTMLSpanElement> {
     children?: React.ReactNode;
 }
 
-export function SelectTitle({ children, className, ...props }: SelectTitleProps) {
+export function SelectTitle({
+    children,
+    className,
+    ...props
+}: SelectTitleProps) {
     return (
         <span className={cn("flex items-center gap-2", className)} {...props}>
             {children}
@@ -53,12 +57,12 @@ export interface SelectProps<T = string> {
     renderTrigger?: (
         selectedOption: SelectOption<T> | undefined,
         isOpen: boolean,
-        title?: React.ReactNode
+        title?: React.ReactNode,
     ) => React.ReactNode;
     renderOption?: (
         option: SelectOption<T>,
         isSelected: boolean,
-        isHighlighted: boolean
+        isHighlighted: boolean,
     ) => React.ReactNode;
 }
 
@@ -102,7 +106,7 @@ export function Select<T extends string | number = string>({
 
     const isControlled = controlledValue !== undefined;
     const [uncontrolledValue, setUncontrolledValue] = useState<T | undefined>(
-        defaultValue
+        defaultValue,
     );
     const currentValue = isControlled ? controlledValue : uncontrolledValue;
 
@@ -111,7 +115,7 @@ export function Select<T extends string | number = string>({
     const [placement, setPlacement] = useState<"bottom" | "top">("bottom");
 
     const selectedOption = normalizedOptions.find(
-        (opt) => opt.value === currentValue
+        (opt) => opt.value === currentValue,
     );
 
     // Calculate whether dropdown should appear below or above trigger button
@@ -124,9 +128,7 @@ export function Select<T extends string | number = string>({
         const spaceBelow = viewportHeight - rect.bottom;
         const spaceAbove = rect.top;
 
-        const menuHeight = listRef.current
-            ? listRef.current.offsetHeight
-            : 220;
+        const menuHeight = listRef.current ? listRef.current.offsetHeight : 220;
         const margin = 8;
 
         if (spaceBelow < menuHeight + margin && spaceAbove > spaceBelow) {
@@ -175,9 +177,9 @@ export function Select<T extends string | number = string>({
     // Scroll highlighted item into view if list is scrollable
     useEffect(() => {
         if (isOpen && highlightedIndex >= 0 && listRef.current) {
-            const item = listRef.current.children[
-                highlightedIndex
-            ] as HTMLElement | undefined;
+            const item = listRef.current.children[highlightedIndex] as
+                | HTMLElement
+                | undefined;
             if (item) {
                 item.scrollIntoView({ block: "nearest" });
             }
@@ -202,7 +204,7 @@ export function Select<T extends string | number = string>({
 
             setIsOpen(false);
         },
-        [disabled, isControlled, onChange, onValueChange]
+        [disabled, isControlled, onChange, onValueChange],
     );
 
     // Handle keyboard navigation
@@ -273,13 +275,18 @@ export function Select<T extends string | number = string>({
     };
 
     return (
-        <div ref={containerRef} className={cn("relative", className)}>
+        <div
+            ref={containerRef}
+            className={cn("relative", isOpen && "z-30", className)}
+        >
             {/* Hidden native input for HTML form submissions */}
             {name && (
                 <input
                     type="hidden"
                     name={name}
-                    value={currentValue !== undefined ? String(currentValue) : ""}
+                    value={
+                        currentValue !== undefined ? String(currentValue) : ""
+                    }
                     required={required}
                     disabled={disabled}
                 />
@@ -298,7 +305,7 @@ export function Select<T extends string | number = string>({
                 className={cn(
                     "bg-card px-4 py-2 rounded-xl border border-border/75 font-normal text-muted-foreground flex gap-2 items-center cursor-pointer justify-between transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring",
                     disabled && "opacity-50 cursor-not-allowed",
-                    triggerClassName
+                    triggerClassName,
                 )}
             >
                 {renderTrigger ? (
@@ -320,14 +327,16 @@ export function Select<T extends string | number = string>({
                             </>
                         ) : (
                             <span className={valueClassName}>
-                                {selectedOption ? selectedOption.label : placeholder}
+                                {selectedOption
+                                    ? selectedOption.label
+                                    : placeholder}
                             </span>
                         )}
                         <span aria-hidden="true">
                             <ChevronDown
                                 className={cn(
                                     "size-4 stroke-muted-foreground transition-transform duration-200",
-                                    isOpen && "rotate-180"
+                                    isOpen && "rotate-180",
                                 )}
                             />
                         </span>
@@ -347,7 +356,7 @@ export function Select<T extends string | number = string>({
                         placement === "bottom"
                             ? "top-full mt-2 origin-top slide-in-from-top-2"
                             : "bottom-full mb-2 origin-bottom slide-in-from-bottom-2",
-                        menuClassName
+                        menuClassName,
                     )}
                 >
                     {normalizedOptions.map((option, index) => {
@@ -364,20 +373,32 @@ export function Select<T extends string | number = string>({
                                 onMouseEnter={() => setHighlightedIndex(index)}
                                 className={cn(
                                     "transition-colors duration-200 rounded-lg hover:bg-muted px-3 py-2 flex items-center justify-between gap-2 cursor-pointer text-sm font-medium",
-                                    isSelected && "bg-muted/50 text-foreground font-semibold",
-                                    isHighlighted && !isSelected && "bg-muted/30",
+                                    isSelected &&
+                                        "bg-muted/50 text-foreground font-semibold",
+                                    isHighlighted &&
+                                        !isSelected &&
+                                        "bg-muted/30",
                                     option.disabled &&
                                         "opacity-50 cursor-not-allowed pointer-events-none",
-                                    optionClassName
+                                    optionClassName,
                                 )}
                             >
                                 {renderOption ? (
-                                    renderOption(option, isSelected, isHighlighted)
+                                    renderOption(
+                                        option,
+                                        isSelected,
+                                        isHighlighted,
+                                    )
                                 ) : (
                                     <>
-                                        <span className="truncate">{option.label}</span>
+                                        <span className="truncate">
+                                            {option.label}
+                                        </span>
                                         {isSelected && (
-                                            <span aria-hidden="true" className="shrink-0">
+                                            <span
+                                                aria-hidden="true"
+                                                className="shrink-0"
+                                            >
                                                 <CheckIcon className="size-4" />
                                             </span>
                                         )}

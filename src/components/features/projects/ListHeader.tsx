@@ -1,4 +1,9 @@
-import { SearchIcon, FilterIcon, SortDescIcon, ChevronDown } from "lucide-react";
+import {
+    SearchIcon,
+    FilterIcon,
+    SortDescIcon,
+    ChevronDown,
+} from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 
@@ -37,7 +42,7 @@ export default function ListHeader({
     ];
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-4 w-full animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
+        <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-4 w-full animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both relative z-20">
             {/* Search Input */}
             <div className="relative w-full group">
                 <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
@@ -51,7 +56,7 @@ export default function ListHeader({
             </div>
 
             {/* Filters and Sorting */}
-            <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 md:gap-3 w-full md:w-auto">
+            <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 md:gap-3 w-full md:w-auto relative z-10">
                 <Select
                     value={techFilter}
                     onChange={(val) => setTechFilter(val)}
@@ -64,7 +69,9 @@ export default function ListHeader({
                             <div className="flex items-center gap-2 overflow-hidden">
                                 <FilterIcon className="size-3.5 text-muted-foreground shrink-0" />
                                 <span className="truncate text-sm text-foreground">
-                                    {selectedOption ? selectedOption.label : "Technology"}
+                                    {selectedOption
+                                        ? selectedOption.label
+                                        : "Technology"}
                                 </span>
                             </div>
                             <span aria-hidden="true">
@@ -88,7 +95,9 @@ export default function ListHeader({
                             <div className="flex items-center gap-2 overflow-hidden">
                                 <SortDescIcon className="size-3.5 text-muted-foreground shrink-0" />
                                 <span className="truncate text-sm text-foreground">
-                                    {selectedOption ? selectedOption.label : "Sort by"}
+                                    {selectedOption
+                                        ? selectedOption.label
+                                        : "Sort by"}
                                 </span>
                             </div>
                             <span aria-hidden="true">
