@@ -245,7 +245,7 @@ export default function Projects() {
     return (
         <main className="space-y-4 md:space-y-8">
             <SEO
-                title="Software Projects & Open Source | Jürgen Jacobsen"
+                title="Software Projects | Jürgen Jacobsen"
                 description="Explore software engineering projects, open-source tools, and applications built with TypeScript, React, Node.js, and more by Jürgen Jacobsen."
                 canonical="/code"
                 breadcrumbs={[

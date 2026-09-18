@@ -6,8 +6,8 @@ export default function Charts() {
     return (
         <main className="space-y-6 md:space-y-8">
             <SEO
-                title="Aeronautical Cartography & Procedure Design | Jürgen Jacobsen"
-                description="Custom aeronautical cartography, training instrument procedures and SOPs training procedures by Jürgen Jacobsen."
+                title="Aeronautical Charts Design | Jürgen Jacobsen"
+                description="Custom aeronautical charts design, training instrument procedures and SOPs training procedures by Jürgen Jacobsen."
                 canonical="/charts"
                 breadcrumbs={[
                     { name: "Home", path: "/" },

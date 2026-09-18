@@ -73,7 +73,7 @@ export default function CV() {
     return (
         <main>
             <SEO
-                title={`Curriculum Vitae (${activeCv.label}) | Jürgen Jacobsen`}
+                title={`Curriculum Vitae | Jürgen Jacobsen`}
                 description="Curriculum Vitae of Jürgen Jacobsen. View or download the official resume spanning aviation and web development experience."
                 canonical="/cv"
                 breadcrumbs={[

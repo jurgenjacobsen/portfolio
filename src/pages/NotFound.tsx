@@ -6,7 +6,7 @@ export default function NotFound() {
     return (
         <main className="flex items-center justify-center">
             <SEO
-                title="404 - Page Not Found | Jürgen Jacobsen"
+                title="Page Not Found | Jürgen Jacobsen"
                 description="The page you are looking for does not exist or has been moved."
                 robots="noindex, nofollow"
             />
