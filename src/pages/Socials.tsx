@@ -141,7 +141,7 @@ export default function Socials() {
                             </span>
                             .
                         </h1>
-                        <p className="text-lg md:text-xl text-muted-foreground leading-relaxed font-medium max-w-2xl animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
+                        <p className="text-lg md:text-xl text-muted-foreground leading-relaxed font-medium max-w-4xl animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
                             Find me across the web. Whether you want to explore my open-source code repositories, follow my aviation journey, network professionally, or send a direct message.
                         </p>
                     </div>
@@ -244,10 +244,10 @@ export default function Socials() {
                 <div className="pt-8 border-t border-border/50 flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-700 fill-mode-both">
                     <div className="space-y-1 text-center sm:text-left">
                         <h3 className="font-bold text-base md:text-lg tracking-tight">
-                            Looking for direct collaboration?
+                            Want to get in touch?
                         </h3>
                         <p className="text-xs md:text-sm text-muted-foreground font-medium">
-                            Check availability, location details, and send an inquiry directly.
+                            Check where you can reach me or send a direct message via the contact page.
                         </p>
                     </div>
                     <Link
