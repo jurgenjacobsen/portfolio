@@ -284,42 +284,41 @@ export default function HeroMap({ data }: HeroMapProps) {
                 routePopup
                     .setLngLat(e.lngLat)
                     .setHTML(
-                        `<div class="aviation-route-popup p-3 font-sans space-y-2.5 min-w-[240px] max-w-[280px]">
-                            <div class="flex items-center justify-between gap-2 border-b border-border/50 pb-2">
-                                <div class="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-primary">
-                                    <span class="inline-block size-1.5 rounded-full bg-primary animate-pulse"></span>
-                                    <span>Flown Trajectory</span>
+                        `<div class="aviation-route-popup px-4 py-2 font-sans space-y-2 min-w-60 max-w-72">
+                            <div class="flex items-center justify-between gap-2 border-b border-border pb-2">
+                                <div class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-primary">
+                                    <span>Flight Route</span>
                                 </div>
-                                <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-muted text-muted-foreground">
+                                <span class="text-[10px] font-mono font-bold text-muted-foreground">
                                     ${props.flightCount} ${props.flightCount === 1 ? "Flight" : "Flights"}
                                 </span>
                             </div>
 
-                            <div class="flex items-center justify-between gap-2 pt-0.5">
+                            <div class="flex items-center justify-between gap-2 pt-1">
                                 <div class="min-w-0">
                                     <span class="font-mono font-black text-base text-foreground tracking-tight">${props.fromIcao}</span>
-                                    <p class="text-[11px] text-muted-foreground truncate max-w-[90px] leading-tight">${props.depCity}</p>
+                                    <p class="text-[11px] text-muted-foreground truncate max-w-22 leading-tight">${props.depCity}</p>
                                 </div>
                                 <div class="flex flex-col items-center shrink-0 px-2">
                                     <svg class="size-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M5 12h14m-7-7 7 7-7 7"/>
                                     </svg>
-                                    <span class="text-[9px] font-mono font-bold text-muted-foreground mt-0.5">${props.distanceNm} NM</span>
+                                    <span class="text-[10px] font-sans font-medium text-muted-foreground mt-1">${props.distanceNm} NM</span>
                                 </div>
                                 <div class="min-w-0 text-right">
                                     <span class="font-mono font-black text-base text-foreground tracking-tight">${props.toIcao}</span>
-                                    <p class="text-[11px] text-muted-foreground truncate max-w-[90px] leading-tight">${props.arrCity}</p>
+                                    <p class="text-[11px] text-muted-foreground truncate max-w-22 leading-tight">${props.arrCity}</p>
                                 </div>
                             </div>
 
-                            <div class="pt-2 border-t border-border/50 flex flex-col gap-1 text-[10px]">
+                            <div class="pt-2 border-t border-border flex flex-col gap-1 text-[10px]">
                                 <div class="flex items-center justify-between text-muted-foreground">
                                     <span>Distance</span>
-                                    <span class="font-mono font-bold text-foreground">${props.distanceNm} NM <span class="text-muted-foreground font-normal">(${distanceKm} km)</span></span>
+                                    <span class="font-bold text-foreground">${props.distanceNm} NM <span class="text-muted-foreground font-normal">(${distanceKm} km)</span></span>
                                 </div>
                                 <div class="flex items-center justify-between text-muted-foreground">
                                     <span>Aircraft</span>
-                                    <span class="font-semibold text-primary truncate max-w-[150px] text-right">${props.aircraftLabel}</span>
+                                    <span class="font-semibold text-primary truncate max-w-38 text-right">${props.aircraftLabel}</span>
                                 </div>
                             </div>
                         </div>`,
@@ -339,115 +338,12 @@ export default function HeroMap({ data }: HeroMapProps) {
                 routePopup.remove();
             });
 
-            // 4. Click Popup for Airports
-            const airportPopup = new mapboxgl.Popup({
-                closeButton: true,
-                closeOnClick: true,
-                className: "aviation-mapbox-popup",
-                offset: 14,
-            });
-
             map.on("mouseenter", "airports-circle", () => {
                 map.getCanvas().style.cursor = "pointer";
             });
 
             map.on("mouseleave", "airports-circle", () => {
                 map.getCanvas().style.cursor = "";
-            });
-
-            map.on("click", "airports-circle", (e) => {
-                if (!e.features || e.features.length === 0) return;
-                const feature = e.features[0] as unknown as {
-                    geometry: Point;
-                    properties?: {
-                        icao: string;
-                        iata?: string;
-                        name: string;
-                        city: string;
-                        country: string;
-                        lat: number | string;
-                        lon: number | string;
-                        operationsCount: number;
-                        connectedCount?: number;
-                        connectedDestinations?: string;
-                    };
-                };
-                const geom = feature.geometry;
-                const props = feature.properties || {
-                    icao: "",
-                    iata: "",
-                    name: "",
-                    city: "",
-                    country: "",
-                    lat: 0,
-                    lon: 0,
-                    operationsCount: 0,
-                    connectedCount: 0,
-                    connectedDestinations: "[]",
-                };
-
-                let connectedList: string[] = [];
-                try {
-                    connectedList = JSON.parse(
-                        props.connectedDestinations || "[]",
-                    );
-                } catch {
-                    connectedList = [];
-                }
-
-                airportPopup
-                    .setLngLat(geom.coordinates as [number, number])
-                    .setHTML(
-                        `<div class="aviation-airport-popup p-4 font-sans space-y-3 min-w-[260px] max-w-[310px]">
-                            <!-- Header: ICAO, optional IATA, and Operations Badge -->
-                            <div class="flex items-start justify-between gap-3 pr-6 border-b border-border/60 pb-2.5">
-                                <div>
-                                    <div class="flex items-center gap-1.5">
-                                        <span class="font-mono font-black text-lg text-primary tracking-tight">${props.icao}</span>
-                                        ${props.iata ? `<span class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-muted text-muted-foreground border border-border/60">${props.iata}</span>` : ""}
-                                    </div>
-                                    <p class="text-xs font-bold text-foreground leading-snug mt-0.5">${props.name}</p>
-                                </div>
-                                <span class="shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">
-                                    <span class="size-1.5 rounded-full bg-primary"></span>
-                                    ${props.operationsCount} Ops
-                                </span>
-                            </div>
-
-                            <!-- Location details -->
-                            <div class="space-y-2 text-xs">
-                                <div class="flex items-center gap-2 text-muted-foreground">
-                                    <svg class="size-3.5 text-primary shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
-                                        <circle cx="12" cy="10" r="3"/>
-                                    </svg>
-                                    <span class="truncate font-medium text-foreground">${props.city}, ${props.country}</span>
-                                </div>
-
-                                <!-- Connected Destinations -->
-                                ${
-                                    connectedList.length > 0
-                                        ? `<div class="p-2 rounded-lg bg-muted/40 border border-border/40 text-[11px] space-y-1.5">
-                                            <div class="flex items-center justify-between text-muted-foreground font-semibold text-[10px] tracking-wider uppercase">
-                                                <span>Direct Routes</span>
-                                                <span class="font-mono text-foreground">${connectedList.length} Connected</span>
-                                            </div>
-                                            <div class="flex flex-wrap gap-1">
-                                                ${connectedList.map((dest) => `<span class="px-1.5 py-0.5 rounded bg-card border border-border/75 font-mono text-[10px] font-semibold text-foreground">${dest}</span>`).join("")}
-                                            </div>
-                                        </div>`
-                                        : ""
-                                }
-                            </div>
-
-                            <!-- Coordinates pill footer -->
-                            <div class="pt-2 border-t border-border/60 flex items-center justify-between text-[10px] text-muted-foreground font-mono">
-                                <span class="font-bold text-muted-foreground/75 tracking-wider uppercase text-[9px]">Coordinates</span>
-                                <span class="font-semibold text-foreground">${formatCoordinates(Number(props.lat), Number(props.lon))}</span>
-                            </div>
-                        </div>`,
-                    )
-                    .addTo(map);
             });
 
             // 5. Fit Bounds to All Coordinates
