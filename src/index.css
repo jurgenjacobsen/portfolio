@@ -249,12 +249,6 @@
 
 /* Aviation Mapbox GL Map Custom Styling */
 .aviation-mapbox-popup .mapboxgl-popup-content {
-    background: var(--card) !important;
-    color: var(--foreground) !important;
-    border: 1px solid var(--border) !important;
-    border-radius: 1rem !important;
-    box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.4), 0 10px 15px -5px rgba(0, 0, 0, 0.2) !important;
-    padding: 0 !important;
     backdrop-filter: blur(16px) !important;
     -webkit-backdrop-filter: blur(16px) !important;
 }

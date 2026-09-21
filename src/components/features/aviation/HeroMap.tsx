@@ -11,14 +11,6 @@ interface HeroMapProps {
     data: AviationLogbookData;
 }
 
-function formatCoordinates(lat: number, lon: number): string {
-    const latDir = lat >= 0 ? "N" : "S";
-    const lonDir = lon >= 0 ? "E" : "W";
-    const latStr = `${Math.abs(lat).toFixed(4)}° ${latDir}`;
-    const lonStr = `${Math.abs(lon).toFixed(4)}° ${lonDir}`;
-    return `${latStr} • ${lonStr}`;
-}
-
 export default function HeroMap({ data }: HeroMapProps) {
     const mapContainerRef = useRef<HTMLDivElement>(null);
     const mapInstanceRef = useRef<mapboxgl.Map | null>(null);
@@ -409,12 +401,10 @@ export default function HeroMap({ data }: HeroMapProps) {
                     </div>
                 </div>
 
-                {/* Interactive Mapbox Map Box */}
                 <div className="relative overflow-hidden rounded-xl">
                     <div
                         ref={mapContainerRef}
-                        style={{ height: "480px", minHeight: "400px", width: "100%" }}
-                        className="w-full relative z-0 md:aspect-auto aspect-square"
+                        className="w-full relative z-0 aspect-square md:aspect-auto md:h-120 md:min-h-100"
                     />
                 </div>
 

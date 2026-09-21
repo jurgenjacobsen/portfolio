@@ -100,7 +100,7 @@ export default function Footer() {
         <>
             <footer className="w-full border-t-2 border-border mt-8 pt-4 py-8 no-print">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                    <div className="px-6 ">
+                    <div className="px-4 md:px-6">
                         <h3 className="font-bold text-lg tracking-tight">
                             Jürgen Jacobsen
                         </h3>

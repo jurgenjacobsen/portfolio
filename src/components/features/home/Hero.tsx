@@ -56,7 +56,8 @@ export default function Hero() {
                         </Link>
                     </div>
                 </div>
-                <div className="w-full md:w-1/4 aspect-square relative group animate-in fade-in zoom-in-95 duration-1000 delay-500 fill-mode-both">
+
+                <div className="w-full md:w-1/4 relative group animate-in fade-in zoom-in-95 duration-1000 delay-500 fill-mode-both">
                     <div className="absolute inset-0 bg-primary/10 rounded-xl -rotate-3 group-hover:rotate-6 transition-transform duration-500 animate-essential" />
                     {!imageLoaded && (
                         <Skeleton
@@ -67,7 +68,7 @@ export default function Hero() {
                         src="/img/profile.jpg"
                         alt="Jürgen Jacobsen"
                         onLoad={() => setImageLoaded(true)}
-                        className="relative z-10 w-full h-full object-cover rounded-xl border border-border shadow-xl hover:grayscale transition-all duration-500 brightness-125 group-hover:-rotate-3 animate-essential"
+                        className="relative z-10 w-full h-full md:h-auto aspect-square md:aspect-auto object-cover rounded-xl border border-border shadow-sm hover:grayscale transition-all duration-500 brightness-125 group-hover:-rotate-3 animate-essential"
                     />
                 </div>
             </div>
