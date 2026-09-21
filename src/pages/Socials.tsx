@@ -199,7 +199,7 @@ export default function Socials() {
                                         <>
                                             <a
                                                 href={profile.url}
-                                                className="group/btn inline-flex shrink-0 items-center justify-center rounded-xl font-semibold whitespace-nowrap transition-all select-none cursor-pointer px-5 py-2 bg-primary hover:bg-primary/75 text-card duration-300 hover:border-primary/25 text-xs md:text-sm shadow-sm"
+                                                className="group/btn inline-flex shrink-0 items-center justify-center rounded-xl font-semibold whitespace-nowrap transition-all select-none cursor-pointer px-4 py-2 bg-primary hover:bg-primary/75 text-card duration-300 hover:border-primary/25 text-xs md:text-sm shadow-sm"
                                             >
                                                 <MailIcon className="size-4 mr-2 group-hover/btn:scale-105 transition-transform duration-300" />
                                                 Send an Email
@@ -207,7 +207,7 @@ export default function Socials() {
                                             <button
                                                 type="button"
                                                 onClick={handleCopyEmail}
-                                                className="inline-flex shrink-0 items-center justify-center rounded-xl border border-border font-semibold whitespace-nowrap transition-all select-none cursor-pointer px-5 py-2 bg-muted hover:bg-muted/50 duration-300 hover:border-primary/25 text-foreground text-xs md:text-sm"
+                                                className="inline-flex shrink-0 items-center justify-center rounded-xl border border-border font-semibold whitespace-nowrap transition-all select-none cursor-pointer px-4 py-2 bg-muted hover:bg-muted/50 duration-300 hover:border-primary/25 text-foreground text-xs md:text-sm"
                                                 aria-label="Copy email address"
                                             >
                                                 {copied ? (
@@ -228,7 +228,7 @@ export default function Socials() {
                                             href={profile.url}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="group/btn inline-flex shrink-0 items-center justify-center rounded-xl font-semibold whitespace-nowrap transition-all select-none cursor-pointer px-5 py-2 bg-muted hover:bg-muted/50 border border-border hover:border-primary/25 text-foreground duration-300 text-xs md:text-sm"
+                                            className="group/btn inline-flex shrink-0 items-center justify-center rounded-xl font-semibold whitespace-nowrap transition-all select-none cursor-pointer px-4 py-2 bg-muted hover:bg-muted/50 border border-border hover:border-primary/25 text-foreground duration-300 text-xs md:text-sm"
                                         >
                                             <ExternalLinkIcon className="size-4 mr-2 group-hover/btn:scale-110 transition-transform duration-300" />
                                             {profile.actionText}
