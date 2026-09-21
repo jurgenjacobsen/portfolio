@@ -1,17 +1,27 @@
 import { useEffect, useRef } from "react";
-import L from "leaflet";
-import "leaflet/dist/leaflet.css";
-import { PlaneIcon } from "lucide-react";
+import mapboxgl from "mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
+import type { FeatureCollection, LineString, Point } from "geojson";
+import { PlaneIcon, Triangle } from "lucide-react";
 import type { AviationLogbookData } from "@/lib/logbook-parser";
+import { AIRPORTS_DATABASE } from "@/lib/aviation-airports";
 import { SectionCard } from "@/components/shared";
 
 interface HeroMapProps {
     data: AviationLogbookData;
 }
 
+function formatCoordinates(lat: number, lon: number): string {
+    const latDir = lat >= 0 ? "N" : "S";
+    const lonDir = lon >= 0 ? "E" : "W";
+    const latStr = `${Math.abs(lat).toFixed(4)}° ${latDir}`;
+    const lonStr = `${Math.abs(lon).toFixed(4)}° ${lonDir}`;
+    return `${latStr} • ${lonStr}`;
+}
+
 export default function HeroMap({ data }: HeroMapProps) {
     const mapContainerRef = useRef<HTMLDivElement>(null);
-    const mapInstanceRef = useRef<L.Map | null>(null);
+    const mapInstanceRef = useRef<mapboxgl.Map | null>(null);
 
     useEffect(() => {
         if (!mapContainerRef.current) return;
@@ -22,157 +32,448 @@ export default function HeroMap({ data }: HeroMapProps) {
             mapInstanceRef.current = null;
         }
 
-        // Initialize Leaflet map centered on the Iberian Peninsula
-        const map = L.map(mapContainerRef.current, {
-            center: [41.2, -6.5],
-            zoom: 6,
-            scrollWheelZoom: true,
+        const mapboxToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN || "";
+        mapboxgl.accessToken = mapboxToken;
+
+        // Initialize Mapbox map centered on the Iberian Peninsula
+        const map = new mapboxgl.Map({
+            container: mapContainerRef.current,
+            style: "mapbox://styles/jurgenjacosben/cmub2wexe004u01s8a7fv4sfo",
+            center: [-6.5, 41.2],
+            zoom: 5.5,
             attributionControl: true,
         });
 
         mapInstanceRef.current = map;
 
-        const API_KEY = import.meta.env.VITE_CARTO_API_KEY || "";
+        // Add navigation controls (zoom in/out, compass)
+        map.addControl(
+            new mapboxgl.NavigationControl({ showCompass: true }),
+            "top-right",
+        );
 
-        L.tileLayer(`https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=${API_KEY}`, {                                                                                                                                                                              
-            attribution:                                                                                                                                                                                                                                            
-                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',                                                                                                
-            subdomains: "abcd",                                                                                                                                                                                                                                     
-            maxZoom: 20,                                                                                                                                                                                                                                            
-        }).addTo(map);
+        // Prepare GeoJSON for flight routes
+        const routesGeoJson: FeatureCollection<LineString> = {
+            type: "FeatureCollection",
+            features: data.routes.map((route, index) => {
+                const aircraftLabel =
+                    route.aircraftTypes.length > 0
+                        ? route.aircraftTypes.join(", ")
+                        : "General Aviation";
 
-        const allLatLngs: [number, number][] = [];
+                const depAirport = AIRPORTS_DATABASE[route.fromIcao];
+                const arrAirport = AIRPORTS_DATABASE[route.toIcao];
 
-        // Dynamic marker radius based strictly on zoom level (uniform across all airports)
-        const getMarkerRadius = (zoom: number) => {
-            if (zoom <= 4) return 2.5;
-            if (zoom === 5) return 3;
-            if (zoom === 6) return 3.5;
-            if (zoom === 7) return 4;
-            if (zoom === 8) return 4.5;
-            return 5;
+                return {
+                    type: "Feature",
+                    id: index,
+                    properties: {
+                        fromIcao: route.fromIcao,
+                        toIcao: route.toIcao,
+                        depCity: depAirport?.city || depAirport?.name || route.fromIcao,
+                        arrCity: arrAirport?.city || arrAirport?.name || route.toIcao,
+                        distanceNm: route.distanceNm,
+                        flightCount: route.flightCount,
+                        aircraftLabel,
+                    },
+                    geometry: {
+                        type: "LineString",
+                        coordinates: [
+                            [route.fromCoords[1], route.fromCoords[0]],
+                            [route.toCoords[1], route.toCoords[0]],
+                        ],
+                    },
+                };
+            }),
         };
 
-        // 1. Draw flight paths (thin solid line)
-        data.routes.forEach((route) => {
-            allLatLngs.push(route.fromCoords);
-            allLatLngs.push(route.toCoords);
+        // Prepare GeoJSON for airports
+        const airportsGeoJson: FeatureCollection<Point> = {
+            type: "FeatureCollection",
+            features: data.uniqueAirports.map((airport) => {
+                const airportData = AIRPORTS_DATABASE[airport.icao];
+                const connectedRoutes = data.routes.filter(
+                    (r) =>
+                        r.fromIcao === airport.icao ||
+                        r.toIcao === airport.icao,
+                );
+                const connectedDestinations = Array.from(
+                    new Set(
+                        connectedRoutes.map((r) =>
+                            r.fromIcao === airport.icao ? r.toIcao : r.fromIcao,
+                        ),
+                    ),
+                );
 
-            // Polyline connecting airports (thin solid line in #5966ff)
-            const polyline = L.polyline([route.fromCoords, route.toCoords], {
-                color: "#5966ff",
-                weight: 1.5,
-                opacity: 1,
-                lineCap: "round",
-            }).addTo(map);
+                return {
+                    type: "Feature",
+                    properties: {
+                        icao: airport.icao,
+                        iata: airportData?.iata || "",
+                        name: airport.name,
+                        city: airport.city,
+                        country: airport.country,
+                        lat: airport.lat,
+                        lon: airport.lon,
+                        operationsCount: airport.operationsCount,
+                        connectedCount: connectedRoutes.length,
+                        connectedDestinations: JSON.stringify(connectedDestinations),
+                    },
+                    geometry: {
+                        type: "Point",
+                        coordinates: [airport.lon, airport.lat],
+                    },
+                };
+            }),
+        };
 
-            const aircraftLabel =
-                route.aircraftTypes.length > 0
-                    ? route.aircraftTypes.join(", ")
-                    : "General Aviation";
-
-            polyline.bindTooltip(
-                `<div class="p-1 font-sans text-xs">
-                    <p class="font-bold text-sm text-foreground mb-0.5">${route.fromIcao} ➔ ${route.toIcao}</p>
-                    <p class="text-muted-foreground">${route.distanceNm} NM • ${route.flightCount} Flights</p>
-                    <p class="text-[11px] text-primary font-medium mt-0.5">Aircraft: ${aircraftLabel}</p>
-                </div>`,
-                {
-                    sticky: true,
-                    className: "aviation-leaflet-tooltip",
-                },
-            );
-
-            polyline.on("mouseover", () => {
-                polyline.setStyle({
-                    color: "#4b54bf",
-                    weight: 2.5,
-                    opacity: 1,
-                });
+        map.on("load", () => {
+            // 1. Flight Paths Source & Layers
+            map.addSource("flight-routes", {
+                type: "geojson",
+                data: routesGeoJson,
             });
 
-            polyline.on("mouseout", () => {
-                polyline.setStyle({
-                    color: "#5966ff",
-                    weight: 1.5,
-                    opacity: 0.85,
-                });
-            });
-        });
-
-        // 2. Draw Airport dot markers (smaller fixed size dots in #5966ff)
-        const airportMarkers: L.CircleMarker[] = [];
-
-        data.uniqueAirports.forEach((airport) => {
-            allLatLngs.push([airport.lat, airport.lon]);
-
-            const circle = L.circleMarker([airport.lat, airport.lon], {
-                radius: getMarkerRadius(map.getZoom()),
-                fillColor: "#5966ff",
-                color: "#ffffff",
-                weight: 1.5,
-                opacity: 0.95,
-                fillOpacity: 0.95,
-            }).addTo(map);
-
-            airportMarkers.push(circle);
-
-            circle.bindPopup(
-                `<div class="py-2 px-6 font-sans">
-                    <div class="flex items-center justify-between gap-4 border-b border-border pb-2 mb-2">
-                        <span class="font-black text-base text-primary">${airport.icao}</span>
-                        <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full bg-primary/5 text-primary">
-                            ${airport.operationsCount} Operations
-                        </span>
-                    </div>
-                    <p class="font-bold text-xs text-foreground">${airport.name}</p>
-                    <p class="text-xs text-muted-foreground mt-1">${airport.city}, ${airport.country}</p>
-                    <p class="text-[11px] font-mono text-muted-foreground mt-1">Lat: ${airport.lat.toFixed(4)}°, Lon: ${airport.lon.toFixed(4)}°</p>
-                </div>`,
-                {
-                    className: "aviation-leaflet-popup",
+            // Wider invisible hitbox layer for effortless hovering
+            map.addLayer({
+                id: "flight-routes-hitbox",
+                type: "line",
+                source: "flight-routes",
+                layout: {
+                    "line-cap": "round",
+                    "line-join": "round",
                 },
-            );
+                paint: {
+                    "line-color": "#5966ff",
+                    "line-width": 16,
+                    "line-opacity": 0,
+                },
+            });
+
+            // Visible crisp flight trajectory line
+            map.addLayer({
+                id: "flight-routes-line",
+                type: "line",
+                source: "flight-routes",
+                layout: {
+                    "line-cap": "round",
+                    "line-join": "round",
+                },
+                paint: {
+                    "line-color": [
+                        "case",
+                        ["boolean", ["feature-state", "hover"], false],
+                        "#a5b4fc",
+                        "#5966ff",
+                    ],
+                    "line-width": [
+                        "case",
+                        ["boolean", ["feature-state", "hover"], false],
+                        2.75,
+                        1.75,
+                    ],
+                    "line-opacity": [
+                        "case",
+                        ["boolean", ["feature-state", "hover"], false],
+                        1,
+                        0.9,
+                    ],
+                },
+            });
+
+            // 2. Airports Source & Circle Layer
+            map.addSource("airports", {
+                type: "geojson",
+                data: airportsGeoJson,
+            });
+
+            // Outer soft halo
+            map.addLayer({
+                id: "airports-halo",
+                type: "circle",
+                source: "airports",
+                paint: {
+                    "circle-radius": [
+                        "interpolate",
+                        ["linear"],
+                        ["zoom"],
+                        4, 5,
+                        6, 7,
+                        8, 9,
+                        10, 12,
+                    ],
+                    "circle-color": "#5966ff",
+                    "circle-opacity": 0.25,
+                },
+            });
+
+            // Inner solid waypoint dot
+            map.addLayer({
+                id: "airports-circle",
+                type: "circle",
+                source: "airports",
+                paint: {
+                    "circle-radius": [
+                        "interpolate",
+                        ["linear"],
+                        ["zoom"],
+                        4, 2.5,
+                        6, 3.5,
+                        8, 5,
+                        10, 6.5,
+                    ],
+                    "circle-color": "#5966ff",
+                    "circle-stroke-color": "#ffffff",
+                    "circle-stroke-width": 1.5,
+                    "circle-opacity": 0.95,
+                },
+            });
+
+            // 3. Hover Tooltip for Routes
+            let hoveredRouteId: number | string | null = null;
+            const routePopup = new mapboxgl.Popup({
+                closeButton: false,
+                closeOnClick: false,
+                className: "aviation-mapbox-tooltip",
+                offset: 12,
+            });
+
+            map.on("mousemove", "flight-routes-hitbox", (e) => {
+                if (!e.features || e.features.length === 0) return;
+                map.getCanvas().style.cursor = "pointer";
+
+                const feature = e.features[0] as unknown as {
+                    id?: number | string;
+                    properties?: {
+                        fromIcao: string;
+                        toIcao: string;
+                        depCity: string;
+                        arrCity: string;
+                        distanceNm: number;
+                        flightCount: number;
+                        aircraftLabel: string;
+                    };
+                };
+                const featureId = feature.id ?? null;
+                if (hoveredRouteId !== null) {
+                    map.setFeatureState(
+                        { source: "flight-routes", id: hoveredRouteId },
+                        { hover: false },
+                    );
+                }
+                hoveredRouteId = featureId;
+                if (hoveredRouteId !== null) {
+                    map.setFeatureState(
+                        { source: "flight-routes", id: hoveredRouteId },
+                        { hover: true },
+                    );
+                }
+
+                const props = feature.properties || {
+                    fromIcao: "",
+                    toIcao: "",
+                    depCity: "",
+                    arrCity: "",
+                    distanceNm: 0,
+                    flightCount: 0,
+                    aircraftLabel: "",
+                };
+
+                const distanceKm = Math.round(props.distanceNm * 1.852);
+
+                routePopup
+                    .setLngLat(e.lngLat)
+                    .setHTML(
+                        `<div class="aviation-route-popup p-3 font-sans space-y-2.5 min-w-[240px] max-w-[280px]">
+                            <div class="flex items-center justify-between gap-2 border-b border-border/50 pb-2">
+                                <div class="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-primary">
+                                    <span class="inline-block size-1.5 rounded-full bg-primary animate-pulse"></span>
+                                    <span>Flown Trajectory</span>
+                                </div>
+                                <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-muted text-muted-foreground">
+                                    ${props.flightCount} ${props.flightCount === 1 ? "Flight" : "Flights"}
+                                </span>
+                            </div>
+
+                            <div class="flex items-center justify-between gap-2 pt-0.5">
+                                <div class="min-w-0">
+                                    <span class="font-mono font-black text-base text-foreground tracking-tight">${props.fromIcao}</span>
+                                    <p class="text-[11px] text-muted-foreground truncate max-w-[90px] leading-tight">${props.depCity}</p>
+                                </div>
+                                <div class="flex flex-col items-center shrink-0 px-2">
+                                    <svg class="size-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M5 12h14m-7-7 7 7-7 7"/>
+                                    </svg>
+                                    <span class="text-[9px] font-mono font-bold text-muted-foreground mt-0.5">${props.distanceNm} NM</span>
+                                </div>
+                                <div class="min-w-0 text-right">
+                                    <span class="font-mono font-black text-base text-foreground tracking-tight">${props.toIcao}</span>
+                                    <p class="text-[11px] text-muted-foreground truncate max-w-[90px] leading-tight">${props.arrCity}</p>
+                                </div>
+                            </div>
+
+                            <div class="pt-2 border-t border-border/50 flex flex-col gap-1 text-[10px]">
+                                <div class="flex items-center justify-between text-muted-foreground">
+                                    <span>Distance</span>
+                                    <span class="font-mono font-bold text-foreground">${props.distanceNm} NM <span class="text-muted-foreground font-normal">(${distanceKm} km)</span></span>
+                                </div>
+                                <div class="flex items-center justify-between text-muted-foreground">
+                                    <span>Aircraft</span>
+                                    <span class="font-semibold text-primary truncate max-w-[150px] text-right">${props.aircraftLabel}</span>
+                                </div>
+                            </div>
+                        </div>`,
+                    )
+                    .addTo(map);
+            });
+
+            map.on("mouseleave", "flight-routes-hitbox", () => {
+                map.getCanvas().style.cursor = "";
+                if (hoveredRouteId !== null) {
+                    map.setFeatureState(
+                        { source: "flight-routes", id: hoveredRouteId },
+                        { hover: false },
+                    );
+                    hoveredRouteId = null;
+                }
+                routePopup.remove();
+            });
+
+            // 4. Click Popup for Airports
+            const airportPopup = new mapboxgl.Popup({
+                closeButton: true,
+                closeOnClick: true,
+                className: "aviation-mapbox-popup",
+                offset: 14,
+            });
+
+            map.on("mouseenter", "airports-circle", () => {
+                map.getCanvas().style.cursor = "pointer";
+            });
+
+            map.on("mouseleave", "airports-circle", () => {
+                map.getCanvas().style.cursor = "";
+            });
+
+            map.on("click", "airports-circle", (e) => {
+                if (!e.features || e.features.length === 0) return;
+                const feature = e.features[0] as unknown as {
+                    geometry: Point;
+                    properties?: {
+                        icao: string;
+                        iata?: string;
+                        name: string;
+                        city: string;
+                        country: string;
+                        lat: number | string;
+                        lon: number | string;
+                        operationsCount: number;
+                        connectedCount?: number;
+                        connectedDestinations?: string;
+                    };
+                };
+                const geom = feature.geometry;
+                const props = feature.properties || {
+                    icao: "",
+                    iata: "",
+                    name: "",
+                    city: "",
+                    country: "",
+                    lat: 0,
+                    lon: 0,
+                    operationsCount: 0,
+                    connectedCount: 0,
+                    connectedDestinations: "[]",
+                };
+
+                let connectedList: string[] = [];
+                try {
+                    connectedList = JSON.parse(
+                        props.connectedDestinations || "[]",
+                    );
+                } catch {
+                    connectedList = [];
+                }
+
+                airportPopup
+                    .setLngLat(geom.coordinates as [number, number])
+                    .setHTML(
+                        `<div class="aviation-airport-popup p-4 font-sans space-y-3 min-w-[260px] max-w-[310px]">
+                            <!-- Header: ICAO, optional IATA, and Operations Badge -->
+                            <div class="flex items-start justify-between gap-3 pr-6 border-b border-border/60 pb-2.5">
+                                <div>
+                                    <div class="flex items-center gap-1.5">
+                                        <span class="font-mono font-black text-lg text-primary tracking-tight">${props.icao}</span>
+                                        ${props.iata ? `<span class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-muted text-muted-foreground border border-border/60">${props.iata}</span>` : ""}
+                                    </div>
+                                    <p class="text-xs font-bold text-foreground leading-snug mt-0.5">${props.name}</p>
+                                </div>
+                                <span class="shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-primary/10 text-primary border border-primary/20">
+                                    <span class="size-1.5 rounded-full bg-primary"></span>
+                                    ${props.operationsCount} Ops
+                                </span>
+                            </div>
+
+                            <!-- Location details -->
+                            <div class="space-y-2 text-xs">
+                                <div class="flex items-center gap-2 text-muted-foreground">
+                                    <svg class="size-3.5 text-primary shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                                        <circle cx="12" cy="10" r="3"/>
+                                    </svg>
+                                    <span class="truncate font-medium text-foreground">${props.city}, ${props.country}</span>
+                                </div>
+
+                                <!-- Connected Destinations -->
+                                ${
+                                    connectedList.length > 0
+                                        ? `<div class="p-2 rounded-lg bg-muted/40 border border-border/40 text-[11px] space-y-1.5">
+                                            <div class="flex items-center justify-between text-muted-foreground font-semibold text-[10px] tracking-wider uppercase">
+                                                <span>Direct Routes</span>
+                                                <span class="font-mono text-foreground">${connectedList.length} Connected</span>
+                                            </div>
+                                            <div class="flex flex-wrap gap-1">
+                                                ${connectedList.map((dest) => `<span class="px-1.5 py-0.5 rounded bg-card border border-border/75 font-mono text-[10px] font-semibold text-foreground">${dest}</span>`).join("")}
+                                            </div>
+                                        </div>`
+                                        : ""
+                                }
+                            </div>
+
+                            <!-- Coordinates pill footer -->
+                            <div class="pt-2 border-t border-border/60 flex items-center justify-between text-[10px] text-muted-foreground font-mono">
+                                <span class="font-bold text-muted-foreground/75 tracking-wider uppercase text-[9px]">Coordinates</span>
+                                <span class="font-semibold text-foreground">${formatCoordinates(Number(props.lat), Number(props.lon))}</span>
+                            </div>
+                        </div>`,
+                    )
+                    .addTo(map);
+            });
+
+            // 5. Fit Bounds to All Coordinates
+            const bounds = new mapboxgl.LngLatBounds();
+            data.routes.forEach((route) => {
+                bounds.extend([route.fromCoords[1], route.fromCoords[0]]);
+                bounds.extend([route.toCoords[1], route.toCoords[0]]);
+            });
+            data.uniqueAirports.forEach((airport) => {
+                bounds.extend([airport.lon, airport.lat]);
+            });
+
+            if (!bounds.isEmpty()) {
+                map.fitBounds(bounds, { padding: 40, maxZoom: 8, duration: 1000 });
+            }
         });
 
-        // Update airport marker sizes exclusively when zooming in and out
-        const updateMarkerSizes = () => {
-            if (!mapInstanceRef.current) return;
-            const newRadius = getMarkerRadius(mapInstanceRef.current.getZoom());
-            airportMarkers.forEach((marker) => marker.setRadius(newRadius));
-        };
-
-        map.on("zoom", updateMarkerSizes);
-        map.on("zoomend", updateMarkerSizes);
-
-        const fitAll = () => {
-            if (!mapInstanceRef.current || allLatLngs.length === 0) return;
-            mapInstanceRef.current.invalidateSize();
-            const bounds = L.latLngBounds(allLatLngs);
-            mapInstanceRef.current.fitBounds(bounds, { padding: [30, 30] });
-        };
-
-        // ResizeObserver to handle layout / container resize changes
+        // ResizeObserver to automatically resize Mapbox canvas on container dimensions change
         const resizeObserver = new ResizeObserver(() => {
             if (mapInstanceRef.current) {
-                mapInstanceRef.current.invalidateSize();
+                mapInstanceRef.current.resize();
             }
         });
         resizeObserver.observe(mapContainerRef.current);
 
-        // Multiple staggered triggers to ensure sizing after CSS entrance animations finish
-        const t1 = setTimeout(fitAll, 100);
-        const t2 = setTimeout(fitAll, 400);
-        const t3 = setTimeout(() => {
-            if (mapInstanceRef.current) {
-                mapInstanceRef.current.invalidateSize();
-            }
-        }, 800);
-
         return () => {
-            clearTimeout(t1);
-            clearTimeout(t2);
-            clearTimeout(t3);
             resizeObserver.disconnect();
             if (mapInstanceRef.current) {
                 mapInstanceRef.current.remove();
@@ -212,26 +513,28 @@ export default function HeroMap({ data }: HeroMapProps) {
                     </div>
                 </div>
 
-                {/* Interactive Leaflet Map Box */}
+                {/* Interactive Mapbox Map Box */}
                 <div className="relative overflow-hidden rounded-xl">
                     <div
                         ref={mapContainerRef}
                         style={{ height: "480px", minHeight: "400px", width: "100%" }}
                         className="w-full relative z-0"
                     />
+                </div>
 
-                    {/* Map Overlay Legend */}
-                    <div className="hidden md:blockabsolute bottom-4 left-4 z-20 pointer-events-none">
-                        <div className="p-2.5 rounded-xl bg-card/90 backdrop-blur-md border border-border/80 text-[11px] font-semibold space-y-1 shadow-md">
-                            <div className="flex items-center gap-2">
-                                <span className="size-2 rounded-full bg-[#5966ff] border border-white inline-block shrink-0" />
-                                <span className="text-foreground">Aerodromes / Waypoints</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <span className="w-3.5 h-0.5 bg-[#5966ff] inline-block shrink-0" />
-                                <span className="text-foreground">Flown Flight Trajectories</span>
-                            </div>
-                        </div>
+                {/* Map Overlay Legend */}
+                <div className="hidden md:inline-flex items-center gap-4 text-sm font-medium">
+                    <div className="flex items-center gap-2 rounded-full px-4 py-1 border border-border bg-primary/5">
+                        <span className="size-2 rounded-full bg-[#5966ff] inline-block shrink-0" />
+                        <span className="text-foreground">Aerodromes</span>
+                    </div>
+                    <div className="flex items-center gap-2 rounded-full px-4 py-1 border border-border bg-primary/5">
+                        <Triangle className="size-3 fill-[#5966ff] inline-block stroke-[#5966ff] shrink-0" />
+                        <span className="text-foreground">Waypoints</span>
+                    </div>
+                    <div className="flex items-center gap-2 rounded-full px-4 py-1 border border-border bg-primary/5">
+                        <span className="w-4 h-1 bg-[#5966ff] rounded inline-block shrink-0" />
+                        <span className="text-foreground">Flight Trajectories</span>
                     </div>
                 </div>
             </div>
