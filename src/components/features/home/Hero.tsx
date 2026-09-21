@@ -39,19 +39,19 @@ export default function Hero() {
                             I also have a passion for web development and design. 
                         </p>
                     </div>
-                    <div className="text-sm flex md:flex-wrap gap-4 mt-6 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both">
+                    <div className="text-sm flex w-full md:w-auto gap-4 mt-6 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both">
                         <Link
                             to="/contact"
-                            className="group inline-flex shrink-0 items-center justify-center rounded-xl font-semibold whitespace-nowrap transition-all select-none cursor-pointer px-8 py-2 bg-primary hover:bg-primary/75 text-card duration-300 hover:border-primary/25"
+                            className="group flex-1 md:flex-initial inline-flex items-center justify-center rounded-xl font-semibold whitespace-nowrap transition-all select-none cursor-pointer px-4 md:px-8 py-2 bg-primary hover:bg-primary/75 text-card duration-300 hover:border-primary/25"
                         >
-                            <MailIcon className="size-5 mr-2 duration-300" />
+                            <MailIcon className="size-4 md:size-5 mr-2 duration-300" />
                             Let's Talk
                         </Link>
                         <Link
                             to="/code"
-                            className="group inline-flex shrink-0 items-center justify-center rounded-xl font-semibold whitespace-nowrap transition-all select-none cursor-pointer px-8 py-2 hover:bg-muted/50 border border-border hover:border-primary/25 text-foreground"
+                            className="group flex-1 md:flex-initial inline-flex items-center justify-center rounded-xl font-semibold whitespace-nowrap transition-all select-none cursor-pointer px-4 md:px-8 py-2 hover:bg-muted/50 border border-border hover:border-primary/25 text-foreground"
                         >
-                            <ExternalLink className="size-5 mr-2 duration-300" />
+                            <ExternalLink className="size-4 md:size-5 mr-2 duration-300" />
                             View Projects
                         </Link>
                     </div>
