@@ -414,7 +414,7 @@ export default function HeroMap({ data }: HeroMapProps) {
                     <div
                         ref={mapContainerRef}
                         style={{ height: "480px", minHeight: "400px", width: "100%" }}
-                        className="w-full relative z-0"
+                        className="w-full relative z-0 md:aspect-auto aspect-square"
                     />
                 </div>
 
