@@ -32,19 +32,14 @@ export default function HeroMap({ data }: HeroMapProps) {
 
         mapInstanceRef.current = map;
 
-        // Stadia Maps - Alidade Smooth Dark
-        const stadiaApiKey = import.meta.env.VITE_STADIA_API_KEY;
-        const tileUrl = stadiaApiKey
-            ? `https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.{ext}?api_key=${stadiaApiKey}`
-            : "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.{ext}";
+        const API_KEY = import.meta.env.VITE_CARTO_API_KEY || "";
 
-        L.tileLayer(tileUrl, {
-            minZoom: 0,
-            maxZoom: 20,
-            attribution:
-                '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-            ext: "png",
-        } as L.TileLayerOptions).addTo(map);
+        L.tileLayer(`https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=${API_KEY}`, {                                                                                                                                                                              
+            attribution:                                                                                                                                                                                                                                            
+                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',                                                                                                
+            subdomains: "abcd",                                                                                                                                                                                                                                     
+            maxZoom: 20,                                                                                                                                                                                                                                            
+        }).addTo(map);
 
         const allLatLngs: [number, number][] = [];
 
