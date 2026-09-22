@@ -1,19 +1,47 @@
 import fs from "fs";
 import path from "path";
-import matter from "gray-matter";
 import { fileURLToPath } from "url";
+import { createClient } from "@supabase/supabase-js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-const guideDir = path.join(__dirname, "..", "public", "guide");
+const rootDir = path.resolve(__dirname, "..");
+const guideDir = path.join(rootDir, "public", "guide");
 const outputPath = path.join(guideDir, "_.json");
 
-if (!fs.existsSync(guideDir)) {
-    fs.mkdirSync(guideDir, { recursive: true });
+// Read .env if present
+const envPath = path.join(rootDir, ".env");
+const env = {};
+if (fs.existsSync(envPath)) {
+    const lines = fs.readFileSync(envPath, "utf-8").split(/\r?\n/);
+    for (const line of lines) {
+        const match = line.match(/^\s*([^#=]+)=(.*)$/);
+        if (match) {
+            let val = match[2].trim();
+            if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+                val = val.slice(1, -1);
+            }
+            env[match[1].trim()] = val;
+        }
+    }
 }
 
+const supabaseUrl =
+    process.env.VITE_SUPABASE_URL ||
+    process.env.NEXT_PUBLIC_SUPABASE_URL ||
+    env.VITE_SUPABASE_URL ||
+    env.NEXT_PUBLIC_SUPABASE_URL;
+
+const supabaseKey =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.VITE_SUPABASE_ANON_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+    env.SUPABASE_SERVICE_ROLE_KEY ||
+    env.VITE_SUPABASE_ANON_KEY ||
+    env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
 function slugify(text) {
+    if (!text) return "";
     return text
         .toString()
         .toLowerCase()
@@ -21,63 +49,6 @@ function slugify(text) {
         .replace(/[\s_]+/g, "-")
         .replace(/[^\w-]+/g, "")
         .replace(/--+/g, "-");
-}
-
-// Load explicit section order configuration if public/guide/sections.json exists
-const sectionsConfigPath = path.join(guideDir, "sections.json");
-const configuredSectionOrders = {};
-
-if (fs.existsSync(sectionsConfigPath)) {
-    try {
-        const rawConfig = JSON.parse(
-            fs.readFileSync(sectionsConfigPath, "utf-8"),
-        );
-        if (Array.isArray(rawConfig)) {
-            rawConfig.forEach((item, index) => {
-                if (typeof item === "string") {
-                    configuredSectionOrders[slugify(item)] = index + 1;
-                } else if (item && typeof item === "object" && item.id) {
-                    configuredSectionOrders[slugify(item.id)] =
-                        typeof item.order === "number" ? item.order : index + 1;
-                }
-            });
-        } else if (rawConfig && typeof rawConfig === "object") {
-            Object.entries(rawConfig).forEach(([key, val]) => {
-                configuredSectionOrders[slugify(key)] =
-                    typeof val === "number" ? val : 999;
-            });
-        }
-    } catch (err) {
-        console.warn(
-            "Warning: Could not parse public/guide/sections.json:",
-            err,
-        );
-    }
-}
-
-function formatTitle(str) {
-    if (!str) return "";
-    return str
-        .replace(/[-_]/g, " ")
-        .replace(/\b\w/g, (char) => char.toUpperCase());
-}
-
-function getMarkdownFiles(dir, baseDir = dir) {
-    const entries = fs.readdirSync(dir, { withFileTypes: true });
-    let files = [];
-
-    for (const entry of entries) {
-        const fullPath = path.join(dir, entry.name);
-        if (entry.isDirectory()) {
-            files = files.concat(getMarkdownFiles(fullPath, baseDir));
-        } else if (entry.isFile() && entry.name.endsWith(".md")) {
-            const relPath = path
-                .relative(baseDir, fullPath)
-                .replace(/\\/g, "/");
-            files.push({ fullPath, relPath, fileName: entry.name });
-        }
-    }
-    return files;
 }
 
 function calculateReadTime(markdownContent) {
@@ -114,190 +85,121 @@ function extractHeadings(markdownContent) {
     return headings;
 }
 
-const mdFiles = getMarkdownFiles(guideDir);
-const seenSlugs = new Set();
-const parsedGuides = [];
+function formatTitle(str) {
+    if (!str) return "";
+    return str
+        .replace(/[-_]/g, " ")
+        .replace(/\b\w/g, (char) => char.toUpperCase());
+}
 
-for (const { fullPath, relPath, fileName } of mdFiles) {
-    const fileContent = fs.readFileSync(fullPath, "utf-8");
-    const { data, content } = matter(fileContent);
-
-    const pathSegments = relPath.split("/");
-    const fallbackSection =
-        pathSegments.length > 2 ? pathSegments[0] : "General";
-    const fallbackTopic =
-        pathSegments.length > 2
-            ? pathSegments[1]
-            : pathSegments.length > 1
-              ? pathSegments[0]
-              : "General";
-
-    const defaultSlug = path.parse(fileName).name;
-    const slug = data.slug ? String(data.slug).trim() : defaultSlug;
-
-    if (seenSlugs.has(slug)) {
-        console.error(
-            `Error: Duplicate slug "${slug}" found in ${relPath}. Slugs must be unique.`,
-        );
+async function generateIndex() {
+    if (!supabaseUrl || !supabaseKey) {
+        console.error("❌ Missing Supabase URL or Key in .env");
         process.exit(1);
     }
-    seenSlugs.add(slug);
 
-    const sectionTitle = data.section || formatTitle(fallbackSection);
-    const topicTitle = data.topic || formatTitle(fallbackTopic);
-    const title = data.title || formatTitle(defaultSlug);
-    const order = typeof data.order === "number" ? data.order : 999;
-    const sectionOrder =
-        typeof data.sectionOrder === "number"
-            ? data.sectionOrder
-            : typeof data.section_order === "number"
-              ? data.section_order
-              : undefined;
-    const filePath = `/guide/${relPath}`;
+    try {
+        const supabase = createClient(supabaseUrl, supabaseKey);
+        const [sectionsRes, guidesRes] = await Promise.all([
+            supabase.from("guide_sections").select("*").order("order_index", { ascending: true }),
+            supabase.from("guides").select("*").order("order_index", { ascending: true }),
+        ]);
 
-    // 1. Automatize read time if not explicitly provided
-    const readTime = data.readTime || calculateReadTime(content);
+        if (sectionsRes.error) throw sectionsRes.error;
+        if (guidesRes.error) throw guidesRes.error;
 
-    // 2. Extract headings glossary
-    const headings = extractHeadings(content);
+        const dbSections = sectionsRes.data || [];
+        const dbGuides = guidesRes.data || [];
 
-    // 3. Ensure updatedAt is a precise ISO DateTime string
-    let updatedAt = "";
-    if (data.updatedAt) {
-        const parsed = new Date(data.updatedAt);
-        if (!isNaN(parsed.getTime())) {
-            updatedAt = parsed.toISOString();
-        } else {
-            updatedAt = String(data.updatedAt);
-        }
-    } else {
-        try {
-            updatedAt = fs.statSync(fullPath).mtime.toISOString();
-        } catch {
-            updatedAt = new Date().toISOString();
-        }
-    }
+        const bySlug = {};
+        const sectionMap = new Map();
 
-    parsedGuides.push({
-        title,
-        slug,
-        section: sectionTitle,
-        sectionId: slugify(sectionTitle),
-        sectionOrder,
-        topic: topicTitle,
-        topicId: slugify(topicTitle),
-        order,
-        description: data.description || "",
-        readTime,
-        updatedAt,
-        tags: Array.isArray(data.tags) ? data.tags : [],
-        filePath,
-        headings,
-    });
-}
-
-// Group into Sections -> Topics -> Guides
-const sectionsMap = new Map();
-
-for (const guide of parsedGuides) {
-    const sectionId = guide.sectionId;
-
-    // Determine section order:
-    // 1. Explicitly configured in public/guide/sections.json
-    // 2. Explicit frontmatter sectionOrder
-    // 3. Fallback to guide order or 999
-    let secOrder = 999;
-    if (configuredSectionOrders[sectionId] !== undefined) {
-        secOrder = configuredSectionOrders[sectionId];
-    } else if (typeof guide.sectionOrder === "number") {
-        secOrder = guide.sectionOrder;
-    } else {
-        secOrder = guide.order;
-    }
-
-    if (!sectionsMap.has(sectionId)) {
-        sectionsMap.set(sectionId, {
-            id: sectionId,
-            title: guide.section,
-            order: secOrder,
-            topicsMap: new Map(),
+        dbSections.forEach((s) => {
+            sectionMap.set(s.id, {
+                id: s.id,
+                title: s.title,
+                order: s.order_index ?? 0,
+                topics: new Map(),
+            });
         });
-    }
 
-    const section = sectionsMap.get(sectionId);
-    if (configuredSectionOrders[sectionId] !== undefined) {
-        section.order = configuredSectionOrders[sectionId];
-    } else if (typeof guide.sectionOrder === "number") {
-        section.order = Math.min(section.order, guide.sectionOrder);
-    } else {
-        section.order = Math.min(section.order, guide.order);
-    }
+        const allGuides = [];
 
-    if (!section.topicsMap.has(guide.topicId)) {
-        section.topicsMap.set(guide.topicId, {
-            id: guide.topicId,
-            title: guide.topic,
-            order: guide.order,
-            guides: [],
-        });
-    }
+        for (const g of dbGuides) {
+            const secId = g.section_id || "general";
+            let secNode = sectionMap.get(secId);
+            if (!secNode) {
+                secNode = {
+                    id: secId,
+                    title: formatTitle(secId),
+                    order: 999,
+                    topics: new Map(),
+                };
+                sectionMap.set(secId, secNode);
+            }
 
-    const topic = section.topicsMap.get(guide.topicId);
-    topic.order = Math.min(topic.order, guide.order);
-    topic.guides.push(guide);
-}
+            const topicName = g.topic || "General";
+            if (!secNode.topics.has(topicName)) {
+                secNode.topics.set(topicName, []);
+            }
 
-// Convert maps to sorted arrays
-const sections = Array.from(sectionsMap.values())
-    .map((sec) => {
-        const topics = Array.from(sec.topicsMap.values())
-            .map((top) => {
-                top.guides.sort((a, b) => {
-                    if (a.order !== b.order) return a.order - b.order;
-                    return a.title.localeCompare(b.title);
-                });
-                delete top.topicsMap;
-                return top;
-            })
-            .sort((a, b) => {
-                if (a.order !== b.order) return a.order - b.order;
-                return a.title.localeCompare(b.title);
+            const readTime = calculateReadTime(g.content);
+            const headings = extractHeadings(g.content);
+
+            const guideItem = {
+                title: g.title,
+                slug: g.slug,
+                section: secNode.title,
+                sectionId: secNode.id,
+                topic: topicName,
+                topicId: slugify(topicName),
+                order: g.order_index ?? 0,
+                description: g.description || "",
+                tags: g.tags || [],
+                updatedAt: g.updated_at || g.created_at || new Date().toISOString(),
+                readTime,
+                filePath: `/guide/${g.slug}.md`,
+                headings,
+            };
+
+            secNode.topics.get(topicName).push(guideItem);
+            bySlug[g.slug] = guideItem;
+            allGuides.push(guideItem);
+        }
+
+        const sortedSections = Array.from(sectionMap.values())
+            .sort((a, b) => a.order - b.order)
+            .map((s) => {
+                const sortedTopics = Array.from(s.topics.entries()).map(([tTitle, gList], i) => ({
+                    id: slugify(tTitle),
+                    title: tTitle,
+                    order: i + 1,
+                    guides: gList.sort((a, b) => a.order - b.order),
+                }));
+                return {
+                    id: s.id,
+                    title: s.title,
+                    order: s.order,
+                    topics: sortedTopics,
+                };
             });
 
-        return {
-            id: sec.id,
-            title: sec.title,
-            order: sec.order,
-            topics,
+        const finalIndex = {
+            sections: sortedSections,
+            bySlug,
+            guides: allGuides,
         };
-    })
-    .sort((a, b) => {
-        if (a.order !== b.order) return a.order - b.order;
-        return a.title.localeCompare(b.title);
-    });
 
-const bySlug = {};
-for (const guide of parsedGuides) {
-    bySlug[guide.slug] = guide;
-}
-
-// Flatten guides following the sorted sections & topics hierarchy
-const orderedGuides = [];
-for (const sec of sections) {
-    for (const top of sec.topics) {
-        for (const g of top.guides) {
-            orderedGuides.push(g);
+        if (!fs.existsSync(guideDir)) {
+            fs.mkdirSync(guideDir, { recursive: true });
         }
+
+        fs.writeFileSync(outputPath, JSON.stringify(finalIndex, null, 2));
+        console.log(`✓ Guides index synced from Supabase (${allGuides.length} guides synced)!`);
+    } catch (err) {
+        console.error("❌ Error syncing guides from Supabase:", err.message);
+        process.exit(1);
     }
 }
 
-const outputData = {
-    sections,
-    bySlug,
-    guides: orderedGuides,
-};
-
-fs.writeFileSync(outputPath, JSON.stringify(outputData, null, 2));
-console.log(
-    `Guides index generated successfully! Indexed ${parsedGuides.length} guides.`,
-);
+generateIndex();

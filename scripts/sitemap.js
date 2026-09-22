@@ -10,7 +10,7 @@ const BASE_URL = "https://jurgen.fyi";
 const PAGES_DIR = path.join(ROOT_DIR, "src", "pages");
 const PUBLIC_DIR = path.join(ROOT_DIR, "public");
 const DIST_DIR = path.join(ROOT_DIR, "dist");
-const EXCLUDE_LIST = ["Socials", "index", "subpages", "NotFound"];
+const EXCLUDE_LIST = ["Socials", "index", "subpages", "NotFound", "admin"];
 
 const PAGE_PRIORITIES = {
     aviation: "0.9",

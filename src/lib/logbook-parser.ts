@@ -500,3 +500,377 @@ function createEmptyLogbookData(): AviationLogbookData {
         typeStats: [],
     };
 }
+
+export interface FlightRowInput {
+    id?: string;
+    flight_date?: string;
+    departure_airport?: string;
+    arrival_airport?: string;
+    off_block?: string | null;
+    on_block?: string | null;
+    aircraft_type?: string;
+    registration?: string | null;
+    pic_name?: string | null;
+    total_minutes?: number;
+    day_minutes?: number;
+    night_minutes?: number;
+    single_engine_vfr_minutes?: number;
+    single_engine_ifr_minutes?: number;
+    multi_engine_vfr_minutes?: number;
+    multi_engine_ifr_minutes?: number;
+    pic_minutes?: number;
+    dual_minutes?: number;
+    synthetic_minutes?: number;
+    landings_day?: number;
+    landings_night?: number;
+    remarks?: string | null;
+    is_simulator?: boolean;
+    is_cross_country?: boolean;
+    distance_nm?: number;
+}
+
+export function buildLogbookDataFromRows(rows: FlightRowInput[]): AviationLogbookData {
+    if (!rows || rows.length === 0) return createEmptyLogbookData();
+
+    let totalAircraftMinutes = 0;
+    let totalSimMinutes = 0;
+    let totalDayMinutes = 0;
+    let totalNightMinutes = 0;
+    let totalPicMinutes = 0;
+    let totalDualMinutes = 0;
+    let totalSeVfr = 0;
+    let totalSeIfr = 0;
+    let totalMeVfr = 0;
+    let totalMeIfr = 0;
+    let totalCrossCountryMinutes = 0;
+    let totalLandingsDay = 0;
+    let totalLandingsNight = 0;
+    let totalEstDistance = 0;
+
+    const airportOps: Record<string, number> = {};
+    const routeMap: Record<string, FlightRoute> = {};
+
+    let countPic = 0;
+    let countDual = 0;
+    let countDay = 0;
+    let countNight = 0;
+    let countSeVfr = 0;
+    let countSeIfr = 0;
+    let countMeVfr = 0;
+    let countMeIfr = 0;
+    let countSim = 0;
+    let countXc = 0;
+
+    const entries: LogbookEntry[] = [];
+
+    rows.forEach((row, i) => {
+        const dep = (row.departure_airport || "").toUpperCase();
+        const arr = (row.arrival_airport || "").toUpperCase();
+        const aircraft = row.aircraft_type || "";
+        const registration = row.registration || "";
+        const picName = row.pic_name || "";
+        const offBlock = row.off_block || "";
+        const onBlock = row.on_block || "";
+        const remarks = row.remarks || "";
+
+        const totalMins = Number(row.total_minutes) || 0;
+        const simMins = Number(row.synthetic_minutes) || 0;
+        const dayMins = Number(row.day_minutes) || 0;
+        const nightMins = Number(row.night_minutes) || 0;
+        const picMins = Number(row.pic_minutes) || 0;
+        const dualMins = Number(row.dual_minutes) || 0;
+        const seVfrMins = Number(row.single_engine_vfr_minutes) || 0;
+        const seIfrMins = Number(row.single_engine_ifr_minutes) || 0;
+        const meVfrMins = Number(row.multi_engine_vfr_minutes) || 0;
+        const meIfrMins = Number(row.multi_engine_ifr_minutes) || 0;
+        const landingsDay = Number(row.landings_day) || 0;
+        const landingsNight = Number(row.landings_night) || 0;
+
+        const isSim = Boolean(row.is_simulator) || simMins > 0 || aircraft.toUpperCase().includes("SIM");
+        const effectiveDuration = isSim ? simMins : totalMins;
+
+        if (isSim) {
+            totalSimMinutes += simMins;
+            countSim++;
+        } else {
+            totalAircraftMinutes += totalMins;
+        }
+
+        if (dayMins > 0) {
+            totalDayMinutes += dayMins;
+            countDay++;
+        }
+        if (nightMins > 0) {
+            totalNightMinutes += nightMins;
+            countNight++;
+        }
+        if (picMins > 0) {
+            totalPicMinutes += picMins;
+            countPic++;
+        }
+        if (dualMins > 0) {
+            totalDualMinutes += dualMins;
+            countDual++;
+        }
+        if (seVfrMins > 0) {
+            totalSeVfr += seVfrMins;
+            countSeVfr++;
+        }
+        if (seIfrMins > 0) {
+            totalSeIfr += seIfrMins;
+            countSeIfr++;
+        }
+        if (meVfrMins > 0) {
+            totalMeVfr += meVfrMins;
+            countMeVfr++;
+        }
+        if (meIfrMins > 0) {
+            totalMeIfr += meIfrMins;
+            countMeIfr++;
+        }
+
+        totalLandingsDay += landingsDay;
+        totalLandingsNight += landingsNight;
+
+        let distanceNm = Number(row.distance_nm) || 0;
+        const isCrossCountry = Boolean(row.is_cross_country || (dep && arr && dep !== arr));
+
+        if (dep && arr) {
+            airportOps[dep] = (airportOps[dep] || 0) + 1;
+            airportOps[arr] = (airportOps[arr] || 0) + 1;
+
+            const depAirport = AIRPORTS_DATABASE[dep];
+            const arrAirport = AIRPORTS_DATABASE[arr];
+
+            if (depAirport && arrAirport) {
+                if (dep !== arr) {
+                    if (!distanceNm) {
+                        distanceNm = calculateDistanceNm(
+                            depAirport.lat,
+                            depAirport.lon,
+                            arrAirport.lat,
+                            arrAirport.lon
+                        );
+                    }
+                    totalEstDistance += distanceNm;
+                    totalCrossCountryMinutes += totalMins;
+                    countXc++;
+
+                    const routeKey = `${dep}->${arr}`;
+                    const revRouteKey = `${arr}->${dep}`;
+                    const targetKey = routeMap[revRouteKey] ? revRouteKey : routeKey;
+
+                    if (!routeMap[targetKey]) {
+                        routeMap[targetKey] = {
+                            fromIcao: dep,
+                            toIcao: arr,
+                            fromCoords: [depAirport.lat, depAirport.lon],
+                            toCoords: [arrAirport.lat, arrAirport.lon],
+                            flightCount: 1,
+                            distanceNm,
+                            aircraftTypes: [aircraft].filter(Boolean),
+                        };
+                    } else {
+                        routeMap[targetKey].flightCount++;
+                        if (aircraft && !routeMap[targetKey].aircraftTypes.includes(aircraft)) {
+                            routeMap[targetKey].aircraftTypes.push(aircraft);
+                        }
+                    }
+                } else {
+                    if (!distanceNm) {
+                        distanceNm = Math.round((totalMins / 60) * 45);
+                    }
+                    totalEstDistance += distanceNm;
+                }
+            } else if (distanceNm) {
+                totalEstDistance += distanceNm;
+            }
+        }
+
+        // Format date to DD.MM.YYYY if ISO YYYY-MM-DD
+        let formattedDate = row.flight_date || "";
+        if (formattedDate.includes("-")) {
+            const [y, m, d] = formattedDate.split("-");
+            formattedDate = `${d}.${m}.${y}`;
+        }
+
+        entries.push({
+            id: row.id || `flight-${i}`,
+            date: formattedDate,
+            departure: dep,
+            arrival: arr,
+            offBlock,
+            onBlock,
+            aircraftType: aircraft,
+            registration,
+            picName,
+            totalMinutes: effectiveDuration,
+            dayMinutes: dayMins,
+            nightMinutes: nightMins,
+            singleEngineVfrMinutes: seVfrMins,
+            singleEngineIfrMinutes: seIfrMins,
+            multiEngineVfrMinutes: meVfrMins,
+            multiEngineIfrMinutes: meIfrMins,
+            picMinutes: picMins,
+            dualMinutes: dualMins,
+            syntheticMinutes: simMins,
+            landingsDay,
+            landingsNight,
+            remarks,
+            distanceNm,
+            isSimulator: isSim,
+            isCrossCountry,
+        });
+    });
+
+    const totalAllMinutes = totalAircraftMinutes + totalSimMinutes;
+
+    const uniqueAirports = Object.keys(airportOps)
+        .filter((icao) => AIRPORTS_DATABASE[icao])
+        .map((icao) => {
+            const info = AIRPORTS_DATABASE[icao];
+            return {
+                icao,
+                name: info.name,
+                city: info.city,
+                country: info.country,
+                lat: info.lat,
+                lon: info.lon,
+                operationsCount: airportOps[icao],
+            };
+        })
+        .sort((a, b) => b.operationsCount - a.operationsCount);
+
+    const typeStats: FlightTypeStat[] = [
+        {
+            key: "pic",
+            label: "Pilot-in-Command (PIC)",
+            description: "Solo flights, student command, and pilot-in-command cross-country",
+            minutes: totalPicMinutes,
+            hoursDecimal: minutesToDecimalHours(totalPicMinutes),
+            hoursFormatted: formatMinutes(totalPicMinutes),
+            flightsCount: countPic,
+            percentOfTotal: totalAllMinutes > 0 ? Math.round((totalPicMinutes / totalAllMinutes) * 100) : 0,
+        },
+        {
+            key: "dual",
+            label: "Dual",
+            description: "Flight training with certified commercial flight instructors (FI)",
+            minutes: totalDualMinutes,
+            hoursDecimal: minutesToDecimalHours(totalDualMinutes),
+            hoursFormatted: formatMinutes(totalDualMinutes),
+            flightsCount: countDual,
+            percentOfTotal: totalAllMinutes > 0 ? Math.round((totalDualMinutes / totalAllMinutes) * 100) : 0,
+        },
+        {
+            key: "day",
+            label: "Day Flight Time",
+            description: "Visual and instrument operations during civil daylight hours",
+            minutes: totalDayMinutes,
+            hoursDecimal: minutesToDecimalHours(totalDayMinutes),
+            hoursFormatted: formatMinutes(totalDayMinutes),
+            flightsCount: countDay,
+            percentOfTotal: totalAllMinutes > 0 ? Math.round((totalDayMinutes / totalAllMinutes) * 100) : 0,
+        },
+        {
+            key: "night",
+            label: "Night Flight Time",
+            description: "Night rating training, night cross-country navigation, and night solo flights",
+            minutes: totalNightMinutes,
+            hoursDecimal: minutesToDecimalHours(totalNightMinutes),
+            hoursFormatted: formatMinutes(totalNightMinutes),
+            flightsCount: countNight,
+            percentOfTotal: totalAllMinutes > 0 ? Math.round((totalNightMinutes / totalAllMinutes) * 100) : 0,
+        },
+        {
+            key: "se_vfr",
+            label: "Single-Engine VFR",
+            description: "Visual flight rules navigation on single-engine piston aircraft",
+            minutes: totalSeVfr,
+            hoursDecimal: minutesToDecimalHours(totalSeVfr),
+            hoursFormatted: formatMinutes(totalSeVfr),
+            flightsCount: countSeVfr,
+            percentOfTotal: totalAllMinutes > 0 ? Math.round((totalSeVfr / totalAllMinutes) * 100) : 0,
+        },
+        {
+            key: "se_ifr",
+            label: "Single-Engine IFR",
+            description: "Instrument flight rules, standard instrument departures, and ILS approaches",
+            minutes: totalSeIfr,
+            hoursDecimal: minutesToDecimalHours(totalSeIfr),
+            hoursFormatted: formatMinutes(totalSeIfr),
+            flightsCount: countSeIfr,
+            percentOfTotal: totalAllMinutes > 0 ? Math.round((totalSeIfr / totalAllMinutes) * 100) : 0,
+        },
+        {
+            key: "me_vfr",
+            label: "Multi-Engine VFR",
+            description: "Visual navigation and asymmetric handling on multi-engine piston aircraft",
+            minutes: totalMeVfr,
+            hoursDecimal: minutesToDecimalHours(totalMeVfr),
+            hoursFormatted: formatMinutes(totalMeVfr),
+            flightsCount: countMeVfr,
+            percentOfTotal: totalAllMinutes > 0 ? Math.round((totalMeVfr / totalAllMinutes) * 100) : 0,
+        },
+        {
+            key: "me_ifr",
+            label: "Multi-Engine IFR",
+            description: "Multi-engine instrument rating training and instrument procedures",
+            minutes: totalMeIfr,
+            hoursDecimal: minutesToDecimalHours(totalMeIfr),
+            hoursFormatted: formatMinutes(totalMeIfr),
+            flightsCount: countMeIfr,
+            percentOfTotal: totalAllMinutes > 0 ? Math.round((totalMeIfr / totalAllMinutes) * 100) : 0,
+        },
+        {
+            key: "sim",
+            label: "Synthetic Training Device (FSTD)",
+            description: "EASA-certified flight synthetic training devices (AL250 / FNPT II)",
+            minutes: totalSimMinutes,
+            hoursDecimal: minutesToDecimalHours(totalSimMinutes),
+            hoursFormatted: formatMinutes(totalSimMinutes),
+            flightsCount: countSim,
+            percentOfTotal: totalAllMinutes > 0 ? Math.round((totalSimMinutes / totalAllMinutes) * 100) : 0,
+        },
+        {
+            key: "xc",
+            label: "Cross-Country Navigation",
+            description: "Flights connecting separate departure and destination aerodromes",
+            minutes: totalCrossCountryMinutes,
+            hoursDecimal: minutesToDecimalHours(totalCrossCountryMinutes),
+            hoursFormatted: formatMinutes(totalCrossCountryMinutes),
+            flightsCount: countXc,
+            percentOfTotal: totalAllMinutes > 0 ? Math.round((totalCrossCountryMinutes / totalAllMinutes) * 100) : 0,
+        },
+    ];
+
+    entries.sort((a, b) => {
+        const [d1, m1, y1] = a.date.split(".").map(Number);
+        const [d2, m2, y2] = b.date.split(".").map(Number);
+        const time1 = new Date(y1, m1 - 1, d1).getTime();
+        const time2 = new Date(y2, m2 - 1, d2).getTime();
+        if (time2 !== time1) return time2 - time1;
+        if (a.offBlock && b.offBlock && a.offBlock !== b.offBlock) {
+            return b.offBlock.localeCompare(a.offBlock);
+        }
+        return b.id.localeCompare(a.id, undefined, { numeric: true });
+    });
+
+    return {
+        entries,
+        totalHoursDecimal: minutesToDecimalHours(totalAllMinutes),
+        totalHoursFormatted: formatMinutes(totalAllMinutes),
+        aircraftHoursDecimal: minutesToDecimalHours(totalAircraftMinutes),
+        simulatorHoursDecimal: minutesToDecimalHours(totalSimMinutes),
+        totalFlightsCount: entries.length,
+        aircraftFlightsCount: entries.length - countSim,
+        simulatorSessionsCount: countSim,
+        totalDistanceNm: totalEstDistance,
+        airportsVisitedCount: uniqueAirports.length,
+        totalLandingsDay,
+        totalLandingsNight,
+        uniqueAirports,
+        routes: Object.values(routeMap),
+        typeStats,
+    };
+}
