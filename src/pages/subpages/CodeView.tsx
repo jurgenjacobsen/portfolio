@@ -4,14 +4,14 @@ import ReactMarkdown from "react-markdown";
 import { SectionCard, SEO } from "@/components/shared";
 import NotFound from "@/pages/NotFound";
 import type { ProjectProps } from "../Code";
-import remarkGfmPlugin from "remark-gfm";
-const remarkGfm = (remarkGfmPlugin as any).default || remarkGfmPlugin;
+import remarkGfm from "remark-gfm";
 import ProjectViewHeader from "@/components/features/projects/ProjectViewHeader";
 import ProjectPreview from "@/components/features/projects/ProjectPreview";
 import { GithubClient, type GithubRepo } from "@/lib/Github";
 import Download from "@/components/features/projects/Download";
 import { Skeleton } from "@/components/ui";
 import { Check, ChevronLeft, Share2 } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
 const CACHE_TTL_MS = 1000 * 60 * 60; // 1 hour
 
@@ -40,84 +40,7 @@ const setCachedRepo = (owner: string, repo: string, data: GithubRepo) => {
     }
 };
 
-function parseFrontMatter(text: string): { attributes: any; body: string } {
-    const regex = /^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/;
-    const match = text.match(regex);
 
-    const attributes: any = {};
-    let body = text;
-
-    if (match) {
-        const yamlSection = match[1];
-        body = match[2];
-
-        const lines = yamlSection.split("\n");
-        let currentParent: string | null = null;
-
-        for (const rawLine of lines) {
-            const trimLine = rawLine.trim();
-            if (!trimLine || trimLine.startsWith("#")) continue;
-
-            const isIndented = /^\s+/.test(rawLine);
-            const colonIndex = trimLine.indexOf(":");
-            if (colonIndex !== -1) {
-                const key = trimLine.substring(0, colonIndex).trim();
-                let val = trimLine.substring(colonIndex + 1).trim();
-
-                if (!isIndented) {
-                    if (val === "") {
-                        currentParent = key;
-                        attributes[key] = {};
-                        continue;
-                    } else {
-                        currentParent = null;
-                    }
-                }
-
-                // Remove optional surrounding quotes
-                if (
-                    (val.startsWith('"') && val.endsWith('"')) ||
-                    (val.startsWith("'") && val.endsWith("'"))
-                ) {
-                    val = val.substring(1, val.length - 1);
-                }
-
-                let parsedVal: any = val;
-                // Parse values
-                if (val.toLowerCase() === "true") {
-                    parsedVal = true;
-                } else if (val.toLowerCase() === "false") {
-                    parsedVal = false;
-                } else if (val.toLowerCase() === "null" || val === "~") {
-                    parsedVal = null;
-                } else if (val.startsWith("[") && val.endsWith("]")) {
-                    parsedVal = val
-                        .substring(1, val.length - 1)
-                        .split(",")
-                        .map((item) => item.trim())
-                        .filter(Boolean);
-                } else if (val.includes("#") && !val.includes("://")) {
-                    const cleanVal = val.split("#")[0].trim();
-                    parsedVal = cleanVal === "" ? null : cleanVal;
-                }
-
-                if (isIndented && currentParent) {
-                    if (
-                        typeof attributes[currentParent] !== "object" ||
-                        attributes[currentParent] === null
-                    ) {
-                        attributes[currentParent] = {};
-                    }
-                    attributes[currentParent][key] = parsedVal;
-                } else {
-                    attributes[key] = parsedVal;
-                }
-            }
-        }
-    }
-
-    return { attributes, body };
-}
 
 function CodeViewSkeleton() {
     return (
@@ -279,41 +202,52 @@ export default function ProjectView() {
             try {
                 setLoading(true);
                 setNotFound(false);
-                const response = await fetch(`/projects/${projectSlug}.md`);
-                if (!response.ok) {
-                    if (isMounted) setNotFound(true);
+
+                const { data: supaProject, error } = await supabase
+                    .from("projects")
+                    .select("*")
+                    .eq("slug", projectSlug)
+                    .maybeSingle();
+
+                if (error || !supaProject) {
+                    if (isMounted) {
+                        setNotFound(true);
+                        setLoading(false);
+                    }
                     return;
                 }
 
-                const rawText = await response.text();
-                const { attributes, body } = parseFrontMatter(rawText);
-
-                if (
-                    !attributes ||
-                    !attributes.title ||
-                    typeof attributes.title !== "string" ||
-                    attributes.title.trim() === ""
-                ) {
-                    if (isMounted) setNotFound(true);
-                    return;
-                }
-
-                const project = attributes as ProjectProps;
+                const loadedProject: ProjectProps = {
+                    title: supaProject.title,
+                    description: supaProject.description || "",
+                    image: supaProject.image || "",
+                    tags: supaProject.tags || [],
+                    link: supaProject.link || undefined,
+                    github: supaProject.github || undefined,
+                    createdAt: supaProject.created_at,
+                    updatedAt: supaProject.updated_at,
+                    date: supaProject.updated_at || supaProject.created_at,
+                    highlight: supaProject.highlight,
+                    slug: supaProject.slug,
+                    downloads: supaProject.downloads || undefined,
+                    stars: supaProject.stars || 0,
+                };
+                const loadedBody = supaProject.content || "";
 
                 if (!isMounted) return;
 
                 // Step 1: Immediately render the project data and markdown (Instant UI load)
-                setMetadata(project);
-                setContent(body);
+                setMetadata(loadedProject);
+                setContent(loadedBody);
                 setLoading(false);
 
                 // Step 2: Fetch and hydrate GitHub stats in the background
                 if (
-                    project.github &&
-                    project.github.startsWith("https://github.com")
+                    loadedProject.github &&
+                    loadedProject.github.startsWith("https://github.com")
                 ) {
                     try {
-                        const parsedUrl = new URL(project.github);
+                        const parsedUrl = new URL(loadedProject.github);
                         const isGithubHost =
                             parsedUrl.hostname === "github.com" &&
                             parsedUrl.protocol === "https:";
@@ -346,15 +280,19 @@ export default function ProjectView() {
                                                   ...prev,
                                                   stars: repoData.stargazers_count,
                                                   createdAt: getEarliestDate(
-                                                      githubCreated,
                                                       prev.createdAt,
+                                                      githubCreated,
                                                   ),
                                                   updatedAt: getLatestDate(
-                                                      githubUpdated,
                                                       prev.updatedAt,
+                                                      githubUpdated,
+                                                  ),
+                                                  date: getLatestDate(
+                                                      prev.date,
+                                                      githubUpdated,
                                                   ),
                                               }
-                                            : prev,
+                                            : null,
                                     );
                                 }
                             }
@@ -371,6 +309,38 @@ export default function ProjectView() {
 
         async function fetchProjects() {
             try {
+                // Try Supabase first
+                try {
+                    const { data: supaProjects, error } = await supabase
+                        .from("projects")
+                        .select("id, slug, title, description, tags, highlight, image, github, link, downloads, created_at, updated_at, stars")
+                        .order("created_at", { ascending: false });
+
+                    if (!error && supaProjects && supaProjects.length > 0) {
+                        if (isMounted) {
+                            setProjects(
+                                supaProjects.map((p) => ({
+                                    title: p.title,
+                                    description: p.description || "",
+                                    image: p.image || "",
+                                    tags: p.tags || [],
+                                    link: p.link || undefined,
+                                    github: p.github || undefined,
+                                    createdAt: p.created_at,
+                                    updatedAt: p.updated_at,
+                                    highlight: p.highlight,
+                                    slug: p.slug,
+                                    downloads: p.downloads || undefined,
+                                    stars: p.stars || 0,
+                                }))
+                            );
+                        }
+                        return;
+                    }
+                } catch (e) {
+                    console.warn("Supabase projects list query failed, using static:", e);
+                }
+
                 const response = await fetch("/projects/_.json");
                 if (!response.ok) return;
                 const data = await response.json();
@@ -524,7 +494,7 @@ export default function ProjectView() {
             </div>
 
             <SectionCard className="animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100 fill-mode-both">
-                <article className="prose dark:prose-invert lg:prose-base max-w-none">
+                <article className="prose lg:prose-base max-w-none text-foreground leading-relaxed">
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
                         {content}
                     </ReactMarkdown>

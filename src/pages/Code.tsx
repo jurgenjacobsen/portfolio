@@ -3,6 +3,7 @@ import { GithubClient, type GithubRepo } from "@/lib/Github";
 import ProjectHighlight from "@/components/features/projects/Highlight";
 import ProjectsList from "@/components/features/projects/List";
 import { SEO } from "@/components/shared";
+import { supabase } from "@/lib/supabase";
 
 const CACHE_TTL_MS = 1000 * 60 * 60; // 1 hour
 
@@ -71,16 +72,31 @@ export default function Projects() {
 
         const fetchProjects = async () => {
             try {
-                const response = await fetch("/projects/_.json");
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch projects: ${response.status} ${response.statusText}`);
-                }
-                const data: (ProjectProps & { highlight?: boolean })[] =
-                    await response.json();
+                const { data: supaProjects, error: supaError } = await supabase
+                    .from("projects")
+                    .select("id, slug, title, description, tags, highlight, image, github, link, downloads, created_at, updated_at, stars")
+                    .order("created_at", { ascending: false });
+
+                if (supaError) throw supaError;
+
+                const data: (ProjectProps & { highlight?: boolean })[] = (supaProjects || []).map((p) => ({
+                    title: p.title,
+                    description: p.description || "",
+                    image: p.image || "",
+                    tags: p.tags || [],
+                    link: p.link || undefined,
+                    github: p.github || undefined,
+                    createdAt: p.created_at,
+                    updatedAt: p.updated_at,
+                    highlight: p.highlight,
+                    slug: p.slug,
+                    downloads: p.downloads || undefined,
+                    stars: p.stars || 0,
+                }));
 
                 if (!isMounted) return;
 
-                // Step 1: Immediately render the local project data (Instant UI load)
+                // Step 1: Immediately render the project data (Instant UI load)
                 const initialProjects: ProjectProps[] = data.map((project) => ({
                     ...project,
                     date: project.date || project.updatedAt,

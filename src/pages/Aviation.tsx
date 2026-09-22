@@ -6,7 +6,8 @@ import {
     FlightLogsTable,
     ContactCTA,
 } from "@/components/features/aviation";
-import { parseLogbookCsv, type AviationLogbookData } from "@/lib/logbook-parser";
+import { buildLogbookDataFromRows, type AviationLogbookData } from "@/lib/logbook-parser";
+import { supabase } from "@/lib/supabase";
 import { Skeleton } from "@/components/ui";
 
 export default function Aviation() {
@@ -17,25 +18,28 @@ export default function Aviation() {
     useEffect(() => {
         let isMounted = true;
 
-        fetch("/logbook/logbook_report.csv")
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(`Failed to load logbook data: ${res.statusText}`);
-                }
-                return res.text();
-            })
-            .then((csvText) => {
+        async function loadLogbook() {
+            try {
+                const { data: rows, error: supaError } = await supabase
+                    .from("flight_logs")
+                    .select("*")
+                    .order("flight_date", { ascending: false });
+
+                if (supaError) throw supaError;
+
                 if (!isMounted) return;
-                const parsed = parseLogbookCsv(csvText);
+                const parsed = buildLogbookDataFromRows(rows || []);
                 setLogbookData(parsed);
                 setLoading(false);
-            })
-            .catch((err) => {
-                console.error("Error loading logbook CSV:", err);
+            } catch (err) {
+                console.error("Error loading flight logs from Supabase:", err);
                 if (!isMounted) return;
                 setError("Unable to load flight logbook data. Please try again later.");
                 setLoading(false);
-            });
+            }
+        }
+
+        loadLogbook();
 
         return () => {
             isMounted = false;

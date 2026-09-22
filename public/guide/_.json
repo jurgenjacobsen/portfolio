@@ -19,13 +19,13 @@
               "topicId": "getting-started",
               "order": 1,
               "description": "Welcome to the knowledge guides—a curated technical library of operational procedures, software architecture, and system workflows.",
-              "readTime": "1 min read",
-              "updatedAt": "2026-09-10T11:48:00.000Z",
               "tags": [
                 "General",
                 "Overview",
                 "Documentation"
               ],
+              "updatedAt": "2026-09-10T11:48:00+00:00",
+              "readTime": "1 min read",
               "filePath": "/guide/hello-world.md",
               "headings": [
                 {
@@ -63,8 +63,6 @@
               "topicId": "architecture-cms",
               "order": 1,
               "description": "How to build a zero-database, file-based publishing engine for blogs, documentation, and portfolios using flat Markdown files, build-time Node.js indexers, and on-demand React rendering.",
-              "readTime": "5 min read",
-              "updatedAt": "2026-09-17T12:00:00.000Z",
               "tags": [
                 "Architecture",
                 "Markdown",
@@ -74,7 +72,9 @@
                 "Node.js",
                 "Gray-Matter"
               ],
-              "filePath": "/guide/software/database-free-markdown-publishing-engine.md",
+              "updatedAt": "2026-09-17T12:00:00+00:00",
+              "readTime": "5 min read",
+              "filePath": "/guide/database-free-markdown-publishing-engine.md",
               "headings": [
                 {
                   "id": "1-architectural-philosophy-the-case-against-databases",
@@ -156,8 +156,8 @@
           ]
         },
         {
-          "id": "software",
-          "title": "Software",
+          "id": "general",
+          "title": "General",
           "order": 2,
           "guides": [
             {
@@ -165,12 +165,10 @@
               "slug": "technical-seo-and-google-sitelinks",
               "section": "Software",
               "sectionId": "software",
-              "topic": "Software",
-              "topicId": "software",
+              "topic": "General",
+              "topicId": "general",
               "order": 2,
               "description": "A practical guide to technical SEO, crawl optimization, Schema.org JSON-LD structured data, and qualifying for Google Search Sitelinks.",
-              "readTime": "11 min read",
-              "updatedAt": "2026-09-10T20:15:00.000Z",
               "tags": [
                 "SEO",
                 "Google Sitelinks",
@@ -179,7 +177,9 @@
                 "Web Performance",
                 "Core Web Vitals"
               ],
-              "filePath": "/guide/software/seo-and-google-sitelinks.md",
+              "updatedAt": "2026-09-10T20:15:00+00:00",
+              "readTime": "11 min read",
+              "filePath": "/guide/technical-seo-and-google-sitelinks.md",
               "headings": [
                 {
                   "id": "1-search-pipeline",
@@ -388,13 +388,13 @@
       "topicId": "getting-started",
       "order": 1,
       "description": "Welcome to the knowledge guides—a curated technical library of operational procedures, software architecture, and system workflows.",
-      "readTime": "1 min read",
-      "updatedAt": "2026-09-10T11:48:00.000Z",
       "tags": [
         "General",
         "Overview",
         "Documentation"
       ],
+      "updatedAt": "2026-09-10T11:48:00+00:00",
+      "readTime": "1 min read",
       "filePath": "/guide/hello-world.md",
       "headings": [
         {
@@ -418,8 +418,6 @@
       "topicId": "architecture-cms",
       "order": 1,
       "description": "How to build a zero-database, file-based publishing engine for blogs, documentation, and portfolios using flat Markdown files, build-time Node.js indexers, and on-demand React rendering.",
-      "readTime": "5 min read",
-      "updatedAt": "2026-09-17T12:00:00.000Z",
       "tags": [
         "Architecture",
         "Markdown",
@@ -429,7 +427,9 @@
         "Node.js",
         "Gray-Matter"
       ],
-      "filePath": "/guide/software/database-free-markdown-publishing-engine.md",
+      "updatedAt": "2026-09-17T12:00:00+00:00",
+      "readTime": "5 min read",
+      "filePath": "/guide/database-free-markdown-publishing-engine.md",
       "headings": [
         {
           "id": "1-architectural-philosophy-the-case-against-databases",
@@ -513,12 +513,10 @@
       "slug": "technical-seo-and-google-sitelinks",
       "section": "Software",
       "sectionId": "software",
-      "topic": "Software",
-      "topicId": "software",
+      "topic": "General",
+      "topicId": "general",
       "order": 2,
       "description": "A practical guide to technical SEO, crawl optimization, Schema.org JSON-LD structured data, and qualifying for Google Search Sitelinks.",
-      "readTime": "11 min read",
-      "updatedAt": "2026-09-10T20:15:00.000Z",
       "tags": [
         "SEO",
         "Google Sitelinks",
@@ -527,7 +525,9 @@
         "Web Performance",
         "Core Web Vitals"
       ],
-      "filePath": "/guide/software/seo-and-google-sitelinks.md",
+      "updatedAt": "2026-09-10T20:15:00+00:00",
+      "readTime": "11 min read",
+      "filePath": "/guide/technical-seo-and-google-sitelinks.md",
       "headings": [
         {
           "id": "1-search-pipeline",
@@ -732,13 +732,13 @@
       "topicId": "getting-started",
       "order": 1,
       "description": "Welcome to the knowledge guides—a curated technical library of operational procedures, software architecture, and system workflows.",
-      "readTime": "1 min read",
-      "updatedAt": "2026-09-10T11:48:00.000Z",
       "tags": [
         "General",
         "Overview",
         "Documentation"
       ],
+      "updatedAt": "2026-09-10T11:48:00+00:00",
+      "readTime": "1 min read",
       "filePath": "/guide/hello-world.md",
       "headings": [
         {
@@ -762,8 +762,6 @@
       "topicId": "architecture-cms",
       "order": 1,
       "description": "How to build a zero-database, file-based publishing engine for blogs, documentation, and portfolios using flat Markdown files, build-time Node.js indexers, and on-demand React rendering.",
-      "readTime": "5 min read",
-      "updatedAt": "2026-09-17T12:00:00.000Z",
       "tags": [
         "Architecture",
         "Markdown",
@@ -773,7 +771,9 @@
         "Node.js",
         "Gray-Matter"
       ],
-      "filePath": "/guide/software/database-free-markdown-publishing-engine.md",
+      "updatedAt": "2026-09-17T12:00:00+00:00",
+      "readTime": "5 min read",
+      "filePath": "/guide/database-free-markdown-publishing-engine.md",
       "headings": [
         {
           "id": "1-architectural-philosophy-the-case-against-databases",
@@ -857,12 +857,10 @@
       "slug": "technical-seo-and-google-sitelinks",
       "section": "Software",
       "sectionId": "software",
-      "topic": "Software",
-      "topicId": "software",
+      "topic": "General",
+      "topicId": "general",
       "order": 2,
       "description": "A practical guide to technical SEO, crawl optimization, Schema.org JSON-LD structured data, and qualifying for Google Search Sitelinks.",
-      "readTime": "11 min read",
-      "updatedAt": "2026-09-10T20:15:00.000Z",
       "tags": [
         "SEO",
         "Google Sitelinks",
@@ -871,7 +869,9 @@
         "Web Performance",
         "Core Web Vitals"
       ],
-      "filePath": "/guide/software/seo-and-google-sitelinks.md",
+      "updatedAt": "2026-09-10T20:15:00+00:00",
+      "readTime": "11 min read",
+      "filePath": "/guide/technical-seo-and-google-sitelinks.md",
       "headings": [
         {
           "id": "1-search-pipeline",

@@ -23,6 +23,9 @@ import {
 } from "@/pages";
 import { CodeView } from "@/pages/subpages";
 import { ScrollToTop } from "@/components/shared";
+import AdminLogin from "@/pages/admin/AdminLogin";
+import AdminDashboard from "@/pages/admin/AdminDashboard";
+import AdminGuard from "@/components/admin/AdminGuard";
 
 function ProjectRedirect() {
     const { projectSlug } = useParams();
@@ -83,6 +86,17 @@ function App() {
                         <Route path="/socials" element={<Socials />} />
 
                         <Route path="/cv" element={<CV />} />
+
+                        {/* Admin CMS Console */}
+                        <Route path="/admin/login" element={<AdminLogin />} />
+                        <Route
+                            path="/admin"
+                            element={
+                                <AdminGuard>
+                                    <AdminDashboard />
+                                </AdminGuard>
+                            }
+                        />
 
                         <Route path="*" element={<NotFound />} />
                     </Routes>

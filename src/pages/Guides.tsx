@@ -7,7 +7,11 @@ import {
     GuideContent,
     type GuidesIndexData,
     type HeadingItem,
+    type GuideItem,
+    type SectionNode,
+    type TopicNode,
 } from "@/components/features/guides";
+import { supabase, type GuideRow, type GuideSectionRow } from "@/lib/supabase";
 
 function stripFrontMatter(text: string): string {
     return text.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/, "");
@@ -23,19 +27,126 @@ function slugifyHeading(text: string): string {
         .replace(/--+/g, "-");
 }
 
+function extractHeadings(markdownContent: string): HeadingItem[] {
+    if (!markdownContent) return [];
+    const headingRegex = /^(#{2,3})\s+(.+)$/gm;
+    const headings: HeadingItem[] = [];
+    let match;
+    while ((match = headingRegex.exec(markdownContent)) !== null) {
+        const level = match[1].length;
+        const text = match[2].trim();
+        const id = slugifyHeading(text);
+        headings.push({ id, text, level });
+    }
+    return headings;
+}
+
+function buildGuidesIndex(
+    sections: GuideSectionRow[],
+    guides: GuideRow[]
+): { index: GuidesIndexData; contentMap: Record<string, string> } {
+    const bySlug: Record<string, GuideItem> = {};
+    const contentMap: Record<string, string> = {};
+    const allGuides: GuideItem[] = [];
+
+    const sectionMap = new Map<
+        string,
+        { id: string; title: string; order: number; topics: Map<string, GuideItem[]> }
+    >();
+
+    sections.forEach((s) => {
+        sectionMap.set(s.id, {
+            id: s.id,
+            title: s.title,
+            order: s.order_index ?? 0,
+            topics: new Map(),
+        });
+    });
+
+    guides.forEach((g) => {
+        const secId = g.section_id || "general";
+        let secNode = sectionMap.get(secId);
+        if (!secNode) {
+            secNode = {
+                id: secId,
+                title: secId.charAt(0).toUpperCase() + secId.slice(1),
+                order: 999,
+                topics: new Map(),
+            };
+            sectionMap.set(secId, secNode);
+        }
+
+        const topicName = g.topic || "General";
+        if (!secNode.topics.has(topicName)) {
+            secNode.topics.set(topicName, []);
+        }
+
+        const readTime = `${g.reading_time_minutes || 1} min read`;
+        const headings = extractHeadings(g.content || "");
+
+        const guideItem: GuideItem = {
+            title: g.title,
+            slug: g.slug,
+            section: secNode.title,
+            sectionId: secNode.id,
+            topic: topicName,
+            topicId: topicName.toLowerCase().replace(/[\s_]+/g, "-"),
+            order: g.order_index ?? 0,
+            description: g.description || "",
+            readTime,
+            updatedAt: g.updated_at || g.created_at || new Date().toISOString(),
+            tags: g.tags || [],
+            filePath: `/guide/${g.slug}.md`,
+            headings,
+        };
+
+        secNode.topics.get(topicName)!.push(guideItem);
+        bySlug[g.slug] = guideItem;
+        contentMap[g.slug] = g.content || "";
+        allGuides.push(guideItem);
+    });
+
+    const sortedSections: SectionNode[] = Array.from(sectionMap.values())
+        .sort((a, b) => a.order - b.order)
+        .map((s) => {
+            const sortedTopics: TopicNode[] = Array.from(s.topics.entries()).map(
+                ([tTitle, gList], i) => ({
+                    id: tTitle.toLowerCase().replace(/[\s_]+/g, "-"),
+                    title: tTitle,
+                    order: i + 1,
+                    guides: gList.sort((a, b) => a.order - b.order),
+                })
+            );
+            return {
+                id: s.id,
+                title: s.title,
+                order: s.order,
+                topics: sortedTopics,
+            };
+        });
+
+    return {
+        index: {
+            sections: sortedSections,
+            bySlug,
+            guides: allGuides,
+        },
+        contentMap,
+    };
+}
+
 export default function Guides() {
     const { slug } = useParams();
     const navigate = useNavigate();
 
     const [indexData, setIndexData] = useState<GuidesIndexData | null>(null);
+    const [contentMap, setContentMap] = useState<Record<string, string>>({});
     const [openSections, setOpenSections] = useState<Record<string, boolean>>(
         {},
     );
     const [isMobileDirectoryOpen, setIsMobileDirectoryOpen] =
         useState<boolean>(false);
-    const [markdownContent, setMarkdownContent] = useState<string>("");
     const [loadingIndex, setLoadingIndex] = useState<boolean>(true);
-    const [loadingContent, setLoadingContent] = useState<boolean>(false);
     const [copiedLink, setCopiedLink] = useState<boolean>(false);
     const [activeHeadingId, setActiveHeadingId] = useState<string>("");
 
@@ -51,30 +162,47 @@ export default function Guides() {
         },
     );
 
-    // Fetch the pre-built index of guides
+    // Fetch the index of guides directly from Supabase
     useEffect(() => {
         let isMounted = true;
-        fetch("/guide/_.json")
-            .then((res) => {
-                if (!res.ok) throw new Error("Failed to load guides index");
-                return res.json();
-            })
-            .then((data: GuidesIndexData) => {
-                if (!isMounted) return;
-                setIndexData(data);
 
-                // Open all sections by default
+        async function loadIndex() {
+            try {
+                const [sectionsRes, guidesRes] = await Promise.all([
+                    supabase
+                        .from("guide_sections")
+                        .select("*")
+                        .order("order_index", { ascending: true }),
+                    supabase
+                        .from("guides")
+                        .select("*")
+                        .order("order_index", { ascending: true }),
+                ]);
+
+                if (sectionsRes.error) throw sectionsRes.error;
+                if (guidesRes.error) throw guidesRes.error;
+
+                const { index, contentMap: cMap } = buildGuidesIndex(
+                    sectionsRes.data || [],
+                    guidesRes.data || []
+                );
+                if (!isMounted) return;
+                setIndexData(index);
+                setContentMap(cMap);
+
                 const initialOpen: Record<string, boolean> = {};
-                data.sections.forEach((sec) => {
+                index.sections.forEach((sec) => {
                     initialOpen[sec.id] = true;
                 });
                 setOpenSections(initialOpen);
                 setLoadingIndex(false);
-            })
-            .catch((err) => {
-                console.error(err);
+            } catch (err) {
+                console.error("Error loading guides from Supabase:", err);
                 if (isMounted) setLoadingIndex(false);
-            });
+            }
+        }
+
+        loadIndex();
 
         return () => {
             isMounted = false;
@@ -103,39 +231,14 @@ export default function Guides() {
         }
     }, [slug, activeGuide, navigate]);
 
-    // Fetch and strip frontmatter from the active markdown file
-    useEffect(() => {
-        if (!activeGuide) {
-            setMarkdownContent("");
-            return;
+    // Derive markdown content directly from Supabase contentMap
+    const markdownContent = useMemo(() => {
+        if (!activeGuide) return "";
+        if (contentMap[activeGuide.slug]) {
+            return stripFrontMatter(contentMap[activeGuide.slug]);
         }
-
-        let isMounted = true;
-        setLoadingContent(true);
-
-        fetch(activeGuide.filePath)
-            .then((res) => {
-                if (!res.ok) throw new Error("Failed to load markdown content");
-                return res.text();
-            })
-            .then((rawText) => {
-                if (!isMounted) return;
-                const body = stripFrontMatter(rawText);
-                setMarkdownContent(body);
-                setLoadingContent(false);
-            })
-            .catch((err) => {
-                console.error(err);
-                if (isMounted) {
-                    setMarkdownContent("Failed to load guide content.");
-                    setLoadingContent(false);
-                }
-            });
-
-        return () => {
-            isMounted = false;
-        };
-    }, [activeGuide]);
+        return "Guide content not found.";
+    }, [activeGuide, contentMap]);
 
     const toggleSection = (sectionId: string) => {
         setOpenSections((prev) => ({
@@ -220,7 +323,7 @@ export default function Guides() {
 
     // Active heading scroll listener for reliable, continuous scroll-spy
     useEffect(() => {
-        if (!activeGuide || loadingContent) return;
+        if (!activeGuide || !markdownContent) return;
 
         let ticking = false;
 
@@ -285,11 +388,11 @@ export default function Guides() {
             window.removeEventListener("scroll", onScroll);
             window.removeEventListener("resize", onScroll);
         };
-    }, [activeGuide, loadingContent, markdownContent]);
+    }, [activeGuide, markdownContent]);
 
     // Smooth scroll to anchor on initial page load if hash exists
     useEffect(() => {
-        if (!loadingContent && window.location.hash) {
+        if (markdownContent && window.location.hash) {
             const id = decodeURIComponent(window.location.hash.slice(1));
             const el = document.getElementById(id);
             if (el) {
@@ -299,7 +402,7 @@ export default function Guides() {
                 }, 150);
             }
         }
-    }, [loadingContent, markdownContent]);
+    }, [markdownContent]);
 
     // Keep URL hash synchronized with active heading as user scrolls
     useEffect(() => {
@@ -378,7 +481,7 @@ export default function Guides() {
                 {/* Main Content Card */}
                 <GuideContent
                     activeGuide={activeGuide}
-                    loadingContent={loadingContent || loadingIndex}
+                    loadingContent={loadingIndex}
                     markdownContent={markdownContent}
                     isRead={
                         activeGuide ? !!readGuides[activeGuide.slug] : false

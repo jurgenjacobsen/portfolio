@@ -104,7 +104,7 @@ export default function GuideContent({
                 <div className="space-y-6 animate-in fade-in duration-300">
                     <GuideHeader guide={activeGuide} />
 
-                    <article className="prose dark:prose-invert lg:prose-base max-w-none text-foreground leading-relaxed">
+                    <article className="prose lg:prose-base max-w-none text-foreground leading-relaxed">
                         <ReactMarkdown
                             remarkPlugins={[remarkGfm]}
                             components={markdownComponents}
@@ -131,10 +131,10 @@ export default function GuideContent({
                         No Guides Found
                     </h3>
                     <p className="text-sm text-muted-foreground">
-                        Add markdown files to{" "}
-                        <code className="bg-muted px-2 py-1 rounded">
-                            public/guide/
-                        </code>{" "}
+                        Add guides in the{" "}
+                        <span className="font-semibold text-foreground">
+                            Admin Dashboard
+                        </span>{" "}
                         to get started.
                     </p>
                 </div>

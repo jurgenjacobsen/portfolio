@@ -103,10 +103,118 @@
         text-decoration: none !important;
     }
 
-    article pre:has(code) {
-        background-color: var(--color-background) !important;
-        color: var(--color-primary) !important;
+    /* Markdown Prose Typography: Fix styling to guarantee solid, readable text adhering to the site's palette */
+    .prose {
+        --tw-prose-body: var(--foreground) !important;
+        --tw-prose-headings: var(--foreground) !important;
+        --tw-prose-lead: var(--muted-foreground) !important;
+        --tw-prose-links: var(--foreground) !important;
+        --tw-prose-bold: var(--foreground) !important;
+        --tw-prose-counters: var(--muted-foreground) !important;
+        --tw-prose-bullets: var(--muted-foreground) !important;
+        --tw-prose-hr: var(--border) !important;
+        --tw-prose-quotes: var(--foreground) !important;
+        --tw-prose-quote-borders: var(--border) !important;
+        --tw-prose-captions: var(--muted-foreground) !important;
+        --tw-prose-code: var(--foreground) !important;
+        --tw-prose-pre-code: var(--foreground) !important;
+        --tw-prose-pre-bg: var(--muted) !important;
+        --tw-prose-th-borders: var(--border) !important;
+        --tw-prose-td-borders: var(--border) !important;
+        color: var(--foreground) !important;
+    }
+
+    .prose :where(h1, h2, h3, h4, h5, h6) {
+        color: var(--foreground) !important;
+        font-weight: 800 !important;
+        letter-spacing: -0.025em !important;
+    }
+
+    .prose :where(strong, b) {
+        color: var(--foreground) !important;
+        font-weight: 700 !important;
+    }
+
+    .prose :where(p, li, td) {
+        color: var(--foreground) !important;
+    }
+
+    .prose a {
+        color: var(--foreground) !important;
+        font-weight: 600 !important;
+        text-decoration: underline !important;
+        text-underline-offset: 3px !important;
+        text-decoration-color: var(--border) !important;
+        transition: text-decoration-color 0.2s ease, color 0.2s ease !important;
+    }
+
+    .prose a:hover {
+        color: var(--foreground) !important;
+        text-decoration-color: var(--foreground) !important;
+    }
+
+    .prose blockquote {
+        border-left: 3px solid var(--border) !important;
+        color: var(--muted-foreground) !important;
+        font-style: italic !important;
+        padding-left: 1rem !important;
+        margin-left: 0 !important;
+    }
+
+    .prose pre {
+        background-color: var(--muted) !important;
+        color: var(--foreground) !important;
+        border: 1px solid var(--border) !important;
+        border-radius: 0.75rem !important;
+        padding: 1rem 1.25rem !important;
         user-select: text !important;
+        overflow-x: auto !important;
+    }
+
+    .prose pre code {
+        background-color: transparent !important;
+        color: var(--foreground) !important;
+        padding: 0 !important;
+        border: none !important;
+        font-size: 0.875rem !important;
+        line-height: 1.6 !important;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+    }
+
+    .prose :not(pre) > code {
+        background-color: var(--muted) !important;
+        color: var(--foreground) !important;
+        border: 1px solid var(--border) !important;
+        border-radius: 0.375rem !important;
+        padding: 0.15rem 0.4rem !important;
+        font-size: 0.85em !important;
+        font-weight: 600 !important;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+    }
+
+    .prose :not(pre) > code::before,
+    .prose :not(pre) > code::after {
+        content: "" !important;
+    }
+
+    .prose table {
+        border-collapse: collapse !important;
+        width: 100% !important;
+        margin: 1.5rem 0 !important;
+    }
+
+    .prose th {
+        border-bottom: 2px solid var(--border) !important;
+        padding: 0.75rem !important;
+        text-align: left !important;
+        color: var(--foreground) !important;
+        font-weight: 600 !important;
+    }
+
+    .prose td {
+        border-bottom: 1px solid var(--border) !important;
+        padding: 0.75rem !important;
+        color: var(--foreground) !important;
     }
 
     [data-animations="disabled"],
