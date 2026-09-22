@@ -25,7 +25,7 @@ function FlightEntryDialog({
     const [onBlock, setOnBlock] = useState(entry?.on_block || "");
     const [route, setRoute] = useState(entry?.route || "");
     const [aircraftType, setAircraftType] = useState(entry?.aircraft_type || "C172");
-    const [registration, setRegistration] = useState(entry?.registration || "CS-DLD");
+    const [registration, setRegistration] = useState(entry ? (entry.registration || "") : "");
     const [picName, setPicName] = useState(entry?.pic_name || "Self");
 
     const [totalMinutes, setTotalMinutes] = useState(entry?.total_minutes ?? 60);
@@ -108,14 +108,14 @@ function FlightEntryDialog({
 
         const payload: Partial<FlightLogRow> = {
             flight_date: flightDate,
-            departure_airport: dep.slice(0, 4),
-            arrival_airport: arr.slice(0, 4),
+            departure_airport: dep,
+            arrival_airport: arr,
             off_block: offBlock.trim() || null,
             on_block: onBlock.trim() || null,
             route: route.trim().toUpperCase() || null,
             unique: uniqueKey,
-            aircraft_type: aircraftType.trim().toUpperCase().slice(0, 10),
-            registration: registration.trim().toUpperCase().slice(0, 10) || null,
+            aircraft_type: aircraftType.trim().toUpperCase(),
+            registration: registration.trim().toUpperCase() || null,
             pic_name: picName.trim() || null,
             total_minutes: Number(totalMinutes) || 0,
             day_minutes: Number(dayMinutes) || 0,
@@ -216,7 +216,7 @@ function FlightEntryDialog({
                             <input
                                 type="text"
                                 required
-                                maxLength={4}
+                                maxLength={10}
                                 value={depAirport}
                                 onChange={(e) => {
                                     setDepAirport(e.target.value.toUpperCase());
@@ -234,7 +234,7 @@ function FlightEntryDialog({
                             <input
                                 type="text"
                                 required
-                                maxLength={4}
+                                maxLength={10}
                                 value={arrAirport}
                                 onChange={(e) => {
                                     setArrAirport(e.target.value.toUpperCase());

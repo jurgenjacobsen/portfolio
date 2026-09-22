@@ -26,6 +26,7 @@ export interface LogbookEntry {
     distanceNm: number;
     isSimulator: boolean;
     isCrossCountry: boolean;
+    route?: string;
 }
 
 export interface FlightTypeStat {
@@ -78,9 +79,23 @@ export interface AviationLogbookData {
 export function parseTimeToMinutes(timeStr?: string): number {
     if (!timeStr) return 0;
     const clean = timeStr.trim().replace(/^"|"$/g, "");
-    if (!clean || !clean.includes(":")) return 0;
-    const [hrs, mins] = clean.split(":").map(Number);
-    return (hrs || 0) * 60 + (mins || 0);
+    if (!clean) return 0;
+    if (clean.includes(":")) {
+        const [hrs, mins] = clean.split(":").map((v) => Number(v) || 0);
+        return (hrs || 0) * 60 + (mins || 0);
+    }
+    const normalized = clean.replace(",", ".");
+    const num = Number(normalized);
+    if (!isNaN(num) && num > 0) {
+        if (clean.includes(".") || clean.includes(",")) {
+            return Math.round(num * 60);
+        }
+        if (num <= 24) {
+            return Math.round(num * 60);
+        }
+        return Math.round(num);
+    }
+    return 0;
 }
 
 export function minutesToDecimalHours(minutes: number): number {
@@ -93,41 +108,203 @@ export function formatMinutes(minutes: number): string {
     return `${hrs}h ${mins.toString().padStart(2, "0")}m`;
 }
 
-function parseCsvLine(line: string): string[] {
-    const result: string[] = [];
-    let current = "";
+export function detectCsvDelimiter(content: string): string {
+    const firstLine = content.split(/\r?\n/)[0] || "";
+    let commas = 0;
+    let semicolons = 0;
+    let tabs = 0;
     let inQuotes = false;
 
-    for (let i = 0; i < line.length; i++) {
-        const char = line[i];
-
-        if (char === '"') {
-            if (inQuotes && line[i + 1] === '"') {
-                current += '"';
+    for (let i = 0; i < firstLine.length; i++) {
+        const c = firstLine[i];
+        if (c === '"') {
+            if (inQuotes && firstLine[i + 1] === '"') {
                 i++;
             } else {
                 inQuotes = !inQuotes;
             }
-        } else if (char === "," && !inQuotes) {
-            result.push(current.trim().replace(/^"|"$/g, ""));
-            current = "";
-        } else {
-            current += char;
+        } else if (!inQuotes) {
+            if (c === ";") semicolons++;
+            else if (c === ",") commas++;
+            else if (c === "\t") tabs++;
         }
     }
-    result.push(current.trim().replace(/^"|"$/g, ""));
-    return result;
+
+    if (semicolons > commas && semicolons > tabs) return ";";
+    if (tabs > commas && tabs > semicolons) return "\t";
+    return ",";
+}
+
+export function parseCsvRows(content: string, customDelimiter?: string): string[][] {
+    const clean = content.replace(/^\uFEFF/, "");
+    const delimiter = customDelimiter || detectCsvDelimiter(clean);
+    const rows: string[][] = [];
+    let currentRow: string[] = [];
+    let currentCell = "";
+    let inQuotes = false;
+    let i = 0;
+
+    while (i < clean.length) {
+        const char = clean[i];
+
+        if (char === '"') {
+            if (inQuotes && clean[i + 1] === '"') {
+                currentCell += '"';
+                i += 2;
+                continue;
+            }
+            inQuotes = !inQuotes;
+            i++;
+            continue;
+        }
+
+        if (!inQuotes) {
+            if (char === delimiter) {
+                currentRow.push(currentCell.trim());
+                currentCell = "";
+                i++;
+                continue;
+            }
+
+            if (char === "\r") {
+                if (clean[i + 1] === "\n") i++;
+                currentRow.push(currentCell.trim());
+                if (currentRow.some((c) => c.length > 0)) {
+                    rows.push(currentRow);
+                }
+                currentRow = [];
+                currentCell = "";
+                i++;
+                continue;
+            }
+
+            if (char === "\n") {
+                currentRow.push(currentCell.trim());
+                if (currentRow.some((c) => c.length > 0)) {
+                    rows.push(currentRow);
+                }
+                currentRow = [];
+                currentCell = "";
+                i++;
+                continue;
+            }
+        }
+
+        currentCell += char;
+        i++;
+    }
+
+    if (currentCell.length > 0 || currentRow.length > 0) {
+        currentRow.push(currentCell.trim());
+        if (currentRow.some((c) => c.length > 0)) {
+            rows.push(currentRow);
+        }
+    }
+
+    return rows;
+}
+
+const COLUMN_ALIASES: Record<string, string[]> = {
+    date: ["date", "flight_date", "flightdate", "utc_date", "data"],
+    departure: ["departure_airport_name", "departure_airport", "departure", "dep_airport", "dep", "from", "origin", "ad_dep", "aerodrome_departure"],
+    offBlock: ["off_block", "offblock", "block_off", "out", "dep_time", "departure_time", "time_out", "hora_partida"],
+    arrival: ["arrival_airport_name", "arrival_airport", "arrival", "arr_airport", "arr", "to", "dest", "destination", "ad_arr", "aerodrome_arrival"],
+    onBlock: ["on_block", "onblock", "block_on", "in", "arr_time", "arrival_time", "time_in", "hora_chegada"],
+    aircraftType: ["type_of_aircraft", "aircraft_type", "type", "aircraft", "model", "ac_type", "tipo_aeronave", "airplane_type"],
+    registration: ["registration", "aircraft_registration", "regr", "reg", "tail_number", "tail", "callsign", "ident", "matricula", "reg_nr", "registration_number"],
+    picName: ["name_of_pilot_in_command", "pilot_in_command", "pic_name", "pic", "commander", "pilot", "piloto_comandante"],
+    total: ["total", "total_time", "flight_time", "duration", "time_total", "tempo_total"],
+    day: ["day", "day_time", "day_flight_time", "tempo_diurno"],
+    night: ["night", "night_time", "night_flight_time", "tempo_noturno"],
+    seVfr: ["single_engine_vfr", "se_vfr", "sevfr", "se_vfr_time"],
+    seIfr: ["single_engine_ifr", "se_ifr", "seifr", "se_ifr_time"],
+    meVfr: ["multi_engine_vfr", "me_vfr", "mevfr", "me_vfr_time"],
+    meIfr: ["multi_engine_ifr", "me_ifr", "meifr", "me_ifr_time"],
+    picTime: ["pilot_in_command_time", "pic_time", "pic_duration", "time_pic"],
+    coPilot: ["co_pilot", "copilot", "sic", "sic_time"],
+    multiPilot: ["multi_pilot", "multipilot", "mp", "mp_time"],
+    instructor: ["flight_instructor", "fi", "instructor_time"],
+    dual: ["dual", "dual_received", "instruction", "dual_time", "duplo_comando"],
+    sim: ["synthetic_training", "synthetic", "sim", "simulator", "fstd", "fstd_time", "synthetic_time", "treino_sintetico"],
+    landingsDay: ["landings_day", "day_landings", "landings_d", "ldgs_day", "day_ldgs", "aterragens_dia"],
+    landingsNight: ["landings_night", "night_landings", "landings_n", "ldgs_night", "night_ldgs", "aterragens_noite"],
+    remarks: ["remarks_and_endorsements", "remarks", "endorsements", "notes", "comments", "observacoes"],
+    route: ["route", "waypoints", "flight_route", "routing", "rota"],
+};
+
+const DEFAULT_COLUMN_INDEXES: Record<string, number> = {
+    date: 0,
+    departure: 1,
+    offBlock: 2,
+    arrival: 3,
+    onBlock: 4,
+    aircraftType: 5,
+    registration: 6,
+    picName: 7,
+    total: 8,
+    day: 9,
+    night: 10,
+    seVfr: 11,
+    seIfr: 12,
+    meVfr: 13,
+    meIfr: 14,
+    picTime: 15,
+    coPilot: 16,
+    multiPilot: 17,
+    instructor: 18,
+    dual: 19,
+    sim: 20,
+    landingsDay: 22,
+    landingsNight: 23,
+    remarks: 24,
+    route: -1,
+};
+
+function buildColumnIndexMap(headerRow: string[]): Record<string, number> {
+    const map: Record<string, number> = {};
+    const normalizedHeaders = headerRow.map((h) =>
+        h.toLowerCase().replace(/[^a-z0-9]/g, "_").replace(/^_+|_+$/g, "")
+    );
+
+    for (const [key, aliases] of Object.entries(COLUMN_ALIASES)) {
+        let foundIndex = -1;
+        for (let i = 0; i < normalizedHeaders.length; i++) {
+            const h = normalizedHeaders[i];
+            if (aliases.includes(h)) {
+                foundIndex = i;
+                break;
+            }
+        }
+        if (foundIndex === -1) {
+            for (let i = 0; i < normalizedHeaders.length; i++) {
+                const h = normalizedHeaders[i];
+                if (aliases.some((alias) => h.includes(alias) || alias.includes(h))) {
+                    foundIndex = i;
+                    break;
+                }
+            }
+        }
+
+        map[key] = foundIndex !== -1 ? foundIndex : (DEFAULT_COLUMN_INDEXES[key] ?? -1);
+    }
+
+    return map;
 }
 
 export function parseLogbookCsv(csvContent: string): AviationLogbookData {
-    const lines = csvContent
-        .split(/\r?\n/)
-        .map((l) => l.trim())
-        .filter((l) => l.length > 0);
+    const rows = parseCsvRows(csvContent);
 
-    if (lines.length <= 1) {
+    if (rows.length <= 1) {
         return createEmptyLogbookData();
     }
+
+    const headerRow = rows[0];
+    const colMap = buildColumnIndexMap(headerRow);
+    const getVal = (row: string[], key: string): string => {
+        const idx = colMap[key];
+        if (idx === undefined || idx < 0 || idx >= row.length) return "";
+        return (row[idx] || "").replace(/^"|"$/g, "").trim();
+    };
 
     const entries: LogbookEntry[] = [];
     const airportOps: Record<string, number> = {};
@@ -159,32 +336,33 @@ export function parseLogbookCsv(csvContent: string): AviationLogbookData {
     let countSim = 0;
     let countXc = 0;
 
-    // Header index 0, start from 1
-    for (let i = 1; i < lines.length; i++) {
-        const cols = parseCsvLine(lines[i]);
-        if (cols.length < 10) continue;
+    // Header index 0, start from row 1
+    for (let i = 1; i < rows.length; i++) {
+        const row = rows[i];
+        if (row.length < 3) continue;
 
-        const date = cols[0] || "";
-        const dep = cols[1] || "";
-        const offBlock = cols[2] || "";
-        const arr = cols[3] || "";
-        const onBlock = cols[4] || "";
-        const aircraft = cols[5] || "";
-        const registration = cols[6] || "";
-        const picName = cols[7] || "";
-        const totalStr = cols[8] || "";
-        const dayStr = cols[9] || "";
-        const nightStr = cols[10] || "";
-        const seVfrStr = cols[11] || "";
-        const seIfrStr = cols[12] || "";
-        const meVfrStr = cols[13] || "";
-        const meIfrStr = cols[14] || "";
-        const picStr = cols[15] || "";
-        const dualStr = cols[19] || "";
-        const simStr = cols[20] || "";
-        const landingsDay = parseInt(cols[22] || "0", 10) || 0;
-        const landingsNight = parseInt(cols[23] || "0", 10) || 0;
-        const remarks = cols[24] || "";
+        const date = getVal(row, "date");
+        const rawDep = getVal(row, "departure");
+        const offBlock = getVal(row, "offBlock");
+        const rawArr = getVal(row, "arrival");
+        const onBlock = getVal(row, "onBlock");
+        const aircraft = getVal(row, "aircraftType");
+        const registration = getVal(row, "registration");
+        const picName = getVal(row, "picName");
+        const totalStr = getVal(row, "total");
+        const dayStr = getVal(row, "day");
+        const nightStr = getVal(row, "night");
+        const seVfrStr = getVal(row, "seVfr");
+        const seIfrStr = getVal(row, "seIfr");
+        const meVfrStr = getVal(row, "meVfr");
+        const meIfrStr = getVal(row, "meIfr");
+        const picStr = getVal(row, "picTime");
+        const dualStr = getVal(row, "dual");
+        const simStr = getVal(row, "sim");
+        const landingsDay = parseInt(getVal(row, "landingsDay") || "0", 10) || 0;
+        const landingsNight = parseInt(getVal(row, "landingsNight") || "0", 10) || 0;
+        const remarks = getVal(row, "remarks");
+        const route = getVal(row, "route");
 
         const totalMins = parseTimeToMinutes(totalStr);
         const simMins = parseTimeToMinutes(simStr);
@@ -197,11 +375,21 @@ export function parseLogbookCsv(csvContent: string): AviationLogbookData {
         const meVfrMins = parseTimeToMinutes(meVfrStr);
         const meIfrMins = parseTimeToMinutes(meIfrStr);
 
-        const isSim = simMins > 0 || aircraft.toUpperCase().includes("AL250") || aircraft.toUpperCase().includes("SIM");
-        const effectiveDuration = isSim ? simMins : totalMins;
+        const isSim =
+            simMins > 0 ||
+            aircraft.toUpperCase().includes("AL250") ||
+            aircraft.toUpperCase().includes("SIM") ||
+            aircraft.toUpperCase().includes("FNPT") ||
+            aircraft.toUpperCase().includes("FSTD");
+
+        const effectiveDuration = isSim ? (simMins > 0 ? simMins : totalMins) : totalMins;
+        const simDuration = isSim ? (simMins > 0 ? simMins : totalMins) : simMins;
+
+        const dep = rawDep || (isSim ? "ZZZZ" : "");
+        const arr = rawArr || (isSim ? "ZZZZ" : "");
 
         if (isSim) {
-            totalSimMinutes += simMins;
+            totalSimMinutes += simDuration;
             countSim++;
         } else {
             totalAircraftMinutes += totalMins;
@@ -244,7 +432,7 @@ export function parseLogbookCsv(csvContent: string): AviationLogbookData {
         totalLandingsNight += landingsNight;
 
         let distanceNm = 0;
-        const isCrossCountry = Boolean(dep && arr && dep !== arr);
+        const isCrossCountry = Boolean(dep && arr && dep !== arr && !isSim);
 
         if (dep && arr) {
             airportOps[dep] = (airportOps[dep] || 0) + 1;
@@ -316,13 +504,14 @@ export function parseLogbookCsv(csvContent: string): AviationLogbookData {
             multiEngineIfrMinutes: meIfrMins,
             picMinutes: picMins,
             dualMinutes: dualMins,
-            syntheticMinutes: simMins,
+            syntheticMinutes: simDuration,
             landingsDay,
             landingsNight,
             remarks,
             distanceNm,
             isSimulator: isSim,
             isCrossCountry,
+            route: route || undefined,
         });
     }
 
@@ -527,6 +716,7 @@ export interface FlightRowInput {
     is_simulator?: boolean;
     is_cross_country?: boolean;
     distance_nm?: number;
+    route?: string | null;
 }
 
 export function buildLogbookDataFromRows(rows: FlightRowInput[]): AviationLogbookData {
@@ -586,11 +776,18 @@ export function buildLogbookDataFromRows(rows: FlightRowInput[]): AviationLogboo
         const landingsDay = Number(row.landings_day) || 0;
         const landingsNight = Number(row.landings_night) || 0;
 
-        const isSim = Boolean(row.is_simulator) || simMins > 0 || aircraft.toUpperCase().includes("SIM");
-        const effectiveDuration = isSim ? simMins : totalMins;
+        const isSim =
+            Boolean(row.is_simulator) ||
+            simMins > 0 ||
+            aircraft.toUpperCase().includes("SIM") ||
+            aircraft.toUpperCase().includes("AL250") ||
+            aircraft.toUpperCase().includes("FNPT") ||
+            aircraft.toUpperCase().includes("FSTD");
+        const effectiveDuration = isSim ? (simMins > 0 ? simMins : totalMins) : totalMins;
+        const simDuration = isSim ? (simMins > 0 ? simMins : totalMins) : simMins;
 
         if (isSim) {
-            totalSimMinutes += simMins;
+            totalSimMinutes += simDuration;
             countSim++;
         } else {
             totalAircraftMinutes += totalMins;
@@ -713,13 +910,14 @@ export function buildLogbookDataFromRows(rows: FlightRowInput[]): AviationLogboo
             multiEngineIfrMinutes: meIfrMins,
             picMinutes: picMins,
             dualMinutes: dualMins,
-            syntheticMinutes: simMins,
+            syntheticMinutes: simDuration,
             landingsDay,
             landingsNight,
             remarks,
             distanceNm,
             isSimulator: isSim,
             isCrossCountry,
+            route: row.route || undefined,
         });
     });
 

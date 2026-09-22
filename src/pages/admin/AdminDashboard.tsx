@@ -7,7 +7,7 @@ import {
     type GuideRow,
     type FlightLogRow,
 } from "@/lib/supabase";
-import { SEO } from "@/components/shared";
+import { SectionCard, SEO } from "@/components/shared";
 import ProjectsPanel from "@/components/admin/ProjectsPanel";
 import GuidesPanel from "@/components/admin/GuidesPanel";
 import AviationPanel from "@/components/admin/AviationPanel";
@@ -18,7 +18,6 @@ import {
     Plane,
     LogOut,
     RefreshCw,
-    Database,
     ShieldCheck,
     FolderKanban,
     KeyRound,
@@ -151,32 +150,29 @@ export default function AdminDashboard() {
     };
 
     return (
-        <main className="space-y-6 mt-2 pb-16">
+        <main className="space-y-6 mt-6">
             <SEO
                 title="Admin Management Console | Jürgen Jacobsen"
                 description="Consolidated administrative management interface for projects, guides, and flight logs."
                 canonical="/admin"
+                robots="noindex, nofollow"
             />
 
-            {/* Top Admin Header Bar */}
-            <div className="border border-border/80 bg-card rounded-2xl p-5 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 text-primary flex items-center justify-center shrink-0">
-                        <FolderKanban className="w-5 h-5" />
+            <SectionCard className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div className="flex items-center gap-4">
+                    <div className="p-4 rounded-lg border border-border text-primary flex items-center justify-center shrink-0">
+                        <FolderKanban className="size-6" />
                     </div>
                     <div>
                         <div className="flex items-center gap-2">
                             <h1 className="text-lg font-bold text-foreground tracking-tight">
-                                Portfolio CMS Console
+                                Admin Console
                             </h1>
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-                                <Database className="w-2.5 h-2.5" /> Supabase Live
-                            </span>
                         </div>
-                        <p className="text-xs text-muted-foreground flex items-center gap-1.5 mt-0.5">
-                            <ShieldCheck className="w-3.5 h-3.5 text-primary" />
+                        <p className="text-xs text-muted-foreground flex items-center gap-2 mt-1">
+                            <ShieldCheck className="size-4 text-primary" />
                             <span>Signed in as:</span>
-                            <span className="font-mono text-foreground font-medium">
+                            <span className="text-foreground font-medium">
                                 {userEmail}
                             </span>
                         </p>
@@ -184,13 +180,13 @@ export default function AdminDashboard() {
                 </div>
 
                 {/* Header Actions */}
-                <div className="flex items-center gap-2 self-end md:self-auto">
+                <div className="flex items-center gap-4 self-end md:self-auto">
                     <button
                         onClick={() => setIsPasswordModalOpen(true)}
                         title="Set or update your permanent account password"
-                        className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-border bg-background text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition cursor-pointer shadow-2xs"
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border text-xs font-medium hover:text-foreground hover:bg-muted transition cursor-pointer"
                     >
-                        <KeyRound className="w-3.5 h-3.5 text-primary" />
+                        <KeyRound className="size-4 text-primary" />
                         <span>Set Password</span>
                     </button>
 
@@ -198,10 +194,10 @@ export default function AdminDashboard() {
                         onClick={refreshAll}
                         disabled={isRefreshing}
                         title="Reload all Supabase data"
-                        className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-border bg-background text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition cursor-pointer shadow-2xs"
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-border text-xs font-medium hover:text-foreground hover:bg-muted transition cursor-pointer"
                     >
                         <RefreshCw
-                            className={`w-3.5 h-3.5 ${isRefreshing ? "animate-spin" : ""}`}
+                            className={`size-4 ${isRefreshing ? "animate-spin" : ""}`}
                         />
                         <span>Sync</span>
                     </button>
@@ -209,61 +205,61 @@ export default function AdminDashboard() {
                     <button
                         onClick={handleSignOut}
                         title="Sign out of Admin session"
-                        className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-destructive/20 bg-destructive/10 text-destructive text-xs font-medium hover:bg-destructive/20 transition cursor-pointer"
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-destructive/25 bg-destructive/5 text-destructive text-xs font-medium hover:bg-destructive/0 transition cursor-pointer"
                     >
-                        <LogOut className="w-3.5 h-3.5" />
+                        <LogOut className="size-4" />
                         <span>Sign Out</span>
                     </button>
                 </div>
-            </div>
+            </SectionCard>
 
-            {/* Single-Page Tab Switcher */}
-            <div className="flex items-center p-1.5 bg-muted/40 border border-border/80 rounded-2xl max-w-xl">
+            <SectionCard className="flex items-center justify-between gap-4">
                 <button
                     onClick={() => setActiveTab("projects")}
-                    className={`flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs sm:text-sm font-medium transition cursor-pointer ${
+                    className={`flex-1 inline-flex items-center justify-center gap-2 py-2 px-4 rounded-lg text-xs sm:text-sm border border-border font-medium transition cursor-pointer ${
                         activeTab === "projects"
-                            ? "bg-background text-foreground shadow-sm font-semibold"
+                            ? "bg-background text-foreground font-semibold"
                             : "text-muted-foreground hover:text-foreground"
                     }`}
                 >
                     <Code2 className="w-4 h-4 text-primary" />
                     <span>Projects</span>
-                    <span className="px-1.5 py-0.2 rounded-md bg-muted text-[10px] font-mono">
+                    <span className="px-2 py-1 rounded-md bg-muted text-[10px] font-mono">
                         {projects.length}
                     </span>
                 </button>
 
                 <button
                     onClick={() => setActiveTab("guides")}
-                    className={`flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs sm:text-sm font-medium transition cursor-pointer ${
+                    className={`flex-1 inline-flex items-center justify-center gap-2 py-2 px-4 rounded-lg text-xs sm:text-sm border border-border font-medium transition cursor-pointer ${
                         activeTab === "guides"
-                            ? "bg-background text-foreground shadow-sm font-semibold"
+                            ? "bg-background text-foreground font-semibold"
                             : "text-muted-foreground hover:text-foreground"
                     }`}
                 >
                     <BookOpen className="w-4 h-4 text-primary" />
                     <span>Guides</span>
-                    <span className="px-1.5 py-0.2 rounded-md bg-muted text-[10px] font-mono">
+                    <span className="px-2 py-1 rounded-md bg-muted text-[10px] font-mono">
                         {guides.length}
                     </span>
                 </button>
 
                 <button
                     onClick={() => setActiveTab("aviation")}
-                    className={`flex-1 inline-flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs sm:text-sm font-medium transition cursor-pointer ${
+                    className={`flex-1 inline-flex items-center justify-center gap-2 py-2 px-4 rounded-lg text-xs sm:text-sm border border-border font-medium transition cursor-pointer ${
                         activeTab === "aviation"
-                            ? "bg-background text-foreground shadow-sm font-semibold"
+                            ? "bg-background text-foreground font-semibold"
                             : "text-muted-foreground hover:text-foreground"
                     }`}
                 >
                     <Plane className="w-4 h-4 text-primary" />
                     <span>Aviation</span>
-                    <span className="px-1.5 py-0.2 rounded-md bg-muted text-[10px] font-mono">
+                    <span className="px-2 py-1 rounded-md bg-muted text-[10px] font-mono">
                         {flightLogs.length}
                     </span>
                 </button>
-            </div>
+            </SectionCard>
+            
 
             {/* Tab Panels */}
             {activeTab === "projects" && (

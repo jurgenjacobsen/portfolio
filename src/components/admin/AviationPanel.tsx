@@ -109,16 +109,45 @@ export default function AviationPanel({
 
     // Filtered flights
     const filteredFlights = useMemo(() => {
+        const term = search.toLowerCase().trim();
+        if (!term) return flightLogs;
+
         return flightLogs.filter((f) => {
-            const term = search.toLowerCase();
-            return (
+            const matchesBasic =
                 f.departure_airport.toLowerCase().includes(term) ||
                 f.arrival_airport.toLowerCase().includes(term) ||
                 (f.aircraft_type || "").toLowerCase().includes(term) ||
                 (f.registration || "").toLowerCase().includes(term) ||
+                (f.pic_name || "").toLowerCase().includes(term) ||
+                (f.route || "").toLowerCase().includes(term) ||
                 f.flight_date.includes(term) ||
-                (f.remarks || "").toLowerCase().includes(term)
-            );
+                (f.remarks || "").toLowerCase().includes(term);
+
+            if (matchesBasic) return true;
+
+            // Search by flight types & conditions
+            if (term === "pic" && (f.pic_minutes || 0) > 0) return true;
+            if (term === "dual" && (f.dual_minutes || 0) > 0) return true;
+            if (
+                term === "vfr" &&
+                ((f.single_engine_vfr_minutes || 0) > 0 || (f.multi_engine_vfr_minutes || 0) > 0)
+            )
+                return true;
+            if (
+                term === "ifr" &&
+                ((f.single_engine_ifr_minutes || 0) > 0 || (f.multi_engine_ifr_minutes || 0) > 0)
+            )
+                return true;
+            if (term === "sim" && (f.is_simulator || (f.synthetic_minutes || 0) > 0)) return true;
+            if (term === "xc" && f.is_cross_country) return true;
+            if (term === "night" && (f.night_minutes || 0) > 0) return true;
+            if (
+                term === "me" &&
+                ((f.multi_engine_vfr_minutes || 0) > 0 || (f.multi_engine_ifr_minutes || 0) > 0)
+            )
+                return true;
+
+            return false;
         });
     }, [flightLogs, search]);
 
@@ -189,9 +218,9 @@ export default function AviationPanel({
 
             const mappedRows: Omit<FlightLogRow, "id">[] = parsed.entries.map((entry) => {
                 const isoDate = normalizeToIsoDate(entry.date);
-                const dep = (entry.departure || "ZZZZ").trim().toUpperCase().slice(0, 4);
-                const arr = (entry.arrival || "ZZZZ").trim().toUpperCase().slice(0, 4);
-                const reg = entry.registration ? entry.registration.trim().toUpperCase().slice(0, 10) : null;
+                const dep = (entry.departure || (entry.isSimulator ? "ZZZZ" : "ZZZZ")).trim().toUpperCase();
+                const arr = (entry.arrival || (entry.isSimulator ? "ZZZZ" : "ZZZZ")).trim().toUpperCase();
+                const reg = entry.registration ? entry.registration.trim().toUpperCase() : null;
                 const offBlock = entry.offBlock ? entry.offBlock.trim() : null;
                 const onBlock = entry.onBlock ? entry.onBlock.trim() : null;
 
@@ -201,7 +230,7 @@ export default function AviationPanel({
                     arrival_airport: arr,
                     off_block: offBlock,
                     on_block: onBlock,
-                    route: null,
+                    route: entry.route ? entry.route.trim().toUpperCase() : null,
                     unique: generateFlightUniqueKey(
                         dep,
                         arr,
@@ -209,7 +238,7 @@ export default function AviationPanel({
                         isoDate,
                         offBlock
                     ),
-                    aircraft_type: (entry.aircraftType || "N/A").trim().toUpperCase().slice(0, 10),
+                    aircraft_type: (entry.aircraftType || "N/A").trim().toUpperCase(),
                     registration: reg,
                     pic_name: entry.picName ? entry.picName.trim() : null,
                     total_minutes: Number(entry.totalMinutes) || 0,
@@ -431,26 +460,46 @@ export default function AviationPanel({
                                             </td>
                                             <td className="py-3 px-4 hidden md:table-cell whitespace-nowrap">
                                                 <div className="flex flex-wrap gap-1">
-                                                    {f.is_simulator && (
-                                                        <span className="px-1.5 py-0.5 rounded text-[10px] bg-purple-500/10 text-purple-600 dark:text-purple-400 font-medium">
+                                                    {f.pic_minutes > 0 && (
+                                                        <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                                                            PIC
+                                                        </span>
+                                                    )}
+                                                    {f.dual_minutes > 0 && (
+                                                        <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
+                                                            DUAL
+                                                        </span>
+                                                    )}
+                                                    {((f.single_engine_vfr_minutes || 0) > 0 || (f.multi_engine_vfr_minutes || 0) > 0) && (
+                                                        <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+                                                            VFR
+                                                        </span>
+                                                    )}
+                                                    {((f.single_engine_ifr_minutes || 0) > 0 || (f.multi_engine_ifr_minutes || 0) > 0) && (
+                                                        <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">
+                                                            IFR
+                                                        </span>
+                                                    )}
+                                                    {(f.is_simulator || (f.synthetic_minutes || 0) > 0) && (
+                                                        <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20">
                                                             SIM
                                                         </span>
                                                     )}
                                                     {f.is_cross_country && (
-                                                        <span className="px-1.5 py-0.5 rounded text-[10px] bg-blue-500/10 text-blue-600 dark:text-blue-400 font-medium">
+                                                        <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">
                                                             XC
                                                         </span>
                                                     )}
-                                                    {f.single_engine_ifr_minutes > 0 && (
-                                                        <span className="px-1.5 py-0.5 rounded text-[10px] bg-amber-500/10 text-amber-600 dark:text-amber-400 font-medium">
-                                                            IFR
-                                                        </span>
-                                                    )}
-                                                    {f.multi_engine_vfr_minutes > 0 || f.multi_engine_ifr_minutes > 0 ? (
-                                                        <span className="px-1.5 py-0.5 rounded text-[10px] bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-medium">
+                                                    {((f.multi_engine_vfr_minutes || 0) > 0 || (f.multi_engine_ifr_minutes || 0) > 0) && (
+                                                        <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-teal-500/10 text-teal-600 dark:text-teal-400 border border-teal-500/20">
                                                             ME
                                                         </span>
-                                                    ) : null}
+                                                    )}
+                                                    {(f.night_minutes || 0) > 0 && (
+                                                        <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-zinc-500/10 text-zinc-600 dark:text-zinc-400 border border-zinc-500/20">
+                                                            NIGHT
+                                                        </span>
+                                                    )}
                                                 </div>
                                             </td>
                                             <td className="py-3 px-4 hidden lg:table-cell text-xs text-muted-foreground max-w-xs truncate">
@@ -591,18 +640,39 @@ export default function AviationPanel({
                             </div>
 
                             {csvPreviewCount > 0 && (
-                                <div className="p-3 rounded-xl border border-border/80 bg-muted/30 text-xs space-y-1">
+                                <div className="p-3.5 rounded-xl border border-border/80 bg-muted/30 text-xs space-y-2.5">
                                     <div className="flex items-center justify-between font-semibold text-foreground">
                                         <span>Parsed Records Ready</span>
                                         <span className="font-mono text-primary font-bold">
                                             {csvPreviewCount} flights
                                         </span>
                                     </div>
-                                    <p className="text-[11px] text-muted-foreground">
-                                        First entry: {csvParsedRows[0]?.flight_date} (
-                                        {csvParsedRows[0]?.departure_airport} →{" "}
-                                        {csvParsedRows[0]?.arrival_airport})
-                                    </p>
+                                    <div className="space-y-1.5 divide-y divide-border/40 max-h-40 overflow-y-auto">
+                                        {csvParsedRows.slice(0, 3).map((r, idx) => (
+                                            <div key={idx} className="pt-1.5 first:pt-0 flex items-center justify-between text-[11px]">
+                                                <div className="flex items-center gap-1.5 font-mono">
+                                                    <span className="text-muted-foreground">{r.flight_date}</span>
+                                                    <span className="text-foreground font-semibold">
+                                                        {r.departure_airport} → {r.arrival_airport}
+                                                    </span>
+                                                </div>
+                                                <div className="flex items-center gap-1.5">
+                                                    <span className="text-foreground font-medium">{r.aircraft_type}</span>
+                                                    {r.registration && (
+                                                        <span className="text-muted-foreground font-mono">({r.registration})</span>
+                                                    )}
+                                                    <span className="text-primary font-mono font-bold ml-1">
+                                                        {(r.total_minutes / 60).toFixed(1)}h
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    {csvParsedRows.length > 3 && (
+                                        <p className="text-[10px] text-muted-foreground italic text-right">
+                                            + {csvParsedRows.length - 3} more flights ready to commit
+                                        </p>
+                                    )}
                                 </div>
                             )}
 

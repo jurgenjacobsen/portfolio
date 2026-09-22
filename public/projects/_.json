@@ -46,30 +46,6 @@
     "stars": 0
   },
   {
-    "filename": "archivum-md.md",
-    "slug": "archivum-md",
-    "title": "Archivum.md",
-    "createdAt": "2026-04-30T00:00:00+00:00",
-    "updatedAt": "2026-05-13T00:00:00+00:00",
-    "tags": [
-      "Go",
-      "Typescript",
-      "React",
-      "TailwindCSS"
-    ],
-    "description": "This is my first actual Go application built with Wails and React with the goal of having a light weight fast desktop app for markdown editing.",
-    "highlight": true,
-    "image": "/img/archivum-md.png",
-    "github": "https://github.com/jurgenjacobsen/archivum.md",
-    "link": null,
-    "downloads": {
-      "disableAll": false,
-      "hideDownloads": false,
-      "hideUnavailable": false
-    },
-    "stars": 0
-  },
-  {
     "filename": "tld-helper.md",
     "slug": "tld-helper",
     "title": "TLD Helper",
@@ -87,6 +63,30 @@
       "disableAll": true,
       "hideDownloads": true,
       "hideUnavailable": true
+    },
+    "stars": 0
+  },
+  {
+    "filename": "archivum-md.md",
+    "slug": "archivum-md",
+    "title": "Archivum.md",
+    "createdAt": "2026-04-30T00:00:00+00:00",
+    "updatedAt": "2026-09-22T12:43:24.883+00:00",
+    "tags": [
+      "Go",
+      "Typescript",
+      "React",
+      "TailwindCSS"
+    ],
+    "description": "This is my first actual Go application built with Wails and React with the goal of having a light weight fast desktop app for markdown editing.",
+    "highlight": true,
+    "image": "/img/archivum-md.png",
+    "github": "https://github.com/jurgenjacobsen/archivum.md",
+    "link": null,
+    "downloads": {
+      "disableAll": false,
+      "hideDownloads": false,
+      "hideUnavailable": false
     },
     "stars": 0
   }
