@@ -73,7 +73,7 @@ export default function Aviation() {
                         <Skeleton className="h-8 w-48 rounded-full" />
                         <Skeleton className="h-12 w-3/4 rounded-xl" />
                         <Skeleton className="h-6 w-1/2 rounded-lg" />
-                        <Skeleton className="h-[460px] w-full rounded-2xl" />
+                        <Skeleton className="h-120 w-full rounded-2xl" />
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                         {Array.from({ length: 4 }).map((_, i) => (

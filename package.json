@@ -5,14 +5,15 @@
     "type": "module",
     "scripts": {
         "dev": "vite --host",
-        "build": "npm run projects:update && npm run guides:update && npm run sitemap:update && npm run rss:update && tsc -b && vite build && npm run prerender",
+        "build": "npm run optimize:photos &&npm run projects:update && npm run guides:update && npm run sitemap:update && npm run rss:update && tsc -b && vite build && npm run prerender",
         "guides:update": "node scripts/guide-index.js",
         "lint": "eslint .",
         "prettier": "prettier --write .",
         "prerender": "node scripts/prerender.js",
         "projects:update": "node scripts/project-index.js",
         "rss:update": "node scripts/generate-rss.js",
-        "sitemap:update": "node scripts/sitemap.js"
+        "sitemap:update": "node scripts/sitemap.js",
+        "optimize:photos": "node scripts/optimize-photos.js"
     },
     "dependencies": {
         "@fontsource-variable/inter": "^5.2.8",
@@ -53,6 +54,7 @@
         "eslint-plugin-react-refresh": "^0.5.2",
         "globals": "^17.4.0",
         "prettier": "^3.8.3",
+        "sharp": "^0.35.4",
         "typescript": "~6.0.2",
         "typescript-eslint": "^8.58.0",
         "vite": "^8.0.4"

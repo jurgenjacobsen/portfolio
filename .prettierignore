@@ -19,6 +19,6 @@ package-lock.json
 .idea
 
 # Generated files
-public/projects/_.json
+public/cache/
 public/rss.xml
 public/sitemap.xml

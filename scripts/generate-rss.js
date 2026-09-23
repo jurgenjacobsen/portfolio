@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const BASE_URL = "https://jurgen.fyi";
-const projectsPath = path.join(__dirname, "..", "public", "projects", "_.json");
+const projectsPath = path.join(__dirname, "..", "public", "cache", "projects.json");
 const outputPath = path.join(__dirname, "..", "public", "rss.xml");
 
 function generateRSS() {

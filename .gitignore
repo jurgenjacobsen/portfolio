@@ -26,3 +26,5 @@ dist
 .env
 
 test
+
+public/gallery/*.webp

@@ -1,11 +1,11 @@
 export { default as Home } from "./Home";
-export { default as Code } from "./Code";
+export { default as Code } from "./code/Code";
+export { default as CodeView } from "./code/CodeView";
 export { default as Contact } from "./Contact";
 export { default as Socials } from "./Socials";
 export { default as CV } from "./CV";
 export { default as Aviation } from "./Aviation";
-export { default as Charts } from "./Charts";
-export { default as Photos } from "./Photos";
+export { default as Photos } from "./photos/Gallery";
 export { default as Guides } from "./Guides";
 export { default as NotFound } from "./NotFound";
 export { default as Blueprint } from "./Blueprint";

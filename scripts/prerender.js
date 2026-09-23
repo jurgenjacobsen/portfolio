@@ -176,7 +176,7 @@ for (const route of STATIC_ROUTES) {
 }
 
 // 2. Dynamic Project Routes
-const projectsIndexPath = path.join(PUBLIC_DIR, "projects", "_.json");
+const projectsIndexPath = path.join(PUBLIC_DIR, "cache", "projects.json");
 if (fs.existsSync(projectsIndexPath)) {
     try {
         const projects = JSON.parse(fs.readFileSync(projectsIndexPath, "utf-8"));
@@ -215,7 +215,7 @@ if (fs.existsSync(projectsIndexPath)) {
 }
 
 // 3. Dynamic Guide Routes
-const guideIndexPath = path.join(PUBLIC_DIR, "guide", "_.json");
+const guideIndexPath = path.join(PUBLIC_DIR, "cache", "guides.json");
 if (fs.existsSync(guideIndexPath)) {
     try {
         const guidesData = JSON.parse(fs.readFileSync(guideIndexPath, "utf-8"));

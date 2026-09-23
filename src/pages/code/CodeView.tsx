@@ -3,7 +3,7 @@ import { useEffect, useState, useMemo, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import { SectionCard, SEO } from "@/components/shared";
 import NotFound from "@/pages/NotFound";
-import type { ProjectProps } from "../Code";
+import type { ProjectProps } from "./Code";
 import remarkGfm from "remark-gfm";
 import ProjectViewHeader from "@/components/features/projects/ProjectViewHeader";
 import ProjectPreview from "@/components/features/projects/ProjectPreview";

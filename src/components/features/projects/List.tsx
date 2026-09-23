@@ -1,5 +1,5 @@
 import ListHeader from "./ListHeader";
-import type { ProjectProps } from "@/pages/Code";
+import type { ProjectProps } from "@/pages/code/Code";
 import ListedProject from "./ListedProject";
 import { SectionCard } from "@/components/shared";
 

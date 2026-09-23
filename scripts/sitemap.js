@@ -42,8 +42,8 @@ files.forEach((file) => {
     }
 });
 
-// 3. Add Project pages from public/projects/_.json
-const projectsIndexPath = path.join(PUBLIC_DIR, "projects", "_.json");
+// 3. Add Project pages from public/cache/projects.json
+const projectsIndexPath = path.join(PUBLIC_DIR, "cache", "projects.json");
 if (fs.existsSync(projectsIndexPath)) {
     try {
         const projects = JSON.parse(fs.readFileSync(projectsIndexPath, "utf-8"));
@@ -65,8 +65,8 @@ if (fs.existsSync(projectsIndexPath)) {
     }
 }
 
-// 4. Add Guide pages from public/guide/_.json
-const guideIndexPath = path.join(PUBLIC_DIR, "guide", "_.json");
+// 4. Add Guide pages from public/cache/guides.json
+const guideIndexPath = path.join(PUBLIC_DIR, "cache", "guides.json");
 if (fs.existsSync(guideIndexPath)) {
     try {
         const guidesData = JSON.parse(fs.readFileSync(guideIndexPath, "utf-8"));

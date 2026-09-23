@@ -11,17 +11,16 @@ import Footer from "@/components/layout/Footer";
 import {
     Home,
     Code,
+    CodeView,
     Contact,
     Socials,
     CV,
-    Charts,
     Aviation,
     Photos,
     Guides,
     Blueprint,
     NotFound,
 } from "@/pages";
-import { CodeView } from "@/pages/subpages";
 import { ScrollToTop } from "@/components/shared";
 import AdminLogin from "@/pages/admin/AdminLogin";
 import AdminDashboard from "@/pages/admin/AdminDashboard";
@@ -64,7 +63,6 @@ function App() {
                             element={<Navigate to="/code" replace />}
                         />
                         <Route path="/aviation" element={<Aviation />} />
-                        <Route path="/charts" element={<Charts />} />
                         <Route path="/photos" element={<Photos />} />
                         <Route path="/guides/:slug" element={<Guides />} />
                         <Route path="/guides" element={<Guides />} />

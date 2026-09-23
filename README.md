@@ -93,21 +93,20 @@ This repository powers **jurgen.fyi**, a modern web application highlighting a d
 portfolio/V2/
 ├── public/                       # Static public assets served directly
 │   ├── blueprint/                # Config files and PowerShell installer
+│   ├── cache/                    # Build-time JSON indexes (projects.json, guides.json)
 │   ├── cv/                       # PDF resumes (aviation_CV.pdf, general_CV.pdf)
-│   ├── guide/                    # Markdown technical guides & generated index
-│   │   ├── software/             # Software architecture & workflow articles
-│   │   └── _.json                # Auto-generated guide index (do not edit manually)
+│   ├── guide/                    # Markdown technical guides
+│   │   └── software/             # Software architecture & workflow articles
 │   ├── img/                      # Portfolio screenshots, avatars, and assets
-│   ├── projects/                 # Markdown project case studies & generated index
-│   │   └── _.json                # Auto-generated project index (do not edit manually)
+│   ├── projects/                 # Markdown project case studies
 │   ├── robots.txt                # Search engine crawler instructions
 │   ├── rss.xml                   # Auto-generated RSS 2.0 feed
 │   ├── sitemap.xml               # Auto-generated XML sitemap
 │   └── site.webmanifest          # PWA web application manifest
 ├── scripts/                      # Build-time automation and indexing scripts
 │   ├── generate-rss.js           # Generates public/rss.xml
-│   ├── guide-index.js            # Scans public/guide/, extracts metadata to _.json
-│   ├── project-index.js          # Scans public/projects/, extracts metadata to _.json
+│   ├── guide-index.js            # Syncs guides metadata to public/cache/guides.json
+│   ├── project-index.js          # Syncs projects metadata to public/cache/projects.json
 │   ├── sitemap.js                # Crawls routes & generates public/sitemap.xml
 │   └── prerender.js              # Generates pre-rendered HTML files for SEO
 ├── src/
@@ -155,7 +154,7 @@ image: "/img/projects/preview.png"
 ## Project Overview
 Detailed write-up, architecture, challenges, and solutions...
 ```
-2. Run `npm run projects:update` (or run `npm run build`), which regenerates `public/projects/_.json`.
+2. Run `npm run projects:update` (or run `npm run build`), which regenerates `public/cache/projects.json`.
 
 ### Adding a New Knowledge Guide
 1. Place a new Markdown file inside a category directory under `public/guide/<category>/<slug>.md`:
@@ -173,7 +172,7 @@ author: "Jürgen Jacobsen"
 # Introduction
 Full article content...
 ```
-2. Run `npm run guides:update`, which parses the frontmatter, computes reading times, formats titles, and outputs `public/guide/_.json`.
+2. Run `npm run guides:update`, which parses the frontmatter, computes reading times, formats titles, and outputs `public/cache/guides.json`.
 
 ---
 
@@ -192,8 +191,8 @@ flowchart LR
     G --> H["prerender (Static HTML)"]
 ```
 
-1. **`projects:update`**: Scans `public/projects/*.md`, parses frontmatter with `gray-matter`, and updates `public/projects/_.json`.
-2. **`guides:update`**: Recursively scans `public/guide/`, extracts frontmatter, computes word counts and reading times, and generates `public/guide/_.json`.
+1. **`projects:update`**: Syncs projects from Supabase and updates `public/cache/projects.json`.
+2. **`guides:update`**: Syncs guides from Supabase, extracts metadata/reading times, and generates `public/cache/guides.json`.
 3. **`sitemap:update`**: Crawls dynamic project/guide slugs and static routes to build an up-to-date `public/sitemap.xml`.
 4. **`rss:update`**: Builds an RSS 2.0 specification feed (`public/rss.xml`) from the latest projects and articles.
 5. **`tsc -b`**: Runs strict TypeScript compilation checking across the codebase.
@@ -241,8 +240,8 @@ flowchart LR
 | :--- | :--- |
 | `npm run dev` | Launches the local Vite development server with hot module replacement (HMR) |
 | `npm run build` | Executes the complete pipeline: index generation, sitemap, RSS, typecheck, Vite build, and prerendering |
-| `npm run projects:update` | Scans Markdown files in `public/projects/` and outputs `public/projects/_.json` |
-| `npm run guides:update` | Recursively scans `public/guide/` and writes `public/guide/_.json` with reading time estimates |
+| `npm run projects:update` | Scans projects from Supabase and outputs `public/cache/projects.json` |
+| `npm run guides:update` | Scans guides from Supabase and writes `public/cache/guides.json` with reading time estimates |
 | `npm run sitemap:update` | Updates `public/sitemap.xml` with all core, project, and guide routes |
 | `npm run rss:update` | Builds the RSS 2.0 feed at `public/rss.xml` |
 | `npm run prerender` | Pre-renders static HTML pages into `dist/` |

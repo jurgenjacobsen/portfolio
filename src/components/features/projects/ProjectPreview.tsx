@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import type { ProjectProps } from "@/pages/Code";
+import type { ProjectProps } from "@/pages/code/Code";
 import { ProjectTag } from "@/components/shared";
 import { StarIcon } from "lucide-react";
 

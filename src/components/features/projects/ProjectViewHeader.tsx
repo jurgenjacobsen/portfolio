@@ -1,5 +1,5 @@
 import ProjectTag from "@/components/shared/project-tag";
-import type { ProjectProps } from "@/pages/Code";
+import type { ProjectProps } from "@/pages/code/Code";
 import { StarIcon } from "lucide-react";
 
 export default function ProjectViewHeader(props: { metadata: ProjectProps }) {

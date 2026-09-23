@@ -6,8 +6,8 @@ import { createClient } from "@supabase/supabase-js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, "..");
-const guideDir = path.join(rootDir, "public", "guide");
-const outputPath = path.join(guideDir, "_.json");
+const cacheDir = path.join(rootDir, "public", "cache");
+const outputPath = path.join(cacheDir, "guides.json");
 
 // Read .env if present
 const envPath = path.join(rootDir, ".env");
@@ -190,12 +190,12 @@ async function generateIndex() {
             guides: allGuides,
         };
 
-        if (!fs.existsSync(guideDir)) {
-            fs.mkdirSync(guideDir, { recursive: true });
+        if (!fs.existsSync(cacheDir)) {
+            fs.mkdirSync(cacheDir, { recursive: true });
         }
 
         fs.writeFileSync(outputPath, JSON.stringify(finalIndex, null, 2));
-        console.log(`✓ Guides index synced from Supabase (${allGuides.length} guides synced)!`);
+        console.log(`✓ Guides index synced from Supabase (${allGuides.length} guides to public/cache/guides.json)!`);
     } catch (err) {
         console.error("❌ Error syncing guides from Supabase:", err.message);
         process.exit(1);

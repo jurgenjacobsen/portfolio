@@ -58,17 +58,16 @@ export default function Footer() {
             label: "Code",
         },
         {
-            href: "/charts",
-            icon: <Icon id="StickyNote" className="w-4 h-4" />,
-            label: "Aviation Charts",
-            disabled: true,
-        },
-        {
             href: "/photos",
             icon: <Icon id="Image" className="w-4 h-4" />,
             label: "Photo & Design",
-            disabled: true,
         },
+        {
+            href: "/",
+            icon: <Icon id="StickyNote" className="w-4 h-4" />,
+            label: "Aviation Charts",
+            disabled: true,
+        }
     ];
 
     const information: LinkType[] = [

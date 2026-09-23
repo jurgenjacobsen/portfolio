@@ -9,7 +9,7 @@ export default function ContactCTA() {
             className="space-y-6 shadow-md animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both"
         >
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-                <div className="space-y-4 max-w-3xl">
+                <div className="space-y-6 max-w-3xl">
                     <div className="inline-flex items-center gap-2 px-4 py-2 border border-border rounded-full text-[10px] md:text-xs uppercase tracking-wider font-bold bg-primary/5 text-primary">
                         <AwardIcon className="size-4" />
                         <span>Commercial Aviation Inquiries</span>

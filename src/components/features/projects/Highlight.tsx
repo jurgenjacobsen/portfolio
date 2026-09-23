@@ -1,6 +1,6 @@
 import { Code2Icon, ExternalLinkIcon } from "lucide-react";
 import { Icon, type IconId, SectionCard } from "@/components/shared";
-import type { ProjectProps } from "@/pages/Code";
+import type { ProjectProps } from "@/pages/code/Code";
 import { Link } from "react-router-dom";
 
 export default function ProjectHighlight(props: { projects: ProjectProps[] }) {

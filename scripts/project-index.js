@@ -6,8 +6,8 @@ import { createClient } from "@supabase/supabase-js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, "..");
-const projectsDir = path.join(rootDir, "public", "projects");
-const outputPath = path.join(projectsDir, "_.json");
+const cacheDir = path.join(rootDir, "public", "cache");
+const outputPath = path.join(cacheDir, "projects.json");
 
 // Read .env if present
 const envPath = path.join(rootDir, ".env");
@@ -71,12 +71,12 @@ async function generateIndex() {
             stars: p.stars || 0,
         }));
 
-        if (!fs.existsSync(projectsDir)) {
-            fs.mkdirSync(projectsDir, { recursive: true });
+        if (!fs.existsSync(cacheDir)) {
+            fs.mkdirSync(cacheDir, { recursive: true });
         }
 
         fs.writeFileSync(outputPath, JSON.stringify(projects, null, 2));
-        console.log(`✓ Project index synced from Supabase (${projects.length} projects)!`);
+        console.log(`✓ Project index synced from Supabase (${projects.length} projects to public/cache/projects.json)!`);
     } catch (err) {
         console.error("❌ Error syncing projects from Supabase:", err.message);
         process.exit(1);
