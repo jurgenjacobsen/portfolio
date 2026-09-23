@@ -20,7 +20,7 @@ export default function Photos() {
                 ]}
             />
 
-            <div className="space-y-4 md:space-y-6">
+            <div className="mt-6 md:mt-0 space-y-4 md:space-y-6">
                 <SinglePhotoBanner
                     src="/gallery/IMG_1519-lg.webp"
                     srcSet="
