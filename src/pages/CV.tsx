@@ -162,7 +162,7 @@ export default function CV() {
             >
                 {/* Embedded PDF Viewer */}
                 <div
-                    className={`relative w-full transition-all rounded-xl overflow-hidden border border-border bg-card shadow-lg ${
+                    className={`relative w-full transition-all rounded-xl overflow-hidden border border-border bg-card ${
                         isFullscreen
                             ? "fixed inset-4 z-60 h-[calc(100vh-2rem)] bg-background p-4 flex flex-col"
                             : "h-[75vh] min-h-150 md:min-h-212.5"
