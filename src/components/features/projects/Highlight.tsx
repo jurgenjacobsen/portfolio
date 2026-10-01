@@ -1,4 +1,4 @@
-import { Code2Icon, ExternalLinkIcon } from "lucide-react";
+import { Code2Icon, ExternalLinkIcon, SummaryIcon } from "lucide-react";
 import { Icon, type IconId, SectionCard } from "@/components/shared";
 import type { ProjectProps } from "@/pages/code/Code";
 import { Link } from "react-router-dom";
@@ -75,6 +75,7 @@ export default function ProjectHighlight(props: { projects: ProjectProps[] }) {
                                         rel="noopener noreferrer"
                                         aria-label={`GitHub repository for ${projects[0]?.title}`}
                                         className="inline-flex items-center justify-center rounded-xl size-9 border border-border bg-background hover:bg-muted hover:text-foreground hover:opacity-75 transition-all cursor-pointer"
+                                        data-cuelume-navigate="success"
                                     >
                                         <Icon
                                             id="github"
@@ -87,8 +88,9 @@ export default function ProjectHighlight(props: { projects: ProjectProps[] }) {
                                         to={`/code/${projects[0].slug}`}
                                         aria-label={`View ${projects[0]?.title} project details`}
                                         className="inline-flex items-center justify-center rounded-xl size-9 bg-primary text-primary-foreground hover:bg-primary/80 transition-colors cursor-pointer"
+                                        data-cuelume-navigate
                                     >
-                                        <ExternalLinkIcon className="size-4" />
+                                        <SummaryIcon className="size-4" />
                                     </Link>
                                 )}
                             </div>
@@ -147,8 +149,9 @@ export default function ProjectHighlight(props: { projects: ProjectProps[] }) {
                                                     to={`/code/${project.slug}`}
                                                     aria-label={`View ${project.title} project details`}
                                                     className="inline-flex items-center justify-center rounded-xl size-8 bg-card text-foreground hover:bg-card/90 transition-colors cursor-pointer"
+                                                    data-cuelume-navigate
                                                 >
-                                                    <ExternalLinkIcon className="size-3" />
+                                                    <SummaryIcon className="size-3" />
                                                 </Link>
                                             ) : (
                                                 <a
@@ -160,6 +163,7 @@ export default function ProjectHighlight(props: { projects: ProjectProps[] }) {
                                                     rel="noopener noreferrer"
                                                     aria-label={`Visit ${project.title}`}
                                                     className="inline-flex items-center justify-center rounded-xl size-8 bg-card text-foreground hover:bg-card/90 transition-colors cursor-pointer"
+                                                    data-cuelume-navigate="success"
                                                 >
                                                     <ExternalLinkIcon className="size-3" />
                                                 </a>

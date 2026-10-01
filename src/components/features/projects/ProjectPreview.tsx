@@ -8,6 +8,7 @@ export default function ProjectPreview({ project }: { project: ProjectProps }) {
         <Link
             to={`/code/${project.slug}`}
             className="group block bg-card rounded-xl p-6 shadow-md"
+            data-cuelume-navigate
         >
             <div className="relative aspect-3/1 mb-4 overflow-hidden rounded-lg bg-muted">
                 {project.image ? (

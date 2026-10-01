@@ -62,6 +62,7 @@ export default function ListedProject({
                         className
                     }
                     aria-disabled={link ? "false" : "true"}
+                    data-cuelume-navigate="success"
                 >
                     <Icon id={icon as IconId} className="size-4" />
                     <span className="text-sm md:text-base">{title}</span>
@@ -80,6 +81,7 @@ export default function ListedProject({
                         className
                     }
                     aria-disabled={link ? "false" : "true"}
+                    data-cuelume-navigate
                 >
                     <Icon id={icon as IconId} className="size-4" />
                     <span className="text-sm md:text-base">{title}</span>

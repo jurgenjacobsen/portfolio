@@ -1,14 +1,18 @@
 import { useState, useMemo } from "react";
 import {
     TableIcon,
-    ListFilterIcon,
+    FilterIcon,
+    PlaneIcon,
     SearchIcon,
     FileTextIcon,
     CheckCircleIcon,
+    ChevronDown,
+    X,
 } from "lucide-react";
 import type { AviationLogbookData } from "@/lib/logbook-parser";
 import { SectionCard } from "@/components/shared";
-import { Select, type SelectOption } from "@/components/ui";
+import { Input, Select, type SelectOption } from "@/components/ui";
+import { cn } from "@/lib/utils";
 
 const CATEGORY_OPTIONS: SelectOption<string>[] = [
     { value: "ALL", label: "All Categories" },
@@ -115,10 +119,20 @@ export default function FlightLogsTable({ data }: FlightLogsTableProps) {
         });
     }, [sortedEntries, searchQuery, selectedAircraft, selectedCategory]);
 
-    // Only display the first table page due to privacy reasons
     const paginatedEntries = useMemo(() => {
         return filteredEntries.slice(0, pageSize);
     }, [filteredEntries, pageSize]);
+
+    const hasActiveFilters =
+        selectedCategory !== "ALL" ||
+        selectedAircraft !== "ALL" ||
+        searchQuery.trim() !== "";
+
+    const handleClearFilters = () => {
+        setSearchQuery("");
+        setSelectedCategory("ALL");
+        setSelectedAircraft("ALL");
+    };
 
     return (
         <SectionCard
@@ -128,20 +142,20 @@ export default function FlightLogsTable({ data }: FlightLogsTableProps) {
             {/* Header & Tabs */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-border pb-6">
                 <div className="space-y-2">
-                    <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary">
+                    <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both">
                         <TableIcon className="size-4" />
                         <span>Aeronautical Experience Breakdown</span>
                     </div>
-                    <h2 className="text-2xl md:text-3xl font-black tracking-tight text-foreground">
+                    <h2 className="text-2xl md:text-3xl font-black tracking-tight text-foreground animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100 fill-mode-both">
                         FLIGHT LOGS & CREDENTIALS
                     </h2>
-                    <p className="text-xs md:text-sm text-muted-foreground font-medium">
+                    <p className="text-xs md:text-sm text-muted-foreground font-medium animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
                         Detailed breakdown by operational category and individual pilot logbook records.
                     </p>
                 </div>
 
                 {/* View Switcher Tabs */}
-                <div className="flex items-center gap-2 p-1 rounded-xl bg-muted/50 border border-border self-start md:self-auto">
+                <div className="flex items-center gap-2 p-1 rounded-xl bg-muted/50 border border-border self-start md:self-auto animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
                     <button
                         type="button"
                         onClick={() => setActiveTab("summary")}
@@ -150,6 +164,7 @@ export default function FlightLogsTable({ data }: FlightLogsTableProps) {
                                 ? "bg-card text-foreground shadow-sm"
                                 : "text-muted-foreground hover:text-foreground"
                         }`}
+                        data-cuelume-tap="toggle"
                     >
                         <TableIcon className="size-4" />
                         <span>Category Summary</span>
@@ -162,6 +177,7 @@ export default function FlightLogsTable({ data }: FlightLogsTableProps) {
                                 ? "bg-card text-foreground shadow-sm"
                                 : "text-muted-foreground hover:text-foreground"
                         }`}
+                        data-cuelume-tap="toggle"
                     >
                         <FileTextIcon className="size-4" />
                         <span>Logbook Entries ({data.entries.length})</span>
@@ -171,8 +187,8 @@ export default function FlightLogsTable({ data }: FlightLogsTableProps) {
 
             {/* TAB 1: Flight Types Summary Table (Plan Section 3) */}
             {activeTab === "summary" && (
-                <div className="space-y-4">
-                    <div className="overflow-x-auto rounded-lg border border-border">
+                <div className="space-y-4 animate-in fade-in duration-500 fill-mode-both">
+                    <div className="overflow-x-auto rounded-lg border border-border animate-in fade-in slide-in-from-bottom-4 duration-700 delay-150 fill-mode-both">
                         <table className="w-full text-left text-sm">
                             <thead className="bg-muted/50 border-b border-border text-xs uppercase tracking-wider font-bold text-muted-foreground">
                                 <tr>
@@ -230,7 +246,7 @@ export default function FlightLogsTable({ data }: FlightLogsTableProps) {
                         </table>
                     </div>
 
-                    <div className="flex flex-wrap items-center justify-between gap-4 px-4 py-2 rounded-lg bg-muted/25 border border-border/50 text-xs text-muted-foreground">
+                    <div className="flex flex-wrap items-center justify-between gap-4 px-4 py-2 rounded-lg bg-muted/25 border border-border/50 text-xs text-muted-foreground animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both">
                         <div className="flex items-center gap-2">
                             <CheckCircleIcon className="size-4 text-emerald-600 shrink-0" />
                             <span>
@@ -246,48 +262,110 @@ export default function FlightLogsTable({ data }: FlightLogsTableProps) {
 
             {/* TAB 2: Detailed Flight Logbook Entries */}
             {activeTab === "entries" && (
-                <div className="space-y-4">
+                <div className="space-y-4 animate-in fade-in duration-500 fill-mode-both">
                     {/* Filters & Search Row */}
-                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2">
-                        <div className="relative flex-1 max-w-sm">
-                            <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
-                            <input
-                                type="text"
+                    <div
+                        className={cn(
+                            "grid grid-cols-1 items-center gap-4 w-full animate-in fade-in slide-in-from-bottom-4 duration-700 delay-150 fill-mode-both relative z-20 transition-all ease-in-out",
+                            hasActiveFilters
+                                ? "md:grid-cols-[1fr_1.25fr]"
+                                : "md:grid-cols-[1fr_1fr]",
+                        )}
+                    >
+                        {/* Search Input */}
+                        <div className="relative w-full group">
+                            <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                            <Input
+                                type="search"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 placeholder="Search by airport, aircraft, remark..."
-                                className="w-full pl-10 pr-4 py-2 rounded-lg border border-border bg-card text-xs md:text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+                                className="pl-10 py-2 rounded-xl bg-muted/30 border-border/50 focus-visible:ring-primary/10 focus-visible:border-primary/20"
+                                data-cuelume-type
                             />
                         </div>
 
-                        <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 relative z-20">
-                            <div className="flex items-center gap-2 shrink-0">
-                                <ListFilterIcon className="size-4 text-muted-foreground" />
-                                <span className="font-semibold text-muted-foreground text-xs md:text-sm">Filter:</span>
-                            </div>
+                        {/* Filters and Sorting */}
+                        <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 md:gap-4 w-full md:w-auto relative z-10 transition-all duration-300 ease-in-out">
                             <Select
                                 value={selectedCategory}
                                 onChange={(val) => setSelectedCategory(val)}
                                 options={CATEGORY_OPTIONS}
                                 placeholder="Category"
-                                className="flex-1 sm:w-56 sm:flex-none"
-                                triggerClassName="w-full text-foreground text-xs md:text-sm"
-                                valueClassName="truncate text-xs md:text-sm text-foreground font-medium"
+                                className="flex-1 min-w-0"
+                                triggerClassName="rounded-xl bg-muted/30 border-border/50 w-full"
+                                renderTrigger={(selectedOption, isOpen) => (
+                                    <>
+                                        <div className="flex items-center gap-2 overflow-hidden">
+                                            <FilterIcon className="size-4 text-muted-foreground shrink-0" />
+                                            <span className="truncate text-sm text-foreground">
+                                                {selectedOption
+                                                    ? selectedOption.label
+                                                    : "Category"}
+                                            </span>
+                                        </div>
+                                        <span aria-hidden="true">
+                                            <ChevronDown
+                                                className={`size-4 stroke-muted-foreground transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                                            />
+                                        </span>
+                                    </>
+                                )}
                             />
+
                             <Select
                                 value={selectedAircraft}
                                 onChange={(val) => setSelectedAircraft(val)}
                                 options={aircraftOptions}
                                 placeholder="Aircraft"
-                                className="flex-1 sm:w-44 sm:flex-none"
-                                triggerClassName="w-full text-foreground text-xs md:text-sm"
-                                valueClassName="truncate text-xs md:text-sm text-foreground font-medium"
+                                className="flex-1 min-w-0"
+                                triggerClassName="rounded-xl bg-muted/30 border-border/50 w-full"
+                                renderTrigger={(selectedOption, isOpen) => (
+                                    <>
+                                        <div className="flex items-center gap-2 overflow-hidden">
+                                            <PlaneIcon className="size-4 text-muted-foreground shrink-0" />
+                                            <span className="truncate text-sm text-foreground">
+                                                {selectedOption
+                                                    ? selectedOption.label
+                                                    : "Aircraft"}
+                                            </span>
+                                        </div>
+                                        <span aria-hidden="true">
+                                            <ChevronDown
+                                                className={`size-4 stroke-muted-foreground transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                                            />
+                                        </span>
+                                    </>
+                                )}
                             />
+
+                            {/* Clear Filters Button */}
+                            <div
+                                className={cn(
+                                    "transition-all duration-300 ease-in-out overflow-hidden flex items-center shrink-0",
+                                    hasActiveFilters
+                                        ? "w-auto max-w-28 opacity-100 scale-100 translate-x-0 ml-0"
+                                        : "w-0 max-w-0 opacity-0 scale-95 translate-x-2 -ml-2 md:-ml-3 pointer-events-none",
+                                )}
+                            >
+                                <button
+                                    type="button"
+                                    onClick={handleClearFilters}
+                                    tabIndex={hasActiveFilters ? 0 : -1}
+                                    title="Clear all filters"
+                                    aria-label="Clear all filters"
+                                    className="px-4 py-2 rounded-xl border border-border/50 bg-muted/30 hover:text-muted-foreground text-foreground transition-all duration-300 text-xs md:text-sm flex items-center justify-center gap-1 shrink-0 cursor-pointer whitespace-nowrap group"
+                                    data-cuelume-tap="close"
+                                >
+                                    <X className="size-4 group-hover:rotate-90 transition-transform duration-200" />
+                                    <span>Clear</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
 
                     {/* Table */}
-                    <div className="overflow-x-auto rounded-lg border border-border">
+                    <div className="overflow-x-auto rounded-lg border border-border animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both">
                         <table className="w-full text-left text-xs md:text-sm">
                             <thead className="bg-muted/50 border-b border-border text-[10px] md:text-xs uppercase tracking-wider font-bold text-muted-foreground">
                                 <tr>
@@ -374,7 +452,7 @@ export default function FlightLogsTable({ data }: FlightLogsTableProps) {
                     </div>
 
                     {/* Privacy notice / First page only info */}
-                    <div className="flex flex-wrap items-center justify-between gap-4 px-4 py-2 rounded-lg bg-muted/25 border border-border/50 text-xs text-muted-foreground">
+                    <div className="flex flex-wrap items-center justify-between gap-4 px-4 py-2 rounded-lg bg-muted/25 border border-border/50 text-xs text-muted-foreground animate-in fade-in slide-in-from-bottom-4 duration-700 delay-400 fill-mode-both">
                         <div className="flex items-center gap-2">
                             <CheckCircleIcon className="size-4 text-emerald-600 shrink-0" />
                             <span>

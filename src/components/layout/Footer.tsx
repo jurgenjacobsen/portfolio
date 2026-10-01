@@ -21,6 +21,7 @@ function SocialMediaLink(props: { href: string; label: string; icon: React.React
             title={props.label}
             aria-label={props.label}
             className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors duration-300 p-1 rounded-lg bg-card border border-border/75 group"
+            data-cuelume-navigate="success"
         >
             {props.icon}
         </a>
@@ -129,13 +130,18 @@ export default function Footer() {
                                 {
                                     competencies.map((comp, index) => (
                                         comp.disabled ? (
-                                            <li key={index}
-                                            className="flex items-center gap-2 text-sm text-muted-foreground opacity-50 cursor-default">
-                                                {comp.icon}
-                                                {comp.label}
+                                            <li 
+                                                key={index}
+                                                className="flex items-center gap-2 text-sm text-muted-foreground opacity-50 cursor-default"
+                                            >
+                                                    {comp.icon}
+                                                    {comp.label}
                                             </li>
                                         ) : (
-                                            <li key={index}>
+                                            <li 
+                                                key={index}
+                                                data-cuelume-navigate
+                                            >
                                                 {
                                                     comp.type === "EXT" ? (
                                                         <a
@@ -174,13 +180,18 @@ export default function Footer() {
                                 {
                                     information.map((info, index) => (
                                         info.disabled ? (
-                                            <li key={index}
-                                            className="flex items-center gap-2 text-sm text-muted-foreground opacity-50 cursor-default">
+                                            <li 
+                                                key={index}
+                                                className="flex items-center gap-2 text-sm text-muted-foreground opacity-50 cursor-default"
+                                            >
                                                 {info.icon}
                                                 {info.label}
                                             </li>
                                         ) : (
-                                            <li key={index}>
+                                            <li 
+                                                key={index}
+                                                data-cuelume-navigate
+                                            >
                                                 {
                                                     info.type === "EXT" ? (
                                                         <a
@@ -232,10 +243,8 @@ export default function Footer() {
                                 value={"en"}                                                                                                                                                                                                            
                                 onChange={() => {}}                                                                                                                                                                                        
                                 placeholder="Select a language..."                                                                                                                                                                                             
-                                className="text-sm opacity-50 cursor-default pointer-events-none {/*  DISABLES SELECT TEMPORARY */}"
+                                className="text-sm opacity-50 cursor-default pointer-events-none"
                                 triggerClassName="w-full"                                                                                                                                                                                
-                                menuClassName="your-dropdown-list-class"                                                                                                                                                                                    
-                                optionClassName="your-option-item-class"                                                                                                                                                                                    
                             />  
                         </div>
                     </div>

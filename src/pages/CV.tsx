@@ -124,6 +124,7 @@ export default function CV() {
                             href={currentPdfPath}
                             download={activeCv.downloadName}
                             className="inline-flex items-center justify-center gap-2 py-2 px-4 text-sm font-medium rounded-lg border border-primary text-primary-foreground bg-primary hover:bg-primary/75 hover:border-primary/75 transition-all duration-300 cursor-pointer"
+                            data-cuelume-tap="success"
                         >
                             <DownloadIcon className="size-4" />
                             <span>Download PDF</span>
@@ -134,6 +135,7 @@ export default function CV() {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center justify-center gap-2 py-2 px-4 text-sm font-medium rounded-lg border border-border/50 text-primary hover:bg-primary/5 hover:border-primary/25 transition-all duration-300 cursor-pointer"
+                            data-cuelume-tap="navigate"
                         >
                             <ExternalLinkIcon className="size-4" />
                             <span className="hidden sm:inline">
@@ -147,6 +149,7 @@ export default function CV() {
                             onClick={handlePrint}
                             className="items-center justify-center gap-2 py-2 px-4 text-sm font-medium rounded-lg border border-border/50 text-primary hover:bg-primary/5 hover:border-primary/25 transition-all duration-300 cursor-pointer hidden sm:inline-flex"
                             title="Print Document"
+                            data-cuelume-tap="success"
                         >
                             <PrinterIcon className="size-4" />
                             <span>Print</span>

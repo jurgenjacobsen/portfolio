@@ -307,6 +307,7 @@ export function Select<T extends string | number = string>({
                     disabled && "opacity-50 cursor-not-allowed",
                     triggerClassName,
                 )}
+                data-cuelume-tap
             >
                 {renderTrigger ? (
                     renderTrigger(selectedOption, isOpen, title)
@@ -371,6 +372,7 @@ export function Select<T extends string | number = string>({
                                 aria-disabled={option.disabled}
                                 onClick={() => handleSelect(option)}
                                 onMouseEnter={() => setHighlightedIndex(index)}
+                                data-cuelume-tap="toggle"
                                 className={cn(
                                     "transition-colors duration-200 rounded-lg hover:bg-muted px-3 py-2 flex items-center justify-between gap-2 cursor-pointer text-sm font-medium",
                                     isSelected &&

@@ -1,5 +1,6 @@
-import { StrictMode, useState, useEffect } from "react"; // Added useEffect
+import { StrictMode, useState, useEffect } from "react";
 import { createRoot } from "react-dom/client";
+import { bind, setTheme, setEnabled } from "cuelume";
 import "./index.css";
 import App from "./App.tsx";
 
@@ -14,7 +15,7 @@ import {
 } from "@/components/shared";
 
 import { Analytics } from "@vercel/analytics/react";
-import { AudioWaveform, RefreshCcw, Share } from "lucide-react";
+import { AudioWaveform, RefreshCcw, Share, SendToBack } from "lucide-react";
 
 function Root() {
     const [animationsEnabled, setAnimationsEnabled] = useState(() => {
@@ -24,6 +25,20 @@ function Root() {
         }
         return true;
     });
+
+    const [soundsEnabled, setSoundsEnabled] = useState(() => {
+        if (typeof window !== "undefined") {
+            return localStorage.getItem("sounds-enabled") !== "false";
+        }
+        return true;
+    });
+
+    useEffect(() => {
+        
+        bind();
+        setTheme("mech");
+
+    }, []);
 
     // Effect to handle persistence and body attribute updates
     useEffect(() => {
@@ -42,6 +57,14 @@ function Root() {
             }
         }
     }, [animationsEnabled]);
+
+    // Effect to handle sound persistence and cuelume setEnabled
+    useEffect(() => {
+        setEnabled(soundsEnabled);
+        if (typeof window !== "undefined") {
+            localStorage.setItem("sounds-enabled", String(soundsEnabled));
+        }
+    }, [soundsEnabled]);
 
     const share = async () => {
         try {
@@ -72,13 +95,17 @@ function Root() {
                 </ContextMenuTrigger>
                 <ContextMenuContent>
                     <ContextMenuGroup>
-                        <ContextMenuItem onClick={share}>
-                                <Share className="w-4 h-4" /> Share
+                        <ContextMenuItem 
+                            onClick={share}
+                            data-cuelume-tap="success"
+                        >
+                            <Share className="w-4 h-4" /> Share
                         </ContextMenuItem>
 
                         <ContextMenuItem
                             className="mt-1"
                             onClick={() => window.location.reload()}
+                            data-cuelume-tap="ready"
                         >
                             <RefreshCcw className="w-4 h-4" /> Reload
                         </ContextMenuItem>
@@ -88,8 +115,16 @@ function Root() {
                         <ContextMenuCheckboxItem
                             checked={animationsEnabled}
                             onCheckedChange={setAnimationsEnabled}
+                            data-cuelume-toggle
                         >
-                            <AudioWaveform className="w-4 h-4" /> Animations
+                            <SendToBack className="w-4 h-4" /> Animations
+                        </ContextMenuCheckboxItem>
+                        <ContextMenuCheckboxItem
+                            checked={soundsEnabled}
+                            onCheckedChange={setSoundsEnabled}
+                            data-cuelume-toggle
+                        >
+                            <AudioWaveform className="w-4 h-4" /> Sound Effects
                         </ContextMenuCheckboxItem>
                     </ContextMenuGroup>
                 </ContextMenuContent>

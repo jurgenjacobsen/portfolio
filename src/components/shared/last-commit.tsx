@@ -21,7 +21,7 @@ export default function LastCommit() {
     }, []);
 
     return (
-        <span className="flex items-center gap-2 text-sm font-normal text-muted-foreground group py-2 px-4 bg-card rounded-xl border border-border overflow-hidden">
+        <span className="flex items-center gap-2 text-sm font-normal text-muted-foreground group py-2 px-4 bg-card rounded-xl border border-border overflow-hidden ">
             <Icon
                 id="github"
                 className="size-4 opacity-75 group-hover:opacity-100 transition-opacity hidden xl:block"
@@ -36,6 +36,7 @@ export default function LastCommit() {
                         rel="noopener noreferrer"
                         className="hover:text-foreground transition-colors truncate max-w-54 md:max-w-48"
                         title={lastCommit.commit.message}
+                        data-cuelume-tap="navigate"
                     >
                         {lastCommit.commit.message}
                     </a>

@@ -88,7 +88,8 @@ export default function ContactHero() {
                         group inline-flex shrink-0 items-center justify-center rounded-xl font-semibold
                         whitespace-nowrap transition-all select-none cursor-pointer
                         px-8 py-2 bg-primary hover:bg-primary/75 text-card duration-300 hover:border-primary/25
-                        shadow-md"
+                        "
+                        data-cuelume-tap
                     >
                         <SendIcon className="size-5 mr-2 group-hover:scale-101 transition-transform duration-300" />
                         Send an Email
@@ -101,6 +102,7 @@ export default function ContactHero() {
                         whitespace-nowrap transition-all select-none cursor-pointer
                         px-8 py-2 bg-muted hover:bg-muted/50 duration-300 hover:border-primary/25 text-foreground"
                         aria-label="Copy email address"
+                        data-cuelume-tap="success"
                     >
                         {copied ? (
                             <>
@@ -122,6 +124,7 @@ export default function ContactHero() {
                         group inline-flex shrink-0 items-center justify-center rounded-xl border border-border font-semibold
                         whitespace-nowrap transition-all select-none cursor-pointer
                         px-8 py-2 bg-muted hover:bg-muted/50 duration-300 hover:border-primary/25 text-foreground"
+                        data-cuelume-tap="navigate"
                     >
                         <Icon
                             id="linkedin"
@@ -157,7 +160,7 @@ export default function ContactHero() {
                         </span>
                         <div className="flex items-center gap-2">
                             <p className="text-base md:text-lg font-bold truncate group-hover:text-primary transition-colors text-primary hover:underline">
-                                <a href={`mailto:${CONTACT_EMAIL}`}>
+                                <a href={`mailto:${CONTACT_EMAIL}`} data-cuelume-tap>
                                     {CONTACT_EMAIL}
                                 </a>
                             </p>
@@ -167,6 +170,7 @@ export default function ContactHero() {
                                 title="Copy email address"
                                 aria-label="Copy email address"
                                 className="p-1 rounded-md text-muted-foreground hover:text-primary hover:bg-muted/75 transition-colors cursor-pointer shrink-0"
+                                data-cuelume-tap="success"
                             >
                                 {copied ? (
                                     <CheckIcon className="size-4 text-primary animate-in zoom-in-75 duration-200" />

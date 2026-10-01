@@ -42,6 +42,7 @@ export default function Navbar() {
                         : "text-primary border-border/50 hover:bg-primary/5 hover:border-primary/25",
                     props.className,
                 )}
+                data-cuelume-navigate={!isActive ? "" : undefined}
             >
                 {props.children}
             </Link>
@@ -68,6 +69,7 @@ export default function Navbar() {
                     <Link
                         to="/"
                         className="flex items-baseline"
+                        data-cuelume-navigate={location.pathname!=="/" ? "" : undefined}
                     >
                         <span className="font-bold text-lg">Jürgen</span>
                         <span className="opacity-50 text-sm font-medium">

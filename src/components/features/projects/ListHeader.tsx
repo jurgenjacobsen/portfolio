@@ -70,6 +70,7 @@ export default function ListHeader({
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     className="pl-10 py-2 rounded-xl bg-muted/30 border-border/50 focus-visible:ring-primary/10 focus-visible:border-primary/20"
+                    data-cuelume-type
                 />
             </div>
 
@@ -142,7 +143,8 @@ export default function ListHeader({
                         tabIndex={hasActiveFilters ? 0 : -1}
                         title="Clear all filters"
                         aria-label="Clear all filters"
-                        className="px-4 py-2 rounded-xl border border-border/50 bg-muted/30 text-muted-foreground hover:text-foreground active:scale-95 transition-all duration-200 font-medium text-xs md:text-sm flex items-center justify-center gap-1.5 shrink-0 cursor-pointer whitespace-nowrap shadow-xs group"
+                        className="px-4 py-2 rounded-xl border border-border/50 bg-muted/30 hover:text-muted-foreground text-foreground transition-all duration-300 font- text-xs md:text-sm flex items-center justify-center gap-1 shrink-0 cursor-pointer whitespace-nowrap group"
+                        data-cuelume-tap="close"
                     >
                         <X className="size-4 group-hover:rotate-90 transition-transform duration-200" />
                         <span>Clear</span>

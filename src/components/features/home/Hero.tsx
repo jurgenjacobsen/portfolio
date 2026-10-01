@@ -43,6 +43,7 @@ export default function Hero() {
                         <Link
                             to="/contact"
                             className="group flex-1 md:flex-initial inline-flex items-center justify-center rounded-xl font-semibold whitespace-nowrap transition-all select-none cursor-pointer px-4 md:px-8 py-2 bg-primary hover:bg-primary/75 text-card duration-300 hover:border-primary/25"
+                            data-cuelume-navigate="success"
                         >
                             <MailIcon className="size-4 md:size-5 mr-2 duration-300" />
                             Let's Talk
@@ -50,6 +51,7 @@ export default function Hero() {
                         <Link
                             to="/code"
                             className="group flex-1 md:flex-initial inline-flex items-center justify-center rounded-xl font-semibold whitespace-nowrap transition-all select-none cursor-pointer px-4 md:px-8 py-2 hover:bg-muted/50 border border-border hover:border-primary/25 text-foreground"
+                            data-cuelume-navigate
                         >
                             <ExternalLink className="size-4 md:size-5 mr-2 duration-300" />
                             View Projects
