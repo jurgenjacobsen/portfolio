@@ -9,3 +9,6 @@ Here in this document I have listed a small guide of how the sounds are used in 
 | navigate | When the user navigates across pages on the website, or on external links. |     `button, link, a` |
 | success  | On user "Good" interactions. (Such as clicking on the "Contact me" button) |     `button, link, a` |
 | type     | Typing sound during user interaction                                       |     `textarea, input` |
+
+## Documentation
+Find the use documentation and latest catalog at [https://cuelume.dev/docs](https://cuelume.dev/docs)
