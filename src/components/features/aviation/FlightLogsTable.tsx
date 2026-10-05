@@ -274,9 +274,15 @@ export default function FlightLogsTable({ data }: FlightLogsTableProps) {
                     >
                         {/* Search Input */}
                         <div className="relative w-full group">
-                            <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                            <SearchIcon
+                                aria-hidden="true"
+                                className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground group-focus-within:text-primary transition-colors"
+                            />
                             <Input
                                 type="search"
+                                name="search"
+                                aria-label="Search flight logs"
+                                autoComplete="off"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 placeholder="Search by airport, aircraft, remark..."
@@ -288,6 +294,7 @@ export default function FlightLogsTable({ data }: FlightLogsTableProps) {
                         {/* Filters and Sorting */}
                         <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 md:gap-4 w-full md:w-auto relative z-10 transition-all duration-300 ease-in-out">
                             <Select
+                                aria-label="Filter flight logs by category"
                                 value={selectedCategory}
                                 onChange={(val) => setSelectedCategory(val)}
                                 options={CATEGORY_OPTIONS}
@@ -297,7 +304,10 @@ export default function FlightLogsTable({ data }: FlightLogsTableProps) {
                                 renderTrigger={(selectedOption, isOpen) => (
                                     <>
                                         <div className="flex items-center gap-2 overflow-hidden">
-                                            <FilterIcon className="size-4 text-muted-foreground shrink-0" />
+                                            <FilterIcon
+                                                aria-hidden="true"
+                                                className="size-4 text-muted-foreground shrink-0"
+                                            />
                                             <span className="truncate text-sm text-foreground">
                                                 {selectedOption
                                                     ? selectedOption.label
@@ -314,6 +324,7 @@ export default function FlightLogsTable({ data }: FlightLogsTableProps) {
                             />
 
                             <Select
+                                aria-label="Filter flight logs by aircraft"
                                 value={selectedAircraft}
                                 onChange={(val) => setSelectedAircraft(val)}
                                 options={aircraftOptions}
@@ -323,7 +334,10 @@ export default function FlightLogsTable({ data }: FlightLogsTableProps) {
                                 renderTrigger={(selectedOption, isOpen) => (
                                     <>
                                         <div className="flex items-center gap-2 overflow-hidden">
-                                            <PlaneIcon className="size-4 text-muted-foreground shrink-0" />
+                                            <PlaneIcon
+                                                aria-hidden="true"
+                                                className="size-4 text-muted-foreground shrink-0"
+                                            />
                                             <span className="truncate text-sm text-foreground">
                                                 {selectedOption
                                                     ? selectedOption.label
@@ -357,7 +371,10 @@ export default function FlightLogsTable({ data }: FlightLogsTableProps) {
                                     className="px-4 py-2 rounded-xl border border-border/50 bg-muted/30 hover:text-muted-foreground text-foreground transition-all duration-300 text-xs md:text-sm flex items-center justify-center gap-1 shrink-0 cursor-pointer whitespace-nowrap group"
                                     data-cuelume-tap="close"
                                 >
-                                    <X className="size-4 group-hover:rotate-90 transition-transform duration-200" />
+                                    <X
+                                        aria-hidden="true"
+                                        className="size-4 group-hover:rotate-90 transition-transform duration-200"
+                                    />
                                     <span>Clear</span>
                                 </button>
                             </div>

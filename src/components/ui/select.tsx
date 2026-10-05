@@ -54,6 +54,8 @@ export interface SelectProps<T = string> {
     valueClassName?: string;
     menuClassName?: string;
     optionClassName?: string;
+    "aria-label"?: string;
+    ariaLabel?: string;
     renderTrigger?: (
         selectedOption: SelectOption<T> | undefined,
         isOpen: boolean,
@@ -85,9 +87,12 @@ export function Select<T extends string | number = string>({
     valueClassName,
     menuClassName,
     optionClassName,
+    "aria-label": ariaLabelProp,
+    ariaLabel,
     renderTrigger,
     renderOption,
 }: SelectProps<T>) {
+    const finalAriaLabel = ariaLabelProp || ariaLabel;
     const generatedId = useId();
     const selectId = id || generatedId;
     const containerRef = useRef<HTMLDivElement>(null);
@@ -299,7 +304,8 @@ export function Select<T extends string | number = string>({
                 disabled={disabled}
                 aria-haspopup="listbox"
                 aria-expanded={isOpen}
-                aria-labelledby={selectId}
+                aria-label={finalAriaLabel}
+                aria-labelledby={finalAriaLabel ? undefined : selectId}
                 onClick={() => !disabled && setIsOpen((prev) => !prev)}
                 onKeyDown={handleKeyDown}
                 className={cn(

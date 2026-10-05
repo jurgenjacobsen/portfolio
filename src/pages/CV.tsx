@@ -110,6 +110,7 @@ export default function CV() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 w-full relative z-10">
                     <div className="w-full md:w-auto relative z-10 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both">
                         <Select
+                            aria-label="Select CV version"
                             value={selectedVersion}
                             onChange={(val) => handleVersionChange(val)}
                             placeholder="Select a CV version..."
@@ -123,10 +124,10 @@ export default function CV() {
                         <a
                             href={currentPdfPath}
                             download={activeCv.downloadName}
-                            className="inline-flex items-center justify-center gap-2 py-2 px-4 text-sm font-medium rounded-lg border border-primary text-primary-foreground bg-primary hover:bg-primary/75 hover:border-primary/75 transition-all duration-300 cursor-pointer"
+                            className="inline-flex items-center justify-center gap-2 py-2 px-4 text-sm font-medium rounded-lg border border-primary text-primary-foreground bg-primary hover:bg-primary/75 hover:border-primary/75 transition-[background-color,border-color] duration-300 cursor-pointer"
                             data-cuelume-tap="success"
                         >
-                            <DownloadIcon className="size-4" />
+                            <DownloadIcon className="size-4" aria-hidden="true" />
                             <span>Download PDF</span>
                         </a>
 
@@ -134,10 +135,10 @@ export default function CV() {
                             href={currentPdfPath}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center justify-center gap-2 py-2 px-4 text-sm font-medium rounded-lg border border-border/50 text-primary hover:bg-primary/5 hover:border-primary/25 transition-all duration-300 cursor-pointer"
+                            className="inline-flex items-center justify-center gap-2 py-2 px-4 text-sm font-medium rounded-lg border border-border/50 text-primary hover:bg-primary/5 hover:border-primary/25 transition-[background-color,border-color] duration-300 cursor-pointer"
                             data-cuelume-tap="navigate"
                         >
-                            <ExternalLinkIcon className="size-4" />
+                            <ExternalLinkIcon className="size-4" aria-hidden="true" />
                             <span className="hidden sm:inline">
                                 Open in New Tab
                             </span>
@@ -147,11 +148,11 @@ export default function CV() {
                         <button
                             type="button"
                             onClick={handlePrint}
-                            className="items-center justify-center gap-2 py-2 px-4 text-sm font-medium rounded-lg border border-border/50 text-primary hover:bg-primary/5 hover:border-primary/25 transition-all duration-300 cursor-pointer hidden sm:inline-flex"
+                            className="items-center justify-center gap-2 py-2 px-4 text-sm font-medium rounded-lg border border-border/50 text-primary hover:bg-primary/5 hover:border-primary/25 transition-[background-color,border-color] duration-300 cursor-pointer hidden sm:inline-flex"
                             title="Print Document"
                             data-cuelume-tap="success"
                         >
-                            <PrinterIcon className="size-4" />
+                            <PrinterIcon className="size-4" aria-hidden="true" />
                             <span>Print</span>
                         </button>
                     </div>

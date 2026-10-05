@@ -3,14 +3,48 @@ import { Code2Icon, FileTextIcon, HomeIcon, MailIcon, PlaneIcon, Image, BookOpen
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
+interface NavbarButtonProps {
+    children: React.ReactNode;
+    to: string;
+    currentPathname: string;
+    className?: string;
+    active?: boolean;
+}
+
+function NavbarButton({ children, to, currentPathname, className, active }: NavbarButtonProps) {
+    const isActive =
+        currentPathname === to ||
+        (currentPathname.startsWith("/code") && to === "/code") ||
+        active;
+
+    return (
+        <Link
+            to={to}
+            className={cn(
+                "py-1 px-4 rounded-lg transition-colors duration-300 cursor-pointer border group inline-flex items-center gap-2",
+                isActive
+                    ? "bg-primary text-primary-foreground border-primary"
+                    : "text-primary border-border/50 hover:bg-primary/5 hover:border-primary/25",
+                className,
+            )}
+            data-cuelume-navigate={!isActive ? "" : undefined}
+        >
+            {children}
+        </Link>
+    );
+}
+
 export default function Navbar() {
     const location = useLocation();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+    const [prevPathname, setPrevPathname] = useState(location.pathname);
+
     // Close menu when route changes
-    useEffect(() => {
+    if (prevPathname !== location.pathname) {
+        setPrevPathname(location.pathname);
         setIsMenuOpen(false);
-    }, [location.pathname]);
+    }
 
     // Prevent scrolling when menu is open
     useEffect(() => {
@@ -20,34 +54,6 @@ export default function Navbar() {
             document.body.style.overflow = "unset";
         }
     }, [isMenuOpen]);
-
-    function NavbarButton(props: {
-        children: React.ReactNode;
-        to: string;
-        className?: string;
-        active?: boolean;
-    }) {
-        const isActive =
-            location.pathname === props.to ||
-            (location.pathname.startsWith("/code") &&
-                props.to === "/code") || props.active;
-
-        return (
-            <Link
-                to={props.to}
-                className={cn(
-                    "py-1 px-4 rounded-lg transition-all duration-300 cursor-pointer border group inline-flex items-center gap-2",
-                    isActive
-                        ? "bg-primary text-primary-foreground border-primary"
-                        : "text-primary border-border/50 hover:bg-primary/5 hover:border-primary/25",
-                    props.className,
-                )}
-                data-cuelume-navigate={!isActive ? "" : undefined}
-            >
-                {props.children}
-            </Link>
-        );
-    }
 
     const NavbarItems = [
         { to: "/", label: "Home", icon: HomeIcon },
@@ -82,22 +88,22 @@ export default function Navbar() {
                 <ul className="hidden md:flex gap-4">
                     {NavbarItems.map((item) => (
                         <li key={item.to}>
-                            <NavbarButton to={item.to}>
-                                <item.icon className="size-4 transition-transform" />
+                            <NavbarButton to={item.to} currentPathname={location.pathname}>
+                                <item.icon className="size-4 transition-transform" aria-hidden="true" />
                                 <span>{item.label}</span>
                             </NavbarButton>
                         </li>
                     ))}
-                    {HiddenItems.find(item => window.location.pathname.includes(item.to)) && (
+                    {HiddenItems.find(item => location.pathname.includes(item.to)) && (
                         <span className="text-muted-foreground text-xs flex items-center">
                             |
                         </span>
                     )}
                     {HiddenItems.map((item) => {
-                            if (window.location.pathname.includes(item.to)) return (
+                            if (location.pathname.includes(item.to)) return (
                                 <li key={item.to}>
-                                    <NavbarButton to={item.to} active={true}>
-                                        <item.icon className="size-4 transition-transform" />
+                                    <NavbarButton to={item.to} currentPathname={location.pathname} active={true}>
+                                        <item.icon className="size-4 transition-transform" aria-hidden="true" />
                                         <span>{item.label}</span>
                                     </NavbarButton>
                                 </li>
@@ -105,27 +111,28 @@ export default function Navbar() {
                         })}
                 </ul>
 
+
                 {/* Mobile Toggle Button */}
                 <button
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    className="md:hidden flex flex-col justify-center items-center gap-1.5 w-10 h-10 rounded-lg border border-border bg-muted/30 text-primary hover:bg-muted/50 transition-all cursor-pointer relative"
+                    className="md:hidden flex flex-col justify-center items-center gap-1.5 w-10 h-10 rounded-lg border border-border bg-muted/30 text-primary hover:bg-muted/50 transition-colors duration-200 cursor-pointer relative"
                     aria-label="Toggle Menu"
                 >
                     <span
                         className={cn(
-                            "w-5 h-0.5 bg-current transition-all duration-300 ease-in-out rounded-full",
+                            "w-5 h-0.5 bg-current transition-[transform,opacity] duration-300 ease-in-out rounded-full",
                             isMenuOpen ? "rotate-45 translate-y-2" : "",
                         )}
                     />
                     <span
                         className={cn(
-                            "w-5 h-0.5 bg-current transition-all duration-300 ease-in-out rounded-full",
+                            "w-5 h-0.5 bg-current transition-[transform,opacity] duration-300 ease-in-out rounded-full",
                             isMenuOpen ? "opacity-0 -translate-x-2" : "",
                         )}
                     />
                     <span
                         className={cn(
-                            "w-5 h-0.5 bg-current transition-all duration-300 ease-in-out rounded-full",
+                            "w-5 h-0.5 bg-current transition-[transform,opacity] duration-300 ease-in-out rounded-full",
                             isMenuOpen ? "-rotate-45 -translate-y-2" : "",
                         )}
                     />
@@ -135,7 +142,7 @@ export default function Navbar() {
             {/* Mobile Menu Dropdown */}
             <div
                 className={cn(
-                    "absolute top-full left-0 right-0 mt-2 z-50 bg-card backdrop-blur-md md:hidden transition-all duration-300 ease-in-out border border-border rounded-xl shadow-xl overflow-hidden origin-top",
+                    "absolute top-full left-0 right-0 mt-2 z-50 bg-card backdrop-blur-md md:hidden transition-[opacity,transform] duration-300 ease-in-out border border-border rounded-xl shadow-xl overflow-hidden origin-top",
                     isMenuOpen
                         ? "opacity-100 scale-y-100 pointer-events-auto"
                         : "opacity-0 scale-y-95 pointer-events-none",
@@ -149,9 +156,10 @@ export default function Navbar() {
                         <NavbarButton
                             key={item.to}
                             to={item.to}
+                            currentPathname={location.pathname}
                             className="w-full justify-start py-2 px-4 border-none hover:bg-primary/5"
                         >
-                            <item.icon className="size-4" />
+                            <item.icon className="size-4" aria-hidden="true" />
                             <span className="font-bold">{item.label}</span>
                         </NavbarButton>
                     ))}

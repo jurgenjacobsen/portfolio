@@ -28,9 +28,9 @@ export default function NotFound() {
 
                 <Link
                     to="/"
-                    className="mt-2 inline-flex items-center justify-center gap-2 h-9 px-4 text-sm font-medium rounded-full border border-border bg-background hover:bg-muted hover:text-foreground transition-all duration-300"
+                    className="mt-2 inline-flex items-center justify-center gap-2 h-9 px-4 text-sm font-medium rounded-full border border-border bg-background hover:bg-muted hover:text-foreground transition-colors duration-300"
                 >
-                    <MoveLeftIcon className="size-4" />
+                    <MoveLeftIcon className="size-4" aria-hidden="true" />
                     Back to Home
                 </Link>
             </SectionCard>

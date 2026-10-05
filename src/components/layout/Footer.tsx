@@ -23,7 +23,7 @@ function SocialMediaLink(props: { href: string; label: string; icon: React.React
             className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors duration-300 p-1 rounded-lg bg-card border border-border/75 group"
             data-cuelume-navigate="success"
         >
-            {props.icon}
+            <span aria-hidden="true">{props.icon}</span>
         </a>
     );
 }
@@ -111,9 +111,9 @@ export default function Footer() {
                         </p>
 
                         <div className="inline-flex items-center gap-2 mt-4">
-                            {socialMedia.map((social, index) => (
+                            {socialMedia.map((social) => (
                                 <SocialMediaLink
-                                    key={index}
+                                    key={social.href}
                                     href={social.href}
                                     label={social.label}
                                     icon={social.icon}
@@ -134,7 +134,7 @@ export default function Footer() {
                                                 key={index}
                                                 className="flex items-center gap-2 text-sm text-muted-foreground opacity-50 cursor-default"
                                             >
-                                                    {comp.icon}
+                                                    <span aria-hidden="true">{comp.icon}</span>
                                                     {comp.label}
                                             </li>
                                         ) : (
@@ -150,7 +150,7 @@ export default function Footer() {
                                                             rel="noopener noreferrer"
                                                             className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors duration-300"
                                                         >
-                                                            {comp.icon}
+                                                            <span aria-hidden="true">{comp.icon}</span>
                                                             {comp.label}
                                                         </a>
                                                     ) : (
@@ -158,7 +158,7 @@ export default function Footer() {
                                                             to={comp.href}
                                                             className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors duration-300"
                                                         >
-                                                            {comp.icon}
+                                                            <span aria-hidden="true">{comp.icon}</span>
                                                             {comp.label}
                                                         </Link>
                                                     )
@@ -184,7 +184,7 @@ export default function Footer() {
                                                 key={index}
                                                 className="flex items-center gap-2 text-sm text-muted-foreground opacity-50 cursor-default"
                                             >
-                                                {info.icon}
+                                                <span aria-hidden="true">{info.icon}</span>
                                                 {info.label}
                                             </li>
                                         ) : (
@@ -200,7 +200,7 @@ export default function Footer() {
                                                             rel="noopener noreferrer"
                                                             className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors duration-300"
                                                         >
-                                                            {info.icon}
+                                                            <span aria-hidden="true">{info.icon}</span>
                                                             {info.label}
                                                         </a>
                                                     ) : (
@@ -208,7 +208,7 @@ export default function Footer() {
                                                             to={info.href}
                                                             className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors duration-300"
                                                         >
-                                                            {info.icon}
+                                                            <span aria-hidden="true">{info.icon}</span>
                                                             {info.label}
                                                         </Link>
                                                     )
@@ -228,11 +228,11 @@ export default function Footer() {
                             <LastCommit />
 
                             <Select
+                                aria-label="Select language"
                                 title={
                                     <>
-                                    <Icon id="Captions" className="size-4" />
+                                    <span aria-hidden="true"><Icon id="Captions" className="size-4" /></span>
                                     <span>Language</span>
-                                    
                                     </>
                                 }                                                                                                                                                                                                                       
                                 options={[                                                                                                                                                                                                                   
