@@ -6,14 +6,38 @@ import { SEO } from "@/components/shared";
 import { supabase } from "@/lib/supabase";
 
 const CACHE_TTL_MS = 1000 * 60 * 60; // 1 hour
+const memoryRepoCache = new Map<string, { data: GithubRepo; timestamp: number }>();
+const githubClient = new GithubClient();
+
+const getLatestDate = (date1?: string, date2?: string) => {
+    if (!date1) return date2 || "";
+    if (!date2) return date1 || "";
+    return new Date(date1) > new Date(date2) ? date1 : date2;
+};
+
+const getEarliestDate = (date1?: string, date2?: string) => {
+    if (!date1) return date2 || "";
+    if (!date2) return date1 || "";
+    return new Date(date1) < new Date(date2) ? date1 : date2;
+};
 
 const getCachedRepo = (owner: string, repo: string): GithubRepo | null => {
+    const key = `gh_repo_${owner}_${repo}`;
+    const inMemory = memoryRepoCache.get(key);
+    if (inMemory) {
+        if (Date.now() - inMemory.timestamp < CACHE_TTL_MS) {
+            return inMemory.data;
+        }
+        memoryRepoCache.delete(key);
+    }
+
     try {
-        const cached = sessionStorage.getItem(`gh_repo_${owner}_${repo}`);
+        const cached = sessionStorage.getItem(key);
         if (!cached) return null;
-        const { data, timestamp } = JSON.parse(cached);
-        if (Date.now() - timestamp < CACHE_TTL_MS) {
-            return data;
+        const parsed = JSON.parse(cached) as { data: GithubRepo; timestamp: number };
+        if (Date.now() - parsed.timestamp < CACHE_TTL_MS) {
+            memoryRepoCache.set(key, parsed);
+            return parsed.data;
         }
     } catch {
         // ignore cache read errors
@@ -22,11 +46,11 @@ const getCachedRepo = (owner: string, repo: string): GithubRepo | null => {
 };
 
 const setCachedRepo = (owner: string, repo: string, data: GithubRepo) => {
+    const key = `gh_repo_${owner}_${repo}`;
+    const entry = { data, timestamp: Date.now() };
+    memoryRepoCache.set(key, entry);
     try {
-        sessionStorage.setItem(
-            `gh_repo_${owner}_${repo}`,
-            JSON.stringify({ data, timestamp: Date.now() })
-        );
+        sessionStorage.setItem(key, JSON.stringify(entry));
     } catch {
         // ignore cache write errors
     }
@@ -105,19 +129,7 @@ export default function Projects() {
                 setLoading(false);
 
                 // Step 2: Fetch and hydrate GitHub stats (stars, pushed dates) asynchronously in the background
-                const github = new GithubClient();
-
-                const getLatestDate = (date1?: string, date2?: string) => {
-                    if (!date1) return date2 || "";
-                    if (!date2) return date1 || "";
-                    return new Date(date1) > new Date(date2) ? date1 : date2;
-                };
-
-                const getEarliestDate = (date1?: string, date2?: string) => {
-                    if (!date1) return date2 || "";
-                    if (!date2) return date1 || "";
-                    return new Date(date1) < new Date(date2) ? date1 : date2;
-                };
+                const github = githubClient;
 
                 const projectsWithGithubData = await Promise.all(
                     data.map(async (project) => {
