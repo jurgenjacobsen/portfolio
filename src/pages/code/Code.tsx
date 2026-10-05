@@ -271,7 +271,7 @@ export default function Projects() {
     }, [search, techFilter, sortBy, projects]);
 
     return (
-        <main className="space-y-4 md:space-y-8">
+        <main id="main-content" className="space-y-4 md:space-y-8">
             <SEO
                 title="Software Projects | Jürgen Jacobsen"
                 description="Explore software engineering projects, open-source tools, and applications built with TypeScript, React, Node.js, and more by Jürgen Jacobsen."

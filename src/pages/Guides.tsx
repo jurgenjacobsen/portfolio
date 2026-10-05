@@ -430,7 +430,10 @@ export default function Guides() {
     };
 
     return (
-        <main className="space-y-6 md:space-y-8 animate-in fade-in duration-500 fill-mode-both">
+        <main
+            id="main-content"
+            className="space-y-6 md:space-y-8 animate-in fade-in duration-500 fill-mode-both"
+        >
             <SEO
                 title={
                     activeGuide

@@ -71,7 +71,7 @@ export default function CV() {
     };
 
     return (
-        <main>
+        <main id="main-content">
             <SEO
                 title={`Curriculum Vitae | Jürgen Jacobsen`}
                 description="Curriculum Vitae of Jürgen Jacobsen. View or download the official resume spanning aviation and web development experience."
@@ -166,7 +166,7 @@ export default function CV() {
             >
                 {/* Embedded PDF Viewer */}
                 <div
-                    className={`relative w-full transition-all rounded-xl overflow-hidden border border-border bg-card ${
+                    className={`relative w-full transition-colors rounded-xl overflow-hidden border border-border bg-card ${
                         isFullscreen
                             ? "fixed inset-4 z-60 h-[calc(100vh-2rem)] bg-background p-4 flex flex-col"
                             : "h-[75vh] min-h-150 md:min-h-212.5"

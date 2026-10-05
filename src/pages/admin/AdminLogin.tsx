@@ -85,7 +85,7 @@ export default function AdminLogin() {
     };
 
     return (
-        <main className="max-w-md mx-auto py-12 px-4 sm:px-6">
+        <main id="main-content" className="max-w-md mx-auto py-12 px-4 sm:px-6">
             <SEO
                 title="Admin Authentication | Jürgen Jacobsen"
                 description="Administrative CMS login portal."

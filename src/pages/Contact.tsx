@@ -3,7 +3,7 @@ import { SEO } from "@/components/shared";
 
 export default function Contact() {
     return (
-        <main>
+        <main id="main-content">
             <SEO
                 title="Contact | Jürgen Jacobsen"
                 description="Get in touch with Jürgen Jacobsen for open roles, software development projects & collaborations."

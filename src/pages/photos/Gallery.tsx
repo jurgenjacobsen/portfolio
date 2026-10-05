@@ -9,7 +9,7 @@ import {
 
 export default function Photos() {
     return (
-        <main>
+        <main id="main-content">
             <SEO
                 title="Photography & Design | Jürgen Jacobsen"
                 description="Portfolio of photography and design work by Jürgen Jacobsen."

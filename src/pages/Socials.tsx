@@ -110,7 +110,7 @@ export default function Socials() {
     };
 
     return (
-        <main>
+        <main id="main-content">
             <SEO
                 title="Social Links & Profiles | Jürgen Jacobsen"
                 description="Connect with Jürgen Jacobsen across GitHub, LinkedIn, Instagram, and direct email."
@@ -154,11 +154,11 @@ export default function Socials() {
                             <div
                                 key={profile.name}
                                 style={{ animationDelay: `${300 + index * 100}ms` }}
-                                className="group relative p-5 md:p-6 rounded-xl border border-border bg-card hover:border-primary/40 transition-all duration-300 shadow-sm hover:shadow-md flex flex-col justify-between animate-in fade-in slide-in-from-bottom-4 fill-mode-both"
+                                className="group relative p-5 md:p-6 rounded-xl border border-border bg-card hover:border-primary/40 transition-[border-color,box-shadow] duration-300 shadow-sm hover:shadow-md flex flex-col justify-between animate-in fade-in slide-in-from-bottom-4 fill-mode-both"
                             >
                                 <div>
                                     <div className="flex items-center justify-between gap-2">
-                                        <div className="p-3 rounded-xl bg-muted/60 text-foreground group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-105 transition-all duration-300 shrink-0">
+                                        <div className="p-3 rounded-xl bg-muted/60 text-foreground group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-105 transition-[color,background-color,transform] duration-300 shrink-0">
                                             <IconComponent className="size-6" />
                                         </div>
                                         <div className="flex items-center gap-2">
@@ -199,7 +199,7 @@ export default function Socials() {
                                         <>
                                             <a
                                                 href={profile.url}
-                                                className="group/btn inline-flex shrink-0 items-center justify-center rounded-xl font-semibold whitespace-nowrap transition-all select-none cursor-pointer px-4 py-2 bg-primary hover:bg-primary/75 text-card duration-300 hover:border-primary/25 text-xs md:text-sm shadow-sm"
+                                                className="group/btn inline-flex shrink-0 items-center justify-center rounded-xl font-semibold whitespace-nowrap transition-[background-color,border-color] select-none cursor-pointer px-4 py-2 bg-primary hover:bg-primary/75 text-card duration-300 hover:border-primary/25 text-xs md:text-sm shadow-sm"
                                             >
                                                 <MailIcon className="size-4 mr-2 group-hover/btn:scale-105 transition-transform duration-300" />
                                                 Send an Email
@@ -207,7 +207,7 @@ export default function Socials() {
                                             <button
                                                 type="button"
                                                 onClick={handleCopyEmail}
-                                                className="inline-flex shrink-0 items-center justify-center rounded-xl border border-border font-semibold whitespace-nowrap transition-all select-none cursor-pointer px-4 py-2 bg-muted hover:bg-muted/50 duration-300 hover:border-primary/25 text-foreground text-xs md:text-sm"
+                                                className="inline-flex shrink-0 items-center justify-center rounded-xl border border-border font-semibold whitespace-nowrap transition-[background-color,border-color] select-none cursor-pointer px-4 py-2 bg-muted hover:bg-muted/50 duration-300 hover:border-primary/25 text-foreground text-xs md:text-sm"
                                                 aria-label="Copy email address"
                                             >
                                                 {copied ? (
@@ -228,7 +228,7 @@ export default function Socials() {
                                             href={profile.url}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="group/btn inline-flex shrink-0 items-center justify-center rounded-xl font-semibold whitespace-nowrap transition-all select-none cursor-pointer px-4 py-2 bg-muted hover:bg-muted/50 border border-border hover:border-primary/25 text-foreground duration-300 text-xs md:text-sm"
+                                            className="group/btn inline-flex shrink-0 items-center justify-center rounded-xl font-semibold whitespace-nowrap transition-[background-color,border-color] select-none cursor-pointer px-4 py-2 bg-muted hover:bg-muted/50 border border-border hover:border-primary/25 text-foreground duration-300 text-xs md:text-sm"
                                         >
                                             <ExternalLinkIcon className="size-4 mr-2 group-hover/btn:scale-110 transition-transform duration-300" />
                                             {profile.actionText}
@@ -252,7 +252,7 @@ export default function Socials() {
                     </div>
                     <Link
                         to="/contact"
-                        className="group inline-flex shrink-0 items-center justify-center rounded-xl font-semibold whitespace-nowrap transition-all select-none cursor-pointer px-6 py-2.5 bg-primary hover:bg-primary/75 text-card duration-300 hover:border-primary/25 shadow-md text-sm"
+                        className="group inline-flex shrink-0 items-center justify-center rounded-xl font-semibold whitespace-nowrap transition-[background-color,border-color] select-none cursor-pointer px-6 py-2.5 bg-primary hover:bg-primary/75 text-card duration-300 hover:border-primary/25 shadow-md text-sm"
                     >
                         <SendIcon className="size-4 mr-2 group-hover:scale-105 transition-transform duration-300" />
                         Contact Page

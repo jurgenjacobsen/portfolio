@@ -4,7 +4,7 @@ import { SectionCard, SEO } from "@/components/shared";
 
 export default function NotFound() {
     return (
-        <main className="flex items-center justify-center">
+        <main id="main-content" className="flex items-center justify-center">
             <SEO
                 title="Page Not Found | Jürgen Jacobsen"
                 description="The page you are looking for does not exist or has been moved."

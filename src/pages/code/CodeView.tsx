@@ -424,18 +424,18 @@ export default function ProjectView() {
 
     if (loading) {
         return (
-            <div>
+            <main id="main-content">
                 <SEO
                     title="Loading Project... | Jürgen Jacobsen"
                     canonical={`/code/${projectSlug}`}
                 />
                 <CodeViewSkeleton />
-            </div>
+            </main>
         );
     }
 
     return (
-        <div className="space-y-8 animate-in fade-in duration-500 fill-mode-both">
+        <main id="main-content" className="space-y-8 animate-in fade-in duration-500 fill-mode-both">
             <SEO
                 title={pageTitle}
                 description={pageDescription}
@@ -457,9 +457,9 @@ export default function ProjectView() {
             <div className="grid md:hidden bg-card rounded-xl border border-border p-4 md:p-8 mt-4 md:mt-6 shadow-md grid-cols-2 gap-4">
                 <Link
                     to="/code"
-                    className="font-medium py-1 px-4 rounded-lg transition-all duration-300 cursor-pointer border group inline-flex items-center justify-center gap-2 text-primary border-border/50 hover:bg-primary/5 hover:border-primary/25"
+                    className="font-medium py-1 px-4 rounded-lg transition-colors duration-300 cursor-pointer border group inline-flex items-center justify-center gap-2 text-primary border-border/50 hover:bg-primary/5 hover:border-primary/25"
                 >
-                    <ChevronLeft className="w-4 h-4" />
+                    <ChevronLeft className="w-4 h-4" aria-hidden="true" />
                     Back
                 </Link>
                 <button
@@ -472,7 +472,7 @@ export default function ProjectView() {
                               ? "Project shared"
                               : "Share project"
                     }
-                    className="py-1 px-4 rounded-lg transition-all duration-300 cursor-pointer border group inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground border-primary"
+                    className="py-1 px-4 rounded-lg transition-colors duration-300 cursor-pointer border group inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground border-primary"
                 >
                     {shareStatus === "shared" ? (
                         <>
@@ -535,6 +535,6 @@ export default function ProjectView() {
                     </div>
                 </section>
             )}
-        </div>
+        </main>
     );
 }

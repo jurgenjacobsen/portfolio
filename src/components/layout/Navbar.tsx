@@ -168,8 +168,10 @@ export default function Navbar() {
 
             {/* Backdrop for closing menu */}
             {isMenuOpen && (
-                <div
-                    className="fixed inset-0 z-40 md:hidden bg-background/20"
+                <button
+                    type="button"
+                    aria-label="Close navigation menu"
+                    className="fixed inset-0 z-40 md:hidden bg-background/20 border-none cursor-default"
                     onClick={() => setIsMenuOpen(false)}
                 />
             )}

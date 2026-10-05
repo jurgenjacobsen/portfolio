@@ -56,7 +56,10 @@ export default function Aviation() {
     }, [logbookData]);
 
     return (
-        <main className="space-y-8 md:space-y-10 mt-6 animate-in fade-in duration-700 delay-100 fill-mode-both">
+        <main
+            id="main-content"
+            className="space-y-8 md:space-y-10 mt-6 animate-in fade-in duration-700 delay-100 fill-mode-both"
+        >
             <SEO
                 title="Commercial Aviation & Flight Experience | Jürgen Jacobsen"
                 description="Commercial aviation journey, flight experience, and piloting credentials of Jürgen Jacobsen, licensed commercial pilot with 230+ flight hours across various aircraft types."
@@ -83,7 +86,11 @@ export default function Aviation() {
                     <Skeleton className="h-96 rounded-2xl" />
                 </div>
             ) : error || !logbookData || !tableData ? (
-                <div className="p-8 rounded-2xl border border-destructive/20 bg-destructive/5 text-center space-y-2">
+                <div
+                    aria-live="polite"
+                    aria-atomic="true"
+                    className="p-8 rounded-2xl border border-destructive/20 bg-destructive/5 text-center space-y-2"
+                >
                     <p className="font-bold text-destructive">Unable to Load Flight Logs</p>
                     <p className="text-sm text-muted-foreground">{error}</p>
                 </div>

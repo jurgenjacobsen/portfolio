@@ -150,7 +150,7 @@ export default function AdminDashboard() {
     };
 
     return (
-        <main className="space-y-6 mt-6">
+        <main id="main-content" className="space-y-6 mt-6">
             <SEO
                 title="Admin Management Console | Jürgen Jacobsen"
                 description="Consolidated administrative management interface for projects, guides, and flight logs."

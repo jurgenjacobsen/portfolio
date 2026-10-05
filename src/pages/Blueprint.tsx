@@ -58,7 +58,7 @@ export default function Blueprint() {
     }, []);
 
     return (
-        <main>
+        <main id="main-content">
             <SEO
                 title="Blueprint | Jürgen Jacobsen"
                 description="Scaffold and synchronize project development configurations, agent guidelines, and templates directly from your terminal."
