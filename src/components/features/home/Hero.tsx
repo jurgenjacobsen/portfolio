@@ -42,7 +42,7 @@ export default function Hero() {
                     <div className="text-sm flex w-full md:w-auto gap-4 mt-6 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both">
                         <Link
                             to="/contact"
-                            className="group flex-1 md:flex-initial inline-flex items-center justify-center rounded-xl font-semibold whitespace-nowrap transition-all select-none cursor-pointer px-4 md:px-8 py-2 bg-primary hover:bg-primary/75 text-card duration-300 hover:border-primary/25"
+                            className="group flex-1 md:flex-initial inline-flex items-center justify-center rounded-xl font-semibold whitespace-nowrap transition-[background-color,border-color] select-none cursor-pointer px-4 md:px-8 py-2 bg-primary hover:bg-primary/75 text-card duration-300 hover:border-primary/25"
                             data-cuelume-navigate="success"
                         >
                             <MailIcon className="size-4 md:size-5 mr-2 duration-300" />
@@ -50,7 +50,7 @@ export default function Hero() {
                         </Link>
                         <Link
                             to="/code"
-                            className="group flex-1 md:flex-initial inline-flex items-center justify-center rounded-xl font-semibold whitespace-nowrap transition-all select-none cursor-pointer px-4 md:px-8 py-2 hover:bg-muted/50 border border-border hover:border-primary/25 text-foreground"
+                            className="group flex-1 md:flex-initial inline-flex items-center justify-center rounded-xl font-semibold whitespace-nowrap transition-[background-color,border-color] select-none cursor-pointer px-4 md:px-8 py-2 hover:bg-muted/50 border border-border hover:border-primary/25 text-foreground duration-300"
                             data-cuelume-navigate
                         >
                             <ExternalLink className="size-4 md:size-5 mr-2 duration-300" />
@@ -68,7 +68,10 @@ export default function Hero() {
                     )}
                     <img
                         src="/img/profile.jpg"
+                        fetchPriority="high"
                         alt="Jürgen Jacobsen"
+                        width={1589}
+                        height={2117}
                         onLoad={() => setImageLoaded(true)}
                         className="relative z-10 w-full h-full md:h-auto aspect-square md:aspect-auto object-cover rounded-xl border border-border shadow-sm hover:grayscale transition-all duration-500 brightness-125 group-hover:-rotate-3 animate-essential"
                     />

@@ -13,6 +13,8 @@ export interface SmallPhotoCardProps {
     to?: string;
     overlay?: boolean;
     darken?: boolean;
+    width?: number;
+    height?: number;
 }
 
 export default function SmallPhotoCard({
@@ -27,6 +29,8 @@ export default function SmallPhotoCard({
     to,
     overlay = true,
     darken,
+    width = 640,
+    height = 853,
 }: SmallPhotoCardProps) {
     const showOverlay = darken !== undefined ? darken : overlay;
     const hasContent = Boolean(label || title || subtitle || to);
@@ -38,6 +42,8 @@ export default function SmallPhotoCard({
                 srcSet={srcSet}
                 sizes={sizes}
                 alt={alt}
+                width={width}
+                height={height}
                 className="w-full h-full object-cover"
                 draggable="false"
                 loading="lazy"

@@ -13,6 +13,8 @@ export interface SinglePhotoBannerProps {
     to?: string;
     overlay?: boolean;
     darken?: boolean;
+    width?: number;
+    height?: number;
 }
 
 export default function SinglePhotoBanner({
@@ -27,6 +29,8 @@ export default function SinglePhotoBanner({
     to,
     overlay = true,
     darken,
+    width = 2048,
+    height = 878,
 }: SinglePhotoBannerProps) {
     const showOverlay = darken !== undefined ? darken : overlay;
     const hasContent = Boolean(label || title || subtitle || to);
@@ -38,6 +42,8 @@ export default function SinglePhotoBanner({
                 srcSet={srcSet}
                 sizes={sizes}
                 alt={alt}
+                width={width}
+                height={height}
                 className="w-full h-full object-cover"
                 loading="lazy"
                 decoding="async"

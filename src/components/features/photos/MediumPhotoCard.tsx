@@ -13,6 +13,8 @@ export interface MediumPhotoCardProps {
     to?: string;
     overlay?: boolean;
     darken?: boolean;
+    width?: number;
+    height?: number;
 }
 
 export default function MediumPhotoCard({
@@ -27,6 +29,8 @@ export default function MediumPhotoCard({
     to,
     overlay = true,
     darken,
+    width = 1280,
+    height = 853,
 }: MediumPhotoCardProps) {
     const showOverlay = darken !== undefined ? darken : overlay;
     const hasContent = Boolean(label || title || subtitle || to);
@@ -38,6 +42,8 @@ export default function MediumPhotoCard({
                 srcSet={srcSet}
                 sizes={sizes}
                 alt={alt}
+                width={width}
+                height={height}
                 className="w-full h-full object-cover"
                 loading="lazy"
                 decoding="async"

@@ -6,6 +6,8 @@ export interface Photo {
     srcSet?: string;
     sizes?: string;
     alt: string;
+    width?: number;
+    height?: number;
 }
 
 export interface MultiplePhotoBannerProps {
@@ -41,6 +43,8 @@ export default function MultiplePhotoBanner({
                         srcSet={photo.srcSet}
                         sizes={photo.sizes || "(min-width: 1152px) 373px, 33vw"}
                         alt={photo.alt}
+                        width={photo.width || 800}
+                        height={photo.height || 600}
                         className="w-full h-full min-w-0 flex-1 object-cover"
                         key={i}
                         loading="lazy"
