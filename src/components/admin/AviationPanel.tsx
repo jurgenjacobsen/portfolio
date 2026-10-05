@@ -684,7 +684,7 @@ export default function AviationPanel({
                                     </div>
                                     <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
                                         <div
-                                            className="bg-primary h-2 transition-all duration-200"
+                                            className="bg-primary h-2 transition-[width] duration-200"
                                             style={{ width: `${importProgress}%` }}
                                         />
                                     </div>

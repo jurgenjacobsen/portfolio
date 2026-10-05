@@ -47,7 +47,7 @@ export default function ContactCTA() {
                 <div className="flex flex-col sm:flex-row lg:flex-col gap-3 sm:gap-4 shrink-0 w-full sm:w-auto">
                     <Link
                         to="/contact"
-                        className="group inline-flex items-center justify-center rounded-lg font-semibold whitespace-nowrap transition-all select-none cursor-pointer px-4 py-2 sm:px-5 sm:py-2.5 bg-primary hover:bg-primary/75 text-card duration-300 hover:border-primary/25 text-sm w-full sm:w-auto text-center"
+                        className="group inline-flex items-center justify-center rounded-lg font-semibold whitespace-nowrap transition-[background-color,border-color] select-none cursor-pointer px-4 py-2 sm:px-5 sm:py-2.5 bg-primary hover:bg-primary/75 text-card duration-300 hover:border-primary/25 text-sm w-full sm:w-auto text-center"
                     >
                         <Mail className="size-4 mr-2" />
                         <span>Get In Touch</span>
@@ -55,7 +55,7 @@ export default function ContactCTA() {
 
                     <Link
                         to="/contact"
-                        className="group inline-flex items-center justify-center rounded-lg border border-border font-semibold whitespace-nowrap transition-all select-none cursor-pointer px-4 py-2 sm:px-5 sm:py-2.5 bg-muted hover:bg-muted/50 duration-300 hover:border-primary/25 text-foreground text-sm w-full sm:w-auto text-center"
+                        className="group inline-flex items-center justify-center rounded-lg border border-border font-semibold whitespace-nowrap transition-[background-color,border-color] select-none cursor-pointer px-4 py-2 sm:px-5 sm:py-2.5 bg-muted hover:bg-muted/50 duration-300 hover:border-primary/25 text-foreground text-sm w-full sm:w-auto text-center"
                     >
                         <Sparkles className="size-4 mr-2" />
                         <span>Request Prints</span>

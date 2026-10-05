@@ -278,7 +278,7 @@ export default function GuidesSidebar({
                                                                                                                 )
                                                                                                             }
                                                                                                             className={cn(
-                                                                                                                "block rounded transition-all truncate select-none",
+                                                                                                                "block rounded transition-colors duration-150 truncate select-none",
                                                                                                                 isH3
                                                                                                                     ? "pl-3.5 pr-1.5 py-0.5 text-[11px]"
                                                                                                                     : "px-1.5 py-1 text-xs font-medium",

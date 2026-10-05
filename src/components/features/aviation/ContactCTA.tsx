@@ -46,7 +46,7 @@ export default function ContactCTA() {
                 <div className="flex flex-col sm:flex-row lg:flex-col gap-4 shrink-0">
                     <Link
                         to="/contact"
-                        className="group inline-flex items-center justify-center rounded-lg font-semibold whitespace-nowrap transition-all select-none cursor-pointer px-4 py-2 bg-primary hover:bg-primary/75 text-card duration-300 hover:border-primary/25"
+                        className="group inline-flex items-center justify-center rounded-lg font-semibold whitespace-nowrap transition-[background-color,border-color] select-none cursor-pointer px-4 py-2 bg-primary hover:bg-primary/75 text-card duration-300 hover:border-primary/25"
                         data-cuelume-navigate="success"
                     >
                         <SendIcon className="size-4 mr-2" />
@@ -55,7 +55,7 @@ export default function ContactCTA() {
 
                     <Link
                         to="/cv?version=aviation"
-                        className="group inline-flex items-center justify-center rounded-lg border border-border font-semibold whitespace-nowrap transition-all select-none cursor-pointer px-4 py-2 bg-muted hover:bg-muted/50 duration-300 hover:border-primary/25 text-foreground"
+                        className="group inline-flex items-center justify-center rounded-lg border border-border font-semibold whitespace-nowrap transition-[background-color,border-color] select-none cursor-pointer px-4 py-2 bg-muted hover:bg-muted/50 duration-300 hover:border-primary/25 text-foreground"
                         data-cuelume-navigate
                     >
                         <FileTextIcon className="size-4 mr-2" />

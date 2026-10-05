@@ -37,7 +37,7 @@ export default function ProjectHighlight(props: { projects: ProjectProps[] }) {
                 className={`grid grid-cols-1 ${projects.length <= 1 ? "" : "md:grid-cols-3"} gap-4`}
             >
                 <div
-                    className={`${projects.length <= 1 ? "" : "md:col-span-2"}  group relative overflow-hidden rounded-xl border border-border bg-card transition-all animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both`}
+                    className={`${projects.length <= 1 ? "" : "md:col-span-2"}  group relative overflow-hidden rounded-xl border border-border bg-card transition-colors animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both`}
                 >
                     <div className="aspect-3/1 w-full overflow-hidden">
                         <img
@@ -74,7 +74,7 @@ export default function ProjectHighlight(props: { projects: ProjectProps[] }) {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         aria-label={`GitHub repository for ${projects[0]?.title}`}
-                                        className="inline-flex items-center justify-center rounded-xl size-9 border border-border bg-background hover:bg-muted hover:text-foreground hover:opacity-75 transition-all cursor-pointer"
+                                        className="inline-flex items-center justify-center rounded-xl size-9 border border-border bg-background hover:bg-muted hover:text-foreground hover:opacity-75 transition-[background-color,color,opacity] duration-200 cursor-pointer"
                                         data-cuelume-navigate="success"
                                     >
                                         <Icon
@@ -107,7 +107,7 @@ export default function ProjectHighlight(props: { projects: ProjectProps[] }) {
                         {projects.slice(1, 4).map((project, i) => (
                             <div
                                 key={i}
-                                className="flex-1 group relative overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all hover:shadow-md animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both"
+                                className="flex-1 group relative overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-shadow duration-300 hover:shadow-md animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both"
                                 style={{ animationDelay: `${400 + i * 150}ms` }}
                             >
                                 <div className="aspect-video md:aspect-3/1 md:h-full w-full overflow-hidden relative">

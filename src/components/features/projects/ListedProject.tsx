@@ -4,6 +4,80 @@ import { Icon, type IconId } from "@/components/shared/icon";
 import { Link } from "react-router-dom";
 import ProjectTag from "@/components/shared/project-tag";
 
+// ─── Module-level constants (computed once, not on every render) ──────────────
+
+const baseButtonStyle =
+    "group inline-flex shrink-0 items-center justify-center gap-2 font-semibold rounded-xl transition-colors cursor-pointer " +
+    "disabled:pointer-events-none disabled:opacity-50 whitespace-nowrap select-none " +
+    "px-4 md:px-8 py-2 duration-300 w-full md:w-full";
+
+const outlineStyle =
+    "bg-muted hover:bg-muted/50 border border-border hover:border-primary/25";
+const solidStyle =
+    "bg-primary hover:bg-primary/75 border border-primary hover:border-primary/75 text-card";
+
+// ─── ProjectButton — module-level so it's never recreated inside a render ─────
+
+interface ProjectButtonProps {
+    icon?: string;
+    link: string;
+    title?: string;
+    className?: string;
+    style: "outline" | "solid";
+}
+
+function ProjectButton({ icon, link, title, className, style }: ProjectButtonProps) {
+    const isExternal =
+        link && link.startsWith("http") && !link.includes("jurgen.fyi");
+
+    const combinedClass =
+        baseButtonStyle +
+        " " +
+        (style === "outline" ? outlineStyle : solidStyle) +
+        (className ? " " + className : "");
+
+    if (isExternal) {
+        return (
+            <a
+                href={link}
+                target="_blank"
+                rel="noreferrer"
+                title={title}
+                className={combinedClass}
+                data-cuelume-navigate="success"
+            >
+                <Icon id={icon as IconId} className="size-4" aria-hidden="true" />
+                <span className="text-sm md:text-base">{title}</span>
+            </a>
+        );
+    }
+
+    return (
+        <Link
+            to={link}
+            title={title}
+            className={combinedClass}
+            data-cuelume-navigate
+        >
+            <Icon id={icon as IconId} className="size-4" aria-hidden="true" />
+            <span className="text-sm md:text-base">{title}</span>
+        </Link>
+    );
+}
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+function formatDate(dateString?: Date | string): string {
+    if (!dateString) return "N/A";
+    return new Date(dateString).toLocaleDateString("en-GB", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+    });
+}
+
+// ─── ListedProject ────────────────────────────────────────────────────────────
+
 export default function ListedProject({
     project,
     index,
@@ -11,88 +85,9 @@ export default function ListedProject({
     project: ProjectProps;
     index?: number;
 }) {
-    const formatDate = (dateString?: Date | string) => {
-        if (!dateString) return "N/A";
-        return new Date(dateString).toLocaleDateString("en-GB", {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-        });
-    };
-
-    function Button({
-        icon,
-        link,
-        title,
-        className,
-        style,
-    }: {
-        icon?: string;
-        link: string;
-        title?: string;
-        className?: string;
-        style: "outline" | "solid";
-    }) {
-        const isExternal =
-            link && link.startsWith("http") && !link.includes("jurgen.fyi");
-
-        const baseStyle = `
-            group inline-flex shrink-0 items-center justify-center gap-2 font-semibold rounded-xl transition-all cursor-pointer
-            disabled:pointer-events-none disabled:opacity-50 whitespace-nowrap select-none
-            px-4 md:px-8 py-2 transition-all duration-300 w-full md:w-full
-        `;
-
-        const outlineStyle =
-            "bg-muted hover:bg-muted/50 border border-border hover:border-primary/25";
-        const solidStyle =
-            "bg-primary hover:bg-primary/75 border border-primary hover:border-primary/75 text-card";
-
-        if (isExternal) {
-            return (
-                <a
-                    href={link}
-                    target="_blank"
-                    rel="noreferrer"
-                    title={title}
-                    className={
-                        baseStyle +
-                        " " +
-                        (style === "outline" ? outlineStyle : solidStyle) +
-                        " " +
-                        className
-                    }
-                    aria-disabled={link ? "false" : "true"}
-                    data-cuelume-navigate="success"
-                >
-                    <Icon id={icon as IconId} className="size-4" />
-                    <span className="text-sm md:text-base">{title}</span>
-                </a>
-            );
-        } else {
-            return (
-                <Link
-                    to={link}
-                    title={title}
-                    className={
-                        baseStyle +
-                        " " +
-                        (style === "outline" ? outlineStyle : solidStyle) +
-                        " " +
-                        className
-                    }
-                    aria-disabled={link ? "false" : "true"}
-                    data-cuelume-navigate
-                >
-                    <Icon id={icon as IconId} className="size-4" />
-                    <span className="text-sm md:text-base">{title}</span>
-                </Link>
-            );
-        }
-    }
-
     return (
         <div
-            className="group p-4 md:p-6 rounded-xl border border-border bg-card transition-all animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both"
+            className="group p-4 md:p-6 rounded-xl border border-border bg-card transition-colors animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both"
             style={
                 index !== undefined
                     ? { animationDelay: `${Math.min(index * 100, 600)}ms` }
@@ -108,7 +103,7 @@ export default function ListedProject({
 
                         {project.stars !== undefined && project.stars > 0 && (
                             <div className="flex items-center gap-1 px-4 py-1 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-600 dark:text-yellow-500">
-                                <StarIcon className="size-4 fill-current" />
+                                <StarIcon className="size-4 fill-current" aria-hidden="true" />
                                 <span className="text-xs font-bold">
                                     {project.stars}
                                 </span>
@@ -145,7 +140,7 @@ export default function ListedProject({
 
                 <div className="flex flex-row md:flex-col items-center gap-4 w-full md:w-auto mt-2 md:mt-0">
                     {project.github && (
-                        <Button
+                        <ProjectButton
                             icon="github"
                             link={project.github}
                             title="GitHub"
@@ -155,11 +150,9 @@ export default function ListedProject({
                     )}
 
                     {(project.link || project.slug) && (
-                        <Button
+                        <ProjectButton
                             icon="BookOpen"
-                            link={
-                                project.link || `/code/${project.slug}`
-                            }
+                            link={project.link || `/code/${project.slug}`}
                             title="Details"
                             style="solid"
                             className="flex-1 md:w-full"

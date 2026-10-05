@@ -48,7 +48,7 @@ export default function StatsCards({ data }: StatsCardsProps) {
                     <div
                         key={card.label}
                         style={{ animationDelay: `${card.delay}ms` }}
-                        className="p-6 rounded-xl border border-border/75 bg-card hover:border-primary/50 transition-all shadow-md flex flex-col justify-between group animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both"
+                        className="p-6 rounded-xl border border-border/75 bg-card hover:border-primary/50 transition-colors duration-200 shadow-md flex flex-col justify-between group animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both"
                     >
                         <div className="flex items-center justify-between mb-1">
                             <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">

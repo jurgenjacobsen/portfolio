@@ -379,8 +379,16 @@
     align-items: center !important;
     justify-content: center !important;
     border-radius: 0.5rem !important;
+    transition: color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.aviation-mapbox-popup .mapboxgl-popup-close-button:focus-visible {
+    outline: 2px solid var(--ring) !important;
+    outline-offset: 2px !important;
+}
+
+.aviation-mapbox-popup .mapboxgl-popup-close-button:focus:not(:focus-visible) {
     outline: none !important;
-    transition: all 0.2s ease !important;
 }
 
 .aviation-mapbox-popup .mapboxgl-popup-close-button:hover {
@@ -405,4 +413,34 @@
     border-bottom-color: var(--card) !important;
     border-left-color: var(--card) !important;
     border-right-color: var(--card) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    ::view-transition-group(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+        animation: none !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+*::selection {
+    background: oklab(63.009% 0 -0.00007 / 0.5);
+    color: var(--color-primary)
+}
+*::-moz-selection {
+    background: oklab(63.009% 0 -0.00007 / 0.5);
+    color: var(--color-primary)
+}
+*::-webkit-selection {
+    background: oklab(63.009% 0 -0.00007 / 0.5);
+    color: var(--color-primary)
 }

@@ -24,7 +24,7 @@ export default function GuideActions({
                 onClick={onToggleRead}
                 aria-pressed={isRead}
                 className={cn(
-                    "py-1 px-4 rounded-lg transition-all duration-300 cursor-pointer border group inline-flex items-center gap-2",
+                    "py-1 px-4 rounded-lg transition-colors duration-300 cursor-pointer border group inline-flex items-center gap-2",
                     isRead
                         ? "bg-primary text-primary-foreground border-primary"
                         : "text-primary border-border/50 hover:bg-primary/5 hover:border-primary/25",
@@ -43,7 +43,7 @@ export default function GuideActions({
                     type="button"
                     onClick={onCopyLink}
                     className={cn(
-                        "py-1 px-4 rounded-lg transition-all duration-300 cursor-pointer border group inline-flex items-center gap-2",
+                        "py-1 px-4 rounded-lg transition-colors duration-300 cursor-pointer border group inline-flex items-center gap-2",
                         copiedLink
                             ? "bg-primary text-primary-foreground border-primary"
                             : "text-primary border-border/50 hover:bg-primary/5 hover:border-primary/25",
@@ -71,7 +71,7 @@ export default function GuideActions({
                 <button
                     type="button"
                     onClick={onShare}
-                    className="py-1 px-4 rounded-lg transition-all duration-300 cursor-pointer border group inline-flex items-center gap-2 text-primary border-border/50 hover:bg-primary/5 hover:border-primary/25"
+                    className="py-1 px-4 rounded-lg transition-colors duration-300 cursor-pointer border group inline-flex items-center gap-2 text-primary border-border/50 hover:bg-primary/5 hover:border-primary/25"
                 >
                     <Share2Icon
                         aria-hidden="true"

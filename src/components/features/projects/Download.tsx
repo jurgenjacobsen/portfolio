@@ -110,7 +110,7 @@ function Installer({ platform, download, disableAll }: InstallerProps) {
     const isDisabled = disableAll || !download;
 
     return (
-        <div className="border border-border rounded-xl p-6 group flex flex-col justify-between h-full bg-card transition-all duration-300">
+        <div className="border border-border rounded-xl p-6 group flex flex-col justify-between h-full bg-card transition-colors duration-300">
             <div className="flex justify-center items-center gap-4 mb-4">
                 <Icon id={getIcon()} className="w-10 h-10 fill-primary" />
                 <span className="text-lg font-bold">
@@ -145,7 +145,7 @@ function Installer({ platform, download, disableAll }: InstallerProps) {
                     download
                     className={`
                         group inline-flex shrink-0 justify-center items-center rounded-lg font-semibold
-                        whitespace-nowrap transition-all cursor-pointer text-center
+                        whitespace-nowrap transition-colors cursor-pointer text-center
                         w-full py-1 px-4 bg-primary hover:bg-primary/75 text-primary-foreground duration-300
                         ${isDisabled ? 'pointer-events-none opacity-50' : ''}
                     `}
@@ -157,7 +157,7 @@ function Installer({ platform, download, disableAll }: InstallerProps) {
                     disabled
                     className="
                         group inline-flex shrink-0 justify-center items-center rounded-lg font-semibold
-                        disabled:pointer-events-none disabled:opacity-50 whitespace-nowrap transition-all
+                        disabled:pointer-events-none disabled:opacity-50 whitespace-nowrap transition-colors
                         w-full py-1 px-4 bg-muted text-muted-foreground duration-300"
                 >
                     <span>Unavailable</span>

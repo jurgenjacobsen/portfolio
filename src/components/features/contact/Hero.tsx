@@ -86,7 +86,7 @@ export default function ContactHero() {
                         href={`mailto:${CONTACT_EMAIL}`}
                         className="
                         group inline-flex shrink-0 items-center justify-center rounded-xl font-semibold
-                        whitespace-nowrap transition-all select-none cursor-pointer
+                        whitespace-nowrap transition-colors select-none cursor-pointer
                         px-8 py-2 bg-primary hover:bg-primary/75 text-card duration-300 hover:border-primary/25
                         "
                         data-cuelume-tap
@@ -99,7 +99,7 @@ export default function ContactHero() {
                         onClick={handleCopyEmail}
                         className="
                         group inline-flex shrink-0 items-center justify-center rounded-xl border border-border font-semibold
-                        whitespace-nowrap transition-all select-none cursor-pointer
+                        whitespace-nowrap transition-[background-color,border-color] select-none cursor-pointer
                         px-8 py-2 bg-muted hover:bg-muted/50 duration-300 hover:border-primary/25 text-foreground"
                         aria-label="Copy email address"
                         data-cuelume-tap="success"
@@ -122,7 +122,7 @@ export default function ContactHero() {
                         rel="noopener noreferrer"
                         className="
                         group inline-flex shrink-0 items-center justify-center rounded-xl border border-border font-semibold
-                        whitespace-nowrap transition-all select-none cursor-pointer
+                        whitespace-nowrap transition-[background-color,border-color] select-none cursor-pointer
                         px-8 py-2 bg-muted hover:bg-muted/50 duration-300 hover:border-primary/25 text-foreground"
                         data-cuelume-tap="navigate"
                     >

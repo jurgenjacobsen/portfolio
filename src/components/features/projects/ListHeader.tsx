@@ -55,7 +55,7 @@ export default function ListHeader({
     return (
         <div
             className={cn(
-                "grid grid-cols-1 items-center gap-4 w-full animate-in fade-in slide-in-from-bottom-4 delay-200 fill-mode-both relative z-20 transition-all duration-300 ease-in-out",
+                "grid grid-cols-1 items-center gap-4 w-full animate-in fade-in slide-in-from-bottom-4 delay-200 fill-mode-both relative z-20 transition-[grid-template-columns] duration-300 ease-in-out",
                 hasActiveFilters
                     ? "md:grid-cols-[1fr_1.25fr]"
                     : "md:grid-cols-[1fr_1fr]",
@@ -81,7 +81,7 @@ export default function ListHeader({
             </div>
 
             {/* Filters and Sorting */}
-            <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 md:gap-4 w-full md:w-auto relative z-10 transition-all duration-300 ease-in-out">
+            <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 md:gap-4 w-full md:w-auto relative z-10">
                 <Select
                     aria-label="Filter by technology"
                     value={techFilter}
@@ -145,7 +145,7 @@ export default function ListHeader({
                 {/* Clear Filters Button */}
                 <div
                     className={cn(
-                        "transition-all duration-300 ease-in-out overflow-hidden flex items-center shrink-0",
+                        "transition-[max-width,opacity,transform,margin] duration-300 ease-in-out overflow-hidden flex items-center shrink-0",
                         hasActiveFilters
                             ? "w-auto max-w-28 opacity-100 scale-100 translate-x-0 ml-0"
                             : "w-0 max-w-0 opacity-0 scale-95 translate-x-2 -ml-2 md:-ml-3 pointer-events-none",
@@ -157,7 +157,7 @@ export default function ListHeader({
                         tabIndex={hasActiveFilters ? 0 : -1}
                         title="Clear all filters"
                         aria-label="Clear all filters"
-                        className="px-4 py-2 rounded-xl border border-border/50 bg-muted/30 hover:text-muted-foreground text-foreground transition-all duration-300 font- text-xs md:text-sm flex items-center justify-center gap-1 shrink-0 cursor-pointer whitespace-nowrap group"
+                        className="px-4 py-2 rounded-xl border border-border/50 bg-muted/30 hover:text-muted-foreground text-foreground transition-colors duration-300 text-xs md:text-sm flex items-center justify-center gap-1 shrink-0 cursor-pointer whitespace-nowrap group"
                         data-cuelume-tap="close"
                     >
                         <X

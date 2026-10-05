@@ -6,8 +6,8 @@ export default function QuickInfo() {
         {
             label: "Flight Hours",
             icon: PlaneIcon,
-            title: "230+ hrs",
-            subtitle: "78 hrs PIC",
+            title: "228+ hrs",
+            subtitle: "76 hrs PIC",
             link: "/aviation",
             displayDelay: 500,
         },
@@ -54,7 +54,7 @@ export default function QuickInfo() {
                             key={p.label}
                             to={p.link}
                             style={{ animationDelay: `${p.displayDelay}ms` }}
-                            className="p-6 rounded-xl border border-border/75 bg-card hover:border-primary/50 transition-all shadow-md flex flex-col justify-between group animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both"
+                            className="p-6 rounded-xl border border-border/75 bg-card hover:border-primary/50 transition-[border-color,box-shadow] duration-300 shadow-md flex flex-col justify-between group animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both"
                             data-cuelume-navigate
                         >
                             <div className="flex items-center justify-between mb-1">
