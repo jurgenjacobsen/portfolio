@@ -217,15 +217,15 @@ export default function FlightLogsTable({ data }: FlightLogsTableProps) {
                                         <td className="py-2 px-4 text-xs text-muted-foreground hidden md:table-cell">
                                             {stat.description}
                                         </td>
-                                        <td className="py-2 px-4 text-right whitespace-nowrap">
-                                            <span className="text-xsfont-sans font-bold text-foreground">
+                                        <td className="py-2 px-4 text-right whitespace-nowrap tabular-nums">
+                                            <span className="text-xs font-sans font-bold text-foreground">
                                                 {stat.hoursFormatted}
                                             </span>
                                             <span className="text-xs text-muted-foreground ml-2 hidden sm:inline">
                                                 ({stat.hoursDecimal} hrs)
                                             </span>
                                         </td>
-                                        <td className="py-2 px-4 text-right whitespace-nowrap font-medium text-foreground">
+                                        <td className="py-2 px-4 text-right whitespace-nowrap font-medium text-foreground tabular-nums">
                                             {stat.flightsCount}
                                         </td>
                                         <td className="py-2 px-4 text-right whitespace-nowrap hidden sm:table-cell">
@@ -236,7 +236,7 @@ export default function FlightLogsTable({ data }: FlightLogsTableProps) {
                                                         style={{ width: `${Math.min(stat.percentOfTotal, 100)}%` }}
                                                     />
                                                 </div>
-                                                <span className="text-xs font-mono text-muted-foreground w-8 text-right">
+                                                <span className="text-xs font-mono text-muted-foreground w-8 text-right tabular-nums">
                                                     {stat.percentOfTotal}%
                                                 </span>
                                             </div>
@@ -254,7 +254,7 @@ export default function FlightLogsTable({ data }: FlightLogsTableProps) {
                                 All flight experience officially certified under EASA Part-FCL standard logbook documentation.
                             </span>
                         </div>
-                        <span className="font-medium">
+                        <span className="font-medium tabular-nums">
                             Total Experience: <b className="text-foreground">{data.totalHoursFormatted}</b> ({data.totalHoursDecimal} hrs)
                         </span>
                     </div>
@@ -267,7 +267,7 @@ export default function FlightLogsTable({ data }: FlightLogsTableProps) {
                     {/* Filters & Search Row */}
                     <div
                         className={cn(
-                            "grid grid-cols-1 items-center gap-4 w-full animate-in fade-in slide-in-from-bottom-4 duration-700 delay-150 fill-mode-both relative z-20 transition-[grid-template-columns] duration-300 ease-in-out",
+                            "grid grid-cols-1 items-center gap-4 w-full animate-in fade-in slide-in-from-bottom-4 duration-700 delay-150 fill-mode-both relative z-20 transition-[grid-template-columns] ease-in-out",
                             hasActiveFilters
                                 ? "md:grid-cols-[1fr_1.25fr]"
                                 : "md:grid-cols-[1fr_1fr]",
@@ -408,7 +408,7 @@ export default function FlightLogsTable({ data }: FlightLogsTableProps) {
                                             key={entry.id}
                                             className="hover:bg-muted/25 transition-colors"
                                         >
-                                            <td className="py-2 px-4 font-mono text-muted-foreground whitespace-nowrap">
+                                            <td className="py-2 px-4 font-mono text-muted-foreground whitespace-nowrap tabular-nums">
                                                 {entry.date}
                                             </td>
                                             <td className="py-2 px-4 whitespace-nowrap font-bold text-foreground">
@@ -434,7 +434,7 @@ export default function FlightLogsTable({ data }: FlightLogsTableProps) {
                                                     </div>
                                                 )}
                                             </td>
-                                            <td className="py-2 px-4 text-right font-mono font-bold whitespace-nowrap text-foreground">
+                                            <td className="py-2 px-4 text-right font-mono font-bold whitespace-nowrap text-foreground tabular-nums">
                                                 {Math.floor(entry.totalMinutes / 60)}:
                                                 {(entry.totalMinutes % 60)
                                                     .toString()

@@ -1023,7 +1023,7 @@ export function buildLogbookDataFromRows(rows: FlightRowInput[]): AviationLogboo
         {
             key: "sim",
             label: "Synthetic Training Device (FSTD)",
-            description: "EASA-certified flight synthetic training devices (AL250 / FNPT II)",
+            description: "EASA-certified flight synthetic training devices (FNPT II)",
             minutes: totalSimMinutes,
             hoursDecimal: minutesToDecimalHours(totalSimMinutes),
             hoursFormatted: formatMinutes(totalSimMinutes),

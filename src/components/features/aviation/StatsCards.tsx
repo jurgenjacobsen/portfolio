@@ -60,10 +60,10 @@ export default function StatsCards({ data }: StatsCardsProps) {
                         </div>
 
                         <div>
-                            <div className="text-xl md:text-2xl font-black tracking-tight text-foreground group-hover:text-primary transition-colors">
+                            <div className="text-xl md:text-2xl font-black tracking-tight tabular-nums text-foreground group-hover:text-primary transition-colors">
                                 {card.value}
                             </div>
-                            <div className="text-xs text-muted-foreground font-medium mt-2">
+                            <div className="text-xs text-muted-foreground font-medium tabular-nums mt-2">
                                 {card.subtitle}
                             </div>
                         </div>
