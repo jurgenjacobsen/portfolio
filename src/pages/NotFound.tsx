@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { MoveLeftIcon, OctagonAlertIcon } from "lucide-react";
-import { SectionCard, SEO } from "@/components/shared";
+import SectionCard from "@/components/layout/SectionCard";
+import SEO from "@/components/shared/SEO";
 
 export default function NotFound() {
     return (

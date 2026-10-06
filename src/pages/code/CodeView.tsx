@@ -1,7 +1,8 @@
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState, useMemo, useRef } from "react";
 import ReactMarkdown from "react-markdown";
-import { SectionCard, SEO } from "@/components/shared";
+import SectionCard from "@/components/layout/SectionCard";
+import SEO from "@/components/shared/SEO";
 import NotFound from "@/pages/NotFound";
 import type { ProjectProps } from "./Code";
 import remarkGfm from "remark-gfm";
@@ -9,7 +10,7 @@ import ProjectViewHeader from "@/components/features/projects/ProjectViewHeader"
 import ProjectPreview from "@/components/features/projects/ProjectPreview";
 import { GithubClient, type GithubRepo } from "@/lib/Github";
 import Download from "@/components/features/projects/Download";
-import { Skeleton } from "@/components/ui";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Check, ChevronLeft, Share2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 

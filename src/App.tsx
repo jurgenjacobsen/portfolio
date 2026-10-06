@@ -8,20 +8,18 @@ import {
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
-import {
-    Home,
-    Code,
-    CodeView,
-    Contact,
-    Socials,
-    CV,
-    Aviation,
-    Photos,
-    Guides,
-    Blueprint,
-    NotFound,
-} from "@/pages";
-import { ScrollToTop } from "@/components/shared";
+import Home from "@/pages/Home";
+import Code from "@/pages/code/Code";
+import CodeView from "@/pages/code/CodeView";
+import Contact from "@/pages/Contact";
+import Socials from "@/pages/Socials";
+import CV from "@/pages/CV";
+import Aviation from "@/pages/Aviation";
+import Photos from "@/pages/photos/Gallery";
+import Guides from "@/pages/Guides";
+import Blueprint from "@/pages/Blueprint";
+import NotFound from "@/pages/NotFound";
+import ScrollToTop from "@/components/shared/ScrollToTop";
 import AdminLogin from "@/pages/admin/AdminLogin";
 import AdminDashboard from "@/pages/admin/AdminDashboard";
 import AdminGuard from "@/components/admin/AdminGuard";

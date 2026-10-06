@@ -1,5 +1,5 @@
 import ContactHero from "@/components/features/contact/Hero";
-import { SEO } from "@/components/shared";
+import SEO from "@/components/shared/SEO";
 
 export default function Contact() {
     return (

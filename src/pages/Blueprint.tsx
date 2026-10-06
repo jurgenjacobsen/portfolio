@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
-import { SectionCard, SEO } from "@/components/shared";
-import {
-    BlueprintHero,
-    TerminalCommand,
-    FilesList,
-    CommandReference,
-    type ManifestFile,
-} from "@/components/features/blueprint";
+import SectionCard from "@/components/layout/SectionCard";
+import SEO from "@/components/shared/SEO";
+import BlueprintHero from "@/components/features/blueprint/Hero";
+import TerminalCommand from "@/components/features/blueprint/TerminalCommand";
+import FilesList from "@/components/features/blueprint/FilesList";
+import CommandReference from "@/components/features/blueprint/CommandReference";
+import type { ManifestFile } from "@/components/features/blueprint/types";
 import { Download } from "lucide-react";
 
 const fallbackFiles: ManifestFile[] = [

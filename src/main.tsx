@@ -12,9 +12,8 @@ import {
     ContextMenuItem,
     ContextMenuSeparator,
     ContextMenuTrigger,
-} from "@/components/shared";
+} from "@/components/shared/ContextMenu";
 
-import { Analytics } from "@vercel/analytics/react";
 import { AudioWaveform, RefreshCcw, Share, SendToBack } from "lucide-react";
 
 function Root() {
@@ -34,10 +33,31 @@ function Root() {
     });
 
     useEffect(() => {
-        
         bind();
         setTheme("mech");
+    }, []);
 
+    // Defer analytics initialization until after hydration and idle time
+    useEffect(() => {
+        const initAnalytics = () => {
+            import("@vercel/analytics")
+                .then(({ inject }) => {
+                    inject({ framework: "react" });
+                })
+                .catch((err) => {
+                    console.error("Failed to load analytics:", err);
+                });
+        };
+
+        if (typeof window !== "undefined") {
+            if ("requestIdleCallback" in window) {
+                const idleId = window.requestIdleCallback(initAnalytics);
+                return () => window.cancelIdleCallback(idleId);
+            } else {
+                const timeoutId = setTimeout(initAnalytics, 1);
+                return () => clearTimeout(timeoutId);
+            }
+        }
     }, []);
 
     // Effect to handle persistence and body attribute updates
@@ -86,7 +106,6 @@ function Root() {
 
     return (
         <StrictMode>
-            <Analytics />
             <ContextMenu>
                 <ContextMenuTrigger>
                     <div className="min-h-screen">

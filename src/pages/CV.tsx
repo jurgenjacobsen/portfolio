@@ -6,8 +6,9 @@ import {
     ExternalLinkIcon,
     PrinterIcon,
 } from "lucide-react";
-import { SectionCard, SEO } from "@/components/shared";
-import { Select } from "@/components/ui";
+import SectionCard from "@/components/layout/SectionCard";
+import SEO from "@/components/shared/SEO";
+import { Select } from "@/components/ui/select";
 
 const CV_OPTIONS = [
     {

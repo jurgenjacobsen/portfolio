@@ -11,7 +11,7 @@ export interface Airport {
 export const AIRPORTS_DATABASE: Record<string, Airport> = {
     LPVL: {
         icao: "LPVL",
-        name: "Maia / Vilar de Luz Aerodrome",
+        name: "Vilar de Luz Aerodrome",
         city: "Maia / Porto",
         country: "Portugal",
         lat: 41.2828,
@@ -20,7 +20,7 @@ export const AIRPORTS_DATABASE: Record<string, Airport> = {
     LPVZ: {
         icao: "LPVZ",
         iata: "VSE",
-        name: "Viseu Gonçalves Lobato Airport",
+        name: "Viseu Aerodrome",
         city: "Viseu",
         country: "Portugal",
         lat: 40.7256,
@@ -29,7 +29,7 @@ export const AIRPORTS_DATABASE: Record<string, Airport> = {
     LPBG: {
         icao: "LPBG",
         iata: "BGC",
-        name: "Bragança Airport",
+        name: "Bragança Aerodrome",
         city: "Bragança",
         country: "Portugal",
         lat: 41.8578,
@@ -47,7 +47,7 @@ export const AIRPORTS_DATABASE: Record<string, Airport> = {
     LEVX: {
         icao: "LEVX",
         iata: "VGO",
-        name: "Vigo Peinador Airport",
+        name: "Vigo Airport",
         city: "Vigo",
         country: "Spain",
         lat: 42.2318,
@@ -65,7 +65,7 @@ export const AIRPORTS_DATABASE: Record<string, Airport> = {
     LEZL: {
         icao: "LEZL",
         iata: "SVQ",
-        name: "Sevilla San Pablo Airport",
+        name: "Sevilla Airport",
         city: "Sevilla",
         country: "Spain",
         lat: 37.4180,
@@ -74,7 +74,7 @@ export const AIRPORTS_DATABASE: Record<string, Airport> = {
     LEGR: {
         icao: "LEGR",
         iata: "GRX",
-        name: "Federico García Lorca Granada-Jaén Airport",
+        name: "Granada Airport",
         city: "Granada",
         country: "Spain",
         lat: 37.1887,
@@ -101,7 +101,7 @@ export const AIRPORTS_DATABASE: Record<string, Airport> = {
     LEXJ: {
         icao: "LEXJ",
         iata: "SDR",
-        name: "Seve Ballesteros-Santander Airport",
+        name: "Santander Airport",
         city: "Santander",
         country: "Spain",
         lat: 43.4271,
@@ -119,7 +119,7 @@ export const AIRPORTS_DATABASE: Record<string, Airport> = {
     LPPR: {
         icao: "LPPR",
         iata: "OPO",
-        name: "Francisco Sá Carneiro Airport",
+        name: "Porto Airport",
         city: "Porto",
         country: "Portugal",
         lat: 41.2481,
@@ -128,7 +128,7 @@ export const AIRPORTS_DATABASE: Record<string, Airport> = {
     LPPT: {
         icao: "LPPT",
         iata: "LIS",
-        name: "Humberto Delgado Airport",
+        name: "Lisbon Airport",
         city: "Lisbon",
         country: "Portugal",
         lat: 38.7742,
@@ -137,7 +137,7 @@ export const AIRPORTS_DATABASE: Record<string, Airport> = {
     LPCS: {
         icao: "LPCS",
         iata: "CAT",
-        name: "Cascais Tires Aerodrome",
+        name: "Cascais Aerodrome",
         city: "Cascais / Lisbon",
         country: "Portugal",
         lat: 38.7256,
@@ -146,7 +146,7 @@ export const AIRPORTS_DATABASE: Record<string, Airport> = {
     LPFR: {
         icao: "LPFR",
         iata: "FAO",
-        name: "Faro Gago Coutinho Airport",
+        name: "Faro Airport",
         city: "Faro / Algarve",
         country: "Portugal",
         lat: 37.0144,
@@ -164,7 +164,7 @@ export const AIRPORTS_DATABASE: Record<string, Airport> = {
     LPCO: {
         icao: "LPCO",
         iata: "CBP",
-        name: "Coimbra Bissaya Barreto Aerodrome",
+        name: "Coimbra Aerodrome",
         city: "Coimbra",
         country: "Portugal",
         lat: 40.1583,
@@ -173,7 +173,7 @@ export const AIRPORTS_DATABASE: Record<string, Airport> = {
     LPPM: {
         icao: "LPPM",
         iata: "PRM",
-        name: "Portimão Municipal Airport",
+        name: "Portimão Aerodrome",
         city: "Portimão",
         country: "Portugal",
         lat: 37.1492,
@@ -182,7 +182,7 @@ export const AIRPORTS_DATABASE: Record<string, Airport> = {
     LPMA: {
         icao: "LPMA",
         iata: "FNC",
-        name: "Cristiano Ronaldo International Airport",
+        name: "Funchal Airport",
         city: "Madeira / Funchal",
         country: "Portugal",
         lat: 32.6978,
@@ -191,8 +191,8 @@ export const AIRPORTS_DATABASE: Record<string, Airport> = {
     LPPD: {
         icao: "LPPD",
         iata: "PDL",
-        name: "João Paulo II Airport",
-        city: "Ponta Delgada / Azores",
+        name: "Ponta Delgada Airport",
+        city: "Ponta Delgada",
         country: "Portugal",
         lat: 37.7412,
         lon: -25.6979,
@@ -200,7 +200,7 @@ export const AIRPORTS_DATABASE: Record<string, Airport> = {
     LEMD: {
         icao: "LEMD",
         iata: "MAD",
-        name: "Adolfo Suárez Madrid-Barajas Airport",
+        name: "Madrid-Barajas Airport",
         city: "Madrid",
         country: "Spain",
         lat: 40.4983,
@@ -209,7 +209,7 @@ export const AIRPORTS_DATABASE: Record<string, Airport> = {
     LEBL: {
         icao: "LEBL",
         iata: "BCN",
-        name: "Josep Tarradellas Barcelona-El Prat Airport",
+        name: "Barcelona Airport",
         city: "Barcelona",
         country: "Spain",
         lat: 41.2974,

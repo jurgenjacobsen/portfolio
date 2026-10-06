@@ -1,7 +1,6 @@
-import {
-    Select
-} from "@/components/ui";
-import { LastCommit, Icon } from "@/components/shared";
+import { Select } from "@/components/ui/select";
+import LastCommit from "@/components/shared/last-commit";
+import { Icon } from "@/components/shared/icon";
 import { Link } from "react-router";
 
 type LinkType = {
@@ -128,10 +127,10 @@ export default function Footer() {
                         <div className="flex flex-col gap-2 text-sm font-normal text-muted-foreground group p-4 bg-card rounded-xl border border-border">
                             <ul className="space-y-2">
                                 {
-                                    competencies.map((comp, index) => (
+                                    competencies.map((comp) => (
                                         comp.disabled ? (
                                             <li 
-                                                key={index}
+                                                key={comp.label}
                                                 className="flex items-center gap-2 text-sm text-muted-foreground opacity-50 cursor-default"
                                             >
                                                     <span aria-hidden="true">{comp.icon}</span>
@@ -139,7 +138,7 @@ export default function Footer() {
                                             </li>
                                         ) : (
                                             <li 
-                                                key={index}
+                                                key={comp.label}
                                                 data-cuelume-navigate
                                             >
                                                 {
@@ -178,10 +177,10 @@ export default function Footer() {
                         <div className="flex flex-col gap-2 text-sm font-normal text-muted-foreground group p-4 bg-card rounded-xl border border-border">
                             <ul className="space-y-2">
                                 {
-                                    information.map((info, index) => (
+                                    information.map((info) => (
                                         info.disabled ? (
                                             <li 
-                                                key={index}
+                                                key={info.label}
                                                 className="flex items-center gap-2 text-sm text-muted-foreground opacity-50 cursor-default"
                                             >
                                                 <span aria-hidden="true">{info.icon}</span>
@@ -189,7 +188,7 @@ export default function Footer() {
                                             </li>
                                         ) : (
                                             <li 
-                                                key={index}
+                                                key={info.label}
                                                 data-cuelume-navigate
                                             >
                                                 {

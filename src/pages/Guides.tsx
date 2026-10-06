@@ -1,16 +1,16 @@
 import { useState, useEffect, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { SEO } from "@/components/shared";
-import {
-    GuidesHero,
-    GuidesSidebar,
-    GuideContent,
-    type GuidesIndexData,
-    type HeadingItem,
-    type GuideItem,
-    type SectionNode,
-    type TopicNode,
-} from "@/components/features/guides";
+import SEO from "@/components/shared/SEO";
+import GuidesHero from "@/components/features/guides/GuidesHero";
+import GuidesSidebar from "@/components/features/guides/GuidesSidebar";
+import GuideContent from "@/components/features/guides/GuideContent";
+import type {
+    GuidesIndexData,
+    HeadingItem,
+    GuideItem,
+    SectionNode,
+    TopicNode,
+} from "@/components/features/guides/types";
 import { supabase, type GuideRow, type GuideSectionRow } from "@/lib/supabase";
 
 function stripFrontMatter(text: string): string {

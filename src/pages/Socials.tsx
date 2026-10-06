@@ -1,7 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { GithubIcon, InstagramIcon, LinkedinIcon } from "@/components/icons";
-import { SectionCard, SEO } from "@/components/shared";
+import GithubIcon from "@/components/icons/Github";
+import InstagramIcon from "@/components/icons/Instagram";
+import LinkedinIcon from "@/components/icons/Linkedin";
+import SectionCard from "@/components/layout/SectionCard";
+import SEO from "@/components/shared/SEO";
 import {
     MailIcon,
     UsersRound,

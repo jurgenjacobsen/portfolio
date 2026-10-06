@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { ExternalLink, MailIcon, SparklesIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Skeleton } from "@/components/ui";
-import { SectionCard } from "@/components/shared";
+import { Skeleton } from "@/components/ui/skeleton";
+import SectionCard from "@/components/layout/SectionCard";
 import { Link } from "react-router-dom";
 
 export default function Hero() {
@@ -35,8 +35,7 @@ export default function Hero() {
                             <span className="text-foreground font-bold underline decoration-primary/30 decoration-4 underline-offset-4">
                                 Jürgen Jacobsen
                             </span>
-                            . I am a licensed commercial pilot with aviation experience spanning over 230 flight hours across various aircraft types.
-                            I also have a passion for web development and design. 
+                            . I'm a licensed commercial pilot with 228+ flight hours across multiple aircraft types, and a full-stack developer building web products.
                         </p>
                     </div>
                     <div className="text-sm flex w-full md:w-auto gap-4 mt-6 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both">

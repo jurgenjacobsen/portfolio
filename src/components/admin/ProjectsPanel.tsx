@@ -12,8 +12,8 @@ import {
     AlertCircle,
 } from "lucide-react";
 
-import { SectionCard } from "@/components/shared";
-import { Select, type SelectOption } from "@/components/ui";
+import SectionCard from "@/components/layout/SectionCard";
+import { Select, type SelectOption } from "@/components/ui/select";
 
 interface ProjectsPanelProps {
     projects: ProjectRow[];

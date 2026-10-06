@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Camera, CheckCircle2, Mail, Sparkles } from "lucide-react";
-import { SectionCard } from "@/components/shared";
+import SectionCard from "@/components/layout/SectionCard";
 
 export default function ContactCTA() {
     return (

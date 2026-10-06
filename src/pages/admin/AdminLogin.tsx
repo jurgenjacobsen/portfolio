@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/lib/supabase";
-import { SEO } from "@/components/shared";
+import SEO from "@/components/shared/SEO";
 import { Lock, Mail, KeyRound, ArrowRight, Loader2, Sparkles } from "lucide-react";
 
 interface LocationState {

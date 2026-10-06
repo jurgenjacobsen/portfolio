@@ -7,7 +7,8 @@ import {
     type GuideRow,
     type FlightLogRow,
 } from "@/lib/supabase";
-import { SectionCard, SEO } from "@/components/shared";
+import SectionCard from "@/components/layout/SectionCard";
+import SEO from "@/components/shared/SEO";
 import ProjectsPanel from "@/components/admin/ProjectsPanel";
 import GuidesPanel from "@/components/admin/GuidesPanel";
 import AviationPanel from "@/components/admin/AviationPanel";

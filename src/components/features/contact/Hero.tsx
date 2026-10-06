@@ -8,7 +8,8 @@ import {
     CopyIcon,
     CheckIcon,
 } from "lucide-react";
-import { SectionCard, Icon } from "@/components/shared";
+import SectionCard from "@/components/layout/SectionCard";
+import { Icon } from "@/components/shared/icon";
 
 const CONTACT_EMAIL = "jurgenjacobsen@outlook.com";
 

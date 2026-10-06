@@ -10,8 +10,9 @@ import {
     X,
 } from "lucide-react";
 import type { AviationLogbookData } from "@/lib/logbook-parser";
-import { SectionCard } from "@/components/shared";
-import { Input, Select, type SelectOption } from "@/components/ui";
+import SectionCard from "@/components/layout/SectionCard";
+import { Input } from "@/components/ui/input";
+import { Select, type SelectOption } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
 const CATEGORY_OPTIONS: SelectOption<string>[] = [

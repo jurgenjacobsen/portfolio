@@ -1,14 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
-import { SEO } from "@/components/shared";
-import {
-    AviationHero,
-    StatsCards,
-    FlightLogsTable,
-    ContactCTA,
-} from "@/components/features/aviation";
+import SEO from "@/components/shared/SEO";
+import AviationHero from "@/components/features/aviation/Hero";
+import StatsCards from "@/components/features/aviation/StatsCards";
+import FlightLogsTable from "@/components/features/aviation/FlightLogsTable";
+import ContactCTA from "@/components/features/aviation/ContactCTA";
 import { buildLogbookDataFromRows, type AviationLogbookData } from "@/lib/logbook-parser";
 import { supabase } from "@/lib/supabase";
-import { Skeleton } from "@/components/ui";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Aviation() {
     const [logbookData, setLogbookData] = useState<AviationLogbookData | null>(null);

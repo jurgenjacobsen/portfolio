@@ -1,4 +1,5 @@
-import { Icon, SectionCard } from "@/components/shared";
+import { Icon } from "@/components/shared/icon";
+import SectionCard from "@/components/layout/SectionCard";
 
 export default function BlueprintHero() {
     return (

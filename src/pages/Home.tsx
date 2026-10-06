@@ -1,5 +1,6 @@
-import { Hero, QuickInfo } from "@/components/layout";
-import { SEO } from "@/components/shared";
+import Hero from "@/components/features/home/Hero";
+import QuickInfo from "@/components/features/home/QuickInfo";
+import SEO from "@/components/shared/SEO";
 
 export default function Home() {
     return (

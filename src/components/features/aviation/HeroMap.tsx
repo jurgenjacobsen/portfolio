@@ -5,7 +5,7 @@ import type { FeatureCollection, LineString, Point } from "geojson";
 import { PlaneIcon, Triangle } from "lucide-react";
 import type { AviationLogbookData } from "@/lib/logbook-parser";
 import { AIRPORTS_DATABASE } from "@/lib/aviation-airports";
-import { SectionCard } from "@/components/shared";
+import SectionCard from "@/components/layout/SectionCard";
 
 interface HeroMapProps {
     data: AviationLogbookData;
@@ -396,7 +396,7 @@ export default function HeroMap({ data }: HeroMapProps) {
                         </h1>
 
                         <p className="text-base md:text-lg text-muted-foreground font-medium leading-relaxed max-w-3xl animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
-                            In this page you can explore my flight logbook statistics, pilot credentials and overall experience since the start of my flight training.
+                            Explore my logbook statistics, pilot credentials, and flight experience from training to today.
                         </p>
                     </div>
                 </div>

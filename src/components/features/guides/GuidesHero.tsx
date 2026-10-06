@@ -1,4 +1,4 @@
-import { SectionCard } from "@/components/shared";
+import SectionCard from "@/components/layout/SectionCard";
 import { BookOpenIcon } from "lucide-react";
 
 export default function GuidesHero() {

@@ -2,7 +2,7 @@ import { useState, useMemo, useEffect } from "react";
 import { GithubClient, type GithubRepo } from "@/lib/Github";
 import ProjectHighlight from "@/components/features/projects/Highlight";
 import ProjectsList from "@/components/features/projects/List";
-import { SEO } from "@/components/shared";
+import SEO from "@/components/shared/SEO";
 import { supabase } from "@/lib/supabase";
 
 const CACHE_TTL_MS = 1000 * 60 * 60; // 1 hour

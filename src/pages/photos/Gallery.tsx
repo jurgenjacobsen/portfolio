@@ -1,11 +1,9 @@
-import { SEO } from "@/components/shared";
-import {
-    SinglePhotoBanner,
-    MultiplePhotoBanner,
-    SmallPhotoCard,
-    MediumPhotoCard,
-    ContactCTA,
-} from "@/components/features/photos";
+import SEO from "@/components/shared/SEO";
+import SinglePhotoBanner from "@/components/features/photos/SinglePhotoBanner";
+import MultiplePhotoBanner from "@/components/features/photos/MultiplePhotoBanner";
+import SmallPhotoCard from "@/components/features/photos/SmallPhotoCard";
+import MediumPhotoCard from "@/components/features/photos/MediumPhotoCard";
+import ContactCTA from "@/components/features/photos/ContactCTA";
 
 export default function Photos() {
     return (
