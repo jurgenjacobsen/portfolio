@@ -46,7 +46,7 @@ export default function MultiplePhotoBanner({
                         width={photo.width || 800}
                         height={photo.height || 600}
                         className="w-full h-full min-w-0 flex-1 object-cover"
-                        key={i}
+                        key={photo.src || i}
                         loading="lazy"
                         decoding="async"
                         draggable="false"

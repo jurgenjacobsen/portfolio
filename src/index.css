@@ -434,13 +434,13 @@
 
 *::selection {
     background: oklab(63.009% 0 -0.00007 / 0.5);
-    color: var(--color-primary)
+    color: var(--color-primary);
 }
 *::-moz-selection {
     background: oklab(63.009% 0 -0.00007 / 0.5);
-    color: var(--color-primary)
+    color: var(--color-primary);
 }
 *::-webkit-selection {
     background: oklab(63.009% 0 -0.00007 / 0.5);
-    color: var(--color-primary)
+    color: var(--color-primary);
 }

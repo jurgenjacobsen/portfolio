@@ -117,22 +117,23 @@ export default function Navbar() {
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
                     className="md:hidden flex flex-col justify-center items-center gap-1.5 w-10 h-10 rounded-lg border border-border bg-muted/30 text-primary hover:bg-muted/50 transition-colors duration-200 cursor-pointer relative"
                     aria-label="Toggle Menu"
+                    data-cuelume-tap="toggle"
                 >
                     <span
                         className={cn(
-                            "w-5 h-0.5 bg-current transition-[transform,opacity] duration-300 ease-in-out rounded-full",
+                            "w-5 h-0.5 bg-current transition-transform duration-300 ease-in-out rounded-full",
                             isMenuOpen ? "rotate-45 translate-y-2" : "",
                         )}
                     />
                     <span
                         className={cn(
-                            "w-5 h-0.5 bg-current transition-[transform,opacity] duration-300 ease-in-out rounded-full",
+                            "w-5 h-0.5 bg-current transition-transform duration-300 ease-in-out rounded-full",
                             isMenuOpen ? "opacity-0 -translate-x-2" : "",
                         )}
                     />
                     <span
                         className={cn(
-                            "w-5 h-0.5 bg-current transition-[transform,opacity] duration-300 ease-in-out rounded-full",
+                            "w-5 h-0.5 bg-current transition-transform duration-300 ease-in-out rounded-full",
                             isMenuOpen ? "-rotate-45 -translate-y-2" : "",
                         )}
                     />

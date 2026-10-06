@@ -371,57 +371,54 @@ export default function HeroMap({ data }: HeroMapProps) {
     }, [data]);
 
     return (
-        <SectionCard>
-            <div className="space-y-4">
-                {/* Header / Intro */}
-                <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-                    <div className="space-y-3">
-                        <div
-                            className="inline-flex items-center gap-2 px-4 py-1.5 
-                            border border-border rounded-full 
-                            text-primary text-[10px] md:text-xs uppercase tracking-wider font-bold
-                            bg-primary/5 
-                            animate-in fade-in slide-in-from-bottom-4 duration-700"
-                        >
-                            <PlaneIcon className="size-3 md:size-4 fill-primary/15" />
-                            <span>Commercial & General Aviation</span>
-                        </div>
-
-                        <h1 className="text-4xl md:text-6xl font-black tracking-tighter uppercase leading-[0.9] animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100 fill-mode-both">
-                            FLIGHT{" "}
-                            <span className="text-primary italic font-serif text-3xl md:text-6xl">
-                                EXPERIENCE
-                            </span>
-                            .
-                        </h1>
-
-                        <p className="text-base md:text-lg text-muted-foreground font-medium leading-relaxed max-w-3xl animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
-                            Explore my logbook statistics, pilot credentials, and flight experience from training to today.
-                        </p>
-                    </div>
-                </div>
-
-                <div className="relative overflow-hidden rounded-xl">
+        <SectionCard className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div className="space-y-3">
                     <div
-                        ref={mapContainerRef}
-                        className="w-full relative z-0 aspect-square md:aspect-auto md:h-120 md:min-h-100"
-                    />
-                </div>
+                        className="inline-flex items-center gap-2 px-4 py-1.5 
+                        border border-border rounded-full 
+                        text-primary text-[10px] md:text-xs uppercase tracking-wider font-bold
+                        bg-primary/5 
+                        animate-in fade-in slide-in-from-bottom-4 duration-700"
+                    >
+                        <PlaneIcon className="size-3 md:size-4 fill-primary/15" />
+                        <span>Commercial & General Aviation</span>
+                    </div>
 
-                {/* Map Overlay Legend */}
-                <div className="hidden md:inline-flex items-center gap-4 text-sm font-medium">
-                    <div className="flex items-center gap-2 rounded-full px-4 py-1 border border-border bg-primary/5">
-                        <span className="size-2 rounded-full bg-[#5966ff] inline-block shrink-0" />
-                        <span className="text-foreground">Aerodromes</span>
-                    </div>
-                    <div className="flex items-center gap-2 rounded-full px-4 py-1 border border-border bg-primary/5">
-                        <Triangle className="size-3 fill-[#5966ff] inline-block stroke-[#5966ff] shrink-0" />
-                        <span className="text-foreground">Waypoints</span>
-                    </div>
-                    <div className="flex items-center gap-2 rounded-full px-4 py-1 border border-border bg-primary/5">
-                        <span className="w-4 h-1 bg-[#5966ff] rounded inline-block shrink-0" />
-                        <span className="text-foreground">Flight Trajectories</span>
-                    </div>
+                    <h1 className="text-4xl md:text-6xl font-black tracking-tighter uppercase leading-[0.9] animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100 fill-mode-both">
+                        FLIGHT{" "}
+                        <span className="text-primary italic font-serif text-3xl md:text-6xl">
+                            EXPERIENCE
+                        </span>
+                        .
+                    </h1>
+
+                    <p className="text-base md:text-lg text-muted-foreground font-medium leading-relaxed max-w-3xl animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
+                        Explore my logbook statistics, pilot credentials, and flight experience from training to today.
+                    </p>
+                </div>
+            </div>
+
+            <div className="relative overflow-hidden rounded-xl">
+                <div
+                    ref={mapContainerRef}
+                    className="w-full relative z-0 aspect-square md:aspect-auto md:h-120 md:min-h-100"
+                />
+            </div>
+
+            {/* Map Overlay Legend */}
+            <div className="hidden md:inline-flex items-center gap-4 text-sm font-medium">
+                <div className="flex items-center gap-2 rounded-full px-4 py-1 border border-border bg-primary/5">
+                    <span className="size-2 rounded-full bg-[#5966ff] inline-block shrink-0" />
+                    <span className="text-foreground">Aerodromes</span>
+                </div>
+                <div className="flex items-center gap-2 rounded-full px-4 py-1 border border-border bg-primary/5">
+                    <Triangle className="size-3 fill-[#5966ff] inline-block stroke-[#5966ff] shrink-0" />
+                    <span className="text-foreground">Waypoints</span>
+                </div>
+                <div className="flex items-center gap-2 rounded-full px-4 py-1 border border-border bg-primary/5">
+                    <span className="w-4 h-1 bg-[#5966ff] rounded inline-block shrink-0" />
+                    <span className="text-foreground">Flight Trajectories</span>
                 </div>
             </div>
         </SectionCard>

@@ -54,7 +54,7 @@ export default function ContactHero() {
     };
 
     return (
-        <SectionCard className="space-y-8">
+        <SectionCard className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both">
             <div className="space-y-6">
                 <div
                     className="
@@ -136,7 +136,7 @@ export default function ContactHero() {
                 </div>
             </div>
 
-            <div className="flex flex-col md:flex-row justify-between gap-6 pt-10 border-t border-border/50 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-500 fill-mode-both">
+            <div className="flex flex-col md:flex-row justify-between gap-6 pt-6 border-t border-border/50 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-500 fill-mode-both">
                 <div className="group flex items-start gap-4 p-2 transition-colors">
                     <div className="mt-1 p-2 rounded-xl bg-muted/50 text-primary shrink-0">
                         <MapPinIcon className="size-5" />

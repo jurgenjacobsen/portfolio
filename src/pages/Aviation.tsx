@@ -1,12 +1,13 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, lazy, Suspense } from "react";
 import SEO from "@/components/shared/SEO";
-import AviationHero from "@/components/features/aviation/Hero";
 import StatsCards from "@/components/features/aviation/StatsCards";
 import FlightLogsTable from "@/components/features/aviation/FlightLogsTable";
 import ContactCTA from "@/components/features/aviation/ContactCTA";
 import { buildLogbookDataFromRows, type AviationLogbookData } from "@/lib/logbook-parser";
 import { supabase } from "@/lib/supabase";
 import { Skeleton } from "@/components/ui/skeleton";
+
+const HeroMap = lazy(() => import("@/components/features/aviation/HeroMap"));
 
 export default function Aviation() {
     const [logbookData, setLogbookData] = useState<AviationLogbookData | null>(null);
@@ -94,8 +95,19 @@ export default function Aviation() {
                 </div>
             ) : (
                 <>
-                    {/* 1. Hero Map with Flight Paths & Aerodromes */}
-                    <AviationHero data={logbookData} />
+                    {/* 1. Hero Map with Flight Paths & Aerodromes (lazily loaded to isolate mapbox-gl) */}
+                    <Suspense
+                        fallback={
+                            <div className="space-y-4">
+                                <Skeleton className="h-8 w-48 rounded-full" />
+                                <Skeleton className="h-12 w-3/4 rounded-xl" />
+                                <Skeleton className="h-6 w-1/2 rounded-lg" />
+                                <Skeleton className="h-120 w-full rounded-2xl" />
+                            </div>
+                        }
+                    >
+                        <HeroMap data={logbookData} />
+                    </Suspense>
 
                     {/* 2. Key Aviation Statistics (4 Cards) */}
                     <StatsCards data={logbookData} />

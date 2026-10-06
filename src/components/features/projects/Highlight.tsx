@@ -107,7 +107,7 @@ export default function ProjectHighlight(props: { projects: ProjectProps[] }) {
                     <div className="flex flex-col gap-4">
                         {projects.slice(1, 4).map((project, i) => (
                             <div
-                                key={i}
+                                key={project.slug || project.title || i}
                                 className="flex-1 group relative overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-shadow duration-300 hover:shadow-md animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both"
                                 style={{ animationDelay: `${400 + i * 150}ms` }}
                             >
