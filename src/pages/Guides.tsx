@@ -4,6 +4,7 @@ import SEO from "@/components/shared/SEO";
 import GuidesHero from "@/components/features/guides/GuidesHero";
 import GuidesSidebar from "@/components/features/guides/GuidesSidebar";
 import GuideContent from "@/components/features/guides/GuideContent";
+import GuideProvider from "@/components/features/guides/GuideProvider";
 import type {
     GuidesIndexData,
     HeadingItem,
@@ -482,7 +483,7 @@ export default function Guides() {
                 />
 
                 {/* Main Content Card */}
-                <GuideContent
+                <GuideProvider
                     activeGuide={activeGuide}
                     loadingContent={loadingIndex}
                     markdownContent={markdownContent}
@@ -493,7 +494,9 @@ export default function Guides() {
                     copiedLink={copiedLink}
                     onCopyLink={handleCopyLink}
                     onShare={handleShare}
-                />
+                >
+                    <GuideContent />
+                </GuideProvider>
             </div>
         </main>
     );

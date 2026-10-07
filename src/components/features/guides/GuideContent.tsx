@@ -1,10 +1,12 @@
-import { useMemo } from "react";
+import { use, useMemo } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Loader2Icon, BookOpenIcon } from "lucide-react";
 import GuideHeader from "./GuideHeader";
 import GuideActions from "./GuideActions";
 import type { GuideItem } from "./types";
+import { GuideContext } from "./GuideContext";
+import GuideProvider from "./GuideProvider";
 
 function slugifyHeading(text: string): string {
     return text
@@ -36,27 +38,51 @@ function getHeadingText(children: React.ReactNode): string {
     return "";
 }
 
-interface GuideContentProps {
-    activeGuide: GuideItem | null;
-    loadingContent: boolean;
-    markdownContent: string;
-    isRead: boolean;
-    onToggleRead: () => void;
-    copiedLink: boolean;
-    onCopyLink: () => void;
-    onShare: () => void;
+export interface GuideContentProps {
+    activeGuide?: GuideItem | null;
+    loadingContent?: boolean;
+    markdownContent?: string;
+    isRead?: boolean;
+    onToggleRead?: () => void;
+    copiedLink?: boolean;
+    onCopyLink?: () => void;
+    onShare?: () => void;
 }
 
-export default function GuideContent({
-    activeGuide,
-    loadingContent,
-    markdownContent,
-    isRead,
-    onToggleRead,
-    copiedLink,
-    onCopyLink,
-    onShare,
-}: GuideContentProps) {
+export default function GuideContent(props: GuideContentProps = {}) {
+    const context = use(GuideContext);
+
+    if (
+        !context &&
+        (props.activeGuide !== undefined ||
+            props.loadingContent !== undefined ||
+            props.markdownContent !== undefined)
+    ) {
+        return (
+            <GuideProvider
+                activeGuide={props.activeGuide ?? null}
+                loadingContent={props.loadingContent}
+                markdownContent={props.markdownContent}
+                isRead={props.isRead ?? false}
+                onToggleRead={props.onToggleRead ?? (() => {})}
+                copiedLink={props.copiedLink ?? false}
+                onCopyLink={props.onCopyLink ?? (() => {})}
+                onShare={props.onShare ?? (() => {})}
+            >
+                <GuideContentInner />
+            </GuideProvider>
+        );
+    }
+
+    return <GuideContentInner />;
+}
+
+function GuideContentInner() {
+    const context = use(GuideContext);
+    const activeGuide = context?.activeGuide ?? null;
+    const loadingContent = context?.loadingContent ?? false;
+    const markdownContent = context?.markdownContent ?? "";
+
     const markdownComponents = useMemo(
         () => ({
             h2: ({
@@ -96,12 +122,12 @@ export default function GuideContent({
                         className="size-6 animate-spin text-primary"
                     />
                     <p className="text-sm font-medium">
-                        Loading guide content...
+                        Loading guide content…
                     </p>
                 </div>
             ) : activeGuide ? (
                 <div className="space-y-6 animate-in fade-in duration-300">
-                    <GuideHeader guide={activeGuide} />
+                    <GuideHeader />
 
                     <article className="prose lg:prose-base max-w-none text-foreground leading-relaxed">
                         <ReactMarkdown
@@ -112,13 +138,7 @@ export default function GuideContent({
                         </ReactMarkdown>
                     </article>
 
-                    <GuideActions
-                        isRead={isRead}
-                        onToggleRead={onToggleRead}
-                        copiedLink={copiedLink}
-                        onCopyLink={onCopyLink}
-                        onShare={onShare}
-                    />
+                    <GuideActions />
                 </div>
             ) : (
                 <div className="text-center py-16 space-y-4">

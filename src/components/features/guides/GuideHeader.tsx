@@ -1,5 +1,7 @@
+import { use } from "react";
 import { ClockIcon } from "lucide-react";
 import type { GuideItem } from "./types";
+import { GuideContext } from "./GuideContext";
 
 function formatMonthYear(dateString?: string): string {
     if (!dateString) return "";
@@ -11,11 +13,15 @@ function formatMonthYear(dateString?: string): string {
     });
 }
 
-interface GuideHeaderProps {
-    guide: GuideItem;
+export interface GuideHeaderProps {
+    guide?: GuideItem | null;
 }
 
-export default function GuideHeader({ guide }: GuideHeaderProps) {
+export default function GuideHeader({ guide: propGuide }: GuideHeaderProps = {}) {
+    const context = use(GuideContext);
+    const guide = propGuide !== undefined ? propGuide : context?.activeGuide ?? null;
+
+    if (!guide) return null;
     return (
         <header className="pb-6 border-b border-border">
             <div className="flex flex-wrap items-center gap-4">

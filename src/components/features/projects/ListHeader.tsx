@@ -9,33 +9,17 @@ import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
-interface ListHeaderProps {
-    search: string;
-    setSearch: (val: string) => void;
-    techFilter: string;
-    setTechFilter: (val: string) => void;
-    availableTags: string[];
-    sortBy: string;
-    setSortBy: (val: string) => void;
+import { useProjectFilters } from "./useProjectFilters";
+
+export interface ListHeaderProps {
+    className?: string;
 }
 
-export default function ListHeader({
-    search,
-    setSearch,
-    techFilter,
-    setTechFilter,
-    availableTags,
-    sortBy,
-    setSortBy,
-}: ListHeaderProps) {
-    const hasActiveFilters =
-        techFilter !== "all" || sortBy !== "newest" || search.trim() !== "";
-
-    const handleClearFilters = () => {
-        setSearch("");
-        setTechFilter("all");
-        setSortBy("newest");
-    };
+export default function ListHeader({ className }: ListHeaderProps = {}) {
+    const {
+        state: { search, techFilter, sortBy, availableTags, hasActiveFilters },
+        actions: { setSearch, setTechFilter, setSortBy, clearFilters },
+    } = useProjectFilters();
 
     const techOptions = [
         { value: "all", label: "All Stack" },
@@ -59,6 +43,7 @@ export default function ListHeader({
                 hasActiveFilters
                     ? "md:grid-cols-[1fr_1.25fr]"
                     : "md:grid-cols-[1fr_1fr]",
+                className,
             )}
         >
             {/* Search Input */}
@@ -153,7 +138,7 @@ export default function ListHeader({
                 >
                     <button
                         type="button"
-                        onClick={handleClearFilters}
+                        onClick={clearFilters}
                         tabIndex={hasActiveFilters ? 0 : -1}
                         title="Clear all filters"
                         aria-label="Clear all filters"

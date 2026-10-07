@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from "react";
 import { GithubClient, type GithubRepo } from "@/lib/Github";
 import ProjectHighlight from "@/components/features/projects/Highlight";
 import ProjectsList from "@/components/features/projects/List";
+import ProjectFiltersProvider from "@/components/features/projects/ProjectFiltersProvider";
 import SEO from "@/components/shared/SEO";
 import { supabase } from "@/lib/supabase";
 
@@ -77,19 +78,8 @@ export type ProjectProps = {
 };
 
 export default function Projects() {
-    const [search, setSearch] = useState("");
-    const [techFilter, setTechFilter] = useState("all");
-    const [sortBy, setSortBy] = useState("newest");
     const [projects, setProjects] = useState<ProjectProps[]>([]);
     const [loading, setLoading] = useState(true);
-
-    const availableTags = useMemo(() => {
-        const tags = new Set<string>();
-        projects.forEach((p) => {
-            p.tags.forEach((tag) => tags.add(tag.toLowerCase()));
-        });
-        return Array.from(tags).sort();
-    }, [projects]);
 
     useEffect(() => {
         let isMounted = true;
@@ -227,49 +217,6 @@ export default function Projects() {
             .slice(0, 3);
     }, [projects]);
 
-    const filteredProjects = useMemo(() => {
-        let result = [...projects];
-
-        // Search filter
-        if (search) {
-            result = result.filter(
-                (project) =>
-                    project.title
-                        .toLowerCase()
-                        .includes(search.toLowerCase()) ||
-                    project.description
-                        .toLowerCase()
-                        .includes(search.toLowerCase()),
-            );
-        }
-
-        // Tech filter
-        if (techFilter !== "all") {
-            result = result.filter((project) =>
-                project.tags.some(
-                    (tag) => tag.toLowerCase() === techFilter.toLowerCase(),
-                ),
-            );
-        }
-
-        // Sorting
-        result.sort((a, b) => {
-            if (sortBy === "alphabetical") {
-                return a.title.localeCompare(b.title);
-            }
-            if (sortBy === "stars") {
-                return (b.stars || 0) - (a.stars || 0);
-            }
-            const dateA = new Date(a.date || a.createdAt || "").getTime();
-            const dateB = new Date(b.date || b.createdAt || "").getTime();
-            if (sortBy === "newest") return dateB - dateA;
-            if (sortBy === "oldest") return dateA - dateB;
-            return 0;
-        });
-
-        return result;
-    }, [search, techFilter, sortBy, projects]);
-
     return (
         <main id="main-content" className="space-y-4 md:space-y-8">
             <SEO
@@ -284,17 +231,9 @@ export default function Projects() {
             {!loading && highlightedProjects.length > 0 && (
                 <ProjectHighlight projects={highlightedProjects} />
             )}
-            <ProjectsList
-                projects={filteredProjects}
-                availableTags={availableTags}
-                search={search}
-                setSearch={setSearch}
-                techFilter={techFilter}
-                setTechFilter={setTechFilter}
-                sortBy={sortBy}
-                setSortBy={setSortBy}
-                loading={loading}
-            />
+            <ProjectFiltersProvider projects={projects} loading={loading}>
+                <ProjectsList />
+            </ProjectFiltersProvider>
         </main>
     );
 

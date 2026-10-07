@@ -1,21 +1,24 @@
+import { use } from "react";
 import { CheckIcon, LinkIcon, Share2Icon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { GuideContext } from "./GuideContext";
 
-interface GuideActionsProps {
-    isRead: boolean;
-    onToggleRead: () => void;
-    copiedLink: boolean;
-    onCopyLink: () => void;
-    onShare: () => void;
+export interface GuideActionsProps {
+    isRead?: boolean;
+    onToggleRead?: () => void;
+    copiedLink?: boolean;
+    onCopyLink?: () => void;
+    onShare?: () => void;
 }
 
-export default function GuideActions({
-    isRead,
-    onToggleRead,
-    copiedLink,
-    onCopyLink,
-    onShare,
-}: GuideActionsProps) {
+export default function GuideActions(props: GuideActionsProps = {}) {
+    const context = use(GuideContext);
+
+    const isRead = props.isRead ?? context?.isRead ?? false;
+    const onToggleRead = props.onToggleRead ?? context?.onToggleRead ?? (() => {});
+    const copiedLink = props.copiedLink ?? context?.copiedLink ?? false;
+    const onCopyLink = props.onCopyLink ?? context?.onCopyLink ?? (() => {});
+    const onShare = props.onShare ?? context?.onShare ?? (() => {});
     return (
         <div className="pt-6 border-t border-border flex flex-wrap items-center justify-between gap-4 text-sm">
             {/* Left: Mark as Read */}
