@@ -55,28 +55,25 @@ export default function ContactHero() {
 
     return (
         <SectionCard className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both">
-            <div className="space-y-6">
+            <div>
                 <div
                     className="
-                inline-flex items-center gap-2 px-4 py-1.5 
-                border border-border rounded-full 
-                text-primary text-[10px] md:text-xs uppercase tracking-wider font-bold
-                bg-primary/5 
-                animate-in fade-in slide-in-from-bottom-4 duration-700"
+                    w-fit self-start
+                    inline-flex items-center gap-2 px-4 py-1
+                    border border-border rounded-full 
+                    text-primary text-xs uppercase tracking-wider font-bold
+                    bg-muted
+                    animate-in fade-in slide-in-from-bottom-4 duration-700"
                 >
-                    <MessageSquareIcon className="size-3 md:size-4 fill-primary/15" />
+                    <MessageSquareIcon className="size-3 md:size-4" />
                     <span>Get in Touch</span>
                 </div>
 
-                <div className="space-y-4">
-                    <h1 className="text-4xl md:text-7xl font-black tracking-tighter uppercase leading-[0.9] animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100 fill-mode-both">
-                        LET'S START A{" "}
-                        <span className="text-primary italic font-serif text-3xl md:text-7xl">
-                            CONVERSATION
-                        </span>
-                        .
+                <div className="mt-6">
+                    <h1 className="text-4xl md:text-7xl font-black tracking-tighter uppercase text-balance animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100 fill-mode-both">
+                        LET'S START A CONVERSATION
                     </h1>
-                    <p className="text-lg md:text-xl text-muted-foreground leading-relaxed font-medium max-w-2xl animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
+                    <p className="mt-4 text-lg md:text-xl text-muted-foreground leading-relaxed font-medium max-w-2xl animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
                         I'm always open to new opportunities and collaborations. 
                         Whether you have an open role, a project in mind, or just want to say hello, feel free to reach out. I look forward to connecting with you!
                     </p>
@@ -85,34 +82,27 @@ export default function ContactHero() {
                 <div className="flex flex-wrap items-center gap-4 mt-6 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both">
                     <a
                         href={`mailto:${CONTACT_EMAIL}`}
-                        className="
-                        group inline-flex shrink-0 items-center justify-center rounded-xl font-semibold
-                        whitespace-nowrap transition-colors select-none cursor-pointer
-                        px-8 py-2 bg-primary hover:bg-primary/75 text-card duration-300 hover:border-primary/25
-                        "
+                        className="group flex-1 md:flex-initial inline-flex items-center justify-center rounded-xl font-semibold whitespace-nowrap transition-[background-color,border-color] select-none cursor-pointer px-4 md:px-8 py-2 bg-primary hover:bg-primary/75 text-card duration-300 hover:border-primary/25"
                         data-cuelume-tap
                     >
-                        <SendIcon className="size-5 mr-2 group-hover:scale-101 transition-transform duration-300" />
+                        <SendIcon className="size-4 md:size-5 mr-2 duration-300" />
                         Send an Email
                     </a>
                     <button
                         type="button"
                         onClick={handleCopyEmail}
-                        className="
-                        group inline-flex shrink-0 items-center justify-center rounded-xl border border-border font-semibold
-                        whitespace-nowrap transition-[background-color,border-color] select-none cursor-pointer
-                        px-8 py-2 bg-muted hover:bg-muted/50 duration-300 hover:border-primary/25 text-foreground"
+                        className="group flex-1 md:flex-initial inline-flex items-center justify-center rounded-xl font-semibold whitespace-nowrap transition-[background-color,border-color] select-none cursor-pointer px-4 md:px-8 py-2 hover:bg-muted/50 border border-border hover:border-primary/25 text-foreground duration-300"
                         aria-label="Copy email address"
                         data-cuelume-tap="success"
                     >
                         {copied ? (
                             <>
-                                <CheckIcon className="size-5 mr-2 text-primary animate-in zoom-in-75 duration-200" />
+                                <CheckIcon className="size-4 md:size-5 mr-2 duration-300"/>
                                 <span>Copied!</span>
                             </>
                         ) : (
                             <>
-                                <CopyIcon className="size-5 mr-2 group-hover:scale-101 transition-transform duration-300" />
+                                <CopyIcon className="size-4 md:size-5 mr-2 duration-300"/>
                                 <span>Copy Email</span>
                             </>
                         )}
@@ -121,15 +111,12 @@ export default function ContactHero() {
                         href="https://linkedin.com/in/jurgenjacobsen"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="
-                        group inline-flex shrink-0 items-center justify-center rounded-xl border border-border font-semibold
-                        whitespace-nowrap transition-[background-color,border-color] select-none cursor-pointer
-                        px-8 py-2 bg-muted hover:bg-muted/50 duration-300 hover:border-primary/25 text-foreground"
+                        className="group flex-1 md:flex-initial inline-flex items-center justify-center rounded-xl font-semibold whitespace-nowrap transition-[background-color,border-color] select-none cursor-pointer px-4 md:px-8 py-2 hover:bg-muted/50 border border-border hover:border-primary/25 text-foreground duration-300"
                         data-cuelume-tap="navigate"
                     >
                         <Icon
                             id="linkedin"
-                            className="size-5 mr-2 group-hover:scale-101 transition-transform duration-300"
+                            className="size-4 md:size-5 mr-2 duration-300"
                         />
                         Linkedin
                     </a>

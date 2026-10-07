@@ -8,6 +8,7 @@ import {
     useProjectFilters,
 } from "./useProjectFilters";
 import ProjectFiltersProvider from "./ProjectFiltersProvider";
+import { ProjectsListLoading } from "./ProjectsLoading";
 
 export interface ProjectsListProps {
     projects?: ProjectProps[];
@@ -42,11 +43,7 @@ function ProjectsListContent() {
 
             <div className="space-y-6">
                 {loading ? (
-                    <div className="py-20 text-center">
-                        <p className="text-xl font-bold text-muted-foreground uppercase tracking-tight">
-                            Loading projects…
-                        </p>
-                    </div>
+                    <ProjectsListLoading />
                 ) : filteredProjects.length > 0 ? (
                     filteredProjects.map((project, i) => (
                         <ListedProject

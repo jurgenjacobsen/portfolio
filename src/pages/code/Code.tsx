@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { GithubClient, type GithubRepo } from "@/lib/Github";
 import ProjectHighlight from "@/components/features/projects/Highlight";
+import { ProjectHighlightSkeleton } from "@/components/features/projects/ProjectsLoading";
 import ProjectsList from "@/components/features/projects/List";
 import ProjectFiltersProvider from "@/components/features/projects/ProjectFiltersProvider";
 import SEO from "@/components/shared/SEO";
@@ -228,9 +229,11 @@ export default function Projects() {
                     { name: "Code", path: "/code" },
                 ]}
             />
-            {!loading && highlightedProjects.length > 0 && (
+            {loading ? (
+                <ProjectHighlightSkeleton />
+            ) : highlightedProjects.length > 0 ? (
                 <ProjectHighlight projects={highlightedProjects} />
-            )}
+            ) : null}
             <ProjectFiltersProvider projects={projects} loading={loading}>
                 <ProjectsList />
             </ProjectFiltersProvider>

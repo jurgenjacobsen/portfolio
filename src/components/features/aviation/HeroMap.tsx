@@ -373,27 +373,25 @@ export default function HeroMap({ data }: HeroMapProps) {
     return (
         <SectionCard className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-                <div className="space-y-3">
+                <div>
                     <div
-                        className="inline-flex items-center gap-2 px-4 py-1.5 
+                        className="
+                        w-fit self-start
+                        inline-flex items-center gap-2 px-4 py-1
                         border border-border rounded-full 
-                        text-primary text-[10px] md:text-xs uppercase tracking-wider font-bold
-                        bg-primary/5 
+                        text-primary text-xs uppercase tracking-wider font-bold
+                        bg-muted 
                         animate-in fade-in slide-in-from-bottom-4 duration-700"
                     >
                         <PlaneIcon className="size-3 md:size-4 fill-primary/15" />
                         <span>Commercial & General Aviation</span>
                     </div>
 
-                    <h1 className="text-4xl md:text-6xl font-black tracking-tighter uppercase leading-[0.9] animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100 fill-mode-both">
-                        FLIGHT{" "}
-                        <span className="text-primary italic font-serif text-3xl md:text-6xl">
-                            EXPERIENCE
-                        </span>
-                        .
+                    <h1 className="mt-6 text-4xl md:text-6xl font-black tracking-tighter uppercase leading-[0.9] animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100 fill-mode-both">
+                        FLIGHT EXPERIENCE
                     </h1>
 
-                    <p className="text-base md:text-lg text-muted-foreground font-medium leading-relaxed max-w-3xl animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
+                    <p className="mt-4 text-lg md:text-xl text-muted-foreground leading-relaxed font-medium animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
                         Explore my logbook statistics, pilot credentials, and flight experience from training to today.
                     </p>
                 </div>
