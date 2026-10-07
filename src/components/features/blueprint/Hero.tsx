@@ -1,31 +1,29 @@
 import { Icon } from "@/components/shared/icon";
 import SectionCard from "@/components/layout/SectionCard";
+import { PackageIcon } from "lucide-react";
 
 export default function BlueprintHero() {
     return (
         <SectionCard>
-            <div className="grid grid-cols-4 gap-6">
-                <div className="space-y-6 col-span-3">
+            <div className="grid grid-cols-4 gap-4">
+                <div className="col-span-3">
                     <div
                         className="
-                    inline-flex items-center gap-2 px-4 py-1.5 
-                    border border-border rounded-full 
-                    text-primary text-[10px] md:text-xs uppercase tracking-wider font-bold
-                    bg-primary/5 
-                    animate-in fade-in slide-in-from-bottom-4 duration-700"
+                        w-fit self-start
+                        inline-flex items-center gap-2 px-4 py-1
+                        border border-border rounded-full 
+                        text-primary text-xs uppercase tracking-wider font-bold
+                        bg-muted
+                        animate-in fade-in slide-in-from-bottom-4 duration-700"
                     >
-                        <Icon id="Package" />
+                        <PackageIcon className="size-3 md:size-4 " />
                         <span>Try it</span>
                     </div>
-                    <div className="space-y-4">
-                        <h1 className="text-4xl md:text-7xl font-black tracking-tighter uppercase leading-[0.9] animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100 fill-mode-both">
-                            BLUE
-                            <span className="text-primary italic font-serif text-3xl md:text-7xl">
-                                PRINT
-                            </span>
-                            .
+                    <div className="mt-6">
+                        <h1 className="text-4xl md:text-7xl font-black tracking-tighter uppercase text-balance animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100 fill-mode-both">
+                            BLUEPRINT
                         </h1>
-                        <p className="text-lg md:text-xl text-muted-foreground leading-relaxed font-medium max-w-2xl animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both">
+                        <p className="mt-4 text-lg md:text-xl text-muted-foreground leading-relaxed font-medium animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200 fill-mode-both max-w-2xl">
                             This is the blueprint I use as a template and starting point for my web development projects. It has the core structure and configurations for launching a new project.
                         </p>
                     </div>

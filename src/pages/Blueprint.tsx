@@ -74,11 +74,11 @@ export default function Blueprint() {
                 {/* Header & Quick-Start Actions */}
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-border animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both">
                     <div className="space-y-1">
-                        <div className="flex items-center gap-2">
-                            <h2 className="text-xl md:text-2xl font-bold tracking-tight text-foreground">
+                        <div className="flex items-center gap-4">
+                            <h2 className="text-xl md:text-3xl font-bold tracking-tight text-foreground">
                                 Blueprint
                             </h2>
-                            <span className="text-[10px] font-mono px-2 py-1 rounded-full bg-primary/5 text-primary font-bold">
+                            <span className="text-[10px] font-mono px-2 py-1 rounded-full bg-muted border border-border text-primary font-bold">
                                 v{version}
                             </span>
                         </div>
