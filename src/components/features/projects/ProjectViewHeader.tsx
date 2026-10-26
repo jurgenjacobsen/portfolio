@@ -1,4 +1,4 @@
-import ProjectTag from "@/components/shared/project-tag";
+import ProjectTag from "@/components/features/projects/ProjectTag";
 import type { ProjectProps } from "@/pages/code/Code";
 import { StarIcon } from "lucide-react";
 

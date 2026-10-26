@@ -1,4 +1,4 @@
-import ContactHero from "@/components/features/contact/Hero";
+import ContactHero from "@/components/features/contact/ContactHero";
 import SEO from "@/components/shared/SEO";
 
 export default function Contact() {

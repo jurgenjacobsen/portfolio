@@ -1,6 +1,6 @@
 import { Select } from "@/components/ui/select";
-import LastCommit from "@/components/shared/last-commit";
-import { Icon } from "@/components/shared/icon";
+import LastCommit from "@/components/shared/LastCommit";
+import { Icon } from "@/components/shared/Icon";
 import { Link } from "react-router";
 
 type LinkType = {

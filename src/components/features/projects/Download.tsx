@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Icon, type IconId } from "@/components/shared/icon";
+import { Icon, type IconId } from "@/components/shared/Icon";
 import { GithubClient } from "@/lib/Github";
 
 type Platform = 'windows' | 'macos' | 'linux';

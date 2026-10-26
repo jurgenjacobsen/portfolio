@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Camera, CheckCircle2, Mail, Sparkles } from "lucide-react";
 import SectionCard from "@/components/layout/SectionCard";
 
-export default function ContactCTA() {
+export default function PhotosContactCTA() {
     return (
         <SectionCard
             aria-label="Photography and Creative Inquiries"

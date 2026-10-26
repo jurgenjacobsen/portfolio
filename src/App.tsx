@@ -22,7 +22,7 @@ import NotFound from "@/pages/NotFound";
 import ScrollToTop from "@/components/shared/ScrollToTop";
 import AdminLogin from "@/pages/admin/AdminLogin";
 import AdminDashboard from "@/pages/admin/AdminDashboard";
-import AdminGuard from "@/components/admin/AdminGuard";
+import AdminGuard from "@/components/features/admin/AdminGuard";
 
 function ProjectRedirect() {
     const { projectSlug } = useParams();

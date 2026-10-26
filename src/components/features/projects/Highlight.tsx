@@ -1,5 +1,5 @@
 import { Code2Icon, SummaryIcon } from "lucide-react";
-import { Icon, type IconId } from "@/components/shared/icon";
+import { Icon, type IconId } from "@/components/shared/Icon";
 import SectionCard from "@/components/layout/SectionCard";
 import type { ProjectProps } from "@/pages/code/Code";
 import { Link } from "react-router-dom";

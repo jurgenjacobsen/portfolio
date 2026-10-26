@@ -9,10 +9,10 @@ import {
 } from "@/lib/supabase";
 import SectionCard from "@/components/layout/SectionCard";
 import SEO from "@/components/shared/SEO";
-import ProjectsPanel from "@/components/admin/ProjectsPanel";
-import GuidesPanel from "@/components/admin/GuidesPanel";
-import AviationPanel from "@/components/admin/AviationPanel";
-import SetPasswordModal from "@/components/admin/SetPasswordModal";
+import ProjectsPanel from "@/components/features/admin/ProjectsPanel";
+import GuidesPanel from "@/components/features/admin/GuidesPanel";
+import AviationPanel from "@/components/features/admin/AviationPanel";
+import SetPasswordModal from "@/components/features/admin/SetPasswordModal";
 import {
     Code2,
     BookOpen,

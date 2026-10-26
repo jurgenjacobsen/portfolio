@@ -1,4 +1,4 @@
-import { Icon, type IconId } from "./icon";
+import { Icon, type IconId } from "@/components/shared/Icon";
 
 export default function ProjectTag({
     tag,

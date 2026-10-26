@@ -9,7 +9,7 @@ import {
     CheckIcon,
 } from "lucide-react";
 import SectionCard from "@/components/layout/SectionCard";
-import { Icon } from "@/components/shared/icon";
+import { Icon } from "@/components/shared/Icon";
 
 const CONTACT_EMAIL = "jurgenjacobsen@outlook.com";
 

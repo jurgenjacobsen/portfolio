@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState, lazy, Suspense } from "react";
 import SEO from "@/components/shared/SEO";
 import StatsCards from "@/components/features/aviation/StatsCards";
 import FlightLogsTable from "@/components/features/aviation/FlightLogsTable";
-import ContactCTA from "@/components/features/aviation/ContactCTA";
+import AviationContactCTA from "@/components/features/aviation/AviationContactCTA";
 import { buildLogbookDataFromRows, type AviationLogbookData } from "@/lib/logbook-parser";
 import { supabase } from "@/lib/supabase";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -116,7 +116,7 @@ export default function Aviation() {
                     <FlightLogsTable data={tableData} />
 
                     {/* 9. Contact / Inquiries Section */}
-                    <ContactCTA />
+                    <AviationContactCTA />
                 </>
             )}
         </main>

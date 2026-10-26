@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import type { ProjectProps } from "@/pages/code/Code";
-import ProjectTag from "@/components/shared/project-tag";
+import ProjectTag from "@/components/features/projects/ProjectTag";
 import { StarIcon } from "lucide-react";
 
 export default function ProjectPreview({ project }: { project: ProjectProps }) {

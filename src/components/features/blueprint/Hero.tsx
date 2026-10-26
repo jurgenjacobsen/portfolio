@@ -1,4 +1,4 @@
-import { Icon } from "@/components/shared/icon";
+import { Icon } from "@/components/shared/Icon";
 import SectionCard from "@/components/layout/SectionCard";
 import { PackageIcon } from "lucide-react";
 

@@ -3,7 +3,7 @@ import SinglePhotoBanner from "@/components/features/photos/SinglePhotoBanner";
 import MultiplePhotoBanner from "@/components/features/photos/MultiplePhotoBanner";
 import SmallPhotoCard from "@/components/features/photos/SmallPhotoCard";
 import MediumPhotoCard from "@/components/features/photos/MediumPhotoCard";
-import ContactCTA from "@/components/features/photos/ContactCTA";
+import PhotosContactCTA from "@/components/features/photos/PhotosContactCTA";
 
 export default function Photos() {
     return (
@@ -108,7 +108,7 @@ export default function Photos() {
                     label="Favorites"
                 />
 
-                <ContactCTA />
+                <PhotosContactCTA />
             </div>
         </main>
     );
