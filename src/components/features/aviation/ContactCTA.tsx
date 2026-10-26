@@ -15,12 +15,8 @@ export default function ContactCTA() {
                         <span>Commercial Aviation Inquiries</span>
                     </div>
 
-                    <h2 className="text-2xl md:text-4xl font-black tracking-tight uppercase leading-[0.9] text-foreground">
-                        READY TO DISCUSS{" "}
-                        <span className="text-primary italic font-serif">
-                            OPPORTUNITIES
-                        </span>
-                        ?
+                    <h2 className="text-2xl md:text-4xl font-black tracking-tight uppercase text-foreground">
+                        READY TO JOIN YOUR TEAM
                     </h2>
 
                     <p className="text-sm md:text-base text-muted-foreground font-medium leading-relaxed">
