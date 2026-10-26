@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { bind, setTheme, setEnabled } from "cuelume";
 import "./index.css";
 import App from "./App.tsx";
+import DevErrorOverlay, { DevErrorBoundary } from "@/components/shared/DevErrorOverlay";
 
 import {
     ContextMenu,
@@ -106,7 +107,9 @@ function Root() {
 
     return (
         <StrictMode>
-            <ContextMenu>
+            {import.meta.env.DEV && <DevErrorOverlay />}
+            <DevErrorBoundary>
+                <ContextMenu>
                 <ContextMenuTrigger>
                     <div className="min-h-screen">
                         <App />
@@ -147,7 +150,8 @@ function Root() {
                         </ContextMenuCheckboxItem>
                     </ContextMenuGroup>
                 </ContextMenuContent>
-            </ContextMenu>
+                </ContextMenu>
+            </DevErrorBoundary>
         </StrictMode>
     );
 }
