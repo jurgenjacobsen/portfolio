@@ -1,6 +1,6 @@
 import { GithubClient, type GithubCommit } from "@/lib/Github";
 import { useEffect, useState } from "react";
-import { Icon } from "./icon";
+import { Icon } from "./Icon";
 
 export default function LastCommit() {
     const [lastCommit, setLastCommit] = useState<GithubCommit>();

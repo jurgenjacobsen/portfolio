@@ -50,7 +50,7 @@ function notifyListeners(error: DevErrorInfo | null) {
 if (import.meta.env.DEV && typeof window !== "undefined") {
     // 1. Vite HMR error listener
     if (import.meta.hot) {
-        import.meta.hot.on("vite:error", (payload: { err: DevErrorInfo }) => {
+        import.meta.hot.on("vite:error", (payload) => {
             if (payload && payload.err) {
                 notifyListeners({
                     type: "vite-compile",
